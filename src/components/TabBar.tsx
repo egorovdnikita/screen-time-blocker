@@ -3,6 +3,8 @@ import type { BottomTabBarProps } from 'expo-router/js-tabs';
 import { useEffect, useRef, useState } from 'react';
 import { Animated, Pressable, StyleSheet, View } from 'react-native';
 
+import { rulesVariants } from '@/data/rules';
+import { useAppState } from '@/state/app';
 import { T, TRACK_SMALL } from '@/theme/typography';
 import { colors, shadows } from '@/theme/tokens';
 
@@ -29,7 +31,13 @@ const PAD = 4;
 const PILL_W = 95.667;
 const PILL_H = 53.833;
 
+// Замок на вкладке «Правила» показывает число активных правил (иконки из макетов).
+const LOCK_ACTIVE: Record<number, IconName> = { 0: 'tab-lock', 1: 'tab-lock-one', 2: 'tab-lock-two', 3: 'tab-lock-badge' };
+const LOCK_IDLE: Record<number, IconName> = { 0: 'tab-lock', 1: 'tab-lock', 2: 'tab-lock-badge-2', 3: 'tab-lock-badge-3' };
+
 export function TabBar({ state, emitter, navigateToTab, insets }: BottomTabBarProps) {
+  const app = useAppState();
+  const active = Math.min(3, rulesVariants[app.rulesVariant].active);
   const [width, setWidth] = useState(0);
   const count = state.routes.length;
   const step = width > 0 ? (width - PAD * 2 - PILL_W) / (count - 1) : 0;
@@ -86,7 +94,12 @@ export function TabBar({ state, emitter, navigateToTab, insets }: BottomTabBarPr
                 style={[styles.item, { left: PAD + i * step }]}
               >
                 <View style={styles.iconBox}>
-                  <Icon name={focused ? spec.iconActive : spec.icon} width={spec.w} height={spec.h} color={colors.tabInk} />
+                  <Icon
+                    name={route.name === 'rules' ? (focused ? LOCK_ACTIVE : LOCK_IDLE)[active] : focused ? spec.iconActive : spec.icon}
+                    width={spec.w}
+                    height={spec.h}
+                    color={colors.tabInk}
+                  />
                 </View>
                 <T size={10.25} weight={focused ? 600 : 500} ls={TRACK_SMALL} color={colors.tabInk}>
                   {spec.label}

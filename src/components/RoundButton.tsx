@@ -11,19 +11,22 @@ type Props = {
   iconHeight: number;
   variant: 'glass' | 'white';
   onPress?: () => void;
+  onLongPress?: () => void;
   accessibilityLabel: string;
 };
 
 const SIZE = 44;
 
-export function RoundButton({ icon, iconWidth, iconHeight, variant, onPress, accessibilityLabel }: Props) {
+export function RoundButton({ icon, iconWidth, iconHeight, variant, onPress, onLongPress, accessibilityLabel }: Props) {
   const content = <Icon name={icon} width={iconWidth} height={iconHeight} color={variant === 'glass' ? colors.white : colors.black} />;
   return (
     <Pressable
       onPress={onPress}
+      onLongPress={onLongPress}
+      delayLongPress={450}
       accessibilityRole="button"
       accessibilityLabel={accessibilityLabel}
-      style={({ pressed }) => ({ opacity: pressed ? 0.7 : 1 })}
+      style={({ pressed }) => ({ opacity: pressed ? 0.75 : 1, transform: [{ scale: pressed ? 0.92 : 1 }] })}
     >
       {variant === 'glass' ? (
         <Glass radius={SIZE / 2} style={{ width: SIZE, height: SIZE, alignItems: 'center', justifyContent: 'center' }}>
