@@ -30,7 +30,7 @@ export const mostUsed: MostUsedApp[] = [
 export const profile = {
   name: 'Саша',
   initials: 'СА',
-  nowMinutes: '33 мин',
+  nowMinutes: '9 мин',
   nowCaption: 'За 5 дней',
   before: '7 ч',
   beforeCaption: 'Среднее в день',
