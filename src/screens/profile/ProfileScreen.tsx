@@ -152,7 +152,7 @@ function Article({ image, title }: { image: ImageSource; title: string }) {
     <Pressable style={styles.article}>
       <Image source={image} style={StyleSheet.absoluteFill} contentFit="cover" />
       <View style={styles.artPill}>
-        <Icon name="clock-fill" width={12} color={colors.white} style={{ position: 'absolute', left: 6, top: 5.25 }} />
+        <Icon name="clock-fill" width={11.5} color={colors.white} style={{ position: 'absolute', left: 6.5, top: 5.5 }} />
         <T size={12.5} weight={600} color={colors.white}>
           5 мин
         </T>
