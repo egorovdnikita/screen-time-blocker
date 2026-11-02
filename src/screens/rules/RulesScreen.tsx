@@ -1,10 +1,11 @@
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useRef, useState, type ComponentRef } from 'react';
+import { useEffect, useRef, useState, type ComponentRef } from 'react';
 import { Animated, Pressable, ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Circle } from 'react-native-svg';
 
+import { SavedTemplateCard } from './SavedTemplateCard';
 import { SessionApps, SessionNotice } from '@/components/SessionPrimitives';
 import { BottomChrome, useBottomSpace } from '@/components/BottomChrome';
 import { DashedBox, DashedLine } from '@/components/Dashed';
@@ -43,6 +44,13 @@ export function RulesScreen() {
   const base = rulesVariants[app.rulesVariant];
   const data = { ...base, sessions: [...app.createdSessions, ...base.sessions], active: base.active + app.createdSessions.filter(s => s.status.kind === 'blocking').length };
   const [demoOpen, setDemoOpen] = useState(false);
+  const scrollRef = useRef<ComponentRef<typeof ScrollView>>(null);
+  const templatesTop = useRef(0);
+  useEffect(() => {
+    if (!app.savedTemplates.length) return;
+    const timer = setTimeout(() => scrollRef.current?.scrollTo({ y: Math.max(0, templatesTop.current + 78.7 - 337), animated: true }), 350);
+    return () => clearTimeout(timer);
+  }, [app.savedTemplates.length]);
 
   // Подсказка 1 привязана к первой карточке сессии.
   const firstCardRef = useRef<ComponentRef<typeof View>>(null);
@@ -55,6 +63,7 @@ export function RulesScreen() {
   return (
     <View style={styles.root}>
       <ScrollView
+        ref={scrollRef}
         key={app.rulesVariant}
         scrollEnabled={tips === 'done'}
         showsVerticalScrollIndicator={false}
@@ -107,7 +116,7 @@ export function RulesScreen() {
           </FadeIn>
         )}
 
-        <FadeIn delay={160}>{data.templates === 'classic' ? <ClassicTemplates /> : <GalleryTemplates />}</FadeIn>
+        <View onLayout={event => { templatesTop.current = event.nativeEvent.layout.y; }}><FadeIn delay={160}>{data.templates === 'classic' ? <ClassicTemplates /> : <GalleryTemplates />}</FadeIn></View>
       </ScrollView>
 
       {/* Неподвижная шапка */}
@@ -140,7 +149,7 @@ export function RulesScreen() {
       </View>
 
       <BottomChrome start="rules" />
-      {app.sessionNotice && <SessionNotice message={app.sessionNotice} top={Math.max(insets.top, 20) + 13} />}
+      {app.sessionNotice && <SessionNotice message={app.sessionNotice} top={Math.max(insets.top, 59) + 13} />}
 
       <Tips step={tips} firstCardBottom={firstCardBottom} onNext={app.advanceOnboarding} />
       <DemoMenu visible={demoOpen} onClose={() => setDemoOpen(false)} />
@@ -405,26 +414,24 @@ function MetaView({ meta }: { meta: Meta }) {
 function TemplatesShell({ children }: { children: React.ReactNode }) {
   const app = useAppState();
   return (
-    <View style={styles.tplBand}>
+    <View style={[styles.tplBand, app.savedTemplates.length > 0 && { paddingTop: 24 }]}>
       <SectionHeader
         title="Шаблоны"
         right={
           <PressScale style={styles.seeMore}>
             <T size={14.25} color={colors.white}>
-              Ещё
+              {app.savedTemplates.length ? 'Смотреть' : 'Ещё'}
             </T>
             <Icon name="arrow-right-small" width={14} height={14} color={colors.white} style={{ marginLeft: 5 }} />
           </PressScale>
         }
       />
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.tplRow} decelerationRate="fast" snapToInterval={171.333 + 17.3}>
-        {app.savedTemplates.map(template => <PressScale key={template.id} accessibilityRole="button" accessibilityLabel={`Добавить шаблон ${template.title}`} onPress={() => app.addSession({ ...template, id: `session-${Date.now()}` })} style={styles.tplCard}><DashedBox radius={26} color={colors.dashTpl} style={{ flex: 1, backgroundColor: colors.white, padding: 16, justifyContent: 'flex-end' }}>
-          <Image source={art.sessionZap} style={{ width: 28, height: 38, marginBottom: 8 }} />
-          <T size={18}>{template.title}</T>
-          <T size={12} weight={400} style={{ marginTop: 6, marginBottom: 16 }}>{template.meta.kind === 'schedule' ? template.meta.time : template.meta.text.replace('Осталось ', '')}</T>
-          <T size={14.5}>+ Добавить</T>
-        </DashedBox></PressScale>)}
-        {children}
+      <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={[styles.tplRow, app.savedTemplates.length > 0 && { gap: 8 }]} decelerationRate="fast" snapToInterval={171.333 + 17.3}>
+        {app.savedTemplates.map(template => <SavedTemplateCard key={template.id} template={template} onAdd={() => app.addSession({ ...template, id: `session-${Date.now()}` })} />)}
+        {app.savedTemplates.length ? <>
+          <ImageTemplate image={art.savedDeepWork} duration="30 мин" title="Глубокий фокус" desc={'Полчаса на главную\nзадачу дня.'} withStart onStart={() => app.addSession({ id: `session-${Date.now()}`, title: 'Глубокий фокус', emoji: 'zap', status: { kind: 'blocking' }, meta: { kind: 'ring', text: 'Осталось 30 мин', progress: 0, tone: 'blocking' }, apps: 'first-rule', selectedApps: [true, true, true] })} />
+          <Image source={art.templateMeTime} style={{ width: 170.667, height: 221, borderRadius: 25.5 }} />
+        </> : children}
       </ScrollView>
     </View>
   );
@@ -473,16 +480,18 @@ function ImageTemplate({
   title,
   desc,
   withStart,
+  onStart,
 }: {
   image: number;
   duration: string;
   title: string;
   desc: string;
   withStart?: boolean;
+  onStart?: () => void;
 }) {
   const lines = desc.split('\n').length;
   return (
-    <PressScale scaleTo={0.97} style={[styles.tplCard, { borderRadius: 25.5, overflow: 'hidden' }]}>
+    <PressScale accessibilityRole={onStart ? "button" : undefined} accessibilityLabel={onStart ? `Начать шаблон ${title}` : undefined} onPress={onStart} scaleTo={0.97} style={[styles.tplCard, { borderRadius: 25.5, overflow: 'hidden' }]}>
       <Image source={image} style={StyleSheet.absoluteFill} contentFit="cover" />
       <Glass tone="template" radius={radii.pill} style={[styles.tplPill, { top: 14, left: 13.7, height: 21 }]}>
         <Icon name="lock-fill" width={13} height={15} color={colors.white} style={styles.tplPillIcon} />

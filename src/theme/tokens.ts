@@ -175,3 +175,17 @@ export const sessionPickerTheme = {
   clockWidth: 234, clockHeight: 204, clockCenter: 103, clockRow: 28,
   durationHeight: 220, durationCenter: 96, durationRow: 29,
 } as const;
+
+// Разблокировки055/056: значения сняты с template-editor-fixes.css.
+export const sessionUnlockTheme = {
+  radius: 25, choiceRadius: 23, countRadius: 21,
+  countShadow: '0px 2px 9px #10182814',
+  maxBackground: '#eff6fe', maxInk: '#3983d8', muted: '#c5c7ca',
+  durationRadius: 44, durationSurface: '#f7f9fb', durationFade: 'rgba(247,249,251,0)', durationBackdrop: 'rgba(20,22,27,.16)', durationHighlight: '#e3e4e6', durationHelp: '#89929f', durationButton: '#17191a',
+  countSize: 40, countButton: 41, detailHeight: 374,
+} as const;
+
+export const savedTemplateTheme = {
+  width: 170.667, height: 221, radius: 25.5, pillRadius: 14, buttonRadius: 18,
+  pill: '#fcfcfc', pillShadow: '0px 6px 20px #141e3c04', buttonShadow: '0px 6px 20px #171b2605',
+} as const;

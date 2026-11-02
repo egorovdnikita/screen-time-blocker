@@ -20,11 +20,14 @@ type Props = {
   fade?: string;
   selectedSize?: number;
   otherSize?: number;
+  cyclic?: boolean;
 };
 
 // Один контрол для дней, часов, минут и AM/PM. Позиция определяется значением, а не картинкой.
-export function WheelColumn({ label, items, value, onChange, width, height = p.clockHeight, center = p.clockCenter, rowHeight = p.clockRow, highlight = false, surface = colors.white, fade = p.whiteFade, selectedSize = 22, otherSize = 18 }: Props) {
-  const index = Math.max(0, items.findIndex(item => item.value === value));
+export function WheelColumn({ label, items, value, onChange, width, height = p.clockHeight, center = p.clockCenter, rowHeight = p.clockRow, highlight = false, surface = colors.white, fade = p.whiteFade, selectedSize = 22, otherSize = 18, cyclic = false }: Props) {
+  const padding = cyclic ? Math.min(3, items.length) : 0;
+  const rows = cyclic ? [...items.slice(-padding), ...items, ...items.slice(0, padding)] : items;
+  const index = Math.max(0, items.findIndex(item => item.value === value)) + padding;
   const [offset] = useState(() => new Animated.Value(index * rowHeight));
   const scroll = useRef<ComponentRef<typeof ScrollView>>(null);
   const idle = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -34,10 +37,15 @@ export function WheelColumn({ label, items, value, onChange, width, height = p.c
   const ready = useRef(false);
 
   const select = (nextIndex: number, animated = true) => {
-    const safe = Math.max(0, Math.min(items.length - 1, nextIndex));
-    internalIndex.current = safe;
-    if (Math.abs(lastOffset.current - safe * rowHeight) > .2) scroll.current?.scrollTo({ y: safe * rowHeight, animated });
-    if (items[safe].value !== value) onChange(items[safe].value);
+    const safe = Math.max(0, Math.min(rows.length - 1, nextIndex));
+    const canonical = cyclic ? (safe - padding + items.length) % items.length + padding : safe;
+    internalIndex.current = canonical;
+    if (canonical !== safe) {
+      // После перехода через границу возвращаемся в середину без видимого скачка.
+      scroll.current?.scrollTo({ y: canonical * rowHeight, animated: false });
+      offset.setValue(canonical * rowHeight);
+    } else if (Math.abs(lastOffset.current - safe * rowHeight) > .2) scroll.current?.scrollTo({ y: safe * rowHeight, animated });
+    if (rows[safe].value !== value) onChange(rows[safe].value);
   };
   const settle = (y: number) => {
     if (idle.current) clearTimeout(idle.current);
@@ -60,7 +68,7 @@ export function WheelColumn({ label, items, value, onChange, width, height = p.c
 
   const onKeyDown: NonNullable<ViewProps['onKeyDown']> = event => {
     const key = event.nativeEvent.key;
-    const next = key === 'ArrowUp' ? index + 1 : key === 'ArrowDown' ? index - 1 : key === 'Home' ? 0 : key === 'End' ? items.length - 1 : null;
+    const next = key === 'ArrowUp' ? index + 1 : key === 'ArrowDown' ? index - 1 : key === 'Home' ? padding : key === 'End' ? padding + items.length - 1 : null;
     if (next !== null) { event.preventDefault(); select(next); }
   };
   const keyboard = Platform.OS === 'web' ? { onKeyDown } : {};
@@ -74,8 +82,8 @@ export function WheelColumn({ label, items, value, onChange, width, height = p.c
   });
 
   return <View {...keyboard} focusable accessible accessibilityRole="adjustable" accessibilityLabel={label}
-    aria-valuemin={items[0].value} aria-valuemax={items[items.length - 1].value} aria-valuenow={value} aria-valuetext={items[index].label}
-    accessibilityValue={{ min: items[0].value, max: items[items.length - 1].value, now: value, text: items[index].label }}
+    aria-valuemin={items[0].value} aria-valuemax={items[items.length - 1].value} aria-valuenow={value} aria-valuetext={rows[index].label}
+    accessibilityValue={{ min: items[0].value, max: items[items.length - 1].value, now: value, text: rows[index].label }}
     accessibilityActions={[{ name: 'increment', label: 'Увеличить' }, { name: 'decrement', label: 'Уменьшить' }]}
     onAccessibilityAction={event => select(index + (event.nativeEvent.actionName === 'increment' ? 1 : -1))}
     style={{ width, height }}>
@@ -87,7 +95,7 @@ export function WheelColumn({ label, items, value, onChange, width, height = p.c
       onScroll={onScroll} onScrollBeginDrag={() => { dragging.current = true; if (idle.current) clearTimeout(idle.current); }}
       onScrollEndDrag={event => { dragging.current = false; scheduleSettle(event.nativeEvent.contentOffset.y); }}
       onMomentumScrollEnd={event => { dragging.current = false; settle(event.nativeEvent.contentOffset.y); }}>
-      {items.map((item, i) => <Animated.View key={item.value} style={{ height: rowHeight,
+      {rows.map((item, i) => <Animated.View key={`${i}-${item.value}`} style={{ height: rowHeight,
         opacity: offset.interpolate({ inputRange: [(i - 3) * rowHeight, i * rowHeight, (i + 3) * rowHeight], outputRange: [.12, 1, .12], extrapolate: 'clamp' }),
         transform: [{ perspective: 500 }, { rotateX: offset.interpolate({ inputRange: [(i - 3) * rowHeight, i * rowHeight, (i + 3) * rowHeight], outputRange: ['65deg', '0deg', '-65deg'], extrapolate: 'clamp' }) }] }}>
         <Pressable accessible={false} onPress={() => select(i)} style={styles.value}>

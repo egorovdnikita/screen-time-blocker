@@ -77,7 +77,7 @@ export function SessionActivity({ draft, patch }: Props) {
           <View pointerEvents="none" style={[StyleSheet.absoluteFill, { backgroundColor: p.clockFill }]} />
           <View pointerEvents="none" style={styles.clockHighlight} />
           <WheelColumn label={`Часы ${clockName}`} items={CLOCK_HOURS} value={clockHour % 12 || 12} onChange={updateHour} width={57} selectedSize={24} otherSize={19} surface={p.clockMask} fade={p.clockFade} />
-          <WheelColumn label={`Минуты ${clockName}`} items={CLOCK_MINUTES} value={clockMinute} onChange={minute => patch({ [`${clock.key}Minute`]: minute })} width={57} selectedSize={24} otherSize={19} surface={p.clockMask} fade={p.clockFade} />
+          <WheelColumn label={`Минуты ${clockName}`} items={CLOCK_MINUTES} cyclic value={clockMinute} onChange={minute => patch({ [`${clock.key}Minute`]: minute })} width={57} selectedSize={24} otherSize={19} surface={p.clockMask} fade={p.clockFade} />
           <WheelColumn label={`Период ${clockName}`} items={PERIODS} value={clockHour >= 12 ? 1 : 0} onChange={period => patch({ [clock.key]: clockHour % 12 + period * 12 })} width={57} selectedSize={24} otherSize={19} surface={p.clockMask} fade={p.clockFade} />
         </View>}
       </View>

@@ -15,6 +15,7 @@ export type LockRule = { id: string; app: 'apple-music' | 'bereal'; name: string
 
 export type SessionRule = {
   selectedApps?: boolean[];
+  unlockMinutes?: number;
   id: string;
   emoji: 'laptop' | 'briefcase' | 'zap';
   title: string;

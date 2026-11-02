@@ -1,5 +1,7 @@
 // Растр из макетов (@3x).
 export const art = {
+  savedDeepWork: require('../../assets/art/session/saved-deep-work.png'),
+  sessionZapCompact: require('../../assets/art/session/session-zap-compact.png'),
   sessionZap: require('../../assets/art/session/session-zap.png'),
   sessionWork: require('../../assets/art/session/session-work-mode.png'),
   sessionMeTime: require('../../assets/art/session/session-me-time.png'),
