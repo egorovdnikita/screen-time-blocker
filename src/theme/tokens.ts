@@ -279,3 +279,12 @@ export const habitFormTheme = {
   createBorder: '#d5d9df', createInk: '#858f9e', createFill: '#e4e7ec',
   roundShadow: '0px 10px 25px #00000007', sectionRadius: 19, descriptionRadius: 22,
 } as const;
+
+// session-reflection-editor.css, состояния156–161.
+export const reflectionTheme = {
+  backdrop: 'rgba(0,0,0,.6)', panel: '#f6f8fa', rim: '#ffffff80', muted: '#969daa', blue: '#4384f4',
+  close: '#ffffffb3', exclude: '#e8f1ff', pair: '#00000033', header: '#80858b',
+  menuTop: '#f7f9fbea', menuBottom: '#f7f9fbaa',
+  roundShadow: '0 10px 25px #16202a0a', confirmRim: 'inset 0 0 0 1px #ffffff44',
+  menuShadow: 'inset 0 0 0 1px #ffffffc0, 0 12px 30px #0000001a', radius: 34,
+};

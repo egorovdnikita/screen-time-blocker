@@ -1,12 +1,15 @@
+import { ReflectionSheet } from './ReflectionSheet';
+import { AppIcon } from './AppIcon';
+import { reflectionKey, reflectionMoods } from '@/data/reflection';
 import { Image } from 'expo-image';
-import { useRef, type ComponentRef } from 'react';
+import { useRef, useState, type ComponentRef } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 
 import { DashedLine } from '@/components/Dashed';
 import { Icon } from '@/components/Icon';
 import { FadeIn, PressScale, animateLayout } from '@/components/motion';
 import { art } from '@/data/art';
-import type { ActivityAppIcon, ActivityRow, AppIconKind, AppRow, Day } from '@/data/home';
+import type { ActivityAppIcon, ActivityRow, AppRow, Day } from '@/data/home';
 import { useAppState } from '@/state/app';
 import { T, TRACK_SMALL } from '@/theme/typography';
 import { colors, radii, shadows } from '@/theme/tokens';
@@ -19,10 +22,11 @@ export function MostUsed({ day, onOpenMenu }: Props) {
   const app = useAppState();
   const pillRef = useRef<ComponentRef<typeof View>>(null);
   const mode = app.mostUsedMode;
+  const [editing, setEditing] = useState<AppRow | null>(null);
 
   const apps = day.apps.map<AppRow>((a) => ({
     ...a,
-    state: app.excluded.includes(a.id) ? 'excluded' : app.productive.includes(a.id) ? 'productive' : a.state,
+    state: app.excluded.includes(a.id) || app.reflectionExcluded.includes(reflectionKey(day.id, a.id)) ? 'excluded' : app.productive.includes(a.id) ? 'productive' : a.state,
   }));
   const counted = apps.filter((a) => a.state !== 'excluded');
   const excluded = apps.filter((a) => a.state === 'excluded');
@@ -51,9 +55,10 @@ export function MostUsed({ day, onOpenMenu }: Props) {
             <AppItem
               key={a.id}
               app={a}
+              assessment={app.reflections[reflectionKey(day.id, a.id)]}
               onMark={() => {
                 animateLayout();
-                app.markProductive(a.id);
+                setEditing(a);
               }}
               onToggleExclude={() => {
                 animateLayout();
@@ -68,7 +73,10 @@ export function MostUsed({ day, onOpenMenu }: Props) {
                 <AppItem
                   key={a.id}
                   app={a}
+                  onMark={() => setEditing(a)}
+                  assessment={app.reflections[reflectionKey(day.id, a.id)]}
                   onToggleExclude={() => {
+                    if (app.reflectionExcluded.includes(reflectionKey(day.id, a.id))) { app.setReflectionExcluded(day.id, a.id, false); return; }
                     animateLayout();
                     app.toggleExcluded(a.id);
                   }}
@@ -99,30 +107,13 @@ export function MostUsed({ day, onOpenMenu }: Props) {
           </T>
         </FadeIn>
       )}
+      {editing && <ReflectionSheet app={editing} value={app.reflections[reflectionKey(day.id, editing.id)] ?? app.reflectionDefaults[editing.id]} onCancel={() => setEditing(null)} onSave={value => { app.saveReflection(day.id, editing.id, value); setEditing(null); }} onExclude={() => { app.setReflectionExcluded(day.id, editing.id, true); setEditing(null); }} />}
     </View>
   );
 }
 
-function AppIcon({ icon }: { icon: AppIconKind }) {
-  switch (icon) {
-    case 'block':
-      return <Icon name="ogonek-app-icon" width={28} />;
-    case 'photos':
-      return <Image source={art.appPhotos} style={{ width: 32, height: 34, margin: -2, marginTop: -3 }} />;
-    case 'phia':
-      return <Image source={art.appPhia} style={{ width: 32, height: 32, margin: -2 }} />;
-    case 'substack':
-      return <Image source={art.appSubstack} style={{ width: 32, height: 34, margin: -2, marginTop: -3 }} />;
-    case 'other':
-      return (
-        <View style={styles.otherIcon}>
-          <Icon name="archive" width={17.5} height={16} color={colors.otherIco} />
-        </View>
-      );
-  }
-}
 
-function AppItem({ app, onMark, onToggleExclude }: { app: AppRow; onMark?: () => void; onToggleExclude: () => void }) {
+function AppItem({ app, assessment, onMark, onToggleExclude }: { app: AppRow; assessment?: import('@/data/reflection').Reflection; onMark?: () => void; onToggleExclude: () => void }) {
   const isOther = app.icon === 'other';
   const excluded = app.state === 'excluded';
   return (
@@ -165,14 +156,12 @@ function AppItem({ app, onMark, onToggleExclude }: { app: AppRow; onMark?: () =>
             <View style={styles.barTrack}>
               <View style={[styles.bar, { width: `${Math.max(3.2, app.ratio * 100)}%` }]} />
             </View>
-            {app.state === 'productive' ? (
+            {assessment || app.state === 'productive' ? (
               <FadeIn from={4}>
-                <T size={12.25} ls={TRACK_SMALL} color={colors.qProductive} style={{ marginTop: 9 }}>
-                  С пользой
-                </T>
+                <PressScale onPress={onMark} accessibilityRole="button" accessibilityLabel={`Изменить оценку ${app.name}`}><T size={12.25} ls={TRACK_SMALL} color={!assessment || reflectionMoods.find(m => m.id === assessment.mood)?.quality === 'productive' ? colors.qProductive : colors.qNeutral} style={{ marginTop: 9 }}>{assessment ? reflectionMoods.find(m => m.id === assessment.mood)?.title : 'С пользой'}</T></PressScale>
               </FadeIn>
             ) : (
-              <PressScale onPress={onMark} style={styles.chip} accessibilityRole="button">
+              <PressScale onPress={onMark} style={styles.chip} accessibilityRole="button" accessibilityLabel={`Оценить время ${app.name}`}>
                 <Icon name="plus-chip" width={13} height={12} color={colors.chipInk} style={{ marginRight: 3.2 }} />
                 <T size={12.25} weight={600} ls={TRACK_SMALL} color={colors.chipInk}>
                   Время с пользой?

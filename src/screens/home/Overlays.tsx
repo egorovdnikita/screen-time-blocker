@@ -72,6 +72,7 @@ export function PeriodMenu({
           return (
             <Pressable
               key={o.id}
+              accessibilityRole="button"
               onPress={() => onSelect(o.id)}
               style={({ pressed }) => [
                 styles.option,
@@ -128,7 +129,7 @@ export function MostUsedMenu({
         ]}
       >
         {(['apps', 'activities'] as const).map((m) => (
-          <Pressable key={m} onPress={() => onSelect(m)} style={styles.menuRow}>
+          <Pressable accessibilityRole="button" key={m} onPress={() => onSelect(m)} style={styles.menuRow}>
             {({ pressed }) => (
               <>
                 {pressed && (
