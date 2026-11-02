@@ -1,3 +1,4 @@
+import type { AppGroupDraft } from './appGroup';
 import type { StrictSettings, UnlockSettings } from './session';
 import type { SessionIconId } from './sessionIcons';
 import type { RulesVariant } from '@/state/app';
@@ -17,6 +18,7 @@ export type LockRule = { id: string; app: 'apple-music' | 'bereal'; name: string
 
 export type SessionRule = {
   selectedApps?: boolean[];
+  appGroup?: AppGroupDraft;
   unlockMinutes?: number;
   iconId?: SessionIconId;
   unlockSettings?: UnlockSettings;

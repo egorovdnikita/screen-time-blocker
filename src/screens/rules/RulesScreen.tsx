@@ -5,6 +5,7 @@ import { Animated, Pressable, ScrollView, StyleSheet, View, useWindowDimensions 
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Circle } from 'react-native-svg';
 
+import { AppGroupSummary } from '@/components/AppGroupSummary';
 import { SessionIcon } from '@/components/SessionIcon';
 import { SavedTemplateCard } from './SavedTemplateCard';
 import { SessionApps, SessionNotice } from '@/components/SessionPrimitives';
@@ -221,8 +222,8 @@ function SessionCard({ rule }: { rule: SessionRule }) {
       </View>
       <View style={[styles.bottomRow, { marginTop: 17 }]}>
         <Lock />
-        <View style={styles.sessionApps}>
-          {rule.selectedApps ? <SessionApps selected={rule.selectedApps} /> : <Image source={rule.apps === 'first-rule' ? art.appsFirstRule : art.appsSession} style={{ width: 45, height: 21 }} />}
+        <View style={[styles.sessionApps, rule.appGroup && { width: 'auto', flexShrink: 1 }]}>
+          {rule.appGroup ? <AppGroupSummary group={rule.appGroup} /> : rule.selectedApps ? <SessionApps selected={rule.selectedApps} /> : <Image source={rule.apps === 'first-rule' ? art.appsFirstRule : art.appsSession} style={{ width: 45, height: 21 }} />}
         </View>
         {rule.unlock && (
           <PressScale style={styles.firstUnlock}>

@@ -1,5 +1,12 @@
 // Растр из макетов (@3x).
 export const art = {
+  groupAll: require('../../assets/art/session/categories/app-category-all.png'),
+  groupSocial: require('../../assets/art/session/categories/app-category-social.png'),
+  groupGames: require('../../assets/art/session/categories/app-category-games.png'),
+  groupEntertainment: require('../../assets/art/session/categories/app-category-entertainment.png'),
+  groupCreativity: require('../../assets/art/session/categories/app-category-creativity.png'),
+  groupEducation: require('../../assets/art/session/categories/app-category-education.png'),
+  groupHealth: require('../../assets/art/session/categories/app-category-health.png'),
   unlockRecopyDevice: require('../../assets/art/session/methods/unlock-recopy-device.png'),
   unlockIconPhoto: require('../../assets/art/session/methods/unlock-icon-photo.png'),
   unlockIconNothing: require('../../assets/art/session/methods/unlock-icon-nothing.png'),

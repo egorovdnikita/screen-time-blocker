@@ -7,9 +7,11 @@ import { colors, sessionPickerTheme as p, sessionTheme as c } from '@/theme/toke
 import { Icon } from './Icon';
 import { FadeIn, PressScale, spring } from './motion';
 
-export function SessionApps({ selected = [true, true, true] }: { selected?: boolean[] }) {
-  return <View style={styles.apps} accessibilityLabel={['XChat', 'Сообщения', 'BeReal'].filter((_, i) => selected[i]).join(', ')}>
-    {[art.sessionXchat, art.sessionMessages, art.sessionBereal].map((source, i) => ({ source, selected: selected[i] })).reverse().filter(item => item.selected).map((item, i) => <Image key={i} source={item.source} style={{ width: 16, height: 16, borderRadius: 4, marginLeft: i ? -4 : 0 }} />)}
+export function SessionApps({ selected = [true, true, true], reverse = true, bare = false }: { selected?: boolean[]; reverse?: boolean; bare?: boolean }) {
+  const items = [art.sessionXchat, art.sessionMessages, art.sessionBereal].map((source, i) => ({ source, selected: selected[i] })).filter(item => item.selected);
+  if (reverse) items.reverse();
+  return <View style={[styles.apps, bare && { width: 45, height: 21, backgroundColor: p.whiteFade }]} accessibilityLabel={['XChat', 'Сообщения', 'BeReal'].filter((_, i) => selected[i]).join(', ')}>
+    {items.map((item, i) => <Image key={i} source={item.source} style={{ width: 16, height: 16, borderRadius: 4, marginLeft: i ? -4 : 0 }} />)}
   </View>;
 }
 export function EditorRow({ title, value, expanded, onPress, children, emphasized, headerHeight = 59 }: { title: string; value?: ReactNode; expanded?: boolean; onPress?: () => void; children?: ReactNode; emphasized?: boolean; headerHeight?: number }) {

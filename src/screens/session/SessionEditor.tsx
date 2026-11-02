@@ -4,12 +4,15 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { AppGroupSummary } from '@/components/AppGroupSummary';
+import { AppGroupSheet } from './AppGroupSheet';
+import { hasGroupSelection } from '@/data/appGroup';
 import { SessionIcon } from '@/components/SessionIcon';
 import { StrictSettingsSheet, StrictConfirmation, strictDaysLabel } from './StrictSettingsSheet';
 import { SessionIconPicker } from './SessionIconPicker';
 import { Icon } from '@/components/Icon';
 import { animateLayout, PressScale } from '@/components/motion';
-import { EditorRow, FlowSwitch, SessionAction, SessionApps } from '@/components/SessionPrimitives';
+import { EditorRow, FlowSwitch, SessionAction } from '@/components/SessionPrimitives';
 import { SessionUnlocks, unlockCountLabel } from './SessionUnlocks';
 import { SessionActivity } from './SessionActivity';
 import { art } from '@/data/art';
@@ -23,12 +26,12 @@ export function SessionEditor() {
   const insets = useSafeAreaInsets();
   const app = useAppState();
   const [draft, setDraft] = useState(() => initialSession(mode === 'scheduled'));
-  const [open, setOpen] = useState<'duration' | 'unlocks' | 'apps' | null>(null);
+  const [open, setOpen] = useState<'duration' | 'unlocks' | null>(null);
   const [editing, setEditing] = useState(false);
   const [iconOpen, setIconOpen] = useState(false);
   const [strictOpen, setStrictOpen] = useState(false);
   const [strictConfirm, setStrictConfirm] = useState(false);
-  const [selectedApps, setSelectedApps] = useState([true, true, true]);
+  const [appsOpen, setAppsOpen] = useState(false);
   const activityExpanded = open === 'duration';
   const unlockExpanded = open === 'unlocks';
   const compact = activityExpanded || (unlockExpanded && draft.unlocks > 0);
@@ -38,7 +41,7 @@ export function SessionEditor() {
   const daysSummary = draft.days.length === 7 ? 'ежедневно' : draft.days.join() === '0,1,2,3,4' ? 'по будням' : draft.days.map(d => ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'][d]).join(', ');
   const patch = (update: Partial<typeof draft>) => setDraft(d => ({ ...d, ...update }));
   const dismiss = () => router.canGoBack() ? router.back() : router.replace('/(tabs)');
-  const finish = (template: boolean) => { app.addSession({ ...sessionRule(draft), selectedApps }, template); router.dismissAll(); router.navigate('/(tabs)/rules'); };
+  const finish = (template: boolean) => { app.addSession(sessionRule(draft), template); router.dismissAll(); router.navigate('/(tabs)/rules'); };
   return <View style={styles.overlay}>
     <Pressable style={StyleSheet.absoluteFill} accessibilityLabel="Закрыть редактор сессии" onPress={dismiss} />
     <View style={[styles.sheet, { marginTop: Math.max(60, insets.top + 1) }]}>
@@ -62,11 +65,7 @@ export function SessionEditor() {
         </ScrollView></View></View>
         <View style={[styles.rows, compact && { gap: 0 }]}>
           <View style={compact ? { marginBottom: activityExpanded ? 13 : 14 } : undefined}>
-          <EditorRow title="Приложения" value={<SessionApps selected={selectedApps} />} expanded={open === 'apps'} onPress={() => setOpen(open === 'apps' ? null : 'apps')}>
-            {[['XChat', art.sessionXchat], ['Сообщения', art.sessionMessages], ['BeReal', art.sessionBereal]].map(([name, source], i) => <PressScale key={String(name)} accessibilityRole="checkbox" accessibilityLabel={String(name)} accessibilityState={{ checked: selectedApps[i] }} onPress={() => setSelectedApps(a => a.map((v, j) => j === i ? !v : v))} style={styles.appRow}>
-              <Image source={source} style={{ width: 28, height: 28, borderRadius: 7 }} /><T size={15} weight={400}>{String(name)}</T><T size={18} color={c.blue} style={{ marginLeft: 'auto' }}>{selectedApps[i] ? '✓' : '○'}</T>
-            </PressScale>)}
-          </EditorRow>
+          <EditorRow title="Приложения" value={<AppGroupSummary group={draft.appGroup} />} onPress={() => setAppsOpen(true)} />
           </View>
           <View style={compact ? { marginBottom: activityExpanded ? draft.scheduled ? 14 : 9 : 10 } : undefined}>
           <EditorRow title={activityExpanded || draft.scheduled ? 'Активность' : 'Длительность'} value={activityExpanded ? undefined : draft.scheduled ? `${scheduleSummary} | ${daysSummary}` : durationLabel(draft.minutes)}
@@ -81,9 +80,10 @@ export function SessionEditor() {
       </ScrollView>
       <View style={[styles.footer, { paddingBottom: Math.max(39, insets.bottom + 5) }]}>
         <View style={styles.strict}><PressScale accessibilityRole="button" accessibilityLabel="Настройки строгого режима" onPress={() => setStrictOpen(true)} style={{ flexDirection: 'row', alignItems: 'center', gap: 8, flex: 1 }}><Icon name="session-shield" width={28} height={30} /><View><T size={17} color={c.strict}>Строгий режим</T><T size={12} weight={400} color={c.secondary}>{draft.strict ? draft.strictScope === 'session' ? 'Активен во время сессии' : `Активен ${strictDaysLabel(draft.strictDays)}` : 'Без изменения и удаления'}</T></View></PressScale><View style={{ marginLeft: 'auto', marginRight: draft.strict ? 26 : 0 }}><FlowSwitch label="Строгий режим" value={draft.strict} onChange={strict => strict ? setStrictOpen(true) : patch({ strict: false })} /></View>{draft.strict && <Icon name="chevron-right" width={9} height={13} color={c.disabled} style={{ position: 'absolute', right: 6 }} />}</View>
-        <View style={styles.actions}><SessionAction disabled={!selectedApps.some(Boolean)} onPress={() => finish(true)}>Новый шаблон</SessionAction><SessionAction primary disabled={!selectedApps.some(Boolean)} onPress={() => draft.strict ? setStrictConfirm(true) : finish(false)}>{draft.scheduled ? 'Расписание' : 'Начать'}</SessionAction></View>
+        <View style={styles.actions}><SessionAction disabled={!hasGroupSelection(draft.appGroup)} onPress={() => finish(true)}>Новый шаблон</SessionAction><SessionAction primary disabled={!hasGroupSelection(draft.appGroup)} onPress={() => draft.strict ? setStrictConfirm(true) : finish(false)}>{draft.scheduled ? 'Расписание' : 'Начать'}</SessionAction></View>
       </View>
     </View>
+    {appsOpen && <AppGroupSheet value={draft.appGroup} onCancel={() => setAppsOpen(false)} onConfirm={appGroup => { patch({ appGroup }); setAppsOpen(false); }} />}
     {strictOpen && <StrictSettingsSheet value={draft} onCancel={() => setStrictOpen(false)} onActivate={settings => { patch({ ...settings, strict: true }); setStrictOpen(false); }} />}
     {strictConfirm && <StrictConfirmation onCancel={() => setStrictConfirm(false)} onContinue={() => { setStrictConfirm(false); finish(false); }} />}
     {iconOpen && <SessionIconPicker selected={draft.iconId} onSelect={iconId => { patch({ iconId }); setIconOpen(false); }} onClose={() => setIconOpen(false)} />}
@@ -96,5 +96,4 @@ const styles = StyleSheet.create({
   suggestionHeading: { marginTop: 22, marginHorizontal: 22, flexDirection: 'row', alignItems: 'center', gap: 12, height: 26 }, suggestions: { paddingHorizontal: 20, paddingTop: 6, gap: 8 }, suggestion: { width: 160, height: 80, borderRadius: c.suggestionRadius, overflow: 'hidden' }, suggestionCopy: { paddingLeft: 8, paddingTop: 21 }, rows: { marginTop: 20, paddingHorizontal: 20, gap: 14 },
   footer: { paddingHorizontal: 20, paddingTop: 0, backgroundColor: c.surface }, strict: { height: 30, marginLeft: 5, flexDirection: 'row', gap: 8, alignItems: 'center' }, actions: { flexDirection: 'row', gap: 8, marginTop: 25 },
   normalBand: { height: 86 }, compactBand: { marginTop: 36, height: 34, overflow: 'hidden' }, compactViewport: { marginTop: 28, height: 6, overflow: 'hidden' }, compactRail: { height: 80, flexShrink: 0, flexGrow: 0, transform: [{ translateY: -74 }] },
-  appRow: { height: 52, flexDirection: 'row', gap: 12, alignItems: 'center', paddingHorizontal: 18 },
 });

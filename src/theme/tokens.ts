@@ -217,3 +217,20 @@ export const strictTheme = {
   alertGradient: ['rgba(255,255,255,.46)', 'rgba(255,255,255,.82)'],
   alertShadow: 'inset 0px 0px 0px 1px #ffffffa8, 0px 10px 30px #0000000c',
 } as const;
+
+// Группа приложений063–069: app-groups.css и app-group-fixes.css.
+export const appGroupTheme = {
+  backdrop: '#777777', summaryBackdrop: '#c4c6c8', optionsBackdrop: '#e1e2e3', backSheet: '#e1e2e3',
+  surface: '#f2f2f8', optionsSurface: '#f7f8fa', dim: 'rgba(0,0,0,.13)',
+  handle: '#d9dadd', blue: '#3983ed', checkboxBlue: '#4285ed', title: '#8a9099',
+  segment: '#e5e5eb', segmentShadow: '0px 2px 5px #10182818',
+  summary: '#e6eaf8', summaryInk: '#4184e7', radio: '#d2d5da', optionRadio: '#d4d6da',
+  divider: '#ededee', optionDivider: '#f0f0f2', chevron: '#c3c7cc', count: '#a9adb4', section: '#969da8',
+  note: '#838b99', secondary: '#858d9a', placeholder: '#bec2c7', inputBorder: '#dedfe3',
+  addDisabled: '#a8c6f5', badge: '#e9edef', error: '#b73d37', focusOutline: 'transparent',
+  searchFill: 'rgba(255,255,255,.92)', searchShadow: '0px 5px 15px #12182714',
+  extraShadow: '0px 2px 8px #1018280c', surfaceFade: 'rgba(242,242,248,0)',
+  sheetRadius: 34, sheetBottomRadius: 40, segmentRadius: 18, segmentInnerRadius: 15,
+  listRadius: 25, extraRadius: 20, searchRadius: 26, badgeRadius: 16,
+  optionsTopRadius: 36, optionsBottomRadius: 52, inputRadius: 28, websiteRadius: 20,
+} as const;
