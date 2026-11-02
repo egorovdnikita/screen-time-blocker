@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { SessionIcon } from '@/components/SessionIcon';
+import { StrictSettingsSheet, StrictConfirmation, strictDaysLabel } from './StrictSettingsSheet';
 import { SessionIconPicker } from './SessionIconPicker';
 import { Icon } from '@/components/Icon';
 import { animateLayout, PressScale } from '@/components/motion';
@@ -25,6 +26,8 @@ export function SessionEditor() {
   const [open, setOpen] = useState<'duration' | 'unlocks' | 'apps' | null>(null);
   const [editing, setEditing] = useState(false);
   const [iconOpen, setIconOpen] = useState(false);
+  const [strictOpen, setStrictOpen] = useState(false);
+  const [strictConfirm, setStrictConfirm] = useState(false);
   const [selectedApps, setSelectedApps] = useState([true, true, true]);
   const activityExpanded = open === 'duration';
   const unlockExpanded = open === 'unlocks';
@@ -47,7 +50,7 @@ export function SessionEditor() {
           </PressScale>
           {editing ? <TextInput autoFocus accessibilityLabel="Название сессии" value={draft.title} onChangeText={title => patch({ title })} onBlur={() => { patch({ title: draft.title.trim() || 'Сессия' }); setEditing(false); }} onSubmitEditing={() => { patch({ title: draft.title.trim() || 'Сессия' }); setEditing(false); }} maxLength={35} style={styles.titleInput} /> :
             <PressScale onPress={() => setEditing(true)} accessibilityRole="button" accessibilityLabel="Изменить название сессии" style={styles.title}><T size={28} ls={-.4} numberOfLines={1} style={{ flexShrink: 1 }}>{draft.title}</T><Icon name="pencil" width={18} height={18} color={c.disabled} /></PressScale>}
-          <T size={14} weight={400} center color={c.secondary} ls={0} style={{ marginTop: 9.8 }}>{draft.scheduled ? draft.allDay ? 'Блокировать приложения весь день.' : `Блокировать ${draft.days.length === 7 ? 'каждый день' : daysSummary} с ${shortTime(draft.start, draft.startMinute)} до ${shortTime(draft.end, draft.endMinute)}.` : `Блокировать на ${durationLabel(draft.minutes)}, начиная сейчас.`}</T>
+          <T size={14} weight={400} center color={c.secondary} ls={0} style={{ marginTop: 9.8 }}>{draft.strict && !draft.scheduled ? `Блокировать ${durationLabel(draft.minutes)}. Строгий режим включён.` : draft.scheduled ? draft.allDay ? 'Блокировать приложения весь день.' : `Блокировать ${draft.days.length === 7 ? 'каждый день' : daysSummary} с ${shortTime(draft.start, draft.startMinute)} до ${shortTime(draft.end, draft.endMinute)}.` : `Блокировать на ${durationLabel(draft.minutes)}, начиная сейчас.`}</T>
         </View>}
         {!compact && <View style={styles.suggestionHeading}><Icon name="chevron-down-section" width={8} height={6} color={c.section} /><T size={20} color={c.section}>{draft.scheduled ? 'Подборки' : 'Рекомендации'}</T></View>}
         <View style={compact ? styles.compactBand : styles.normalBand}><View style={compact ? styles.compactViewport : styles.normalBand}>
@@ -77,10 +80,12 @@ export function SessionEditor() {
         </View>
       </ScrollView>
       <View style={[styles.footer, { paddingBottom: Math.max(39, insets.bottom + 5) }]}>
-        <View style={styles.strict}><Icon name="session-shield" width={28} height={30} /><View><T size={17} color={c.strict}>Строгий режим</T><T size={12} weight={400} color={c.secondary}>Без изменения и удаления</T></View><View style={{ marginLeft: 'auto' }}><FlowSwitch label="Строгий режим" value={draft.strict} onChange={strict => patch({ strict })} /></View></View>
-        <View style={styles.actions}><SessionAction disabled={!selectedApps.some(Boolean)} onPress={() => finish(true)}>Новый шаблон</SessionAction><SessionAction primary disabled={!selectedApps.some(Boolean)} onPress={() => finish(false)}>{draft.scheduled ? 'Расписание' : 'Начать'}</SessionAction></View>
+        <View style={styles.strict}><PressScale accessibilityRole="button" accessibilityLabel="Настройки строгого режима" onPress={() => setStrictOpen(true)} style={{ flexDirection: 'row', alignItems: 'center', gap: 8, flex: 1 }}><Icon name="session-shield" width={28} height={30} /><View><T size={17} color={c.strict}>Строгий режим</T><T size={12} weight={400} color={c.secondary}>{draft.strict ? draft.strictScope === 'session' ? 'Активен во время сессии' : `Активен ${strictDaysLabel(draft.strictDays)}` : 'Без изменения и удаления'}</T></View></PressScale><View style={{ marginLeft: 'auto', marginRight: draft.strict ? 26 : 0 }}><FlowSwitch label="Строгий режим" value={draft.strict} onChange={strict => strict ? setStrictOpen(true) : patch({ strict: false })} /></View>{draft.strict && <Icon name="chevron-right" width={9} height={13} color={c.disabled} style={{ position: 'absolute', right: 6 }} />}</View>
+        <View style={styles.actions}><SessionAction disabled={!selectedApps.some(Boolean)} onPress={() => finish(true)}>Новый шаблон</SessionAction><SessionAction primary disabled={!selectedApps.some(Boolean)} onPress={() => draft.strict ? setStrictConfirm(true) : finish(false)}>{draft.scheduled ? 'Расписание' : 'Начать'}</SessionAction></View>
       </View>
     </View>
+    {strictOpen && <StrictSettingsSheet value={draft} onCancel={() => setStrictOpen(false)} onActivate={settings => { patch({ ...settings, strict: true }); setStrictOpen(false); }} />}
+    {strictConfirm && <StrictConfirmation onCancel={() => setStrictConfirm(false)} onContinue={() => { setStrictConfirm(false); finish(false); }} />}
     {iconOpen && <SessionIconPicker selected={draft.iconId} onSelect={iconId => { patch({ iconId }); setIconOpen(false); }} onClose={() => setIconOpen(false)} />}
   </View>;
 }

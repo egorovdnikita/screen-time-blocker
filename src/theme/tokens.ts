@@ -193,7 +193,7 @@ export const savedTemplateTheme = {
 // Нижний лист выбора emoji059/060.
 export const sessionIconTheme = {
   surface: '#f7f8fa', backdrop: 'rgba(0,0,0,.12)', handle: '#d7d9dc',
-  searchBorder: '#dedfe2', placeholder: '#b9bdc3', searchIcon: '#c2c5c9',
+  focusOutline: 'transparent', searchBorder: '#dedfe2', placeholder: '#b9bdc3', searchIcon: '#c2c5c9',
   sheetTopRadius: 52, sheetBottomRadius: 64, searchRadius: 30, tileRadius: 16,
 } as const;
 
@@ -205,4 +205,15 @@ export const unlockMethodTheme = {
   copyFade: 'rgba(255,255,255,0)', surfaceFade: 'rgba(246,248,250,0)',
   copyBorder: '#e7e8eb', copyAction: '#4f91ce', copyPlaceholder: '#b0b5bd', copyRadius: 25,
   panelRadius: 44, cardRadius: 21, gridRadius: 19, stepperRadius: 20,
+} as const;
+
+export const strictTheme = {
+  surface: '#f6f8fa', backdrop: 'rgba(0,0,0,.13)', handle: '#dcdfe2', border: '#e3e5e8',
+  secondary: '#7b8698', blue: '#4b83ed', note: '#7d8797', countFill: '#f4f5f7',
+  gradient: ['#fa5851', '#ffaf46'], red: '#fb534b', orange: '#ffac49',
+  radius: 34, cardRadius: 21, tabRadius: 23,
+  surfaceFade: 'rgba(246,248,250,.9)',
+  alertBackdrop: 'rgba(0,0,0,.2)', alertCopy: '#595959', alertCancel: '#d0d0d0', alertPrimary: '#0088ff',
+  alertGradient: ['rgba(255,255,255,.46)', 'rgba(255,255,255,.82)'],
+  alertShadow: 'inset 0px 0px 0px 1px #ffffffa8, 0px 10px 30px #0000000c',
 } as const;

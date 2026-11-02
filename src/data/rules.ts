@@ -1,4 +1,4 @@
-import type { UnlockSettings } from './session';
+import type { StrictSettings, UnlockSettings } from './session';
 import type { SessionIconId } from './sessionIcons';
 import type { RulesVariant } from '@/state/app';
 
@@ -20,6 +20,7 @@ export type SessionRule = {
   unlockMinutes?: number;
   iconId?: SessionIconId;
   unlockSettings?: UnlockSettings;
+  strictSettings?: StrictSettings;
   id: string;
   emoji: 'laptop' | 'briefcase' | 'zap';
   title: string;

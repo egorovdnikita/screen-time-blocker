@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
   sheet: { flex: 1, marginHorizontal: 8, marginBottom: 8, backgroundColor: c.surface, borderTopLeftRadius: c.sheetTopRadius, borderTopRightRadius: c.sheetTopRadius, borderBottomLeftRadius: c.sheetBottomRadius, borderBottomRightRadius: c.sheetBottomRadius, overflow: 'hidden' },
   handle: { position: 'absolute', top: 11, alignSelf: 'center', width: 60, height: 5, borderRadius: 4, backgroundColor: c.handle },
   search: { marginTop: 73, marginHorizontal: 18, height: 52, borderRadius: c.searchRadius, borderWidth: 1, borderColor: c.searchBorder, flexDirection: 'row', alignItems: 'center', paddingLeft: 19, paddingRight: 12, gap: 7 },
-  input: { flex: 1, height: 50, padding: 0, fontSize: 14, fontWeight: '400', color: colors.black, outlineWidth: 0 },
+  input: { flex: 1, height: 50, padding: 0, fontSize: 14, fontWeight: '400', color: colors.black, outlineWidth: 0, outlineStyle: 'solid', outlineColor: c.focusOutline },
   clear: { width: 24, height: 40, alignItems: 'center', justifyContent: 'center' },
   grid: { paddingLeft: 19, paddingRight: 20, paddingBottom: 12, flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
   tile: { height: 61.333, borderRadius: c.tileRadius, backgroundColor: colors.white, alignItems: 'center', justifyContent: 'center' },
