@@ -1,5 +1,13 @@
 // Растр из макетов (@3x).
 export const art = {
+  helpHeader: require('../../assets/art/help/header.png'),
+  helpTopic0: require('../../assets/art/help/help-topic-0.png'),
+  helpTopic1: require('../../assets/art/help/help-topic-1.png'),
+  helpTopic2: require('../../assets/art/help/help-topic-2.png'),
+  helpTopic3: require('../../assets/art/help/help-topic-3.png'),
+  helpTopic4: require('../../assets/art/help/help-topic-4.png'),
+  helpTopic5: require('../../assets/art/help/help-topic-5.png'),
+
   blockScreenAlternatives: require('../../assets/art/block-screens/block-screen-alternatives.png'),
   blockScreenQuoteCheck: require('../../assets/art/block-screens/block-screen-quote-check.png'),
   blockScreenQuotePlant: require('../../assets/art/block-screens/block-screen-quote-plant.png'),

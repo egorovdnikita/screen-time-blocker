@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import { MainSettings } from '../settings/MainSettings';
 import { Image, type ImageSource } from 'expo-image';
 import { Pressable, ScrollView, StyleSheet, useWindowDimensions, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -15,6 +17,7 @@ import { colors, insetBorder, radii, shadows } from '@/theme/tokens';
 const SKY_RATIO = 2556 / 1179;
 
 export function ProfileScreen() {
+  const [settings, setSettings] = useState(false);
   const insets = useSafeAreaInsets();
   const { width } = useWindowDimensions();
   const { onScroll } = useSkyStatusBar();
@@ -23,6 +26,7 @@ export function ProfileScreen() {
 
   return (
     <View style={styles.root}>
+      {settings && <MainSettings onClose={() => setSettings(false)} />}
       <ScrollView
         onScroll={onScroll}
         scrollEventThrottle={32}
@@ -35,7 +39,7 @@ export function ProfileScreen() {
           <T variant="display" size={29} ls={0} color={colors.white} onSky style={{ marginTop: 3 }}>
             Профиль
           </T>
-          <RoundButton variant="glass" icon="ellipsis" iconWidth={20} iconHeight={7} accessibilityLabel="Ещё" />
+          <RoundButton variant="glass" icon="ellipsis" iconWidth={20} iconHeight={7} accessibilityLabel="Настройки профиля" onPress={() => setSettings(true)} />
         </View>
 
         <View style={styles.identity}>
