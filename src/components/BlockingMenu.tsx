@@ -8,12 +8,12 @@ import { PressScale } from './motion';
 import { T } from '@/theme/typography';
 import { colors, sessionTheme as c } from '@/theme/tokens';
 
-const options: { title: string; hint: string; icon: IconName; color: string; mode?: 'immediate' | 'scheduled' | 'lock' | 'limit' }[] = [
+const options: { title: string; hint: string; icon: IconName; color: string; mode?: 'immediate' | 'scheduled' | 'lock' | 'limit' | 'routine' }[] = [
   { title: 'Прямо сейчас', hint: 'Например, на 30 минут', icon: 'blocking-timer', color: c.orange, mode: 'immediate' },
   { title: 'По расписанию', hint: 'Например, с 23:00 до 6:00', icon: 'blocking-scheduled', color: c.cyan, mode: 'scheduled' },
   { title: 'Лимит запусков', hint: 'Например, до 3 запусков в день', icon: 'blocking-viewfinder', color: c.red, mode: 'lock' },
   { title: 'Лимит времени', hint: 'Напр., после 15 минут в приложении', icon: 'blocking-clock', color: c.violet, mode: 'limit' },
-  { title: 'Выполнить привычки', hint: 'Например, 15 минут за тренировку', icon: 'blocking-checklist', color: c.green },
+  { title: 'Выполнить привычки', hint: 'Например, 15 минут за тренировку', icon: 'blocking-checklist', color: c.green, mode: 'routine' },
 ];
 
 export function BlockingMenu({ visible, onClose }: { visible: boolean; onClose: () => void }) {
@@ -27,7 +27,7 @@ export function BlockingMenu({ visible, onClose }: { visible: boolean; onClose: 
         <View style={styles.handle} />
         <T size={25} center ls={-.35} style={styles.title}>Блокировать</T>
         {options.map((item, i) => <PressScale key={item.title} accessibilityRole="button" accessibilityLabel={item.title} accessibilityHint={item.hint} accessibilityState={{ disabled: !item.mode }} disabled={!item.mode}
-          onPress={() => { onClose(); if (item.mode === 'lock') router.push('/lock'); else if (item.mode === 'limit') router.push('/limit'); else router.push({ pathname: '/session', params: { mode: item.mode } }); }}
+          onPress={() => { onClose(); if (item.mode === 'lock') router.push('/lock'); else if (item.mode === 'limit') router.push('/limit'); else if (item.mode === 'routine') router.push('/routine'); else router.push({ pathname: '/session', params: { mode: item.mode } }); }}
           style={[styles.row, i > 0 && styles.separator]}>
           <View style={[styles.icon, { backgroundColor: item.color }]}><Icon name={item.icon} width={item.icon === 'blocking-viewfinder' ? 31 : 28} height={28} color={colors.white} />{item.icon === 'blocking-viewfinder' && <Icon name="lock-fill" width={16} height={18} color={colors.white} style={{ position: 'absolute' }} />}</View>
           <View style={{ flex: 1 }}><T size={18} ls={-.2}>{item.title}</T><T size={13.5} weight={400} ls={-.1} style={{ marginTop: 1 }}>{item.hint}</T></View>

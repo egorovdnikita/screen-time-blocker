@@ -1,3 +1,4 @@
+import { useDarkStatusBar } from '@/components/useStatusBar';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
@@ -20,6 +21,7 @@ import { StrictSettingsSheet, StrictConfirmation, strictDaysLabel } from '../ses
 import { SingleAppPicker } from './SingleAppPicker';
 
 export function LockEditor() {
+  useDarkStatusBar();
   const [draft, setDraft] = useState(initialLock);
   const [picker, setPicker] = useState<'app' | 'duration' | 'method' | 'strict' | 'confirm' | null>(null);
   const insets = useSafeAreaInsets();

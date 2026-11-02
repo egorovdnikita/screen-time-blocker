@@ -8,15 +8,15 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { GroupExtraGlyphs } from '@/components/AppGroupSummary';
 import { Icon } from '@/components/Icon';
 import { animateLayout, PressScale } from '@/components/motion';
-import { cloneAppGroup, groupApps, groupCategories, groupSummary, hasGroupExtras, type AppGroupDraft, type AppCategoryId } from '@/data/appGroup';
+import { cloneAppGroup, groupApps, groupCategories, groupSummary, hasGroupExtras, hasGroupSelection, countLabel, type AppGroupDraft, type AppCategoryId } from '@/data/appGroup';
 import { art } from '@/data/art';
-import { colors, appGroupTheme as c } from '@/theme/tokens';
+import { colors, appGroupTheme as c, lockTheme, routineTheme } from '@/theme/tokens';
 import { T } from '@/theme/typography';
 import { AppGroupCheck } from './AppGroupCheck';
 import { AppGroupOptions } from './AppGroupOptions';
 
-type Props = { value: AppGroupDraft; onCancel: () => void; onConfirm: (group: AppGroupDraft) => void };
-export function AppGroupSheet({ value, onCancel, onConfirm }: Props) {
+type Props = { purpose?: 'group' | 'routine'; value: AppGroupDraft; onCancel: () => void; onConfirm: (group: AppGroupDraft) => void };
+export function AppGroupSheet({ value, onCancel, onConfirm, purpose = 'group' }: Props) {
   const [draft, setDraft] = useState(() => cloneAppGroup(value));
   const [optionsOpen, setOptionsOpen] = useState(false);
   const [expanded, setExpanded] = useState<AppCategoryId | null>(null);
@@ -27,7 +27,9 @@ export function AppGroupSheet({ value, onCancel, onConfirm }: Props) {
   const groupTop = Math.max(69, insets.top + 10);
   const [sheetHeight, setSheetHeight] = useState(height - groupTop);
   const search = useRef<ComponentRef<typeof TextInput>>(null);
-  const extra = hasGroupExtras(draft);
+  const routine = purpose === 'routine';
+  const extra = hasGroupExtras(routine ? { ...draft, categories: [] } : draft);
+  const summary = routine ? `Будет закрыто: ${draft.categories.length ? countLabel(draft.categories.length, 'категория', 'категории', 'категорий') : countLabel(draft.selectedApps.filter(Boolean).length, 'приложение', 'приложения', 'приложений')}` : groupSummary(draft);
   const compact = Platform.OS !== 'web' && searchFocused;
   const needle = query.trim().toLocaleLowerCase();
   const apps = groupApps.map((app, index) => ({ ...app, index })).filter(app => app.name.toLocaleLowerCase().includes(needle));
@@ -36,39 +38,39 @@ export function AppGroupSheet({ value, onCancel, onConfirm }: Props) {
   const patch = (update: Partial<AppGroupDraft>) => setDraft(group => ({ ...group, ...update }));
   const toggleCategory = (id: AppCategoryId) => {
     const selected = draft.categories.includes(id);
-    patch({ categories: selected ? draft.categories.filter(category => category !== id) : [...draft.categories, id], ...(id === 'social' ? { selectedApps: groupApps.map(() => !selected) } : {}) });
+    patch({ categories: selected ? draft.categories.filter(category => category !== id) : [...draft.categories, id], ...(!routine && id === 'social' ? { selectedApps: groupApps.map(() => !selected) } : {}) });
   };
   const toggleApp = (index: number) => patch({ selectedApps: draft.selectedApps.map((selected, i) => i === index ? !selected : selected), categories: draft.categories.filter(category => category !== 'social') });
   const toggleAll = () => patch({ selectedApps: groupApps.map(() => !all), categories: all ? [] : groupCategories.map(category => category.id) });
   const searchTop = Math.min(extra ? 594 : 612, Math.max(140, sheetHeight - (compact ? 64 : 171)));
-  return <SheetModal onClose={onCancel} backdrop={<View style={[StyleSheet.absoluteFill, { backgroundColor: optionsOpen ? c.optionsBackdrop : extra ? c.summaryBackdrop : c.backdrop }]} />}>
+  return <SheetModal onClose={onCancel} backdrop={<View style={[StyleSheet.absoluteFill, { backgroundColor: optionsOpen ? c.optionsBackdrop : routine ? lockTheme.backdrop : extra ? c.summaryBackdrop : c.backdrop }]} />}>
     <View pointerEvents="box-none" style={styles.root}>
       <View pointerEvents="none" style={[styles.back, { top: Math.max(59, insets.top) }]} />
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} pointerEvents="box-none" style={{ flex: 1 }}>
         <View pointerEvents="none" style={{ height: groupTop }} />
-        <View style={styles.sheet} onLayout={event => setSheetHeight(event.nativeEvent.layout.height)} accessibilityViewIsModal>
+        <View style={[styles.sheet, routine && { borderRadius: 44 }]} onLayout={event => setSheetHeight(event.nativeEvent.layout.height)} accessibilityViewIsModal>
           <View style={styles.handle} />
           <View style={[styles.header, compact && { marginTop: 20 }]}>
             <PressScale accessibilityRole="button" accessibilityLabel="Отменить группу приложений" onPress={onCancel} style={styles.close}><Icon name="session-clear" width={19} height={19} color={colors.black} /></PressScale>
-            <View style={styles.title}><Icon name="plus" width={17} height={17} color={c.title} /><T size={20} color={c.title} ls={0} numberOfLines={1} style={{ lineHeight: 28 }}>Группа приложений</T></View>
-            <PressScale accessibilityRole="button" accessibilityLabel="Сохранить группу приложений" onPress={() => onConfirm(cloneAppGroup(draft))} style={styles.confirm}><Icon name="group-check" width={26} height={26} color={colors.white} /></PressScale>
+            <View style={styles.title}><Icon name={routine ? "lock-up-down" : "plus"} width={routine ? 12 : 17} height={routine ? 16 : 17} color={routine ? lockTheme.note : c.title} /><T size={20} color={routine ? lockTheme.note : c.title} ls={0} numberOfLines={1} style={{ lineHeight: 28 }}>{routine ? 'Связать группу' : 'Группа приложений'}</T></View>
+            <PressScale accessibilityRole="button" accessibilityLabel="Сохранить группу приложений" disabled={routine && !hasGroupSelection(draft)} accessibilityState={{ disabled: routine && !hasGroupSelection(draft) }} onPress={() => onConfirm(cloneAppGroup(draft))} style={[styles.confirm, routine && !hasGroupSelection(draft) && { opacity: .5 }]}><Icon name="group-check" width={26} height={26} color={colors.white} /></PressScale>
           </View>
           {!compact && <>
             <View style={styles.modes}>{(['only', 'except'] as const).map(mode => <PressScale key={mode} accessibilityRole="radio" accessibilityLabel={mode === 'only' ? 'Только эти' : 'Все, кроме'} accessibilityState={{ checked: draft.mode === mode }} onPress={() => { animateLayout(); patch({ mode }); }} style={[styles.mode, draft.mode === mode && styles.modeOn]}><T size={14} ls={0}>{mode === 'only' ? 'Только эти' : 'Все, кроме'}</T></PressScale>)}</View>
-            <View style={[styles.summary, { height: extra ? 66 : 49, paddingTop: extra ? 14 : 0, justifyContent: extra ? 'flex-start' : 'center' }]}><T size={14} weight={400} color={c.summaryInk} ls={0} style={extra ? { lineHeight: 17 } : undefined}>{groupSummary(draft)}</T></View>
+            <View style={[styles.summary, { height: extra ? 66 : 49, paddingTop: extra ? 14 : 0, justifyContent: extra ? 'flex-start' : 'center' }]}><T size={14} weight={400} color={c.summaryInk} ls={0} style={extra ? { lineHeight: 17 } : undefined}>{summary}</T></View>
           </>}
           <View style={[styles.listClip, { marginTop: compact ? 20 : extra ? 52 : 53, height: Math.max(140, Math.min(430, sheetHeight - (compact ? 150 : 353))) }]}>
             <ScrollView keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: 10, paddingBottom: 80 }}>
-              {!needle && <View style={styles.row}><View style={{ marginLeft: 6 }}><AppGroupCheck checked={all} label="Выбрать все приложения и категории" onPress={toggleAll} category /></View><Image source={art.groupAll} style={styles.categoryIcon} /><PressScale accessibilityRole="button" accessibilityLabel="Приложения и категории" onPress={toggleAll} style={styles.rowName}><T size={17} weight={400} variant="display" ls={0} numberOfLines={1} style={{ lineHeight: 21 }}>Приложения и категории</T></PressScale></View>}
+              {!needle && <View style={styles.row}><View style={{ marginLeft: 6 }}><AppGroupCheck tint={routine ? routineTheme.radioOn : undefined} checked={all} label="Выбрать все приложения и категории" onPress={toggleAll} category /></View><Image source={art.groupAll} style={styles.categoryIcon} /><PressScale accessibilityRole="button" accessibilityLabel="Приложения и категории" onPress={toggleAll} style={styles.rowName}><T size={17} weight={400} variant="display" ls={0} numberOfLines={1} style={{ lineHeight: 21 }}>Приложения и категории</T></PressScale></View>}
               {categories.map(category => <Fragment key={category.id}>
-                <View style={styles.row}><View style={styles.separator} /><View style={{ marginLeft: 6 }}><AppGroupCheck checked={draft.categories.includes(category.id)} label={`Категория ${category.title}`} onPress={() => toggleCategory(category.id)} category /></View><Image source={category.image} style={styles.categoryIcon} />
+                <View style={styles.row}><View style={styles.separator} /><View style={{ marginLeft: 6 }}><AppGroupCheck tint={routine ? routineTheme.radioOn : undefined} checked={draft.categories.includes(category.id)} label={`Категория ${category.title}`} onPress={() => toggleCategory(category.id)} category /></View><Image source={category.image} style={styles.categoryIcon} />
                   <PressScale accessibilityRole="button" accessibilityLabel={category.title} accessibilityState={{ expanded: expanded === category.id }} onPress={() => { animateLayout(); setExpanded(current => current === category.id ? null : category.id); }} style={styles.rowName}><T size={17} weight={400} variant="display" ls={0} numberOfLines={1} style={{ lineHeight: 21 }}>{category.title}</T></PressScale>
-                  {category.id === 'social' && draft.selectedApps.some(Boolean) && <T size={18} weight={400} color={c.count} ls={0}>{draft.selectedApps.filter(Boolean).length}</T>}
+                  {routine && category.id === 'social' && draft.categories.includes('social') && <T size={18} weight={400} color={c.count} ls={0}>Все</T>}{category.id === 'social' && draft.selectedApps.some(Boolean) && <T size={18} weight={400} color={c.count} ls={0}>{draft.selectedApps.filter(Boolean).length}</T>}
                   <Icon name="group-chevron" width={12} height={16} color={c.chevron} style={{ marginRight: 4, marginLeft: 6, transform: [{ rotate: expanded === category.id ? '90deg' : '0deg' }] }} />
                 </View>
-                {expanded === category.id && (category.id === 'social' ? groupApps.map((app, index) => <View key={app.id} style={styles.appRow}><AppGroupCheck checked={draft.selectedApps[index]} label={app.name} onPress={() => toggleApp(index)} /><Image source={app.image} style={styles.categoryIcon} /><T size={16} weight={400} ls={0}>{app.name}</T></View>) : <T size={14} weight={400} color={c.secondary} ls={0} style={{ padding: 16 }}>Нет приложений</T>)}
+                {expanded === category.id && (category.id === 'social' ? groupApps.map((app, index) => <View key={app.id} style={styles.appRow}><AppGroupCheck tint={routine ? routineTheme.radioOn : undefined} checked={draft.selectedApps[index]} label={app.name} onPress={() => toggleApp(index)} /><Image source={app.image} style={styles.categoryIcon} /><T size={16} weight={400} ls={0}>{app.name}</T></View>) : <T size={14} weight={400} color={c.secondary} ls={0} style={{ padding: 16 }}>Нет приложений</T>)}
               </Fragment>)}
-              {!!needle && apps.map(app => <View key={app.id} style={styles.row}><View style={{ marginLeft: 6 }}><AppGroupCheck checked={draft.selectedApps[app.index]} label={app.name} onPress={() => toggleApp(app.index)} /></View><Image source={app.image} style={styles.categoryIcon} /><T size={17} weight={400} variant="display" ls={0}>{app.name}</T></View>)}
+              {!!needle && apps.map(app => <View key={app.id} style={styles.row}><View style={{ marginLeft: 6 }}><AppGroupCheck tint={routine ? routineTheme.radioOn : undefined} checked={draft.selectedApps[app.index]} label={app.name} onPress={() => toggleApp(app.index)} /></View><Image source={app.image} style={styles.categoryIcon} /><T size={17} weight={400} variant="display" ls={0}>{app.name}</T></View>)}
               {!!needle && !apps.length && !categories.length && <T size={14} weight={400} color={c.secondary} center style={{ paddingVertical: 24 }}>Ничего не найдено</T>}
             </ScrollView>
             {!needle && <LinearGradient pointerEvents="none" colors={[c.surfaceFade, c.surface, c.surface]} locations={[0, .9, 1]} style={styles.listFade} />}

@@ -158,6 +158,7 @@ export const sessionTheme = {
   dark: '#191919', rim: '#929393', line: 'rgba(110,120,130,.28)', badge: '#edf0f3',
   rowShadow: '0px 1px 2px #00000010, 0px 3px 10px #16203a04',
   buttonShadow: 'inset 0px 0px 0px .833px #929393, 0px 6px 16px #1018200a',
+  buttonGradient: ['#191919', '#181818', '#1b1b1b'], buttonDisabled: '#b3b4b8', buttonDisabledInk: '#cdced2', buttonDisabledSecondary: '#a9aaae',
   focusGradient: ['#21265e', '#9630a7'],
   sheetRadius: 40, rowRadius: 22, suggestionRadius: 20, side: 20,
 } as const;
@@ -261,4 +262,12 @@ export const timeLimitTheme = {
   dayBorder: '#e2e3e6', dayOff: '#c5cad0', disabled: '#b3b4b8', disabledInk: '#cdced2',
   stepper: '#e9eaed', stepperLine: '#c7c9cd', surfaceFade: 'rgba(246,248,250,0)',
   panelRadius: 22, gridRadius: 18, stepperRadius: 18,
+} as const;
+
+// Рутины131–139: routine-editor-fixes / habit-picker / routine-selected-states.
+export const routineTheme = {
+  group: '#9ba2ad', border: '#e1e5e9', edit: '#cbd0d6', note: '#7d8797', placeholder: '#b7bcc4',
+  segmentBorder: '#e3e4e7', muted: '#858b95', blue: '#3983ed', warning: '#e7a91d', warningFill: '#fff8e9',
+  warningDot: '#ffb200', radioOn: '#0095f5', addBorder: '#d9dce1', addFill: '#e8eaee', earnedFill: '#edf4ff', earned: '#4386e2',
+  line: '#eff0f2', badgeBorder: '#e5e6e9', pickerRadius: 44, cardRadius: 21,
 } as const;

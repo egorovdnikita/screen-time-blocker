@@ -1,3 +1,4 @@
+import type { RoutineDraft } from './routine';
 import type { TimeLimitDraft } from './timeLimit';
 import type { AppGroupDraft } from './appGroup';
 import type { StrictSettings, UnlockSettings } from './session';
@@ -47,7 +48,7 @@ export type LimitRule = {
   progress: number | null;
 };
 
-export type RoutineRule = { id: string; title: string };
+export type RoutineRule = { id: string; title: string; configuration?: RoutineDraft };
 
 export type Templates = 'classic' | 'gallery';
 

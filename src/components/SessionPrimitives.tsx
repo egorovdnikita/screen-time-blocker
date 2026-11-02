@@ -1,3 +1,4 @@
+import { LinearGradient } from 'expo-linear-gradient';
 import { Image } from 'expo-image';
 import { useEffect, useState, type ReactNode } from 'react';
 import { Animated, Platform, Pressable, StyleSheet, Switch, View } from 'react-native';
@@ -23,14 +24,14 @@ export function EditorRow({ title, value, expanded, onPress, children, emphasize
   </View>;
 }
 export function SessionAction({ children, onPress, primary, disabled }: { children: ReactNode; onPress: () => void; primary?: boolean; disabled?: boolean }) {
-  return <PressScale onPress={onPress} accessibilityRole="button" disabled={disabled} accessibilityState={{ disabled: !!disabled }} style={[styles.action, primary && styles.primary, disabled && { opacity: .4 }]}><T size={17} color={primary ? colors.white : c.ink} center>{children}</T></PressScale>;
+  return <PressScale onPress={onPress} accessibilityRole="button" disabled={disabled} accessibilityState={{ disabled: !!disabled }} style={[styles.action, primary && styles.primary, disabled && (primary ? { backgroundColor: c.buttonDisabled, boxShadow: 'none' } : { opacity: .65 })]}>{primary && !disabled && <LinearGradient pointerEvents="none" colors={c.buttonGradient} locations={[0, .65, 1]} start={{ x: .017, y: .37 }} end={{ x: .983, y: .63 }} style={StyleSheet.absoluteFill} />}<T size={17} color={disabled ? primary ? c.buttonDisabledInk : c.buttonDisabledSecondary : primary ? colors.white : c.ink} center>{children}</T></PressScale>;
 }
 const styles = StyleSheet.create({
   apps: { width: 51, height: 27, borderRadius: 16, backgroundColor: c.badge, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' },
   card: { backgroundColor: colors.white, borderRadius: c.rowRadius, boxShadow: c.rowShadow, overflow: 'hidden' },
   row: { minHeight: 59, paddingHorizontal: 17, flexDirection: 'row', alignItems: 'center', gap: 10 },
-  action: { flex: 1, height: 60, borderRadius: 30, backgroundColor: colors.white, justifyContent: 'center' },
-  primary: { backgroundColor: c.dark, boxShadow: c.buttonShadow },
+  action: { flex: 1, height: 60, borderRadius: 32, backgroundColor: colors.white, justifyContent: 'center' },
+  primary: { overflow: 'hidden', backgroundColor: c.dark, boxShadow: c.buttonShadow },
 });
 
 export function SessionNotice({ message, top }: { message: string; top: number }) {

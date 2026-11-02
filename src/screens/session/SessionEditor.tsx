@@ -1,3 +1,4 @@
+import { useDarkStatusBar } from '@/components/useStatusBar';
 import { StrictModeRow } from '@/components/StrictModeRow';
 import { SheetTransition } from '@/components/SheetModal';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -24,6 +25,7 @@ import { T, rounded } from '@/theme/typography';
 import { colors, sessionTheme as c } from '@/theme/tokens';
 
 export function SessionEditor() {
+  useDarkStatusBar();
   const { mode } = useLocalSearchParams<{ mode?: string }>();
   const insets = useSafeAreaInsets();
   const app = useAppState();

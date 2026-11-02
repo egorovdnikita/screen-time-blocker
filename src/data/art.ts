@@ -1,5 +1,15 @@
 // Растр из макетов (@3x).
 export const art = {
+  routinePlant: require('../../assets/art/routine/routine-plant.png'),
+  routineTemplateAdhd: require('../../assets/art/routine/routine-template-adhd.png'),
+  routineTemplateClean: require('../../assets/art/routine/routine-template-clean.png'),
+  routineTemplatePositive: require('../../assets/art/routine/routine-template-positive.png'),
+  habitPhone: require('../../assets/art/routine/habit-phone.png'),
+  habitBroom: require('../../assets/art/routine/habit-broom.png'),
+  habitLeaf: require('../../assets/art/routine/habit-leaf.png'),
+  habitClipboard: require('../../assets/art/routine/habit-clipboard.png'),
+  habitSoup: require('../../assets/art/routine/habit-soup.png'),
+
   timeLimitHourglass: require('../../assets/art/limit/hourglass.png'),
   timeLimitTemplateGentle: require('../../assets/art/limit/template-gentle.png'),
   timeLimitTemplateHard: require('../../assets/art/limit/template-hard.png'),
