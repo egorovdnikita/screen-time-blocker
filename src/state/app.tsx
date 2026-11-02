@@ -1,3 +1,4 @@
+import { cloneNamedGroup, type NamedAppGroup } from '@/data/namedGroups';
 import { initialReminders, type ReminderSettings } from '@/data/reminders';
 import { currentGoalDay, goalTimeLabel, boundedGoal } from '@/data/dailyGoal';
 import { reflectedDay } from '@/data/reflectionSummary';
@@ -17,6 +18,8 @@ export type OnboardingStep = 'tip-first-rule' | 'tip-add-more' | 'done';
 const LOADING_MS = 1400;
 
 type AppState = {
+  namedGroups: NamedAppGroup[];
+  saveNamedGroup: (group: NamedAppGroup) => void;
   showRuleRefreshDemo: () => void;
   ruleChanges: Record<string, RuleDetailChanges>;
   saveRuleDetails: (id: string, changes: RuleDetailChanges) => void;
@@ -117,6 +120,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const [createdLimits, setCreatedLimits] = useState<LimitRule[]>([]);
   const [createdLocks, setCreatedLocks] = useState<LockRule[]>([]);
   const [createdSessions, setCreatedSessions] = useState<SessionRule[]>([]);
+  const [namedGroups, setNamedGroups] = useState<NamedAppGroup[]>([]);
   const [savedTemplates, setSavedTemplates] = useState<SessionRule[]>([]);
   const [scenario, setScenarioRaw] = useState<Scenario>('regular');
   const [rulesVariant, setRulesVariant] = useState<RulesVariant>('full');
@@ -153,6 +157,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     setSavedRoutineTemplates([]);
     setSavedLimitTemplates([]);
     setSavedTemplates([]);
+    setNamedGroups([]);
     setScenarioRaw(s);
     setPeriod('today');
     setRefreshed(false);
@@ -211,6 +216,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     },
     setReflectionExcluded: (dayId, appId, excluded) => { touchReflectionDay(dayId); const key = reflectionKey(dayId, appId); setReflectionExcludedRaw(xs => excluded ? [...new Set([...xs, key])] : xs.filter(x => x !== key)); },
     customHabits, upsertHabit: habit => setCustomHabits(items => [...items.filter(h => h.id !== habit.id), { ...habit }]),
+    namedGroups, saveNamedGroup: group => setNamedGroups(xs => xs.some(x => x.id === group.id) ? xs.map(x => x.id === group.id ? cloneNamedGroup(group) : x) : [...xs, cloneNamedGroup(group)]),
     sessionNotice, createdSessions, savedTemplates, createdLocks, createdLimits, savedLimitTemplates, createdRoutines, savedRoutineTemplates,
     updateSessionTemplate: (id, changes) => { setSavedTemplates(xs => xs.map(x => x.id === id ? { ...x, title: changes.title, strict: changes.strict, strictSettings: { ...changes.strictSettings } } : x)); },
     deleteSessionTemplate: id => { setSavedTemplates(xs => xs.filter(x => x.id !== id)); if (noticeTimer.current) clearTimeout(noticeTimer.current); setSessionNotice('Шаблон удалён!'); noticeTimer.current = setTimeout(() => setSessionNotice(null), 2800); },

@@ -1,3 +1,4 @@
+import { RuleSettings } from './RuleSettings';
 import { TemplateGallery } from './TemplateGallery';
 import { SessionDetails, LimitDetails } from './SessionDetails';
 import { AppUnlockSheet } from '../unlocking/AppUnlockSheet';
@@ -51,6 +52,7 @@ export function RulesScreen() {
   const app = useAppState();
   const base = rulesVariants[app.rulesVariant];
   const data = { ...base, locks: [...app.createdLocks, ...base.locks], limits: [...app.createdLimits, ...base.limits], routines: [...app.createdRoutines, ...base.routines], sessions: [...app.createdSessions, ...base.sessions], active: activeRuleCount(base, app) };
+  const [settingsOpen, setSettingsOpen] = useState(false);
   const [demoOpen, setDemoOpen] = useState(false);
   const scrollRef = useRef<ComponentRef<typeof ScrollView>>(null);
   const templatesTop = useRef(0);
@@ -163,6 +165,7 @@ export function RulesScreen() {
             iconWidth={20}
             iconHeight={7}
             accessibilityLabel="Ещё"
+            onPress={() => setSettingsOpen(true)}
             onLongPress={() => setDemoOpen(true)}
           />
         </View>
@@ -172,6 +175,7 @@ export function RulesScreen() {
       {app.sessionNotice && <SessionNotice message={app.sessionNotice} top={Math.max(insets.top, 59) + 13} />}
 
       <Tips step={tips} firstCardBottom={firstCardBottom} onNext={app.advanceOnboarding} />
+      {settingsOpen && <RuleSettings onClose={() => setSettingsOpen(false)} />}
       <DemoMenu visible={demoOpen} onClose={() => setDemoOpen(false)} />
     </View>
   );

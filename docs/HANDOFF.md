@@ -344,3 +344,12 @@ GlassDialog общий предупреждению лимита/БЕТА нап
 208–209: TemplateGallery из кнопки Шаблоны/Ещё. Фиксированный header+tabs, вертикальная/горизонтальная прокрутка, фильтры, реальные personal templates и6built-in presets. data/gallery.ts создаёт SessionDraft для work/focus/wind/morning/intention; URLpreset в SessionEditor, лимит60мин через TimeLimitEditor. Preset открывает редактор, не создаёт правило без просмотра. Карточка личного шаблона переиспользует SavedTemplateCard action=start. Дни/приложения/значения остаются реальными.
 
 Фотографии gallery assets очищены от запечённых pill/button локальным OpenCV (временныйvenv, не dependencyExpo), native UI поверх. gen-gallery-art.py воспроизводит восстановление; оно приблизительное. Все2состояния просмотреныChrome, check-gallery/template-details/typecheck/lint/web-export/iOS bundle. iPhone не проверен. Всего36новых состояний в большом заходе:129,169–185,190–202,208–212.203–207 фото/AI не имитировать. Следующее: troubleshooting213–217/оставшиеся OS-зависимые и onboarding; проверить реальное покрытие до утверждения100%.
+
+
+## Настройки правил и сохранённые группы — 2026-11-03
+
+219–228:10состояний, RuleSettings по короткому Ещё в Правилах (longPressDemo сохранён), NamedAppGroups CRUDсоздание/переименование, AppGroupSheet purpose=named и выбор сохранённой группы по заголовку для group/routine. renderEditor разрывает цикл импортов; копии данных изолированы. Категории в named не выбирают автоматически социальные приложения; summary/countAll по исходнику. Реальная клавиатура вместо raster224/225. Экраны блокировки/квоты пока readonly, legacy Shortcuts disabled. NativeSwitch сохранён.
+
+StatusBar: useFocusedStatusBar push/replace/popStackEntry RN вместо setStatusBarStyle. Запись маршрута ниже модальных, после закрытия восстанавливается нужный цвет, Webguard (уRNWebнетэтихAPI). PlainSettingsSheet задаёт style через StatusBarcomponent, namedlight. check-status-bar логически проверяет вложенные слои; физическийiPhoneнепроверен. Документация/API проверены поRNStatusBar и установленнойRN0.88.1.
+
+10пар просмотреныChrome, named-groups/app-group/routine/app-unlock/goal-reminders/typecheck/lint/web-export/iOS bundle. Всеограничения в docs/reviews/2026-11-03-named-groups/README.md. Всего46новыхсостояний зазаход, не100%проекта. Далее229–244: block-screen localsettings/previews/custommessage. package-lock пользовательский, некоммитить.

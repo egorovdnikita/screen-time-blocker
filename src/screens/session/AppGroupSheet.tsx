@@ -1,3 +1,5 @@
+import { NamedAppGroups } from '../rules/NamedAppGroups';
+import { namedGroupSummary } from '@/data/namedGroups';
 import { SheetModal } from '@/components/SheetModal';
 import { BlurView } from 'expo-blur';
 import { Image } from 'expo-image';
@@ -10,14 +12,15 @@ import { Icon } from '@/components/Icon';
 import { animateLayout, PressScale } from '@/components/motion';
 import { cloneAppGroup, groupApps, groupCategories, groupSummary, hasGroupExtras, hasGroupSelection, countLabel, type AppGroupDraft, type AppCategoryId } from '@/data/appGroup';
 import { art } from '@/data/art';
-import { colors, appGroupTheme as c, lockTheme, routineTheme } from '@/theme/tokens';
+import { colors, appGroupTheme as c, lockTheme, routineTheme, namedGroupTheme } from '@/theme/tokens';
 import { T } from '@/theme/typography';
 import { AppGroupCheck } from './AppGroupCheck';
 import { AppGroupOptions } from './AppGroupOptions';
 
-type Props = { purpose?: 'group' | 'routine'; value: AppGroupDraft; onCancel: () => void; onConfirm: (group: AppGroupDraft) => void };
-export function AppGroupSheet({ value, onCancel, onConfirm, purpose = 'group' }: Props) {
+type Props = { purpose?: 'group' | 'routine' | 'named'; name?: string; onRename?: () => void; value: AppGroupDraft; onCancel: () => void; onConfirm: (group: AppGroupDraft) => void };
+export function AppGroupSheet({ value, onCancel, onConfirm, purpose = 'group', name, onRename }: Props) {
   const [draft, setDraft] = useState(() => cloneAppGroup(value));
+  const [catalogOpen, setCatalogOpen] = useState(false);
   const [optionsOpen, setOptionsOpen] = useState(false);
   const [expanded, setExpanded] = useState<AppCategoryId | null>(null);
   const [query, setQuery] = useState('');
@@ -28,8 +31,9 @@ export function AppGroupSheet({ value, onCancel, onConfirm, purpose = 'group' }:
   const [sheetHeight, setSheetHeight] = useState(height - groupTop);
   const search = useRef<ComponentRef<typeof TextInput>>(null);
   const routine = purpose === 'routine';
-  const extra = hasGroupExtras(routine ? { ...draft, categories: [] } : draft);
-  const summary = routine ? `Будет закрыто: ${draft.categories.length ? countLabel(draft.categories.length, 'категория', 'категории', 'категорий') : countLabel(draft.selectedApps.filter(Boolean).length, 'приложение', 'приложения', 'приложений')}` : groupSummary(draft);
+  const named = purpose === 'named';
+  const extra = hasGroupExtras(routine || named ? { ...draft, categories: [] } : draft);
+  const summary = named ? namedGroupSummary(draft) : routine ? `Будет закрыто: ${draft.categories.length ? countLabel(draft.categories.length, 'категория', 'категории', 'категорий') : countLabel(draft.selectedApps.filter(Boolean).length, 'приложение', 'приложения', 'приложений')}` : groupSummary(draft);
   const compact = Platform.OS !== 'web' && searchFocused;
   const needle = query.trim().toLocaleLowerCase();
   const apps = groupApps.map((app, index) => ({ ...app, index })).filter(app => app.name.toLocaleLowerCase().includes(needle));
@@ -38,7 +42,7 @@ export function AppGroupSheet({ value, onCancel, onConfirm, purpose = 'group' }:
   const patch = (update: Partial<AppGroupDraft>) => setDraft(group => ({ ...group, ...update }));
   const toggleCategory = (id: AppCategoryId) => {
     const selected = draft.categories.includes(id);
-    patch({ categories: selected ? draft.categories.filter(category => category !== id) : [...draft.categories, id], ...(!routine && id === 'social' ? { selectedApps: groupApps.map(() => !selected) } : {}) });
+    patch({ categories: selected ? draft.categories.filter(category => category !== id) : [...draft.categories, id], ...(!routine && !named && id === 'social' ? { selectedApps: groupApps.map(() => !selected) } : {}) });
   };
   const toggleApp = (index: number) => patch({ selectedApps: draft.selectedApps.map((selected, i) => i === index ? !selected : selected), categories: draft.categories.filter(category => category !== 'social') });
   const toggleAll = () => patch({ selectedApps: groupApps.map(() => !all), categories: all ? [] : groupCategories.map(category => category.id) });
@@ -48,16 +52,16 @@ export function AppGroupSheet({ value, onCancel, onConfirm, purpose = 'group' }:
       <View pointerEvents="none" style={[styles.back, { top: Math.max(59, insets.top) }]} />
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} pointerEvents="box-none" style={{ flex: 1 }}>
         <View pointerEvents="none" style={{ height: groupTop }} />
-        <View style={[styles.sheet, routine && { borderRadius: 44 }]} onLayout={event => setSheetHeight(event.nativeEvent.layout.height)} accessibilityViewIsModal>
-          <View style={styles.handle} />
+        <View style={[styles.sheet, (routine || named) && { borderRadius: 44 }]} onLayout={event => setSheetHeight(event.nativeEvent.layout.height)} accessibilityViewIsModal>
+          <View style={[styles.handle, named && { width: 63, top: 12 }]} />
           <View style={[styles.header, compact && { marginTop: 20 }]}>
             <PressScale accessibilityRole="button" accessibilityLabel="Отменить группу приложений" onPress={onCancel} style={styles.close}><Icon name="session-clear" width={19} height={19} color={colors.black} /></PressScale>
-            <View style={styles.title}><Icon name={routine ? "lock-up-down" : "plus"} width={routine ? 12 : 17} height={routine ? 16 : 17} color={routine ? lockTheme.note : c.title} /><T size={20} color={routine ? lockTheme.note : c.title} ls={0} numberOfLines={1} style={{ lineHeight: 28 }}>{routine ? 'Связать группу' : 'Группа приложений'}</T></View>
-            <PressScale accessibilityRole="button" accessibilityLabel="Сохранить группу приложений" disabled={routine && !hasGroupSelection(draft)} accessibilityState={{ disabled: routine && !hasGroupSelection(draft) }} onPress={() => onConfirm(cloneAppGroup(draft))} style={[styles.confirm, routine && !hasGroupSelection(draft) && { opacity: .5 }]}><Icon name="group-check" width={26} height={26} color={colors.white} /></PressScale>
+            <PressScale accessibilityRole="button" accessibilityLabel={named ? "Переименовать группу" : "Выбрать сохранённую группу"} onPress={() => named ? onRename?.() : setCatalogOpen(true)} style={[styles.title, named && { paddingTop: 2 }]}>{named ? <Image source={art.namedGroupForbidden} style={{ width: 22, height: 22 }} /> : <Icon name={routine ? "lock-up-down" : "plus"} width={routine ? 12 : 17} height={routine ? 16 : 17} color={routine ? lockTheme.note : c.title} />}<T size={20} color={named ? colors.black : routine ? lockTheme.note : c.title} ls={0} numberOfLines={1} style={{ lineHeight: 28 }}>{named ? name : routine ? 'Связать группу' : 'Группа приложений'}</T>{named && <Icon name="pencil" width={16} height={18} style={{ opacity: .22 }} />}</PressScale>
+            <PressScale accessibilityRole="button" accessibilityLabel="Сохранить группу приложений" disabled={(routine || named) && !hasGroupSelection(draft)} accessibilityState={{ disabled: (routine || named) && !hasGroupSelection(draft) }} onPress={() => onConfirm(cloneAppGroup(draft))} style={[styles.confirm, routine && !hasGroupSelection(draft) && { opacity: .5 }, named && !hasGroupSelection(draft) && { backgroundColor: namedGroupTheme.disabled }]}><Icon name="group-check" width={named ? 21 : 26} height={named ? 23 : 26} color={colors.white} /></PressScale>
           </View>
           {!compact && <>
-            <View style={styles.modes}>{(['only', 'except'] as const).map(mode => <PressScale key={mode} accessibilityRole="radio" accessibilityLabel={mode === 'only' ? 'Только эти' : 'Все, кроме'} accessibilityState={{ checked: draft.mode === mode }} onPress={() => { animateLayout(); patch({ mode }); }} style={[styles.mode, draft.mode === mode && styles.modeOn]}><T size={14} ls={0}>{mode === 'only' ? 'Только эти' : 'Все, кроме'}</T></PressScale>)}</View>
-            <View style={[styles.summary, { height: extra ? 66 : 49, paddingTop: extra ? 14 : 0, justifyContent: extra ? 'flex-start' : 'center' }]}><T size={14} weight={400} color={c.summaryInk} ls={0} style={extra ? { lineHeight: 17 } : undefined}>{summary}</T></View>
+            <View style={styles.modes}>{(['only', 'except'] as const).map(mode => <PressScale key={mode} accessibilityRole="radio" accessibilityLabel={mode === 'only' ? 'Только эти' : 'Все, кроме'} accessibilityState={{ checked: draft.mode === mode }} onPress={() => { animateLayout(); patch({ mode }); }} style={[styles.mode, draft.mode === mode && styles.modeOn]}><T size={14} ls={0}>{mode === 'only' ? named ? 'Только' : 'Только эти' : 'Все, кроме'}</T></PressScale>)}</View>
+            <View style={[styles.summary, { height: extra ? 66 : named ? 49.333 : 49, paddingTop: extra ? 14 : 0, justifyContent: extra ? 'flex-start' : 'center' }]}><T size={named ? 13 : 14} weight={400} color={c.summaryInk} ls={0} style={extra ? { lineHeight: 17 } : named ? { lineHeight: 18 } : undefined}>{summary}</T></View>
           </>}
           <View style={[styles.listClip, { marginTop: compact ? 20 : extra ? 52 : 53, height: Math.max(140, Math.min(430, sheetHeight - (compact ? 150 : 353))) }]}>
             <ScrollView keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: 10, paddingBottom: 80 }}>
@@ -65,7 +69,7 @@ export function AppGroupSheet({ value, onCancel, onConfirm, purpose = 'group' }:
               {categories.map(category => <Fragment key={category.id}>
                 <View style={styles.row}><View style={styles.separator} /><View style={{ marginLeft: 6 }}><AppGroupCheck tint={routine ? routineTheme.radioOn : undefined} checked={draft.categories.includes(category.id)} label={`Категория ${category.title}`} onPress={() => toggleCategory(category.id)} category /></View><Image source={category.image} style={styles.categoryIcon} />
                   <PressScale accessibilityRole="button" accessibilityLabel={category.title} accessibilityState={{ expanded: expanded === category.id }} onPress={() => { animateLayout(); setExpanded(current => current === category.id ? null : category.id); }} style={styles.rowName}><T size={17} weight={400} variant="display" ls={0} numberOfLines={1} style={{ lineHeight: 21 }}>{category.title}</T></PressScale>
-                  {routine && category.id === 'social' && draft.categories.includes('social') && <T size={18} weight={400} color={c.count} ls={0}>Все</T>}{category.id === 'social' && draft.selectedApps.some(Boolean) && <T size={18} weight={400} color={c.count} ls={0}>{draft.selectedApps.filter(Boolean).length}</T>}
+                  {(named || (routine && category.id === 'social')) && draft.categories.includes(category.id) && <T size={named ? 17 : 18} weight={400} variant={named ? "display" : "rounded"} color={c.count} ls={0}>Все</T>}{category.id === 'social' && draft.selectedApps.some(Boolean) && <T size={18} weight={400} color={c.count} ls={0}>{draft.selectedApps.filter(Boolean).length}</T>}
                   <Icon name="group-chevron" width={12} height={16} color={c.chevron} style={{ marginRight: 4, marginLeft: 6, transform: [{ rotate: expanded === category.id ? '90deg' : '0deg' }] }} />
                 </View>
                 {expanded === category.id && (category.id === 'social' ? groupApps.map((app, index) => <View key={app.id} style={styles.appRow}><AppGroupCheck tint={routine ? routineTheme.radioOn : undefined} checked={draft.selectedApps[index]} label={app.name} onPress={() => toggleApp(index)} /><Image source={app.image} style={styles.categoryIcon} /><T size={16} weight={400} ls={0}>{app.name}</T></View>) : <T size={14} weight={400} color={c.secondary} ls={0} style={{ padding: 16 }}>Нет приложений</T>)}
@@ -82,11 +86,12 @@ export function AppGroupSheet({ value, onCancel, onConfirm, purpose = 'group' }:
             {query ? <PressScale accessibilityRole="button" accessibilityLabel="Очистить поиск приложений" onPress={() => setQuery('')} style={{ width: 20, height: 40, justifyContent: 'center' }}><Icon name="session-clear" width={14} height={14} color={c.secondary} /></PressScale> : <Icon name="group-microphone" width={20} height={23} color={colors.black} />}
           </View>
           {!compact && <PressScale accessibilityRole="button" accessibilityLabel="Дополнительные параметры и сайты" onPress={() => setOptionsOpen(true)} style={[styles.extra, { height: extra ? 68 : 50, bottom: Math.max(extra ? 37 : 38, insets.bottom + 4) }]}>
-            {extra ? <><T size={14} weight={400} variant="display" ls={0} style={{ width: 172, lineHeight: 18 }}>Другие параметры{'\n'}и сайты</T><GroupExtraGlyphs group={draft} /></> : <T size={14} weight={400} variant="display" ls={0}>Дополнительные параметры и сайты</T>}
+            {extra ? <><T size={14} weight={400} variant="display" ls={0} style={{ width: 172, lineHeight: 18 }}>Другие параметры{'\n'}и сайты</T><GroupExtraGlyphs group={draft} /></> : <T size={14} weight={400} variant="display" ls={0}>{named ? 'Другие настройки и сайты' : 'Дополнительные параметры и сайты'}</T>}
             <Icon name="group-chevron" width={12} height={16} color={c.chevron} style={{ position: 'absolute', right: 16 }} />
           </PressScale>}
         </View>
       </KeyboardAvoidingView>
+      {catalogOpen && <NamedAppGroups renderEditor={props => <AppGroupSheet {...props} purpose="named" />} onClose={() => setCatalogOpen(false)} onSelect={group => { setDraft(cloneAppGroup(group)); setCatalogOpen(false); }} />}
       {optionsOpen && <AppGroupOptions group={draft} onChange={patch} onClose={() => setOptionsOpen(false)} />}
     </View>
   </SheetModal>;

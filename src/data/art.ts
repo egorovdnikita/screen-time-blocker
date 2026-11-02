@@ -1,5 +1,7 @@
 // Растр из макетов (@3x).
 export const art = {
+  namedGroupForbidden: require('../../assets/art/named-groups/forbidden.png'),
+  namedGroupGrass: require('../../assets/art/named-groups/grass.png'),
   galleryWork: require('../../assets/art/gallery/work.png'),
   galleryFocus: require('../../assets/art/gallery/focus.png'),
   galleryIntention: require('../../assets/art/gallery/intention.png'),

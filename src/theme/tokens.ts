@@ -337,3 +337,6 @@ export const ruleDetailTheme = {
 export const refreshAlertTheme = { surface: '#f9f9f9bd', ink: '#85858a', button: '#d0d0d0', radius: 31.623 };
 
 export const galleryTheme = { surface: '#f5f7f9', selected: '#4b82ee', border: '#e2e5e8', muted: '#7d8797', section: '#959eab', glass: '#17191a55', glassRim: '#ffffff40' };
+
+export const namedGroupTheme = { handle: '#d9dadd', title: '#959eab', caption: '#7d8797', surface: '#f5f7f9', dim: '#0002', field: '#17191a', disabled: '#a1c2f7', toast: '#58c36c', toastShadow: '0 12px 25px #17202a0a', formRadius: 44 };
+export const ruleSettingsTheme = { caption: '#7d8797', section: '#959eab', collapsed: '#c4cad2', line: '#f0f2f4' };
