@@ -18,13 +18,13 @@ export function SheetTransition({ backdrop, children, shown = true }: { backdrop
   </View>;
 }
 
-export function SheetModal({ backdrop, children, onClose, visible = true }: { backdrop: ReactNode; children: ReactNode; onClose: () => void; visible?: boolean }) {
+export function SheetModal({ backdrop, children, onClose, visible = true, onShown }: { backdrop: ReactNode; children: ReactNode; onClose: () => void; visible?: boolean; onShown?: () => void }) {
   // Отдельный экземпляр на каждое открытие запускает анимацию после onShow.
-  return visible ? <PresentedSheet backdrop={backdrop} onClose={onClose}>{children}</PresentedSheet> : null;
+  return visible ? <PresentedSheet backdrop={backdrop} onClose={onClose} onShown={onShown}>{children}</PresentedSheet> : null;
 }
-function PresentedSheet({ backdrop, children, onClose }: { backdrop: ReactNode; children: ReactNode; onClose: () => void }) {
+function PresentedSheet({ backdrop, children, onClose, onShown }: { backdrop: ReactNode; children: ReactNode; onClose: () => void; onShown?: () => void }) {
   const [shown, setShown] = useState(false);
-  return <Modal transparent animationType="none" onShow={() => setShown(true)} onRequestClose={onClose}>
+  return <Modal transparent animationType="none" onShow={() => { setShown(true); onShown?.(); }} onRequestClose={onClose}>
     <SheetTransition backdrop={backdrop} shown={shown}>{children}</SheetTransition>
   </Modal>;
 }

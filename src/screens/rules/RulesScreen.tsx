@@ -1,4 +1,4 @@
-import { habits } from '@/data/routine';
+import { routineHabits } from '@/data/routine';
 import { router } from 'expo-router';
 import { lockApp } from '@/data/lockRule';
 import { Image } from 'expo-image';
@@ -312,7 +312,7 @@ function Progress({ value }: { value: number }) {
 function RoutineCard({ rule }: { rule: RoutineRule }) {
   const [done, setDone] = useState(false);
   const config = rule.configuration;
-  const tasks = config ? habits.filter(h => config.habitIds.includes(h.id)) : [{ id: 'demo', title: 'Убрать в комнате', minutes: 5 }];
+  const tasks = config ? routineHabits(config) : [{ id: 'demo', title: 'Убрать в комнате', minutes: 5 }];
   const appCount = config ? config.appGroup.selectedApps.filter(Boolean).length + config.appGroup.categories.length : 1;
   return <RuleCard style={[styles.wideCard, { marginTop: 10, paddingBottom: 8 }]}>
     <RuleHeader emoji={<Image source={art.emojiPlant} style={{ width: 21, height: 31 }} />} title={rule.title} streak={1} />

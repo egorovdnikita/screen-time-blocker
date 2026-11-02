@@ -1,5 +1,7 @@
 // Растр из макетов (@3x).
 export const art = {
+  habitCamera: require('../../assets/art/habit/camera.png'),
+  habitShower: require('../../assets/art/habit/shower.png'),
   routinePlant: require('../../assets/art/routine/routine-plant.png'),
   routineTemplateAdhd: require('../../assets/art/routine/routine-template-adhd.png'),
   routineTemplateClean: require('../../assets/art/routine/routine-template-clean.png'),

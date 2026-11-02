@@ -268,6 +268,14 @@ export const timeLimitTheme = {
 export const routineTheme = {
   group: '#9ba2ad', border: '#e1e5e9', edit: '#cbd0d6', note: '#7d8797', placeholder: '#b7bcc4',
   segmentBorder: '#e3e4e7', muted: '#858b95', blue: '#3983ed', warning: '#e7a91d', warningFill: '#fff8e9',
-  warningDot: '#ffb200', radioOn: '#0095f5', addBorder: '#d9dce1', addFill: '#e8eaee', earnedFill: '#edf4ff', earned: '#4386e2',
+  completionBlue: '#4c82eb', warningDot: '#ffb200', radioOn: '#0095f5', addBorder: '#d9dce1', addFill: '#e8eaee', earnedFill: '#edf4ff', earned: '#4386e2',
   line: '#eff0f2', badgeBorder: '#e5e6e9', pickerRadius: 44, cardRadius: 21,
+} as const;
+
+// Создание привычки143–145: habit-form.css.
+export const habitFormTheme = {
+  backdrop: '#c4c6c8', placeholder: '#bfc3c9', border: '#dfe1e5', ink: '#111111',
+  muted: '#858d9b', label: '#9ba2ad', edit: '#c3c8ce', badgeBorder: '#e5e6e9',
+  createBorder: '#d5d9df', createInk: '#858f9e', createFill: '#e4e7ec',
+  roundShadow: '0px 10px 25px #00000007', sectionRadius: 19, descriptionRadius: 22,
 } as const;

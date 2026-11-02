@@ -1,3 +1,4 @@
+import type { Habit } from '@/data/routine';
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 
 import type { LimitRule, LockRule, RoutineRule, SessionRule } from '@/data/rules';
@@ -12,6 +13,8 @@ export type OnboardingStep = 'tip-first-rule' | 'tip-add-more' | 'done';
 const LOADING_MS = 1400;
 
 type AppState = {
+  customHabits: Habit[];
+  upsertHabit: (habit: Habit) => void;
   sessionNotice: string | null;
   createdSessions: SessionRule[];
   createdLocks: LockRule[];
@@ -51,6 +54,7 @@ type AppState = {
 const Ctx = createContext<AppState | null>(null);
 
 export function AppStateProvider({ children }: { children: ReactNode }) {
+  const [customHabits, setCustomHabits] = useState<Habit[]>([]);
   const [sessionNotice, setSessionNotice] = useState<string | null>(null);
   const noticeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   useEffect(() => () => { if (noticeTimer.current) clearTimeout(noticeTimer.current); }, []);
@@ -92,6 +96,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     setCreatedLocks([]);
     setCreatedLimits([]);
     setCreatedRoutines([]);
+    setCustomHabits([]);
     setSavedRoutineTemplates([]);
     setSavedLimitTemplates([]);
     setSavedTemplates([]);
@@ -116,6 +121,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   }, [period, scenario, refreshed]);
 
   const value: AppState = {
+    customHabits, upsertHabit: habit => setCustomHabits(items => [...items.filter(h => h.id !== habit.id), { ...habit }]),
     sessionNotice, createdSessions, savedTemplates, createdLocks, createdLimits, savedLimitTemplates, createdRoutines, savedRoutineTemplates,
     addRoutine: (rule, template = false) => {
       if (noticeTimer.current) clearTimeout(noticeTimer.current);
