@@ -10,7 +10,7 @@ export const gallerySections = [
     { id: 'limit', title: 'Лимит времени', description: 'Ограничьте приложения\nодним часом в день.', badge: '1ч макс.', image: art.galleryLimit, kind: 'limit' },
   ] },
   { title: 'Сон, отдых, отключение', image: art.gallerySleep, cards: [
-    { id: 'wind', title: 'Вечерний отдых', description: 'Спите спокойно.\nБлок приложений\nна ночь.', badge: '22:00–6:00', image: art.galleryWind, kind: 'session' },
+    { id: 'wind', title: 'Вечерний отдых', description: 'Спите спокойно. Блок\nприложений на ночь.', badge: '22:00–6:00', image: art.galleryWind, kind: 'session' },
     { id: 'morning', title: 'Утро для себя', description: 'Без телефона до 9:00.\nНачните день спокойно.', badge: '6:00–9:00', image: art.galleryMorning, kind: 'session' },
   ] },
 ] as const;
