@@ -1,7 +1,7 @@
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useEffect, useRef, useState, type ComponentRef } from 'react';
-import { Animated, Pressable, ScrollView, StyleSheet, useWindowDimensions, View } from 'react-native';
+import { useRef, useEffect, useState, type ComponentRef } from 'react';
+import { Platform, Animated, Pressable, ScrollView, StyleSheet, useWindowDimensions, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Path } from 'react-native-svg';
 
@@ -45,7 +45,7 @@ export function HomeScreen() {
   const [demoOpen, setDemoOpen] = useState(false);
 
   // Страница героя: 0 — экранное время, 1 — качество. Свайп плавно меняет содержимое карточки.
-  const pageX = useRef(new Animated.Value(0)).current;
+  const [pageX] = useState(() => new Animated.Value(0));
   const page = pageX.interpolate({ inputRange: [0, width], outputRange: [0, 1], extrapolate: 'clamp' });
   // Новый день или загрузка — пейджер пересоздаётся на первой странице, карточка должна совпасть.
   useEffect(() => {
@@ -59,11 +59,11 @@ export function HomeScreen() {
     });
 
   // Иконка «Обновить» крутится, пока идёт загрузка.
-  const spin = useRef(new Animated.Value(0)).current;
+  const [spin] = useState(() => new Animated.Value(0));
   useEffect(() => {
     if (!loading) return;
     spin.setValue(0);
-    const loop = Animated.loop(Animated.timing(spin, { toValue: 1, duration: 900, useNativeDriver: true }));
+    const loop = Animated.loop(Animated.timing(spin, { toValue: 1, duration: 900, useNativeDriver: Platform.OS !== 'web' }));
     loop.start();
     return () => loop.stop();
   }, [loading, spin]);
@@ -113,7 +113,7 @@ export function HomeScreen() {
                 pagingEnabled
                 showsHorizontalScrollIndicator={false}
                 scrollEventThrottle={16}
-                onScroll={Animated.event([{ nativeEvent: { contentOffset: { x: pageX } } }], { useNativeDriver: true })}
+                onScroll={Animated.event([{ nativeEvent: { contentOffset: { x: pageX } } }], { useNativeDriver: Platform.OS !== 'web' })}
               >
                 <ScreenTimePage day={day} width={width} />
                 <QualityPage day={day} width={width} />

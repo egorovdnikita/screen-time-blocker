@@ -5,6 +5,7 @@ import { Animated, Pressable, ScrollView, StyleSheet, View, useWindowDimensions 
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Circle } from 'react-native-svg';
 
+import { SessionApps, SessionNotice } from '@/components/SessionPrimitives';
 import { BottomChrome, useBottomSpace } from '@/components/BottomChrome';
 import { DashedBox, DashedLine } from '@/components/Dashed';
 import { DemoMenu } from '@/components/DemoMenu';
@@ -39,7 +40,8 @@ export function RulesScreen() {
   const bottomSpace = useBottomSpace(true);
   const top = Math.max(insets.top, 20);
   const app = useAppState();
-  const data = rulesVariants[app.rulesVariant];
+  const base = rulesVariants[app.rulesVariant];
+  const data = { ...base, sessions: [...app.createdSessions, ...base.sessions], active: base.active + app.createdSessions.filter(s => s.status.kind === 'blocking').length };
   const [demoOpen, setDemoOpen] = useState(false);
 
   // Подсказка 1 привязана к первой карточке сессии.
@@ -138,6 +140,7 @@ export function RulesScreen() {
       </View>
 
       <BottomChrome start="rules" />
+      {app.sessionNotice && <SessionNotice message={app.sessionNotice} top={Math.max(insets.top, 20) + 13} />}
 
       <Tips step={tips} firstCardBottom={firstCardBottom} onNext={app.advanceOnboarding} />
       <DemoMenu visible={demoOpen} onClose={() => setDemoOpen(false)} />
@@ -209,7 +212,7 @@ function SessionCard({ rule }: { rule: SessionRule }) {
       <View style={[styles.bottomRow, { marginTop: 17 }]}>
         <Lock />
         <View style={styles.sessionApps}>
-          <Image source={rule.apps === 'first-rule' ? art.appsFirstRule : art.appsSession} style={{ width: 45, height: 21 }} />
+          {rule.selectedApps ? <SessionApps selected={rule.selectedApps} /> : <Image source={rule.apps === 'first-rule' ? art.appsFirstRule : art.appsSession} style={{ width: 45, height: 21 }} />}
         </View>
         {rule.unlock && (
           <PressScale style={styles.firstUnlock}>
@@ -256,7 +259,7 @@ function LimitCard({ rule }: { rule: LimitRule }) {
 }
 
 function Progress({ value }: { value: number }) {
-  const v = useRef(new Animated.Value(0)).current;
+  const [v] = useState(() => new Animated.Value(0));
   const [w, setW] = useState(0);
   return (
     <View
@@ -400,6 +403,7 @@ function MetaView({ meta }: { meta: Meta }) {
 // ——— Шаблоны ———
 
 function TemplatesShell({ children }: { children: React.ReactNode }) {
+  const app = useAppState();
   return (
     <View style={styles.tplBand}>
       <SectionHeader
@@ -414,6 +418,12 @@ function TemplatesShell({ children }: { children: React.ReactNode }) {
         }
       />
       <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.tplRow} decelerationRate="fast" snapToInterval={171.333 + 17.3}>
+        {app.savedTemplates.map(template => <PressScale key={template.id} accessibilityRole="button" accessibilityLabel={`Добавить шаблон ${template.title}`} onPress={() => app.addSession({ ...template, id: `session-${Date.now()}` })} style={styles.tplCard}><DashedBox radius={26} color={colors.dashTpl} style={{ flex: 1, backgroundColor: colors.white, padding: 16, justifyContent: 'flex-end' }}>
+          <Image source={art.sessionZap} style={{ width: 28, height: 38, marginBottom: 8 }} />
+          <T size={18}>{template.title}</T>
+          <T size={12} weight={400} style={{ marginTop: 6, marginBottom: 16 }}>{template.meta.kind === 'schedule' ? template.meta.time : template.meta.text.replace('Осталось ', '')}</T>
+          <T size={14.5}>+ Добавить</T>
+        </DashedBox></PressScale>)}
         {children}
       </ScrollView>
     </View>

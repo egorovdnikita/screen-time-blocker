@@ -31,6 +31,7 @@ function walk(dir) {
         found[f.slice(0, -4)] = fs
           .readFileSync(path.join(p, f), 'utf8')
           .trim()
+          .replace(/\sdata-[\w-]+="[^"]*"/g, '')
           .replace(/\s(width|height)="[^"]*"/g, '')
           .replace(/\n\s*/g, ' ');
       }

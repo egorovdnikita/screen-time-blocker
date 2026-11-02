@@ -1,7 +1,7 @@
 import { BlurView } from 'expo-blur';
 import type { BottomTabBarProps } from 'expo-router/js-tabs';
-import { useEffect, useRef, useState } from 'react';
-import { Animated, Pressable, StyleSheet, View } from 'react-native';
+import { useEffect, useState } from 'react';
+import { Platform, Animated, Pressable, StyleSheet, View } from 'react-native';
 
 import { rulesVariants } from '@/data/rules';
 import { useAppState } from '@/state/app';
@@ -37,14 +37,15 @@ const LOCK_IDLE: Record<number, IconName> = { 0: 'tab-lock', 1: 'tab-lock', 2: '
 
 export function TabBar({ state, emitter, navigateToTab, insets }: BottomTabBarProps) {
   const app = useAppState();
-  const active = Math.min(3, rulesVariants[app.rulesVariant].active);
+  const activeCount = rulesVariants[app.rulesVariant].active + app.createdSessions.filter(s => s.status.kind === 'blocking').length;
+  const active = Math.min(3, activeCount);
   const [width, setWidth] = useState(0);
   const count = state.routes.length;
   const step = width > 0 ? (width - PAD * 2 - PILL_W) / (count - 1) : 0;
 
-  const x = useRef(new Animated.Value(state.index)).current;
+  const [x] = useState(() => new Animated.Value(state.index));
   useEffect(() => {
-    Animated.spring(x, { toValue: state.index, useNativeDriver: true, bounciness: 6, speed: 16 }).start();
+    Animated.spring(x, { toValue: state.index, useNativeDriver: Platform.OS !== 'web', bounciness: 6, speed: 16 }).start();
   }, [state.index, x]);
 
   const onHome = state.routes[state.index]?.name === 'index';
@@ -90,16 +91,17 @@ export function TabBar({ state, emitter, navigateToTab, insets }: BottomTabBarPr
                 onPress={onPress}
                 accessibilityRole="tab"
                 accessibilityState={{ selected: focused }}
-                accessibilityLabel={spec.label}
+                accessibilityLabel={route.name === 'rules' ? `${spec.label}, активных: ${activeCount}` : spec.label}
                 style={[styles.item, { left: PAD + i * step }]}
               >
                 <View style={styles.iconBox}>
                   <Icon
-                    name={route.name === 'rules' ? (focused ? LOCK_ACTIVE : LOCK_IDLE)[active] : focused ? spec.iconActive : spec.icon}
+                    name={route.name === 'rules' ? (activeCount > 3 ? LOCK_ACTIVE[1] : (focused ? LOCK_ACTIVE : LOCK_IDLE)[active]) : focused ? spec.iconActive : spec.icon}
                     width={spec.w}
                     height={spec.h}
                     color={colors.tabInk}
                   />
+                  {route.name === 'rules' && activeCount > 3 && <View pointerEvents="none" style={{ position: 'absolute', left: 4.5, top: 10, width: 12, height: 12, borderRadius: 2, backgroundColor: colors.tabInk, justifyContent: 'center' }}><T size={9} color={colors.white} ls={0} center style={{ lineHeight: 12 }}>{activeCount > 99 ? '99+' : activeCount}</T></View>}
                 </View>
                 <T size={10.25} weight={focused ? 600 : 500} ls={TRACK_SMALL} color={colors.tabInk}>
                   {spec.label}

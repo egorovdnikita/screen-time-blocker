@@ -148,3 +148,16 @@ export const insetBorder = (color: string, width = 1.333) => `inset 0px 0px 0px 
 
 // Горизонтальное поле экрана в макете.
 export const GUTTER = 20;
+
+// Поток04: значения из session-editor.css и blocking-menu.css HTML-выгрузок.
+export const sessionTheme = {
+  backdrop: 'rgba(0,0,0,.52)', surface: '#f7f7f9', menu: 'rgba(250,250,252,.68)',
+  ink: '#111114', secondary: '#7a7f88', section: '#858b95', handle: '#e5e6e8',
+  orange: '#ffab13', cyan: '#22b8e8', red: '#ff5427', violet: '#bd69e8', green: '#12c67a',
+  strict: '#e1785c', blue: '#3983f0', off: '#c7c8ca', disabled: '#c5c7ca',
+  dark: '#191919', rim: '#929393', line: 'rgba(110,120,130,.28)', badge: '#edf0f3',
+  rowShadow: '0px 1px 2px #00000010, 0px 3px 10px #16203a04',
+  buttonShadow: 'inset 0px 0px 0px .833px #929393, 0px 6px 16px #1018200a',
+  focusGradient: ['#21265e', '#9630a7'],
+  sheetRadius: 40, rowRadius: 22, suggestionRadius: 20, side: 20,
+} as const;

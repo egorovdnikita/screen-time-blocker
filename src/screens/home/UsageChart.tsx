@@ -1,5 +1,5 @@
 import { Image } from 'expo-image';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Animated, Pressable, StyleSheet, View, type GestureResponderEvent } from 'react-native';
 
 import { Icon } from '@/components/Icon';
@@ -52,7 +52,7 @@ export function UsageChart({ data, onInsight }: Props) {
   const totalAt = (h: number) => stacked.filter((b) => b.h === h).reduce((s, b) => s + b.v, 0);
 
   // Рост столбиков при смене данных.
-  const grow = useRef(new Animated.Value(0)).current;
+  const [grow] = useState(() => new Animated.Value(0));
   useEffect(() => {
     grow.setValue(0);
     spring(grow, 1);

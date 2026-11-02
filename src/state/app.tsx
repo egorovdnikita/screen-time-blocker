@@ -1,5 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 
+import type { SessionRule } from '@/data/rules';
 import { dayActive, dayFirst, dayJune24, dayToday, dayTodayRefreshed, dayYesterday, type Day } from '@/data/home';
 
 // Сценарии показывают все состояния из макетов. Переключаются в демо-меню (долгое нажатие на «⋯»).
@@ -11,6 +12,10 @@ export type OnboardingStep = 'tip-first-rule' | 'tip-add-more' | 'done';
 const LOADING_MS = 1400;
 
 type AppState = {
+  sessionNotice: string | null;
+  createdSessions: SessionRule[];
+  savedTemplates: SessionRule[];
+  addSession: (session: SessionRule, template?: boolean) => void;
   scenario: Scenario;
   setScenario: (s: Scenario) => void;
   rulesVariant: RulesVariant;
@@ -38,6 +43,11 @@ type AppState = {
 const Ctx = createContext<AppState | null>(null);
 
 export function AppStateProvider({ children }: { children: ReactNode }) {
+  const [sessionNotice, setSessionNotice] = useState<string | null>(null);
+  const noticeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(() => () => { if (noticeTimer.current) clearTimeout(noticeTimer.current); }, []);
+  const [createdSessions, setCreatedSessions] = useState<SessionRule[]>([]);
+  const [savedTemplates, setSavedTemplates] = useState<SessionRule[]>([]);
   const [scenario, setScenarioRaw] = useState<Scenario>('regular');
   const [rulesVariant, setRulesVariant] = useState<RulesVariant>('full');
   const [period, setPeriod] = useState<PeriodId>('today');
@@ -63,6 +73,10 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
 
   const setScenario = useCallback((s: Scenario) => {
     if (timer.current) clearTimeout(timer.current);
+    setSessionNotice(null);
+    if (noticeTimer.current) clearTimeout(noticeTimer.current);
+    setCreatedSessions([]);
+    setSavedTemplates([]);
     setScenarioRaw(s);
     setPeriod('today');
     setRefreshed(false);
@@ -84,6 +98,14 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   }, [period, scenario, refreshed]);
 
   const value: AppState = {
+    sessionNotice, createdSessions, savedTemplates,
+    addSession: (session, template = false) => {
+      if (noticeTimer.current) clearTimeout(noticeTimer.current);
+      setSessionNotice(template ? 'Шаблон создан!' : session.status.kind === 'upcoming' ? 'Расписание добавлено!' : 'Сессия началась!');
+      noticeTimer.current = setTimeout(() => setSessionNotice(null), 2800);
+      if (template) setSavedTemplates(xs => [session, ...xs]);
+      else setCreatedSessions(xs => [session, ...xs]);
+    },
     scenario,
     setScenario,
     rulesVariant,

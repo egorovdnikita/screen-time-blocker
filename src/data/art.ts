@@ -1,5 +1,14 @@
 // Растр из макетов (@3x).
 export const art = {
+  sessionZap: require('../../assets/art/session/session-zap.png'),
+  sessionWork: require('../../assets/art/session/session-work-mode.png'),
+  sessionMeTime: require('../../assets/art/session/session-me-time.png'),
+  sessionScheduledWork: require('../../assets/art/session/template-work-hours.png'),
+  sessionWindDown: require('../../assets/art/session/template-wind-down.png'),
+  sessionXchat: require('../../assets/art/session/xchat.png'),
+  sessionMessages: require('../../assets/art/session/messages.png'),
+  sessionBereal: require('../../assets/art/session/bereal.png'),
+
   homeSky: require('../../assets/art/home-sky-day.png'),
   profileSky: require('../../assets/art/profile-sky.png'),
   appPhotos: require('../../assets/art/app-photos.png'),
