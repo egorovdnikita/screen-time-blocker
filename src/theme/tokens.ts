@@ -252,3 +252,13 @@ export const lockTheme = {
   searchShadow: '0px 12px 35px #26232e0a', counterShadow: '0px 6px 18px #00000007', backShadow: '0px 10px 25px #00000008',
   radius: 40, panelRadius: 44, categoryRadius: 28, searchRadius: 30, confirmRadius: 21, buttonRadius: 32,
 } as const;
+
+// Лимит времени114–130: time-limit-editor/fixes, limit-detail-states.
+export const timeLimitTheme = {
+  surface: '#f6f8fa', backdrop: '#747477', handle: '#d8dade', ink: '#141517', secondary: '#828a95',
+  subtitle: '#777f8d', hint: '#858b95', grid: '#f7f8fb', line: '#eceef2', value: '#818894',
+  warningFill: '#fff7e3', warning: '#f5a400', badge: '#f1f3f6', summary: '#e4e8f7', blue: '#3983ed',
+  dayBorder: '#e2e3e6', dayOff: '#c5cad0', disabled: '#b3b4b8', disabledInk: '#cdced2',
+  stepper: '#e9eaed', stepperLine: '#c7c9cd', surfaceFade: 'rgba(246,248,250,0)',
+  panelRadius: 22, gridRadius: 18, stepperRadius: 18,
+} as const;

@@ -1,0 +1,17 @@
+{
+  "geometry": {
+    "x": 36,
+    "y": 480,
+    "width": 321,
+    "height": 27
+  },
+  "cancel": true,
+  "threshold": true,
+  "max24h": true,
+  "days": true,
+  "extras": true,
+  "notification": true,
+  "created": true,
+  "template": true,
+  "errors": []
+}

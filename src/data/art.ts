@@ -1,5 +1,10 @@
 // Растр из макетов (@3x).
 export const art = {
+  timeLimitHourglass: require('../../assets/art/limit/hourglass.png'),
+  timeLimitTemplateGentle: require('../../assets/art/limit/template-gentle.png'),
+  timeLimitTemplateHard: require('../../assets/art/limit/template-hard.png'),
+  timeLimitTemplateThird: require('../../assets/art/limit/template-third.png'),
+
   lockPickerBereal: require('../../assets/art/lock/picker-bereal.png'),
   lockPickerFacetime: require('../../assets/art/lock/picker-facetime.png'),
   lockPickerMessages: require('../../assets/art/lock/picker-messages.png'),

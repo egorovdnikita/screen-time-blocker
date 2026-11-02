@@ -46,15 +46,21 @@ export function RulesScreen() {
   const top = Math.max(insets.top, 20);
   const app = useAppState();
   const base = rulesVariants[app.rulesVariant];
-  const data = { ...base, locks: [...app.createdLocks, ...base.locks], sessions: [...app.createdSessions, ...base.sessions], active: base.active + app.createdLocks.length + app.createdSessions.filter(s => s.status.kind === 'blocking').length };
+  const data = { ...base, locks: [...app.createdLocks, ...base.locks], limits: [...app.createdLimits, ...base.limits], sessions: [...app.createdSessions, ...base.sessions], active: base.active + app.createdLimits.length + app.createdLocks.length + app.createdSessions.filter(s => s.status.kind === 'blocking').length };
   const [demoOpen, setDemoOpen] = useState(false);
   const scrollRef = useRef<ComponentRef<typeof ScrollView>>(null);
   const templatesTop = useRef(0);
+  const limitsTop = useRef(0);
   useEffect(() => {
-    if (!app.savedTemplates.length) return;
+    if (!app.createdLimits.length) return;
+    const timer = setTimeout(() => scrollRef.current?.scrollTo({ y: Math.max(0, limitsTop.current - 190), animated: true }), 350);
+    return () => clearTimeout(timer);
+  }, [app.createdLimits.length]);
+  useEffect(() => {
+    if (!app.savedTemplates.length && !app.savedLimitTemplates.length) return;
     const timer = setTimeout(() => scrollRef.current?.scrollTo({ y: Math.max(0, templatesTop.current + 78.7 - 337), animated: true }), 350);
     return () => clearTimeout(timer);
-  }, [app.savedTemplates.length]);
+  }, [app.savedTemplates.length, app.savedLimitTemplates.length]);
 
   // Подсказка 1 привязана к первой карточке сессии.
   const firstCardRef = useRef<ComponentRef<typeof View>>(null);
@@ -103,13 +109,13 @@ export function RulesScreen() {
         )}
 
         {data.limits.length > 0 && (
-          <FadeIn delay={80} style={styles.section}>
+          <View onLayout={event => { limitsTop.current = event.nativeEvent.layout.y; }}><FadeIn delay={80} style={styles.section}>
             <SectionHeader title="Лимиты" />
             {data.limits.map((l) => (
               <LimitCard key={l.id} rule={l} />
             ))}
             <HintPill text="Напр., «Блок после 15 мин в день»" />
-          </FadeIn>
+          </FadeIn></View>
         )}
 
         {data.routines.length > 0 && (
@@ -260,7 +266,7 @@ function LimitCard({ rule }: { rule: LimitRule }) {
       </View>
       <View style={[styles.bottomRow, { marginTop: 15.7 }]}>
         <Lock />
-        <AppsCount count={1} />
+        <AppsCount count={rule.appCount ?? 1} />
         {rule.linkedApps && <Image source={art.limitLinkedApps} style={{ width: 29, height: 23, marginLeft: 4 }} />}
         <T size={17} style={{ marginLeft: 'auto' }}>
           {rule.value}
@@ -431,6 +437,7 @@ function TemplatesShell({ children }: { children: React.ReactNode }) {
         }
       />
       <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={[styles.tplRow, app.savedTemplates.length > 0 && { gap: 8 }]} decelerationRate="fast" snapToInterval={171.333 + 17.3}>
+        {app.savedLimitTemplates.map(template => <SavedTemplateCard key={template.id} template={template} onAdd={() => app.addLimit({ ...template, id: `limit-${Date.now()}` })} />)}
         {app.savedTemplates.map(template => <SavedTemplateCard key={template.id} template={template} onAdd={() => app.addSession({ ...template, id: `session-${Date.now()}` })} />)}
         {app.savedTemplates.length ? <>
           <ImageTemplate image={art.savedDeepWork} duration="30 мин" title="Глубокий фокус" desc={'Полчаса на главную\nзадачу дня.'} withStart onStart={() => app.addSession({ id: `session-${Date.now()}`, title: 'Глубокий фокус', emoji: 'zap', status: { kind: 'blocking' }, meta: { kind: 'ring', text: 'Осталось 30 мин', progress: 0, tone: 'blocking' }, apps: 'first-rule', selectedApps: [true, true, true] })} />

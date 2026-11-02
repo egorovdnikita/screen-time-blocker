@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 
-import type { LockRule, SessionRule } from '@/data/rules';
+import type { LimitRule, LockRule, SessionRule } from '@/data/rules';
 import { dayActive, dayFirst, dayJune24, dayToday, dayTodayRefreshed, dayYesterday, type Day } from '@/data/home';
 
 // Сценарии показывают все состояния из макетов. Переключаются в демо-меню (долгое нажатие на «⋯»).
@@ -15,6 +15,9 @@ type AppState = {
   sessionNotice: string | null;
   createdSessions: SessionRule[];
   createdLocks: LockRule[];
+  createdLimits: LimitRule[];
+  addLimit: (rule: LimitRule, template?: boolean) => void;
+  savedLimitTemplates: LimitRule[];
   addLock: (rule: LockRule) => void;
   savedTemplates: SessionRule[];
   addSession: (session: SessionRule, template?: boolean) => void;
@@ -48,6 +51,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const [sessionNotice, setSessionNotice] = useState<string | null>(null);
   const noticeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   useEffect(() => () => { if (noticeTimer.current) clearTimeout(noticeTimer.current); }, []);
+  const [savedLimitTemplates, setSavedLimitTemplates] = useState<LimitRule[]>([]);
+  const [createdLimits, setCreatedLimits] = useState<LimitRule[]>([]);
   const [createdLocks, setCreatedLocks] = useState<LockRule[]>([]);
   const [createdSessions, setCreatedSessions] = useState<SessionRule[]>([]);
   const [savedTemplates, setSavedTemplates] = useState<SessionRule[]>([]);
@@ -80,6 +85,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     if (noticeTimer.current) clearTimeout(noticeTimer.current);
     setCreatedSessions([]);
     setCreatedLocks([]);
+    setCreatedLimits([]);
+    setSavedLimitTemplates([]);
     setSavedTemplates([]);
     setScenarioRaw(s);
     setPeriod('today');
@@ -102,7 +109,14 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   }, [period, scenario, refreshed]);
 
   const value: AppState = {
-    sessionNotice, createdSessions, savedTemplates, createdLocks,
+    sessionNotice, createdSessions, savedTemplates, createdLocks, createdLimits, savedLimitTemplates,
+    addLimit: (rule, template = false) => {
+      if (noticeTimer.current) clearTimeout(noticeTimer.current);
+      setSessionNotice(template ? 'Шаблон создан!' : 'Правило добавлено!');
+      noticeTimer.current = setTimeout(() => setSessionNotice(null), 2800);
+      if (template) setSavedLimitTemplates(xs => [rule, ...xs]);
+      else setCreatedLimits(xs => [rule, ...xs]);
+    },
     addLock: rule => {
       if (noticeTimer.current) clearTimeout(noticeTimer.current);
       setSessionNotice('Правило добавлено!');

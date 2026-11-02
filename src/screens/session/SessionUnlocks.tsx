@@ -6,14 +6,15 @@ import { Icon } from '@/components/Icon';
 import { animateLayout, PressScale } from '@/components/motion';
 import { WheelColumn, type WheelItem } from '@/components/WheelColumn';
 import { UnlockMethodSheet } from './UnlockMethodSheet';
-import { durationLabel, unlockMethodLabel, type SessionDraft } from '@/data/session';
+import { durationLabel, unlockMethodLabel, type UnlockSettings, type SessionDraft } from '@/data/session';
 import { colors, sessionTheme as c, sessionPickerTheme as p, sessionUnlockTheme as u } from '@/theme/tokens';
 import { T } from '@/theme/typography';
 
-type Props = { draft: SessionDraft; patch: (update: Partial<SessionDraft>) => void };
+type UnlockDraft = UnlockSettings & Pick<SessionDraft, 'unlocks' | 'unlockMinutes'>;
+type Props = { draft: UnlockDraft; patch: (update: Partial<UnlockDraft>) => void; waitLabel?: string; entryLabel?: string };
 export const unlockCountLabel = (count: number) => `${count} ${count % 10 === 1 && count % 100 !== 11 ? 'раз' : count % 10 >= 2 && count % 10 <= 4 && (count % 100 < 12 || count % 100 > 14) ? 'раза' : 'раз'}`;
 
-export function SessionUnlocks({ draft, patch }: Props) {
+export function SessionUnlocks({ draft, patch, waitLabel, entryLabel = 'перед входом' }: Props) {
   const [lastCount, setLastCount] = useState(draft.unlocks || 2);
   const [durationOpen, setDurationOpen] = useState(false);
   const [methodOpen, setMethodOpen] = useState(false);
@@ -34,7 +35,7 @@ export function SessionUnlocks({ draft, patch }: Props) {
       </View>
       <View style={styles.settings}>
         <View style={styles.setting}><T size={15} color={u.muted} ls={0}>На</T><PressScale accessibilityRole="button" accessibilityLabel="Длительность разблокировки" onPress={() => setDurationOpen(true)} style={styles.setting}><T size={15} weight={600} ls={0}>{durationLabel(draft.unlockMinutes)}</T><Icon name="session-up-down" width={12} height={16} color={u.muted} /></PressScale><T size={15} color={u.muted} ls={0}>каждый раз</T></View>
-        <View style={styles.setting}><PressScale accessibilityRole="button" accessibilityLabel="Способ перед входом" onPress={() => setMethodOpen(true)} style={styles.setting}><T size={15} weight={600} ls={0}>{unlockMethodLabel[draft.unlockMethod]}</T><Icon name="session-up-down" width={12} height={16} color={u.muted} /></PressScale><T size={15} color={u.muted} ls={0}>перед входом</T></View>
+        <View style={styles.setting}><PressScale accessibilityRole="button" accessibilityLabel="Способ перед входом" onPress={() => setMethodOpen(true)} style={styles.setting}><T size={15} weight={600} ls={0}>{draft.unlockMethod === 'wait' && waitLabel ? waitLabel : unlockMethodLabel[draft.unlockMethod]}</T><Icon name="session-up-down" width={12} height={16} color={u.muted} /></PressScale><T size={15} color={u.muted} ls={0}>{entryLabel}</T></View>
         <View style={styles.setting}><T size={15} weight={600} ls={0}>Без задержки</T><Icon name="session-up-down" width={12} height={16} color={u.muted} /><T size={15} color={u.muted} ls={0}>между входами</T></View>
       </View>
       <View style={styles.maximum}><T size={17} color={u.maxInk} ls={0}>= {durationLabel(draft.unlocks * draft.unlockMinutes)} макс.</T></View>
@@ -43,26 +44,26 @@ export function SessionUnlocks({ draft, patch }: Props) {
     {durationOpen && <UnlockDuration value={draft.unlockMinutes} onCancel={() => setDurationOpen(false)} onConfirm={unlockMinutes => { patch({ unlockMinutes }); setDurationOpen(false); }} />}
   </View>;
 }
-const hours: WheelItem[] = [0, 1, 2].map(value => ({ value, label: String(value) }));
 const minutes: WheelItem[] = Array.from({ length: 60 }, (_, value) => ({ value, label: String(value) }));
-export function UnlockDuration({ value, onCancel, onConfirm }: { value: number; onCancel: () => void; onConfirm: (minutes: number) => void }) {
+export function UnlockDuration({ value, onCancel, onConfirm, maxHours = 2 }: { value: number; onCancel: () => void; onConfirm: (minutes: number) => void; maxHours?: number }) {
   const [selected, setSelected] = useState(value);
+  const hours: WheelItem[] = Array.from({ length: maxHours + 1 }, (_, value) => ({ value, label: String(value) }));
   const { height } = useWindowDimensions();
   const insets = useSafeAreaInsets();
   const hour = Math.floor(selected / 60), minute = selected % 60;
-  const setTime = (h: number, m: number) => setSelected(Math.max(1, Math.min(120, h * 60 + m)));
+  const setTime = (h: number, m: number) => setSelected(Math.max(1, Math.min(maxHours * 60, h * 60 + m)));
   return <SheetModal onClose={onCancel} backdrop={<Pressable accessibilityLabel="Отменить длительность разблокировки" onPress={onCancel} style={[StyleSheet.absoluteFill, { backgroundColor: u.durationBackdrop }]} />}><View pointerEvents="box-none" style={StyleSheet.absoluteFill}>
 
     <View style={[styles.durationSheet, { top: Math.max(100, height - 462), bottom: 8 }]} accessibilityViewIsModal>
       <View style={styles.handle} /><T size={22} center ls={0} style={{ marginTop: 38 }}>Длительность</T>
       <View style={styles.wheel}>
         <View pointerEvents="none" style={styles.wheelHighlight} />
-        <View style={{ position: 'absolute', left: 105 }}><WheelColumn label="Часы разблокировки" items={hours} value={hour} onChange={h => setTime(h, minute)} width={48} height={200} center={100} rowHeight={26} surface={u.durationSurface} fade={u.durationFade} /></View>
-        <T size={17} weight={400} ls={0} style={{ position: 'absolute', left: 144, top: 87 }}>ч</T>
-        <View style={{ position: 'absolute', left: 179 }}><WheelColumn label="Минуты разблокировки" items={hour === 2 ? minutes.slice(0, 1) : hour === 0 ? minutes.slice(1) : minutes} value={minute} onChange={m => setTime(hour, m)} width={48} height={200} center={100} rowHeight={26} surface={u.durationSurface} fade={u.durationFade} /></View>
+        <View style={{ position: 'absolute', left: maxHours === 24 ? 120 : 105 }}><WheelColumn label="Часы разблокировки" items={hours} value={hour} onChange={h => setTime(h, minute)} width={48} height={200} center={100} rowHeight={26} surface={u.durationSurface} fade={u.durationFade} /></View>
+        <T size={17} weight={400} ls={0} style={{ position: 'absolute', left: maxHours === 24 ? 159 : 144, top: 87 }}>ч</T>
+        <View style={{ position: 'absolute', left: 179 }}><WheelColumn label="Минуты разблокировки" items={hour === maxHours ? minutes.slice(0, 1) : hour === 0 ? minutes.slice(1) : minutes} value={minute} onChange={m => setTime(hour, m)} width={48} height={200} center={100} rowHeight={26} surface={u.durationSurface} fade={u.durationFade} /></View>
         <T size={17} weight={400} ls={0} style={{ position: 'absolute', left: 218, top: 87 }}>мин</T>
       </View>
-      <T size={13} weight={400} color={u.durationHelp} center ls={0} style={{ position: 'absolute', bottom: 128, left: 12, right: 12 }}>От 1 минуты до 2 часов.</T>
+      <T size={13} weight={400} color={u.durationHelp} center ls={0} style={{ position: 'absolute', bottom: 128, left: 12, right: 12 }}>От 1 минуты до {maxHours} часов.</T>
       <PressScale accessibilityRole="button" onPress={() => onConfirm(selected)} style={[styles.confirm, { bottom: Math.max(40, insets.bottom + 6) }]}><T size={17} color={colors.white} ls={0}>Подтвердить</T></PressScale>
     </View>
   </View></SheetModal>;

@@ -14,13 +14,11 @@ export function SingleAppPicker({ value, onCancel, onConfirm }: { value: LockApp
   const [selected, setSelected] = useState(value);
   const [confirmed, setConfirmed] = useState<LockAppId | null>(null);
   const [phase, setPhase] = useState<'select' | 'confirm'>('select');
-  const [expanded, setExpanded] = useState<string | null>(null);
   const [query, setQuery] = useState('');
   const insets = useSafeAreaInsets();
   const needle = query.trim().toLocaleLowerCase();
   const chosen = lockApp(selected);
   const matches = lockApps.filter(app => app.name.toLocaleLowerCase().includes(needle));
-  const social = lockApps.slice(0, 4);
   const confirmApps = !needle ? popularLockApps.map(id => lockApp(id)!) : [...matches, ...suggestedLockApps.map(id => lockApp(id)!).filter(app => !matches.includes(app))];
   const isConfirm = phase === 'confirm';
   const bottom = Math.max(39, insets.bottom + 5);
@@ -45,11 +43,7 @@ export function SingleAppPicker({ value, onCancel, onConfirm }: { value: LockApp
           </> : <>
             <T size={20} center ls={0} style={styles.title}>1 приложение</T>
             <ScrollView keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} style={styles.categoryList} contentContainerStyle={{ paddingBottom: 70 }}>
-              {!!needle ? matches.map(app => <AppRow key={app.id} id={app.id} selected={selected === app.id} onPress={() => setSelected(app.id)} />) : lockCategories.map(([id, title, image]) => <View key={id}>
-                <PressScale accessibilityRole="button" accessibilityLabel={`Категория ${title}`} accessibilityState={{ expanded: expanded === id }} onPress={() => setExpanded(v => v === id ? null : id)} style={styles.categoryRow}><View pointerEvents="none" style={styles.separator} /><View style={styles.radio} /><Image source={image} style={{ width: 30, height: 30 }} /><T size={17} weight={400} variant="display" ls={0} numberOfLines={1} style={{ flex: 1 }}>{title}</T>{id === 'social' && selected && social.some(app => app.id === selected) && <T size={17} weight={400} color={c.placeholder} ls={0}>1</T>}{id !== 'all' && <Icon name="group-chevron" width={12} height={16} color={c.placeholder} style={{ transform: [{ rotate: expanded === id ? '90deg' : '0deg' }] }} />}</PressScale>
-                {expanded === id && (id === 'social' || id === 'all' ? social.map(app => <AppRow key={app.id} id={app.id} selected={selected === app.id} onPress={() => setSelected(app.id)} child />) : <T size={14} weight={400} color={c.note} ls={0} style={{ padding: 16 }}>Нет приложений</T>)}
-              </View>)}
-              {!!needle && !matches.length && <T size={15} color={c.note} center style={{ padding: 20 }}>Ничего не найдено</T>}
+              <AppCatalog query={query} selected={selected ? [selected] : []} onSelect={setSelected} />
             </ScrollView>
             <LinearGradient pointerEvents="none" colors={[c.pickerFade, c.pickerFadeMid, c.pickerFadeEnd, c.picker]} locations={[0, .4, .75, 1]} style={styles.fade} />
             <View style={[styles.search, { bottom: bottom + 91 }]}><Icon name="session-search" width={20} height={20} color={colors.black} /><TextInput accessibilityLabel="Поиск одного приложения" value={query} onChangeText={setQuery} autoCorrect={false} autoCapitalize="none" placeholder="Поиск" placeholderTextColor={c.note} style={[styles.input, { fontSize: 17 }]} /><Icon name="group-microphone" width={20} height={23} color={c.note} /></View>
@@ -60,9 +54,19 @@ export function SingleAppPicker({ value, onCancel, onConfirm }: { value: LockApp
     </View>
   </SheetModal>;
 }
-function AppRow({ id, selected, onPress, child }: { id: LockAppId; selected: boolean; onPress: () => void; child?: boolean }) {
+export function AppCatalog({ query, selected, onSelect, multiple = false, categories = [], onCategory }: { query: string; selected: readonly LockAppId[]; onSelect: (id: LockAppId) => void; multiple?: boolean; categories?: string[]; onCategory?: (id: string) => void }) {
+  const [expanded, setExpanded] = useState<string | null>(null);
+  const needle = query.trim().toLocaleLowerCase();
+  const social = lockApps.slice(0, 4);
+  const matches = lockApps.filter(app => app.name.toLocaleLowerCase().includes(needle));
+  return <>{needle ? matches.map(app => <AppRow key={app.id} id={app.id} selected={selected.includes(app.id)} onPress={() => onSelect(app.id)} multiple={multiple} />) : lockCategories.map(([id, title, image]) => <View key={id}>
+    <PressScale accessibilityRole="button" accessibilityLabel={`Категория ${title}`} accessibilityState={{ expanded: expanded === id }} onPress={() => setExpanded(v => v === id ? null : id)} style={styles.categoryRow}><View pointerEvents="none" style={styles.separator} />{onCategory ? <PressScale accessibilityRole="checkbox" accessibilityLabel={`Выбрать категорию ${title}`} accessibilityState={{ checked: categories.includes(id) }} onPress={event => { event.stopPropagation(); onCategory(id); }} style={[styles.radio, categories.includes(id) && styles.selected]}>{categories.includes(id) && <Icon name="period-check" width={18} height={20} color={colors.white} />}</PressScale> : <View style={styles.radio} />}<Image source={image} style={{ width: 30, height: 30 }} /><T size={17} weight={400} variant="display" ls={0} numberOfLines={1} style={{ flex: 1 }}>{title}</T>{id === 'social' && selected.length > 0 && <T size={17} weight={400} color={c.placeholder} ls={0}>{selected.filter(id => social.some(app => app.id === id)).length || ''}</T>}{id === 'social' && categories.includes(id) && <T size={17} weight={400} color={c.placeholder} ls={0}>Все</T>}{id !== 'all' && <Icon name="group-chevron" width={12} height={16} color={c.placeholder} style={{ transform: [{ rotate: expanded === id ? '90deg' : '0deg' }] }} />}</PressScale>
+    {expanded === id && (id === 'social' || id === 'all' ? social.map(app => <AppRow key={app.id} id={app.id} selected={selected.includes(app.id)} onPress={() => onSelect(app.id)} child multiple={multiple} />) : <T size={14} weight={400} color={c.note} ls={0} style={{ padding: 16 }}>Нет приложений</T>)}
+  </View>)}{needle && !matches.length && <T size={15} color={c.note} center style={{ padding: 20 }}>Ничего не найдено</T>}</>;
+}
+function AppRow({ id, selected, onPress, child, multiple }: { id: LockAppId; selected: boolean; onPress: () => void; child?: boolean; multiple?: boolean }) {
   const app = lockApp(id)!;
-  return <PressScale accessibilityRole="radio" accessibilityLabel={`Выбрать ${app.name}`} accessibilityState={{ checked: selected }} onPress={onPress} style={[styles.categoryRow, child && { backgroundColor: c.rowChild }]}><View pointerEvents="none" style={styles.separator} /><View style={[styles.radio, selected && styles.selected]}>{selected && <Icon name="period-check" width={18} height={20} color={colors.white} />}</View><Image source={lockPickerImage(app.id)} style={{ width: 30, height: 30 }} /><T size={17} weight={400} variant="display" ls={0}>{app.name}{id === 'bereal' ? '.' : ''}</T></PressScale>;
+  return <PressScale accessibilityRole={multiple ? "checkbox" : "radio"} accessibilityLabel={`Выбрать ${app.name}`} accessibilityState={{ checked: selected }} onPress={onPress} style={[styles.categoryRow, child && { backgroundColor: c.rowChild }]}><View pointerEvents="none" style={styles.separator} /><View style={[styles.radio, selected && styles.selected]}>{selected && <Icon name="period-check" width={18} height={20} color={colors.white} />}</View><Image source={lockPickerImage(app.id)} style={{ width: 30, height: 30 }} /><T size={17} weight={400} variant="display" ls={0}>{app.name}{id === 'bereal' ? '.' : ''}</T></PressScale>;
 }
 const styles = StyleSheet.create({
   backSheet: { position: 'absolute', left: 16, right: 16, bottom: 14, borderRadius: c.panelRadius, backgroundColor: c.backSheet },

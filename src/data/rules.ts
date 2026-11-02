@@ -1,3 +1,4 @@
+import type { TimeLimitDraft } from './timeLimit';
 import type { AppGroupDraft } from './appGroup';
 import type { StrictSettings, UnlockSettings } from './session';
 import type { SessionIconId } from './sessionIcons';
@@ -33,6 +34,8 @@ export type SessionRule = {
 };
 
 export type LimitRule = {
+  appCount?: number;
+  configuration?: TimeLimitDraft;
   id: string;
   emoji: 'hourglass' | 'limit-hourglass';
   title: string;

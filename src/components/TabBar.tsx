@@ -37,7 +37,7 @@ const LOCK_IDLE: Record<number, IconName> = { 0: 'tab-lock', 1: 'tab-lock', 2: '
 
 export function TabBar({ state, emitter, navigateToTab, insets }: BottomTabBarProps) {
   const app = useAppState();
-  const activeCount = rulesVariants[app.rulesVariant].active + app.createdLocks.length + app.createdSessions.filter(s => s.status.kind === 'blocking').length;
+  const activeCount = rulesVariants[app.rulesVariant].active + app.createdLimits.length + app.createdLocks.length + app.createdSessions.filter(s => s.status.kind === 'blocking').length;
   const active = Math.min(3, activeCount);
   const [width, setWidth] = useState(0);
   const count = state.routes.length;
