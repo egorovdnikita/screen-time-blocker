@@ -1,0 +1,13 @@
+{
+  "expertToggle": true,
+  "expertPreview": true,
+  "appSearch": true,
+  "duplicatePrevented": true,
+  "messageValidation": true,
+  "tips": true,
+  "customButton": true,
+  "cancelDelete": true,
+  "delete": true,
+  "neighborTogglePreserved": true,
+  "errors": []
+}

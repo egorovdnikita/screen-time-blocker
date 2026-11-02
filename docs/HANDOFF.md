@@ -353,3 +353,10 @@ GlassDialog общий предупреждению лимита/БЕТА нап
 StatusBar: useFocusedStatusBar push/replace/popStackEntry RN вместо setStatusBarStyle. Запись маршрута ниже модальных, после закрытия восстанавливается нужный цвет, Webguard (уRNWebнетэтихAPI). PlainSettingsSheet задаёт style через StatusBarcomponent, namedlight. check-status-bar логически проверяет вложенные слои; физическийiPhoneнепроверен. Документация/API проверены поRNStatusBar и установленнойRN0.88.1.
 
 10пар просмотреныChrome, named-groups/app-group/routine/app-unlock/goal-reminders/typecheck/lint/web-export/iOS bundle. Всеограничения в docs/reviews/2026-11-03-named-groups/README.md. Всего46новыхсостояний зазаход, не100%проекта. Далее229–244: block-screen localsettings/previews/custommessage. package-lock пользовательский, некоммитить.
+
+
+## Экраны блокировки — 2026-11-03
+
+229–244:16состояний, RuleSettings открывает BlockScreens. Expert/alternative settings, поиск9локальных приложений (неAppStore), adddedup, AppPreview; MessageScreenForm title/subtitle/button, подсказки, realkeyboard, save/edit/preview/delete. Previewcustombutton показывает сохранённое значение (отличие241). Переменные преобразуются по локальномуконтексту; неизвестные/имя остаютсятокенами. Контакты/тема пока readonly, OSshieldнет. Все данные в памяти иresetочищает.
+
+PlainSettingsSheet поддерживает insets/surface/backdrop/overlay/onShown, общиеслоисохранены. FlowSwitch height/thumbWidth влияюттолькоWeb; trackColorизтокенов; nativeUISwitch безразмеров/thumbColorIOS. SessionNotice tone=soft для244 сизмеренными49.333/r18/цветом5bbe6d. Все16парпросмотреныChrome, тестblock-screens +domain/goal-reminders/session-flow/typecheck/lint/web-export/iOSbundle. iPhoneнепроверен. Подробностиdocs/reviews/2026-11-03-block-screens/README.md. За большойзаход62новыхсостояния:129,169–185,190–202,208–212,219–244. Не100%проекта.

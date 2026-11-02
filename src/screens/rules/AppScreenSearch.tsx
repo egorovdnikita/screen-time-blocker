@@ -1,0 +1,15 @@
+import { useRef, useState, type ComponentRef } from 'react';
+import { Image } from 'expo-image';
+import { Keyboard, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, TextInput, View } from 'react-native';
+import { PlainSettingsSheet } from '@/components/PlainSettingsSheet';
+import { PressScale } from '@/components/motion';
+import { Icon } from '@/components/Icon';
+import { searchScreenApps, type ScreenApp } from '@/data/blockScreens';
+import { T } from '@/theme/typography';
+import { colors, blockScreensTheme as c } from '@/theme/tokens';
+export function AppScreenSearch({ onClose, onChoose }: { onClose: () => void; onChoose: (app: ScreenApp) => void }) {
+  const [query, setQuery] = useState('');
+  const input = useRef<ComponentRef<typeof TextInput>>(null);
+  return <PlainSettingsSheet title="Поиск приложения" top={69} statusBar="light" onShown={() => requestAnimationFrame(() => input.current?.focus())} surface={c.surface} onClose={() => { Keyboard.dismiss(); onClose(); }}><KeyboardAvoidingView pointerEvents="box-none" behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1 }}><View style={[styles.field, !!query && { borderColor: c.searchBorder }]}><Icon name="screen-search-magnifier" width={20} height={21} /><TextInput ref={input} accessibilityLabel="Поиск приложения для экрана" value={query} onChangeText={setQuery} placeholder="Поиск приложения" placeholderTextColor={c.inputPlaceholder} returnKeyType="search" autoCapitalize="none" autoCorrect={false} onSubmitEditing={() => input.current?.blur()} style={{ flex: 1, height: 50, padding: 0, fontSize: 14.25, color: colors.black, outlineWidth: 0 }} />{!!query && <PressScale accessibilityRole="button" accessibilityLabel="Очистить поиск экрана" onPress={() => setQuery('')}><Icon name="reflection-close" width={15} height={15} /></PressScale>}</View><ScrollView keyboardShouldPersistTaps="handled" style={{ flex: 1, marginTop: 177, marginHorizontal: 20, marginBottom: 24 }} contentContainerStyle={{ borderRadius: 20, overflow: 'hidden' }} showsVerticalScrollIndicator={false}>{searchScreenApps(query).map((item, index, all) => <PressScale key={item.id} accessibilityRole="button" accessibilityLabel={`Создать экран приложения ${item.title}`} onPress={() => { Keyboard.dismiss(); onChoose(item); }} style={[styles.row, { borderBottomWidth: index < all.length - 1 ? 1 : 0 }]}><Image source={item.image} contentFit="contain" style={{ width: 24, height: 24 }} /><T size={14.25} weight={400} variant="display" ls={0} style={{ flex: 1 }}>{item.title}</T><Icon name="plus" width={14} height={14} color={c.caption} /></PressScale>)}</ScrollView></KeyboardAvoidingView></PlainSettingsSheet>;
+}
+const styles = StyleSheet.create({ field: { position: 'absolute', left: 20, right: 20, top: 101, height: 52, borderWidth: 1, borderColor: c.field, borderRadius: 28, paddingHorizontal: 19, gap: 12, flexDirection: 'row', alignItems: 'center' }, row: { height: 56.667, paddingHorizontal: 16, flexDirection: 'row', alignItems: 'center', gap: 12, backgroundColor: colors.white, borderBottomColor: c.line } });

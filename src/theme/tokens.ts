@@ -340,3 +340,7 @@ export const galleryTheme = { surface: '#f5f7f9', selected: '#4b82ee', border: '
 
 export const namedGroupTheme = { handle: '#d9dadd', title: '#959eab', caption: '#7d8797', surface: '#f5f7f9', dim: '#0002', field: '#17191a', disabled: '#a1c2f7', toast: '#58c36c', toastShadow: '0 12px 25px #17202a0a', formRadius: 44 };
 export const ruleSettingsTheme = { caption: '#7d8797', section: '#959eab', collapsed: '#c4cad2', line: '#f0f2f4' };
+
+export const blockScreensTheme = { searchBorder: '#dce1e6', switchOn: '#4d82eb', switchOff: '#b4b4b6', messageLabel: '#959da8', deleteButton: '#cfd0d1', deleteInk: '#ff3b30', deleteCaption: '#666666', surface: '#f6f8fa', previewTop: '#ebf0fa', previewBottom: '#eaeff9', caption: '#7d8797', section: '#959eab', dim: '#0000001f', inputBorder: '#dce0e3', inputPlaceholder: '#c4c9cf', blue: '#4385ef', previewBlue: '#4d82eb', disabled: '#a0c1f4', disabledInk: '#dfebff', createBorder: '#c8cdd3', createPlus: '#cbd0d8', tipsFill: '#e4ecf8', tipsInk: '#4385ed', menuTop: '#fafafae8', menuBottom: '#fafafab3', menuBorder: '#ffffffa6', menuShadow: '0 15px 35px #20293818', field: '#17191a', line: '#f0f2f4' };
+
+export const softNoticeTheme = { surface: '#5bbe6d', shadow: '0 12px 24px #0000001a' };
