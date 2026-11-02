@@ -332,3 +332,8 @@ reflectedDay связывает локальные оценки со списк�
 GlassDialog общий предупреждению лимита/БЕТА напоминаний; Web BlurView intensity*5 восстанавливает CSS px, native интенсивность не изменена. useSkyStatusBar возвращает restore для выхода из настроек; Home/Profile адаптированы, ShareDevicesGuide использует useDarkStatusBar. Нативный Switch не менялся.
 
 Проверки app-unlock/session-details/limit-details/goal-reminders/session-flow/rule-count, typecheck/lint/web-export/iOS bundle; сравнения и ограничения в docs/reviews/2026-11-02-{app-unlock,session-details,limit-details}/README.md. Фоны/живые значения отличаются, полную1:1 не заявлять. iPhone визуально не проверен. Всего в текущем заходе31новое состояние:129,169–185,190–202; плюс сводка оценок по поведению. Далее галерея/шаблоны208–212, фото203–207 требует реального camera/AI и не должно имитировать проверку. Expo8082; package-lock пользовательский, не коммитить.
+
+
+## Детали сохранённого шаблона — 2026-11-03
+
+210–212: TemplateDetails через RuleDetails и GlassDialog. Нажатие на карточку пользовательского шаблона сессии открывает детали; сохранить имя/strict, начать, подтвердить удаление. updateSessionTemplate/deleteSessionTemplate не затрагивают созданные сессии. Неизменённый/пустой шаблон не сохраняется. SVG корзины24×26 взят генератором из assets/icons выгрузки. Строки настроек readonly, лимиты/рутины пока без деталей. Числа/фон отличаются от исходных. Все3состояния просмотрены в Chrome, тест template-details + регрессии session-details/limit-details/typecheck/lint/web-export. iPhone не проверен. За текущий большой заход34новых состояния, не считать100%проекта.

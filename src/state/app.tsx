@@ -60,6 +60,8 @@ type AppState = {
   savedLimitTemplates: LimitRule[];
   addLock: (rule: LockRule) => void;
   savedTemplates: SessionRule[];
+  updateSessionTemplate: (id: string, changes: RuleDetailChanges) => void;
+  deleteSessionTemplate: (id: string) => void;
   addSession: (session: SessionRule, template?: boolean) => void;
   scenario: Scenario;
   setScenario: (s: Scenario) => void;
@@ -210,6 +212,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     setReflectionExcluded: (dayId, appId, excluded) => { touchReflectionDay(dayId); const key = reflectionKey(dayId, appId); setReflectionExcludedRaw(xs => excluded ? [...new Set([...xs, key])] : xs.filter(x => x !== key)); },
     customHabits, upsertHabit: habit => setCustomHabits(items => [...items.filter(h => h.id !== habit.id), { ...habit }]),
     sessionNotice, createdSessions, savedTemplates, createdLocks, createdLimits, savedLimitTemplates, createdRoutines, savedRoutineTemplates,
+    updateSessionTemplate: (id, changes) => { setSavedTemplates(xs => xs.map(x => x.id === id ? { ...x, title: changes.title, strict: changes.strict, strictSettings: { ...changes.strictSettings } } : x)); },
+    deleteSessionTemplate: id => { setSavedTemplates(xs => xs.filter(x => x.id !== id)); if (noticeTimer.current) clearTimeout(noticeTimer.current); setSessionNotice('Шаблон удалён!'); noticeTimer.current = setTimeout(() => setSessionNotice(null), 2800); },
     addRoutine: (rule, template = false) => {
       if (noticeTimer.current) clearTimeout(noticeTimer.current);
       setSessionNotice(template ? 'Шаблон создан!' : 'Правило добавлено!');

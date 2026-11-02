@@ -1,0 +1,9 @@
+{
+  "unchangedDisabled": true,
+  "cancelDelete": true,
+  "rename": true,
+  "start": true,
+  "delete": true,
+  "sessionUnchanged": true,
+  "errors": []
+}
