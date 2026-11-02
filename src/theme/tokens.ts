@@ -161,3 +161,17 @@ export const sessionTheme = {
   focusGradient: ['#21265e', '#9630a7'],
   sheetRadius: 40, rowRadius: 22, suggestionRadius: 20, side: 20,
 } as const;
+
+// Колёса и поповер времени из состояний048–053 HTML-потока04.
+export const sessionPickerTheme = {
+  wheelMuted: '#aeb2b9', wheelPill: '#f4f5f7', wheelInk: '#18191b',
+  segmentBorder: '#e1e3e7', scheduleGrid: '#f7f8fa', scheduleLine: '#e4e6e9', scheduleTime: '#e9eaed',
+  clockFill: 'rgba(250,250,252,.94)', clockMask: '#fafafc', clockFade: 'rgba(250,250,252,0)',
+  whiteFade: 'rgba(255,255,255,0)', clockRim: 'rgba(255,255,255,.75)',
+  switchThumbShadow: 'none', switchOn: '#3983ed', switchOff: '#c1c0c5',
+  clockShadow: '0px 8px 24px #0f141e20, inset 0px 1px 0px #ffffffe6',
+  note: '#858a93', inactiveDay: '#858b95',
+  activityRadius: 25, gridRadius: 22, clockRadius: 28,
+  clockWidth: 234, clockHeight: 204, clockCenter: 103, clockRow: 28,
+  durationHeight: 220, durationCenter: 96, durationRow: 29,
+} as const;

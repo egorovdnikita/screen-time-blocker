@@ -1,22 +1,22 @@
 import { Image } from 'expo-image';
-import type { ReactNode } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { useEffect, useState, type ReactNode } from 'react';
+import { Animated, Pressable, StyleSheet, View } from 'react-native';
 import { art } from '@/data/art';
 import { T } from '@/theme/typography';
-import { colors, sessionTheme as c } from '@/theme/tokens';
+import { colors, sessionPickerTheme as p, sessionTheme as c } from '@/theme/tokens';
 import { Icon } from './Icon';
-import { FadeIn, PressScale } from './motion';
+import { FadeIn, PressScale, spring } from './motion';
 
 export function SessionApps({ selected = [true, true, true] }: { selected?: boolean[] }) {
   return <View style={styles.apps} accessibilityLabel={['XChat', 'Сообщения', 'BeReal'].filter((_, i) => selected[i]).join(', ')}>
     {[art.sessionXchat, art.sessionMessages, art.sessionBereal].filter((_, i) => selected[i]).map((source, i) => <Image key={i} source={source} style={{ width: 16, height: 16, borderRadius: 4, marginLeft: i ? -4 : 0 }} />)}
   </View>;
 }
-export function EditorRow({ title, value, expanded, onPress, children }: { title: string; value?: ReactNode; expanded?: boolean; onPress?: () => void; children?: ReactNode }) {
-  return <View style={styles.card}>
-    <PressScale accessibilityRole="button" accessibilityLabel={title} accessibilityState={{ expanded: !!expanded }} onPress={onPress} style={styles.row}>
+export function EditorRow({ title, value, expanded, onPress, children, emphasized, headerHeight = 59 }: { title: string; value?: ReactNode; expanded?: boolean; onPress?: () => void; children?: ReactNode; emphasized?: boolean; headerHeight?: number }) {
+  return <View style={[styles.card, emphasized && { borderRadius: p.activityRadius, boxShadow: 'none' }]}>
+    <PressScale accessibilityRole="button" accessibilityLabel={title} accessibilityState={{ expanded: !!expanded }} onPress={onPress} style={[styles.row, { minHeight: headerHeight }, emphasized && { paddingTop: 8 }]}>
       <Icon name="chevron-down-section" width={12} height={8} color={colors.chevronCompact} style={expanded ? { transform: [{ rotate: '180deg' }] } : undefined} />
-      <T size={14} weight={600} color={c.secondary}>{title}</T><View style={{ marginLeft: 'auto' }}>{typeof value === 'string' ? <T size={14} weight={400}>{value}</T> : value}</View>
+      <T size={emphasized ? 21 : 14} weight={emphasized ? 700 : 600} color={emphasized ? c.ink : c.secondary} style={emphasized ? { lineHeight: 26 } : undefined}>{title}</T><View style={{ marginLeft: 'auto' }}>{typeof value === 'string' ? <T size={14} weight={400}>{value}</T> : value}</View>
     </PressScale>{expanded && children}
   </View>;
 }
@@ -33,4 +33,13 @@ const styles = StyleSheet.create({
 
 export function SessionNotice({ message, top }: { message: string; top: number }) {
   return <FadeIn key={message} style={{ position: 'absolute', top, left: 16, right: 16, zIndex: 100 }}><View pointerEvents="none" accessibilityLiveRegion="polite" style={{ height: 48, borderRadius: 16, backgroundColor: colors.goalGreen, paddingHorizontal: 16, flexDirection: 'row', gap: 10, alignItems: 'center' }}><Icon name="period-check" width={18} height={18} color={colors.white} /><T size={14} color={colors.white}>{message}</T></View></FadeIn>;
+}
+
+export function FlowSwitch({ label, value, onChange, width = 63 }: { label: string; value: boolean; onChange: (value: boolean) => void; width?: number }) {
+  const [thumb] = useState(() => new Animated.Value(value ? width - 40 : 0));
+  useEffect(() => { spring(thumb, value ? width - 40 : 0); }, [value, thumb, width]);
+  // Общая геометрия из switches.css: трек 63×28, овальный бегунок 36×24.
+  return <Pressable accessibilityLabel={label} accessibilityRole="switch" accessibilityState={{ checked: value }} onPress={() => onChange(!value)} style={{ width, height: 28, borderRadius: 14, backgroundColor: value ? p.switchOn : p.switchOff }}>
+    <Animated.View pointerEvents="none" style={{ position: 'absolute', left: 2, top: 2, width: 36, height: 24, borderRadius: 14, backgroundColor: colors.white, boxShadow: p.switchThumbShadow, transform: [{ translateX: thumb }] }} />
+  </Pressable>;
 }
