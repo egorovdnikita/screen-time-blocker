@@ -45,7 +45,7 @@ export function SessionUnlocks({ draft, patch }: Props) {
 }
 const hours: WheelItem[] = [0, 1, 2].map(value => ({ value, label: String(value) }));
 const minutes: WheelItem[] = Array.from({ length: 60 }, (_, value) => ({ value, label: String(value) }));
-function UnlockDuration({ value, onCancel, onConfirm }: { value: number; onCancel: () => void; onConfirm: (minutes: number) => void }) {
+export function UnlockDuration({ value, onCancel, onConfirm }: { value: number; onCancel: () => void; onConfirm: (minutes: number) => void }) {
   const [selected, setSelected] = useState(value);
   const { height } = useWindowDimensions();
   const insets = useSafeAreaInsets();

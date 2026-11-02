@@ -1,3 +1,4 @@
+import { StrictModeRow } from '@/components/StrictModeRow';
 import { SheetTransition } from '@/components/SheetModal';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Image } from 'expo-image';
@@ -13,7 +14,7 @@ import { StrictSettingsSheet, StrictConfirmation, strictDaysLabel } from './Stri
 import { SessionIconPicker } from './SessionIconPicker';
 import { Icon } from '@/components/Icon';
 import { animateLayout, PressScale } from '@/components/motion';
-import { EditorRow, FlowSwitch, SessionAction } from '@/components/SessionPrimitives';
+import { EditorRow, SessionAction } from '@/components/SessionPrimitives';
 import { SessionUnlocks, unlockCountLabel } from './SessionUnlocks';
 import { SessionActivity } from './SessionActivity';
 import { art } from '@/data/art';
@@ -80,7 +81,7 @@ export function SessionEditor() {
         </View>
       </ScrollView>
       <View style={[styles.footer, { paddingBottom: Math.max(39, insets.bottom + 5) }]}>
-        <View style={styles.strict}><PressScale accessibilityRole="button" accessibilityLabel="Настройки строгого режима" onPress={() => setStrictOpen(true)} style={{ flexDirection: 'row', alignItems: 'center', gap: 8, flex: 1 }}><Icon name="session-shield" width={28} height={30} /><View><T size={17} color={c.strict}>Строгий режим</T><T size={12} weight={400} color={c.secondary}>{draft.strict ? draft.strictScope === 'session' ? 'Активен во время сессии' : `Активен ${strictDaysLabel(draft.strictDays)}` : 'Без изменения и удаления'}</T></View></PressScale><View style={{ marginLeft: 'auto', marginRight: draft.strict ? 26 : 0 }}><FlowSwitch label="Строгий режим" value={draft.strict} onChange={strict => strict ? setStrictOpen(true) : patch({ strict: false })} /></View>{draft.strict && <Icon name="chevron-right" width={9} height={13} color={c.disabled} style={{ position: 'absolute', right: 6 }} />}</View>
+        <StrictModeRow value={draft.strict} description={draft.strict ? draft.strictScope === 'session' ? 'Активен во время сессии' : `Активен ${strictDaysLabel(draft.strictDays)}` : 'Без изменения и удаления'} onOpen={() => setStrictOpen(true)} onChange={strict => strict ? setStrictOpen(true) : patch({ strict: false })} style={styles.strict} />
         <View style={styles.actions}><SessionAction disabled={!hasGroupSelection(draft.appGroup)} onPress={() => finish(true)}>Новый шаблон</SessionAction><SessionAction primary disabled={!hasGroupSelection(draft.appGroup)} onPress={() => draft.strict ? setStrictConfirm(true) : finish(false)}>{draft.scheduled ? 'Расписание' : 'Начать'}</SessionAction></View>
       </View>
     </View>

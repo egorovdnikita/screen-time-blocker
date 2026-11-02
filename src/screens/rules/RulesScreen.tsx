@@ -1,3 +1,5 @@
+import { router } from 'expo-router';
+import { lockApp } from '@/data/lockRule';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useEffect, useRef, useState, type ComponentRef } from 'react';
@@ -44,7 +46,7 @@ export function RulesScreen() {
   const top = Math.max(insets.top, 20);
   const app = useAppState();
   const base = rulesVariants[app.rulesVariant];
-  const data = { ...base, sessions: [...app.createdSessions, ...base.sessions], active: base.active + app.createdSessions.filter(s => s.status.kind === 'blocking').length };
+  const data = { ...base, locks: [...app.createdLocks, ...base.locks], sessions: [...app.createdSessions, ...base.sessions], active: base.active + app.createdLocks.length + app.createdSessions.filter(s => s.status.kind === 'blocking').length };
   const [demoOpen, setDemoOpen] = useState(false);
   const scrollRef = useRef<ComponentRef<typeof ScrollView>>(null);
   const templatesTop = useRef(0);
@@ -74,12 +76,12 @@ export function RulesScreen() {
         {data.locks.length > 0 && (
           <FadeIn>
             <SectionHeader title="Блокировки" />
-            <View style={styles.blocksRow}>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.blocksRow}>
               {data.locks.map((l) => (
                 <LockCard key={l.id} rule={l} />
               ))}
               <AddBlockCard />
-            </View>
+            </ScrollView>
           </FadeIn>
         )}
 
@@ -169,7 +171,7 @@ function LockCard({ rule }: { rule: LockRule }) {
         <Icon name="chevron-right" width={8} height={11} color={colors.chevron} style={{ marginRight: 1 }} />
       </View>
       <Image
-        source={rule.app === 'bereal' ? art.appBereal : art.appAppleMusic}
+        source={rule.app === 'bereal' ? art.appBereal : lockApp(rule.app)?.image ?? art.appAppleMusic}
         style={{ width: 52, height: 58, marginLeft: -5.2, marginTop: 10.3 }}
       />
       <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 2.3 }}>
@@ -190,7 +192,7 @@ function LockCard({ rule }: { rule: LockRule }) {
 
 function AddBlockCard() {
   return (
-    <PressScale style={{ marginTop: -0.5 }}>
+    <PressScale accessibilityRole="button" accessibilityLabel="Добавить лимит запусков из правил" onPress={() => router.push('/lock')} style={{ marginTop: -0.5 }}>
       <DashedBox radius={26} style={styles.addCard}>
         <PlusCircle />
         <View style={{ marginTop: 'auto' }}>

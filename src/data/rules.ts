@@ -14,7 +14,7 @@ export type Meta =
   | { kind: 'schedule'; time: string; days?: string }
   | { kind: 'ring'; text: string; progress: number; tone: 'accent' | 'blocking' };
 
-export type LockRule = { id: string; app: 'apple-music' | 'bereal'; name: string; unlocks: string };
+export type LockRule = { id: string; app: string; name: string; unlocks: string; count?: number; minutes?: number; strict?: boolean; strictSettings?: StrictSettings; unlockSettings?: UnlockSettings };
 
 export type SessionRule = {
   selectedApps?: boolean[];

@@ -239,3 +239,16 @@ export const appGroupTheme = {
   listRadius: 25, extraRadius: 20, searchRadius: 26, badgeRadius: 16,
   optionsTopRadius: 36, optionsBottomRadius: 52, inputRadius: 28, websiteRadius: 20,
 } as const;
+
+// Лимит запусков103–111: lock-rule-summary.css / single-app-picker.css / app-confirmation.css.
+export const lockTheme = {
+  buttonGradient: ['#191919', '#181818', '#1b1b1b'],
+  backdrop: '#777679', surface: '#f6f8fa', gradient: ['#f8fafb', '#f3f5f7', '#f6f8fa'],
+  handle: '#dcdde1', backSheet: '#dedfe1', picker: '#f4f3fa', pickerFade: 'rgba(244,243,250,0)', pickerFadeMid: 'rgba(244,243,250,.64)', pickerFadeEnd: 'rgba(244,243,250,.94)', confirmFade: 'rgba(246,248,250,0)',
+  hint: '#c8cdd2', muted: '#c7ccd2', max: '#c6cbd2', note: '#7d8797', ink: '#111111',
+  sumFill: '#edf4ff', blue: '#3983ed', disabled: '#b3b4b8', disabledInk: '#cdced2', dark: '#17191a',
+  rowChild: '#f9f9fc', line: '#ededee', confirmLine: '#f0f1f2', radio: '#d1d1d6', radioOn: '#0095f5',
+  searchBorder: '#dce0e4', placeholder: '#b7bcc4', section: '#b9bfc7', searchFill: '#ffffffdf',
+  searchShadow: '0px 12px 35px #26232e0a', counterShadow: '0px 6px 18px #00000007', backShadow: '0px 10px 25px #00000008',
+  radius: 40, panelRadius: 44, categoryRadius: 28, searchRadius: 30, confirmRadius: 21, buttonRadius: 32,
+} as const;

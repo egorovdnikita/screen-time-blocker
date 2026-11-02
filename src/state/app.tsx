@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 
-import type { SessionRule } from '@/data/rules';
+import type { LockRule, SessionRule } from '@/data/rules';
 import { dayActive, dayFirst, dayJune24, dayToday, dayTodayRefreshed, dayYesterday, type Day } from '@/data/home';
 
 // Сценарии показывают все состояния из макетов. Переключаются в демо-меню (долгое нажатие на «⋯»).
@@ -14,6 +14,8 @@ const LOADING_MS = 1400;
 type AppState = {
   sessionNotice: string | null;
   createdSessions: SessionRule[];
+  createdLocks: LockRule[];
+  addLock: (rule: LockRule) => void;
   savedTemplates: SessionRule[];
   addSession: (session: SessionRule, template?: boolean) => void;
   scenario: Scenario;
@@ -46,6 +48,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const [sessionNotice, setSessionNotice] = useState<string | null>(null);
   const noticeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   useEffect(() => () => { if (noticeTimer.current) clearTimeout(noticeTimer.current); }, []);
+  const [createdLocks, setCreatedLocks] = useState<LockRule[]>([]);
   const [createdSessions, setCreatedSessions] = useState<SessionRule[]>([]);
   const [savedTemplates, setSavedTemplates] = useState<SessionRule[]>([]);
   const [scenario, setScenarioRaw] = useState<Scenario>('regular');
@@ -76,6 +79,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     setSessionNotice(null);
     if (noticeTimer.current) clearTimeout(noticeTimer.current);
     setCreatedSessions([]);
+    setCreatedLocks([]);
     setSavedTemplates([]);
     setScenarioRaw(s);
     setPeriod('today');
@@ -98,7 +102,13 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   }, [period, scenario, refreshed]);
 
   const value: AppState = {
-    sessionNotice, createdSessions, savedTemplates,
+    sessionNotice, createdSessions, savedTemplates, createdLocks,
+    addLock: rule => {
+      if (noticeTimer.current) clearTimeout(noticeTimer.current);
+      setSessionNotice('Правило добавлено!');
+      noticeTimer.current = setTimeout(() => setSessionNotice(null), 2800);
+      setCreatedLocks(xs => [rule, ...xs]);
+    },
     addSession: (session, template = false) => {
       if (noticeTimer.current) clearTimeout(noticeTimer.current);
       setSessionNotice(template ? 'Шаблон создан!' : session.status.kind === 'upcoming' ? 'Расписание добавлено!' : 'Сессия началась!');

@@ -1,0 +1,16 @@
+{
+  "geometry": {
+    "x": 30,
+    "y": 258,
+    "width": 333,
+    "height": 29
+  },
+  "cancel": true,
+  "saved": true,
+  "minimum": true,
+  "durationChanged": true,
+  "strictCancelAndSave": true,
+  "emptySearch": true,
+  "activeCount": true,
+  "errors": []
+}
