@@ -39,3 +39,17 @@ Docs: https://docs.expo.dev/eas/index.md
 - If `ios/` and `android/` directories do not exist, they are generated (Continuous Native Generation). Never create or edit them by hand — configure native behavior in `app.json` and config plugins.
 - Expo Go only includes its bundled native modules. After adding a library with native code, the app needs a development build: `npx expo run:ios|android` locally, or `eas build --profile development`.
 - Prefer recommended Expo modules over third-party libraries, and check your available skills before adding dependencies. Docs: https://docs.expo.dev/versions/latest/index.md
+
+## Этот проект (Block)
+
+Перед работой прочитай `docs/HANDOFF.md` — там история, решения, отклонения от макетов, известные проблемы и процесс вёрстки экранов из HTML-выгрузок.
+
+- **Язык.** Интерфейс, комментарии в коде и коммиты — на русском. Заказчик — продуктовый дизайнер: отвечать коротко, без вводных, давать одну рекомендацию и прямую критику макетов.
+- **Только Expo Go.** Не добавляй библиотеки с нативным кодом вне набора Expo Go (reanimated, masked-view и т. п. — только по согласованию: это требует dev-сборки). Анимации — через `src/components/motion.tsx`.
+- **Текст** — только через компонент `T` (`src/theme/typography.tsx`), цвета/радиусы/тени — только из `src/theme/tokens.ts` (имена как в `tokens.css` макета без `--c-`). Новые токены добавлять туда же.
+- **Иконки** — `Icon` + `src/icons/data.ts`; обновлять через `node tools/gen-icons.mjs <выгрузки>`. Ручные правки иконок помечать комментарием и вносить в `MANUAL` в скрипте.
+- **Состояния** экранов — данными в `src/data/*` и `src/state/app.tsx`, а не копиями экранов. Новые демо-состояния — в `DemoMenu`.
+- **Нажатия** — `PressScale` (сжатие) или `Pressable`; позиционирующий стиль кладётся прямо на `PressScale`.
+- **Пиксель-перфект.** Отступы и кегли — из макета (393×852 pt), раскладка — flex, абсолют только там, где он в природе компонента (график, оверлеи).
+- **Проверка перед коммитом:** `npx tsc --noEmit`, веб-сборка и скриншоты Playwright 393×852 против `screen@3x.png` макета. `expo lint` не настроен.
+- **Git.** Основная ветка — `main`. Не пушь в `main` без согласия заказчика, работай в своей ветке.
