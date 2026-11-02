@@ -39,7 +39,7 @@ export function FlowSwitch({ label, value, onChange, width = 63 }: { label: stri
   const [thumb] = useState(() => new Animated.Value(value ? width - 40 : 0));
   useEffect(() => { spring(thumb, value ? width - 40 : 0); }, [value, thumb, width]);
   // Общая геометрия из switches.css: трек 63×28, овальный бегунок 36×24.
-  return <Pressable accessibilityLabel={label} accessibilityRole="switch" accessibilityState={{ checked: value }} onPress={() => onChange(!value)} style={{ width, height: 28, borderRadius: 14, backgroundColor: value ? p.switchOn : p.switchOff }}>
+  return <Pressable accessibilityLabel={label} accessibilityRole="switch" aria-checked={value} accessibilityState={{ checked: value }} onPress={() => onChange(!value)} style={{ width, height: 28, borderRadius: 14, backgroundColor: value ? p.switchOn : p.switchOff }}>
     <Animated.View pointerEvents="none" style={{ position: 'absolute', left: 2, top: 2, width: 36, height: 24, borderRadius: 14, backgroundColor: colors.white, boxShadow: p.switchThumbShadow, transform: [{ translateX: thumb }] }} />
   </Pressable>;
 }

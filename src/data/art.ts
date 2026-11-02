@@ -1,5 +1,12 @@
 // Растр из макетов (@3x).
 export const art = {
+  unlockIconNothing: require('../../assets/art/session/methods/unlock-icon-nothing.png'),
+  unlockIconWait: require('../../assets/art/session/methods/unlock-icon-wait.png'),
+  unlockIconReason: require('../../assets/art/session/methods/unlock-icon-reason.png'),
+  unlockIconText: require('../../assets/art/session/methods/unlock-icon-text.png'),
+  unlockIconCode: require('../../assets/art/session/methods/unlock-icon-code.png'),
+  unlockWaitDevice: require('../../assets/art/session/methods/unlock-wait-device.png'),
+  unlockReasonDevice: require('../../assets/art/session/methods/unlock-reason-device.png'),
   sessionBrain: require('../../assets/art/session/emoji/session-brain.png'),
   savedDeepWork: require('../../assets/art/session/saved-deep-work.png'),
   sessionZapCompact: require('../../assets/art/session/session-zap-compact.png'),

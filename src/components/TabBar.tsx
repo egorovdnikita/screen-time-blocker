@@ -91,6 +91,7 @@ export function TabBar({ state, emitter, navigateToTab, insets }: BottomTabBarPr
                 onPress={onPress}
                 accessibilityRole="tab"
                 accessibilityState={{ selected: focused }}
+                aria-selected={focused}
                 accessibilityLabel={route.name === 'rules' ? `${spec.label}, активных: ${activeCount}` : spec.label}
                 style={[styles.item, { left: PAD + i * step }]}
               >

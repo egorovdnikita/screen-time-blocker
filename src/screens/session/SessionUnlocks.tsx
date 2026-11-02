@@ -4,7 +4,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Icon } from '@/components/Icon';
 import { animateLayout, PressScale } from '@/components/motion';
 import { WheelColumn, type WheelItem } from '@/components/WheelColumn';
-import { durationLabel, type SessionDraft } from '@/data/session';
+import { UnlockMethodSheet } from './UnlockMethodSheet';
+import { durationLabel, unlockMethodLabel, type SessionDraft } from '@/data/session';
 import { colors, sessionTheme as c, sessionPickerTheme as p, sessionUnlockTheme as u } from '@/theme/tokens';
 import { T } from '@/theme/typography';
 
@@ -14,6 +15,7 @@ export const unlockCountLabel = (count: number) => `${count} ${count % 10 === 1 
 export function SessionUnlocks({ draft, patch }: Props) {
   const [lastCount, setLastCount] = useState(draft.unlocks || 2);
   const [durationOpen, setDurationOpen] = useState(false);
+  const [methodOpen, setMethodOpen] = useState(false);
   const enabled = draft.unlocks > 0;
   const toggle = (on: boolean) => {
     animateLayout();
@@ -31,11 +33,12 @@ export function SessionUnlocks({ draft, patch }: Props) {
       </View>
       <View style={styles.settings}>
         <View style={styles.setting}><T size={15} color={u.muted} ls={0}>На</T><PressScale accessibilityRole="button" accessibilityLabel="Длительность разблокировки" onPress={() => setDurationOpen(true)} style={styles.setting}><T size={15} weight={600} ls={0}>{durationLabel(draft.unlockMinutes)}</T><Icon name="session-up-down" width={12} height={16} color={u.muted} /></PressScale><T size={15} color={u.muted} ls={0}>каждый раз</T></View>
-        <View style={styles.setting}><T size={15} weight={600} ls={0}>Пауза</T><Icon name="session-up-down" width={12} height={16} color={u.muted} /><T size={15} color={u.muted} ls={0}>перед входом</T></View>
+        <View style={styles.setting}><PressScale accessibilityRole="button" accessibilityLabel="Способ перед входом" onPress={() => setMethodOpen(true)} style={styles.setting}><T size={15} weight={600} ls={0}>{unlockMethodLabel[draft.unlockMethod]}</T><Icon name="session-up-down" width={12} height={16} color={u.muted} /></PressScale><T size={15} color={u.muted} ls={0}>перед входом</T></View>
         <View style={styles.setting}><T size={15} weight={600} ls={0}>Без задержки</T><Icon name="session-up-down" width={12} height={16} color={u.muted} /><T size={15} color={u.muted} ls={0}>между входами</T></View>
       </View>
       <View style={styles.maximum}><T size={17} color={u.maxInk} ls={0}>= {durationLabel(draft.unlocks * draft.unlockMinutes)} макс.</T></View>
     </>}
+    {methodOpen && <UnlockMethodSheet value={draft} onCancel={() => setMethodOpen(false)} onSave={settings => { patch(settings); setMethodOpen(false); }} />}
     {durationOpen && <UnlockDuration value={draft.unlockMinutes} onCancel={() => setDurationOpen(false)} onConfirm={unlockMinutes => { patch({ unlockMinutes }); setDurationOpen(false); }} />}
   </View>;
 }

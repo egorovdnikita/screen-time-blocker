@@ -303,7 +303,7 @@ function RoutineCard() {
         <MetaSep />
         <AllDay />
       </View>
-      <Pressable style={styles.task} onPress={() => setDone((d) => !d)} accessibilityRole="checkbox" accessibilityState={{ checked: done }}>
+      <Pressable style={styles.task} onPress={() => setDone((d) => !d)} accessibilityRole="checkbox" accessibilityState={{ checked: done }} aria-checked={done}>
         <View style={[styles.taskRing, done && { backgroundColor: colors.limitProgress, boxShadow: undefined }]}>
           {done && <Icon name="tip-check" width={14} height={12} color={colors.white} />}
         </View>

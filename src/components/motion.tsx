@@ -119,6 +119,9 @@ export function PressScale({
   return (
     <AnimatedPressable
       {...rest}
+      aria-checked={rest['aria-checked'] ?? rest.accessibilityState?.checked}
+      aria-selected={rest['aria-selected'] ?? rest.accessibilityState?.selected}
+      aria-expanded={rest['aria-expanded'] ?? rest.accessibilityState?.expanded}
       onPressIn={(e) => {
         spring(v, scaleTo);
         rest.onPressIn?.(e);
