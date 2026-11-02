@@ -27,6 +27,7 @@ import { colors, sessionTheme as c } from '@/theme/tokens';
 
 export function SessionEditor() {
   const [swipeClosing, setSwipeClosing] = useState(false);
+  const [afterClose, setAfterClose] = useState<(() => void) | null>(null);
   useDarkStatusBar();
   const { mode, preset } = useLocalSearchParams<{ mode?: string; preset?: string }>();
   const insets = useSafeAreaInsets();
@@ -47,8 +48,8 @@ export function SessionEditor() {
   const daysSummary = draft.days.length === 7 ? 'ежедневно' : draft.days.join() === '0,1,2,3,4' ? 'по будням' : draft.days.map(d => ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'][d]).join(', ');
   const patch = (update: Partial<typeof draft>) => setDraft(d => ({ ...d, ...update }));
   const dismiss = () => router.canGoBack() ? router.back() : router.replace('/(tabs)');
-  const finish = (template: boolean) => { app.addSession(sessionRule(draft), template); router.dismissAll(); router.navigate('/(tabs)/rules'); };
-  return <SheetTransition closing={swipeClosing} onHidden={dismiss} onSwipeClose={() => setSwipeClosing(true)} backdrop={<Pressable style={[StyleSheet.absoluteFill, { backgroundColor: c.backdrop }]} accessibilityLabel="Закрыть редактор сессии" onPress={dismiss} />}>
+  const finish = (template: boolean) => { setAfterClose(() => () => { app.addSession(sessionRule(draft), template); router.dismissAll(); router.navigate('/(tabs)/rules'); }); setSwipeClosing(true); };
+  return <SheetTransition closing={swipeClosing} onHidden={() => { if (afterClose) afterClose(); else dismiss(); }} onSwipeClose={() => setSwipeClosing(true)} backdrop={<Pressable style={[StyleSheet.absoluteFill, { backgroundColor: c.backdrop }]} accessibilityLabel="Закрыть редактор сессии" onPress={() => setSwipeClosing(true)} />}>
     <View pointerEvents="box-none" style={styles.overlay}>
     <View style={[styles.sheet, { marginTop: Math.max(60, insets.top + 1) }]}>
       <SheetGrabber style={styles.handle} />

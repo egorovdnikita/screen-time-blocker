@@ -83,7 +83,7 @@ export function WheelColumn({ label, items, value, onChange, width, height = p.c
     },
   });
 
-  return <View onStartShouldSetResponderCapture={() => { blockSheetGesture(); return false; }} onTouchStart={blockSheetGesture} {...keyboard} focusable accessible accessibilityRole="adjustable" accessibilityLabel={label}
+  return <View onStartShouldSetResponderCapture={event => { blockSheetGesture(event); return false; }} onTouchStart={blockSheetGesture} {...keyboard} focusable accessible accessibilityRole="adjustable" accessibilityLabel={label}
     aria-valuemin={items[0].value} aria-valuemax={items[items.length - 1].value} aria-valuenow={value} aria-valuetext={rows[index].label}
     accessibilityValue={{ min: items[0].value, max: items[items.length - 1].value, now: value, text: rows[index].label }}
     accessibilityActions={[{ name: 'increment', label: 'Увеличить' }, { name: 'decrement', label: 'Уменьшить' }]}

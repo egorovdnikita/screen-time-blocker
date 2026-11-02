@@ -22,11 +22,11 @@ export function HabitForm({ value, onCancel, onSave }: { value?: Habit; onCancel
   const insets = useSafeAreaInsets();
   const valid = !!draft.title.trim() && (draft.kind === 'manual' || !!draft.criterion?.trim());
   const save = () => { if (!valid) return; Keyboard.dismiss(); onSave({ ...draft, label: draft.title.trim(), title: draft.title.trim(), criterion: draft.criterion?.trim() }); };
-  return <SheetModal nativeOffset={Math.max(69, insets.top + 10)} onShown={onShown} onClose={onCancel} backdrop={<Pressable accessibilityLabel="Отменить редактирование привычки" onPress={onCancel} style={[StyleSheet.absoluteFill, { backgroundColor: c.backdrop }]} />}>
+  return <SheetModal animateClose nativeOffset={Math.max(69, insets.top + 10)} onShown={onShown} onClose={onCancel} backdrop={close => <Pressable accessibilityLabel="Отменить редактирование привычки" onPress={() => close()} style={[StyleSheet.absoluteFill, { backgroundColor: c.backdrop }]} />}>{close => <>
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} pointerEvents="box-none" style={{ flex: 1, paddingTop: Math.max(69, insets.top + 10) }}>
       <View style={styles.sheet} accessibilityViewIsModal><SheetGrabber style={styles.handle} />
         <ScrollView accessibilityLabel="Содержимое редактора привычки" keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 30 }}>
-          <View style={styles.header}><PressScale accessibilityRole="button" accessibilityLabel="Закрыть новую привычку" onPress={onCancel} style={[styles.round, { left: 20, backgroundColor: colors.white }]}><Icon name="session-clear" width={21} height={21} color={colors.black} /></PressScale><PressScale accessibilityRole="button" accessibilityLabel="Сохранить привычку" disabled={!valid} accessibilityState={{ disabled: !valid }} onPress={save} style={[styles.round, { right: 20, backgroundColor: l.blue, opacity: valid ? 1 : .5 }]}><Icon name="group-check" width={24} height={26} color={colors.white} /></PressScale>
+          <View style={styles.header}><PressScale accessibilityRole="button" accessibilityLabel="Закрыть новую привычку" onPress={() => close()} style={[styles.round, { left: 20, backgroundColor: colors.white }]}><Icon name="session-clear" width={21} height={21} color={colors.black} /></PressScale><PressScale accessibilityRole="button" accessibilityLabel="Сохранить привычку" disabled={!valid} accessibilityState={{ disabled: !valid }} onPress={() => close(save)} style={[styles.round, { right: 20, backgroundColor: l.blue, opacity: valid ? 1 : .5 }]}><Icon name="group-check" width={24} height={26} color={colors.white} /></PressScale>
             <Image source={draft.title ? draft.image : art.habitCamera} style={{ position: 'absolute', top: 114, alignSelf: 'center', width: draft.title ? 47 : 55, height: draft.title ? 53 : 51 }} />
             {nameFocused ? <TextInput ref={nameInput} accessibilityLabel="Имя привычки" autoFocus value={draft.title} onChangeText={title => setDraft(d => ({ ...d, title }))} placeholder="Имя привычки" placeholderTextColor={c.placeholder} maxLength={80} onBlur={() => { if (focusReady.current) setNameFocused(false); }} onSubmitEditing={() => Keyboard.dismiss()} returnKeyType="done" style={styles.name} /> : <PressScale accessibilityRole="button" accessibilityLabel="Изменить имя привычки" onPress={() => setNameFocused(true)} style={styles.nameRow}><T size={27} color={draft.title ? c.ink : c.placeholder} ls={0} numberOfLines={1}>{draft.title || 'Имя привычки'}</T><Icon name="pencil" width={17} height={18} color={c.edit} /></PressScale>}
           </View>
@@ -38,7 +38,7 @@ export function HabitForm({ value, onCancel, onSave }: { value?: Habit; onCancel
       </View>
     </KeyboardAvoidingView>
     {duration && <UnlockDuration value={draft.minutes} onCancel={() => setDuration(false)} onConfirm={minutes => { setDraft(d => ({ ...d, minutes })); setDuration(false); }} />}
-  </SheetModal>;
+  </>}</SheetModal>;
 }
 const styles = StyleSheet.create({
   nameRow: { position: 'absolute', top: 184, left: 18, right: 18, height: 36, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6 },

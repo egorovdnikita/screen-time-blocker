@@ -22,6 +22,7 @@ import { SingleAppPicker } from './SingleAppPicker';
 
 export function LockEditor() {
   const [swipeClosing, setSwipeClosing] = useState(false);
+  const [afterClose, setAfterClose] = useState<(() => void) | null>(null);
   useDarkStatusBar();
   const [draft, setDraft] = useState(initialLock);
   const [picker, setPicker] = useState<'app' | 'duration' | 'method' | 'strict' | 'confirm' | null>(null);
@@ -30,8 +31,8 @@ export function LockEditor() {
   const selected = lockApp(draft.appId);
   const patch = (update: Partial<LockDraft>) => setDraft(d => ({ ...d, ...update }));
   const dismiss = () => router.canGoBack() ? router.back() : router.replace('/(tabs)');
-  const add = () => { const rule = createLock(draft); if (!rule) return; app.addLock(rule); router.dismissAll(); router.navigate('/(tabs)/rules'); };
-  return <SheetTransition closing={swipeClosing} onHidden={dismiss} onSwipeClose={() => setSwipeClosing(true)} backdrop={<Pressable accessibilityLabel="Закрыть лимит запусков" onPress={dismiss} style={[StyleSheet.absoluteFill, { backgroundColor: c.backdrop }]} />}>
+  const add = () => { const rule = createLock(draft); if (!rule) return; setAfterClose(() => () => { app.addLock(rule); router.dismissAll(); router.navigate('/(tabs)/rules'); }); setSwipeClosing(true); };
+  return <SheetTransition closing={swipeClosing} onHidden={() => { if (afterClose) afterClose(); else dismiss(); }} onSwipeClose={() => setSwipeClosing(true)} backdrop={<Pressable accessibilityLabel="Закрыть лимит запусков" onPress={() => setSwipeClosing(true)} style={[StyleSheet.absoluteFill, { backgroundColor: c.backdrop }]} />}>
     <View style={[styles.sheet, { marginTop: Math.max(59, insets.top + 1) }]}>
       <LinearGradient pointerEvents="none" colors={c.gradient} locations={[0, .45, 1]} style={StyleSheet.absoluteFill} />
       <SheetGrabber style={styles.handle} />

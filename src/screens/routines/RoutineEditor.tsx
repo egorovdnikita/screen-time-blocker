@@ -25,6 +25,7 @@ import { HabitPicker } from './HabitPicker';
 
 export function RoutineEditor() {
   const [swipeClosing, setSwipeClosing] = useState(false);
+  const [afterClose, setAfterClose] = useState<(() => void) | null>(null);
   useDarkStatusBar();
   const [draft, setDraft] = useState(initialRoutine);
   const [open, setOpen] = useState<'after' | 'days' | null>(null);
@@ -38,12 +39,12 @@ export function RoutineEditor() {
   const patch = (update: Partial<RoutineDraft>) => { animateLayout(); setDraft(d => ({ ...d, ...update })); };
   const toggle = (next: typeof open) => { animateLayout(); setOpen(v => v === next ? null : next); };
   const dismiss = () => router.canGoBack() ? router.back() : router.replace('/(tabs)');
-  const finish = (template = false) => { const rule = routineRule(draft); if (!rule) return; app.addRoutine(rule, template); router.dismissAll(); router.navigate('/(tabs)/rules'); };
+  const finish = (template = false) => { const rule = routineRule(draft); if (!rule) return; setAfterClose(() => () => { app.addRoutine(rule, template); router.dismissAll(); router.navigate('/(tabs)/rules'); }); setSwipeClosing(true); };
   const count = draft.appGroup.selectedApps.filter(Boolean).length + draft.appGroup.categories.length;
   const warning = <View style={[styles.warning, { flexDirection: 'row', alignItems: 'center', gap: 3 }]}><View style={{ width: 10, height: 10, borderRadius: 5, backgroundColor: c.warningDot, alignItems: 'center', justifyContent: 'center' }}><T size={9} color={colors.white} ls={0} style={{ lineHeight: 10 }}>!</T></View><T size={12} color={c.warning} ls={0}>Выбрать</T></View>;
   const badge = hasGroupSelection(draft.appGroup) ? <View style={styles.badge}><Icon name="apps-grid" width={14} height={14} color={l.ink} /><T size={14} weight={400} ls={0}>{count || 'Все'}</T></View> : warning;
   const subtitle = draft.earningMode === 'completion' ? `Завершайте привычки, чтобы разблокировать приложения. Действует ${draft.days.length === 7 ? 'каждый день' : daysLabel(draft.days)}.` : `Зарабатывайте время в приложениях${days ? ' после выполнения привычек с фото.' : ', выполняя привычки.'} Действует ${draft.days.length === 7 ? 'каждый день' : daysLabel(draft.days)}.`;
-  return <SheetTransition closing={swipeClosing} onHidden={dismiss} onSwipeClose={() => setSwipeClosing(true)} backdrop={<Pressable accessibilityLabel="Закрыть рутину" onPress={dismiss} style={[StyleSheet.absoluteFill, { backgroundColor: draft.earningMode === 'completion' ? habitFormTheme.backdrop : l.backdrop }]} />}>
+  return <SheetTransition closing={swipeClosing} onHidden={() => { if (afterClose) afterClose(); else dismiss(); }} onSwipeClose={() => setSwipeClosing(true)} backdrop={<Pressable accessibilityLabel="Закрыть рутину" onPress={() => setSwipeClosing(true)} style={[StyleSheet.absoluteFill, { backgroundColor: draft.earningMode === 'completion' ? habitFormTheme.backdrop : l.backdrop }]} />}>
     <View style={[styles.sheet, { marginTop: Math.max(59, insets.top + 1) }]}>
       <ScrollView key={days ? 'days' : after ? selected ? 'selected' : 'after' : 'overview'} showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 24 }}>
         {!compact && <RuleEditorHeader title={draft.title} fallback="Рутина" subtitle={subtitle} image={art.routinePlant} width={47} height={53} top={68} onTitleChange={title => patch({ title })} editLabel="Изменить название рутины" inputLabel="Название рутины" />}

@@ -200,7 +200,7 @@ export const sessionIconTheme = {
 
 // Настройки перед открытием080–082/084.
 export const unlockMethodTheme = {
-  backdrop: '#c4c6c8',
+  backdrop: 'rgba(0,0,0,.2)',
   surface: '#f6f8fa', backSheet: '#dadbdd', handle: '#dcdfe2', radioBorder: '#e5e8eb',
   grid: '#f7f8fa', line: '#f0f0f2', stepper: '#e9eaed', stepperLine: '#c6c8cc',
   value: '#7c8797', note: '#858d97', deviceLabel: '#949494', deviceIntent: '#94bff6',
@@ -226,7 +226,7 @@ export const strictTheme = {
 
 // Группа приложений063–069: app-groups.css и app-group-fixes.css.
 export const appGroupTheme = {
-  backdrop: '#777777', summaryBackdrop: '#c4c6c8', optionsBackdrop: '#e1e2e3', backSheet: '#e1e2e3',
+  backdrop: 'rgba(0,0,0,.2)', summaryBackdrop: 'rgba(0,0,0,.2)', optionsBackdrop: 'rgba(0,0,0,.2)', backSheet: '#e1e2e3',
   surface: '#f2f2f8', optionsSurface: '#f7f8fa', dim: 'rgba(0,0,0,.13)',
   handle: '#d9dadd', blue: '#3983ed', checkboxBlue: '#4285ed', title: '#8a9099',
   segment: '#e5e5eb', segmentShadow: '0px 2px 5px #10182818',
@@ -244,7 +244,7 @@ export const appGroupTheme = {
 // Лимит запусков103–111: lock-rule-summary.css / single-app-picker.css / app-confirmation.css.
 export const lockTheme = {
   buttonGradient: ['#191919', '#181818', '#1b1b1b'],
-  backdrop: '#777679', surface: '#f6f8fa', gradient: ['#f8fafb', '#f3f5f7', '#f6f8fa'],
+  backdrop: 'rgba(0,0,0,.2)', surface: '#f6f8fa', gradient: ['#f8fafb', '#f3f5f7', '#f6f8fa'],
   handle: '#dcdde1', backSheet: '#dedfe1', picker: '#f4f3fa', pickerFade: 'rgba(244,243,250,0)', pickerFadeMid: 'rgba(244,243,250,.64)', pickerFadeEnd: 'rgba(244,243,250,.94)', confirmFade: 'rgba(246,248,250,0)',
   hint: '#c8cdd2', muted: '#c7ccd2', max: '#c6cbd2', note: '#7d8797', ink: '#111111',
   sumFill: '#edf4ff', blue: '#3983ed', disabled: '#b3b4b8', disabledInk: '#cdced2', dark: '#17191a',
@@ -256,7 +256,7 @@ export const lockTheme = {
 
 // Лимит времени114–130: time-limit-editor/fixes, limit-detail-states.
 export const timeLimitTheme = {
-  surface: '#f6f8fa', backdrop: '#747477', handle: '#d8dade', ink: '#141517', secondary: '#828a95',
+  surface: '#f6f8fa', backdrop: 'rgba(0,0,0,.2)', handle: '#d8dade', ink: '#141517', secondary: '#828a95',
   subtitle: '#777f8d', hint: '#858b95', grid: '#f7f8fb', line: '#eceef2', value: '#818894',
   warningFill: '#fff7e3', warning: '#f5a400', badge: '#f1f3f6', summary: '#e4e8f7', blue: '#3983ed',
   dayBorder: '#e2e3e6', dayOff: '#c5cad0', disabled: '#b3b4b8', disabledInk: '#cdced2',
@@ -274,7 +274,7 @@ export const routineTheme = {
 
 // Создание привычки143–145: habit-form.css.
 export const habitFormTheme = {
-  backdrop: '#c4c6c8', placeholder: '#bfc3c9', border: '#dfe1e5', ink: '#111111',
+  backdrop: 'rgba(0,0,0,.2)', placeholder: '#bfc3c9', border: '#dfe1e5', ink: '#111111',
   muted: '#858d9b', label: '#9ba2ad', edit: '#c3c8ce', badgeBorder: '#e5e6e9',
   createBorder: '#d5d9df', createInk: '#858f9e', createFill: '#e4e7ec',
   roundShadow: '0px 10px 25px #00000007', sectionRadius: 19, descriptionRadius: 22,
@@ -290,7 +290,7 @@ export const reflectionTheme = {
 };
 
 export const settingsTheme = {
-  backdrop: '#858585', transparent: '#ffffff00', surface: '#f4f6f9', front: '#f6f8fa', back: '#d8dadd', handle: '#d9dce1',
+  backdrop: 'rgba(0,0,0,.2)', transparent: '#ffffff00', surface: '#f4f6f9', front: '#f6f8fa', back: '#d8dadd', handle: '#d9dce1',
   title: '#111111', ink: '#090909', section: '#929aa8', icon: '#969eaa', value: '#7f899a', chevron: '#c1c6ce', note: '#8791a2', border: '#eff0f2',
   stepShadow: '0 3px 12px #25354c12', description: '#7e899c', field: '#d8dce1', pencil: '#c0c5ce',
   formDisabled: '#9fbff2', formDisabledInk: '#ffffffa6', blue: '#4384f4', dim: '#00000021', dark: '#17191a',
@@ -320,7 +320,7 @@ export const shareDevicesTheme = {
 };
 
 export const appUnlockTheme = {
-  backdrop: '#777679', surface: '#f8fafb', handle: '#d9dcdf', badge: '#ffffffbf',
+  backdrop: 'rgba(0,0,0,.2)', surface: '#f8fafb', handle: '#d9dcdf', badge: '#ffffffbf',
   blueTop: '#3085fe', blueBottom: '#0266f6', blueRim: '#91bff1', green: '#15c666', greenRim: '#72dfa0',
   blueShadow: '0 18px 40px #2781f233', greenShadow: '0 18px 40px #18bf6330',
   badgeShadow: '0 10px 22px #2029380a', actionShadow: '0 12px 25px #16202a0a',
@@ -328,7 +328,7 @@ export const appUnlockTheme = {
 };
 
 export const ruleDetailTheme = {
-  backdrop: '#777679', surface: '#f5f7f9', headerLine: '#eceef0', muted: '#7d8797', chevron: '#c8cdd3', handle: '#e5e6e8',
+  backdrop: 'rgba(0,0,0,.2)', surface: '#f5f7f9', headerLine: '#eceef0', muted: '#7d8797', chevron: '#c8cdd3', handle: '#e5e6e8',
   close: '#fdfdfd', closeShadow: 'inset 0 0 0 .667px #ffffffb3,0 8px 30.091px #00000017', disabled: '#a2bff5',
   rowShadow: '0 1px 2px #00000014', snooze: '#e9f1fc', blue: '#4384f4', remove: '#f8dccf', orange: '#f76524',
   menuTop: '#fcfcfce8', menuBottom: '#fcfcfca8', menuBorder: '#ffffffbf', menuShadow: '0 12px 30px #20293820', menuCaption: '#88888c',
@@ -353,3 +353,5 @@ export const modalTheme = { dim: 'rgba(0,0,0,.2)' };
 export const troubleshootTheme = { surface: '#f3f5f7', options: '#f6f8fa', section: '#959eab', caption: '#7d8797', ink: '#17191a', border: '#e1e4e8', active: '#3784f5', disabled: '#bbbbbb', disabledText: '#d3d3d3', separator: '#f0f2f4', switchOn: '#4d82eb', switchOff: '#c5c4c7', panelShadow: '0px 18px 30px #17202a05', contactShadow: '0px 12px 30px #17202a06' } as const;
 
 export const legacyLimitsTheme = { text: '#666666', surface: 'rgba(249,249,249,.78)', cancel: '#d0d0d0', confirm: '#0085ff', switchOn: '#3784f7', switchOff: '#c5c4c7' } as const;
+
+export const homeSkyTheme = { top: '#0878ff', fade: ['#f4f6f800', '#f4f6f8'] as const } as const;

@@ -17,19 +17,19 @@ export function LimitAppPicker({ value, categories, onCancel, onSave }: { value:
   const count = selected.length + selectedCategories.length;
   const [query, setQuery] = useState('');
   const insets = useSafeAreaInsets();
-  return <SheetModal nativeOffset={Math.max(69, insets.top + 10)} onClose={onCancel} backdrop={<Pressable accessibilityLabel="Отменить приложения лимита" onPress={onCancel} style={[StyleSheet.absoluteFill, { backgroundColor: c.backdrop }]} />}>
+  return <SheetModal animateClose nativeOffset={Math.max(69, insets.top + 10)} onClose={onCancel} backdrop={close => <Pressable accessibilityLabel="Отменить приложения лимита" onPress={() => close()} style={[StyleSheet.absoluteFill, { backgroundColor: c.backdrop }]} />}>{close => <>
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} pointerEvents="box-none" style={{ flex: 1, paddingTop: Math.max(69, insets.top + 10) }}>
       <View style={styles.sheet} accessibilityViewIsModal>
         <SheetGrabber style={styles.handle} />
-        <PressScale accessibilityRole="button" accessibilityLabel="Закрыть приложения лимита" onPress={onCancel} style={[styles.round, { left: 20, backgroundColor: colors.white }]}><Icon name="session-clear" width={22} height={22} color={colors.black} /></PressScale>
-        <PressScale accessibilityRole="button" accessibilityLabel="Сохранить приложения лимита" disabled={!count} accessibilityState={{ disabled: !count }} onPress={() => onSave([...selected], [...selectedCategories])} style={[styles.round, { right: 20, backgroundColor: l.blue, opacity: count ? 1 : .5 }]}><Icon name="group-check" width={24} height={26} color={colors.white} /></PressScale>
+        <PressScale accessibilityRole="button" accessibilityLabel="Закрыть приложения лимита" onPress={() => close()} style={[styles.round, { left: 20, backgroundColor: colors.white }]}><Icon name="session-clear" width={22} height={22} color={colors.black} /></PressScale>
+        <PressScale accessibilityRole="button" accessibilityLabel="Сохранить приложения лимита" disabled={!count} accessibilityState={{ disabled: !count }} onPress={() => close(() => onSave([...selected], [...selectedCategories]))} style={[styles.round, { right: 20, backgroundColor: l.blue, opacity: count ? 1 : .5 }]}><Icon name="group-check" width={24} height={26} color={colors.white} /></PressScale>
         <View style={styles.summary}><T size={14} weight={600} color={l.blue} ls={0}>Будет закрыто:</T><T size={14} weight={400} color={l.blue} ls={0}>{selected.length || !selectedCategories.length ? `${selected.length} ${selected.length === 1 ? 'приложение' : selected.length > 1 && selected.length < 5 ? 'приложения' : 'приложений'}` : ''}{selected.length && selectedCategories.length ? ', ' : ''}{selectedCategories.length ? `${selectedCategories.length} ${selectedCategories.length === 1 ? 'категория' : selectedCategories.length < 5 ? 'категории' : 'категорий'}` : ''}</T></View>
         <ScrollView keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} style={styles.list}><AppCatalog query={query} selected={selected} multiple categories={selectedCategories} onCategory={id => setSelectedCategories(ids => ids.includes(id) ? ids.filter(category => category !== id) : [...ids, id])} onSelect={id => setSelected(ids => ids.includes(id) ? ids.filter(app => app !== id) : [...ids, id])} /></ScrollView>
         <LinearGradient pointerEvents="none" colors={[c.pickerFade, c.pickerFadeMid, c.picker]} locations={[0, .4, 1]} style={styles.fade} />
         <View style={styles.search}><BlurView pointerEvents="none" intensity={32} tint="light" style={[StyleSheet.absoluteFill, { borderRadius: c.searchRadius }]} /><Icon name="session-search" width={20} height={20} color={colors.black} /><TextInput accessibilityLabel="Поиск приложений лимита" value={query} onChangeText={setQuery} placeholder="Поиск" autoCorrect={false} autoCapitalize="none" placeholderTextColor={c.note} style={styles.input} /><Icon name="group-microphone" width={20} height={23} color={c.note} /></View>
       </View>
     </KeyboardAvoidingView>
-  </SheetModal>;
+  </>}</SheetModal>;
 }
 const styles = StyleSheet.create({
   sheet: { flex: 1, borderRadius: c.panelRadius, overflow: 'hidden', backgroundColor: c.picker }, handle: { position: 'absolute', top: 12, width: 64, height: 5, alignSelf: 'center', borderRadius: 5, backgroundColor: c.handle },

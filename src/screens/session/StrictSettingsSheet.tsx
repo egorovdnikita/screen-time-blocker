@@ -2,7 +2,7 @@ import { SheetScrollView as ScrollView, SheetGrabber, SheetModal } from '@/compo
 import { BlurView } from 'expo-blur';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useState } from 'react';
-import { Modal, Pressable, StyleSheet, View, useWindowDimensions } from 'react-native';
+import {  Pressable, StyleSheet, View, useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Icon } from '@/components/Icon';
 import { animateLayout, PressScale } from '@/components/motion';
@@ -16,7 +16,7 @@ export function StrictSettingsSheet({ value, onCancel, onActivate }: { value: St
   const { height } = useWindowDimensions();
   const insets = useSafeAreaInsets();
   const session = draft.strictScope === 'session';
-  return <SheetModal onClose={onCancel} backdrop={<Pressable accessibilityLabel="Отменить строгий режим" onPress={onCancel} style={[StyleSheet.absoluteFill, { backgroundColor: c.backdrop }]} />}>
+  return <SheetModal animateClose onClose={onCancel} backdrop={close => <Pressable accessibilityLabel="Отменить строгий режим" onPress={() => close()} style={[StyleSheet.absoluteFill, { backgroundColor: c.backdrop }]} />}>{close => <>
     <View pointerEvents="box-none" style={{ flex: 1 }}>
       <View style={[styles.sheet, { top: Math.max(insets.top + 20, height - 579) }]} accessibilityViewIsModal>
         <SheetGrabber style={styles.handle} /><View style={styles.title}><Icon name="session-shield" width={22} height={24} /><T size={20} ls={0}>Строгий режим</T></View>
@@ -33,20 +33,20 @@ export function StrictSettingsSheet({ value, onCancel, onActivate }: { value: St
           <View style={styles.prevent}><Icon name="chevron-down-section" width={10} height={8} color={c.handle} /><T size={14} weight={600} color={c.secondary} ls={0}>Запретить…</T><T size={14} weight={400} ls={0} style={{ marginLeft: 'auto' }}>3</T></View>
         </ScrollView>
         <LinearGradient pointerEvents="none" colors={[c.surfaceFade, c.surface]} style={styles.fade} />
-        <PressScale accessibilityRole="button" accessibilityLabel="Включить строгий режим" onPress={() => onActivate(draft)} style={[styles.activate, { bottom: Math.max(45, insets.bottom + 10) }]}><LinearGradient colors={c.gradient} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={StyleSheet.absoluteFill} /><Icon name="shield-check-white" width={17} height={19} color={colors.white} /><T size={16} color={colors.white} ls={0}>Включить строгий режим</T></PressScale>
+        <PressScale accessibilityRole="button" accessibilityLabel="Включить строгий режим" onPress={() => close(() => onActivate(draft))} style={[styles.activate, { bottom: Math.max(45, insets.bottom + 10) }]}><LinearGradient colors={c.gradient} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={StyleSheet.absoluteFill} /><Icon name="shield-check-white" width={17} height={19} color={colors.white} /><T size={16} color={colors.white} ls={0}>Включить строгий режим</T></PressScale>
       </View>
     </View>
-  </SheetModal>;
+  </>}</SheetModal>;
 }
 export function StrictConfirmation({ onCancel, onContinue }: { onCancel: () => void; onContinue: () => void }) {
   const { height } = useWindowDimensions();
-  return <Modal transparent animationType="fade" onRequestClose={onCancel}><View style={{ flex: 1 }}><Pressable accessibilityLabel="Закрыть подтверждение строгого режима" onPress={onCancel} style={[StyleSheet.absoluteFill, { backgroundColor: c.alertBackdrop }]} />
+  return <SheetModal animateClose motion="dialog" onClose={onCancel} backdrop={close => <Pressable accessibilityLabel="Закрыть подтверждение строгого режима" onPress={() => close()} style={[StyleSheet.absoluteFill, { backgroundColor: c.alertBackdrop }]} />}>{close => <View style={{ flex: 1 }}>
     <View style={[styles.alert, { top: height * .515 - 96 }]} accessibilityViewIsModal accessibilityRole="alert">
       <BlurView intensity={16} tint="light" style={StyleSheet.absoluteFill} /><LinearGradient colors={c.alertGradient} style={StyleSheet.absoluteFill} />
       <T size={17} weight={600} ls={0} variant="display" style={styles.alertTitle}>✋ Включить строгий режим?</T><T size={15} weight={400} color={c.alertCopy} ls={0} variant="display" style={styles.alertCopy}>Нельзя менять правило и удалять приложения с iPhone/iPad, пока включён строгий режим.</T>
-      <View style={styles.alertActions}><PressScale accessibilityRole="button" onPress={onCancel} style={[styles.alertButton, { backgroundColor: c.alertCancel }]}><T size={17} weight={400} variant="display" ls={0}>Отмена</T></PressScale><PressScale accessibilityRole="button" onPress={onContinue} style={[styles.alertButton, { backgroundColor: c.alertPrimary }]}><T size={17} weight={500} variant="display" color={colors.white} ls={0}>Продолжить</T></PressScale></View>
+      <View style={styles.alertActions}><PressScale accessibilityRole="button" onPress={() => close()} style={[styles.alertButton, { backgroundColor: c.alertCancel }]}><T size={17} weight={400} variant="display" ls={0}>Отмена</T></PressScale><PressScale accessibilityRole="button" onPress={() => close(onContinue)} style={[styles.alertButton, { backgroundColor: c.alertPrimary }]}><T size={17} weight={500} variant="display" color={colors.white} ls={0}>Продолжить</T></PressScale></View>
     </View>
-  </View></Modal>;
+  </View>}</SheetModal>;
 }
 const styles = StyleSheet.create({
   sheet: { position: 'absolute', left: 8, right: 8, bottom: 8, borderRadius: c.radius, backgroundColor: c.surface, overflow: 'hidden' }, handle: { position: 'absolute', top: 11, width: 60, height: 5, alignSelf: 'center', backgroundColor: c.handle, borderRadius: 5 }, title: { position: 'absolute', top: 42, left: 0, right: 0, flexDirection: 'row', gap: 5, alignItems: 'center', justifyContent: 'center' },

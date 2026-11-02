@@ -23,7 +23,7 @@ export function SingleAppPicker({ value, onCancel, onConfirm }: { value: LockApp
   const isConfirm = phase === 'confirm';
   const bottom = Math.max(39, insets.bottom + 5);
   const continueStep = () => { if (!selected) return; setQuery(''); setConfirmed(null); setPhase('confirm'); };
-  return <SheetModal nativeOffset={Math.max(69, insets.top + 10)} onClose={onCancel} backdrop={<Pressable accessibilityLabel="Отменить выбор одного приложения" onPress={onCancel} style={[StyleSheet.absoluteFill, { backgroundColor: c.backdrop }]} />}>
+  return <SheetModal animateClose nativeOffset={Math.max(69, insets.top + 10)} onClose={onCancel} backdrop={close => <Pressable accessibilityLabel="Отменить выбор одного приложения" onPress={() => close()} style={[StyleSheet.absoluteFill, { backgroundColor: c.backdrop }]} />}>{close => <>
     <View pointerEvents="box-none" style={{ flex: 1 }}>
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} pointerEvents="box-none" style={{ flex: 1 }}>
         <View pointerEvents="none" style={{ height: Math.max(69, insets.top + 10) }} />
@@ -47,11 +47,11 @@ export function SingleAppPicker({ value, onCancel, onConfirm }: { value: LockApp
             <LinearGradient pointerEvents="none" colors={[c.pickerFade, c.pickerFadeMid, c.pickerFadeEnd, c.picker]} locations={[0, .4, .75, 1]} style={styles.fade} />
             <View style={[styles.search, { bottom: bottom + 91 }]}><Icon name="session-search" width={20} height={20} color={colors.black} /><TextInput accessibilityLabel="Поиск одного приложения" value={query} onChangeText={setQuery} autoCorrect={false} autoCapitalize="none" placeholder="Поиск" placeholderTextColor={c.note} style={[styles.input, { fontSize: 17 }]} /><Icon name="group-microphone" width={20} height={23} color={c.note} /></View>
           </>}
-          <PressScale accessibilityRole="button" accessibilityLabel={isConfirm ? confirmed ? `Это ${lockApp(confirmed)!.name}` : 'Это…' : 'Продолжить выбор приложения'} disabled={isConfirm ? !confirmed : !selected} accessibilityState={{ disabled: isConfirm ? !confirmed : !selected }} onPress={() => isConfirm ? confirmed && onConfirm(confirmed) : continueStep()} style={[styles.cta, { bottom, backgroundColor: (isConfirm ? confirmed : selected) ? c.dark : c.disabled }]}><T size={17} color={(isConfirm ? confirmed : selected) ? colors.white : c.disabledInk} ls={0}>{isConfirm ? confirmed ? `Это ${lockApp(confirmed)!.name}` : 'Это…' : 'Продолжить'}</T></PressScale>
+          <PressScale accessibilityRole="button" accessibilityLabel={isConfirm ? confirmed ? `Это ${lockApp(confirmed)!.name}` : 'Это…' : 'Продолжить выбор приложения'} disabled={isConfirm ? !confirmed : !selected} accessibilityState={{ disabled: isConfirm ? !confirmed : !selected }} onPress={() => { if (isConfirm) { if (confirmed) close(() => onConfirm(confirmed)); } else continueStep(); }} style={[styles.cta, { bottom, backgroundColor: (isConfirm ? confirmed : selected) ? c.dark : c.disabled }]}><T size={17} color={(isConfirm ? confirmed : selected) ? colors.white : c.disabledInk} ls={0}>{isConfirm ? confirmed ? `Это ${lockApp(confirmed)!.name}` : 'Это…' : 'Продолжить'}</T></PressScale>
         </View>
       </KeyboardAvoidingView>
     </View>
-  </SheetModal>;
+  </>}</SheetModal>;
 }
 export function AppCatalog({ query, selected, onSelect, multiple = false, categories = [], onCategory }: { query: string; selected: readonly LockAppId[]; onSelect: (id: LockAppId) => void; multiple?: boolean; categories?: string[]; onCategory?: (id: string) => void }) {
   const [expanded, setExpanded] = useState<string | null>(null);

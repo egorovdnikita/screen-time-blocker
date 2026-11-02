@@ -14,13 +14,27 @@ function useSheetPriority(enabled = true) {
 class SheetScrollTracker {
   private offset = 0;
   private owner: object | null = null;
-  reset() { this.offset = 0; this.owner = null; }
-  claim(owner: object, value: number) { if (this.owner === null) { this.owner = owner; this.offset = value; } }
+  private startedAtTop = true;
+  private gesture = -1;
+  begin(stamp: number) { if (this.gesture !== stamp) { this.reset(); this.gesture = stamp; } }
+  reset() { this.offset = 0; this.owner = null; this.startedAtTop = true; }
+  claim(owner: object, value: number) { if (this.owner === null) { this.owner = owner; this.offset = value; this.startedAtTop = value <= .5; } }
   update(owner: object, value: number) { if (this.owner === owner) this.offset = value; }
   block() { this.owner = this; this.offset = Infinity; }
   set(value: number) { this.offset = value; }
-  get() { return this.offset; }
+  get() { return this.startedAtTop ? this.offset : Infinity; }
 }
+class NativeScrollGate {
+  private active = false;
+  private atTop = true;
+  private delay: ReturnType<typeof setTimeout> | undefined;
+  constructor(private listener: (atTop: boolean) => void) {}
+  begin(atTop: boolean) { clearTimeout(this.delay); this.active = true; this.atTop = atTop; this.listener(atTop); }
+  update(atTop: boolean) { this.atTop = atTop; if (!atTop || !this.active) this.listener(atTop); }
+  end(atTop: boolean) { this.active = false; this.atTop = atTop; clearTimeout(this.delay); this.delay = setTimeout(() => this.listener(this.atTop), 250); }
+  dispose() { clearTimeout(this.delay); }
+}
+const NativeSheetScrollContext = createContext<NativeScrollGate | null>(null);
 type DragContext = { drag: Animated.Value; close: () => void; enabled: boolean; scroll: SheetScrollTracker };
 const SheetDragContext = createContext<DragContext | null>(null);
 type Backdrop = ReactNode | ((requestClose: SheetClose) => ReactNode);
@@ -34,7 +48,7 @@ export function SheetTransition({ backdrop, children, shown = true, closing = fa
   const bodyPan = useMemo(() => {
     const start = new SheetScrollTracker();
     return PanResponder.create({
-      onStartShouldSetPanResponderCapture: () => { scroll.reset(); return false; },
+      onStartShouldSetPanResponderCapture: event => { scroll.begin(event.nativeEvent.timestamp ?? event.timeStamp); return false; },
       onMoveShouldSetPanResponderCapture: (_, g) => sheetGestureStack.at(-1) === priority && swipeEnabled && !!onSwipeClose && motion === 'sheet' && shown && !closing && scroll.get() <= 0 && g.dy > 6 && g.dy > Math.abs(g.dx) * 1.3,
       onPanResponderGrant: (_, g) => { start.set(g.dy); drag.stopAnimation(); Keyboard.dismiss(); },
       onPanResponderMove: (_, g) => drag.setValue(Math.max(0, g.dy - start.get())),
@@ -63,6 +77,9 @@ export function SheetModal({ backdrop, children, onClose, visible = true, onShow
 function PresentedSheet({ backdrop, children, onClose, onShown, animateClose, overlay, motion, swipeEnabled, nativeOffset, nativeSurface }: { backdrop: Backdrop; children: SheetContent; overlay?: ReactNode; onClose: () => void; onShown?: () => void; animateClose: boolean; motion: SheetMotion; swipeEnabled: boolean; nativeOffset?: number; nativeSurface: string }) {
   const nativePage = Platform.OS === 'ios' && nativeOffset != null && motion === 'sheet';
   useSheetPriority(nativePage);
+  const [nativeAtTop, setNativeAtTop] = useState(true);
+  const [nativeScroll] = useState(() => new NativeScrollGate(setNativeAtTop));
+  useEffect(() => () => nativeScroll.dispose(), [nativeScroll]);
   const [shown, setShown] = useState(false);
   const [presented, setPresented] = useState(true);
   const finished = useRef(false);
@@ -77,7 +94,7 @@ function PresentedSheet({ backdrop, children, onClose, onShown, animateClose, ov
   }, [animateClose, onClose, closing, nativePage]);
   const complete = useCallback(() => { if (finished.current) return; finished.current = true; setCompletion(null); completion?.(); }, [completion]);
   const hide = useCallback(() => { setPresented(false); if (Platform.OS !== 'ios') complete(); }, [complete]);
-  if (nativePage) return <Modal visible={presented} transparent={false} presentationStyle="pageSheet" animationType="slide" allowSwipeDismissal={swipeEnabled} backdropColor={nativeSurface} onShow={onShown} onDismiss={complete} onRequestClose={() => { if (!swipeEnabled || finished.current) return; finished.current = true; Keyboard.dismiss(); onClose(); }}><SheetDragContext.Provider value={null}><View style={{ flex: 1, backgroundColor: nativeSurface }}><View style={{ position: 'absolute', left: 0, right: 0, top: -nativeOffset!, bottom: 0 }}>{typeof children === 'function' ? children(requestClose) : children}</View>{overlay}</View></SheetDragContext.Provider></Modal>;
+  if (nativePage) return <Modal visible={presented} transparent={false} presentationStyle="pageSheet" animationType="slide" allowSwipeDismissal={swipeEnabled && nativeAtTop} backdropColor={nativeSurface} onShow={onShown} onDismiss={complete} onRequestClose={() => { if (!swipeEnabled || !nativeAtTop || finished.current) return; finished.current = true; Keyboard.dismiss(); onClose(); }}><SheetDragContext.Provider value={null}><NativeSheetScrollContext.Provider value={nativeScroll}><View style={{ flex: 1, backgroundColor: nativeSurface }}><View style={{ position: 'absolute', left: 0, right: 0, top: -nativeOffset!, bottom: 0 }}>{typeof children === 'function' ? children(requestClose) : children}</View>{overlay}</View></NativeSheetScrollContext.Provider></SheetDragContext.Provider></Modal>;
   return <Modal visible={presented} transparent animationType="none" onDismiss={complete} onShow={() => { setShown(true); onShown?.(); }} onRequestClose={() => requestClose()}>
     <SheetTransition backdrop={typeof backdrop === 'function' ? backdrop(requestClose) : backdrop} shown={shown} closing={closing} onHidden={hide} motion={motion} overlay={overlay} swipeEnabled={swipeEnabled} onSwipeClose={() => requestClose(undefined, true)}>{typeof children === 'function' ? children(requestClose) : children}</SheetTransition>
   </Modal>;
@@ -107,13 +124,14 @@ export function SheetGrabber({ style }: { style: StyleProp<ViewStyle> }) {
 }
 
 // Отслеживаем прокрутку именно того списка, с которого начался жест.
-export function SheetScrollView({ onScroll, onTouchStart, scrollEventThrottle = 16, ...props }: ComponentProps<typeof ScrollView>) {
+export function SheetScrollView({ onScroll, onTouchStart, onTouchEnd, scrollEventThrottle = 16, bounces = false, alwaysBounceVertical = false, overScrollMode = 'never', ...props }: ComponentProps<typeof ScrollView>) {
   const context = useContext(SheetDragContext);
+  const native = useContext(NativeSheetScrollContext);
   const offset = useRef(props.contentOffset?.y ?? 0);
   const [source] = useState(() => ({}));
-  return <ScrollView {...props} scrollEventThrottle={scrollEventThrottle} onTouchStart={event => { if (context) context.scroll.claim(source, offset.current); onTouchStart?.(event); }} onScroll={event => { offset.current = event.nativeEvent.contentOffset.y; if (context) context.scroll.update(source, offset.current); onScroll?.(event); }} />;
+  return <ScrollView {...props} bounces={bounces} alwaysBounceVertical={alwaysBounceVertical} overScrollMode={overScrollMode} scrollEventThrottle={scrollEventThrottle} onTouchStart={event => { if (!props.horizontal) native?.begin(offset.current <= .5); if (context) { context.scroll.begin(event.nativeEvent.timestamp ?? event.timeStamp); context.scroll.claim(source, offset.current); } onTouchStart?.(event); }} onTouchEnd={event => { if (!props.horizontal) native?.end(offset.current <= .5); onTouchEnd?.(event); }} onScroll={event => { offset.current = event.nativeEvent.contentOffset.y; if (!props.horizontal) native?.update(offset.current <= .5); if (context) context.scroll.update(source, offset.current); onScroll?.(event); }} />;
 }
 export function useSheetGestureBlocker() {
   const context = useContext(SheetDragContext);
-  return () => { if (context) context.scroll.block(); };
+  return (event?: { timeStamp: number; nativeEvent?: { timestamp?: number } }) => { if (context) { if (event) context.scroll.begin(event.nativeEvent?.timestamp ?? event.timeStamp); context.scroll.block(); } };
 }

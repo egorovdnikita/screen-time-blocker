@@ -23,6 +23,7 @@ import { LimitAppPicker } from './LimitAppPicker';
 type Open = 'after' | 'days' | 'unlocks' | 'notifications' | null;
 export function TimeLimitEditor() {
   const [swipeClosing, setSwipeClosing] = useState(false);
+  const [afterClose, setAfterClose] = useState<(() => void) | null>(null);
   useDarkStatusBar();
   const { preset } = useLocalSearchParams<{ preset?: string }>();
   const [draft, setDraft] = useState(() => ({ ...initialTimeLimit(), ...(preset === 'limit' ? { title: 'Лимит времени', minutes: 60 } : {}) }));
@@ -37,13 +38,13 @@ export function TimeLimitEditor() {
   const toggle = (next: Open) => { animateLayout(); setOpen(x => x === next ? null : next); };
   const setMinutes = (minutes: number) => patch({ minutes, notifyBefore: Math.min(draft.notifyBefore, Math.floor((minutes - 1) / 10) * 10), notifyEvery: Math.min(draft.notifyEvery, Math.floor(minutes / 10) * 10) });
   const dismiss = () => router.canGoBack() ? router.back() : router.replace('/(tabs)');
-  const finish = (template = false) => { const rule = timeLimitRule(draft); if (!rule) return; app.addLimit(rule, template); router.dismissAll(); router.navigate(!template && !app.shareGuideSeen ? '/share-devices' : '/(tabs)/rules'); };
+  const finish = (template = false) => { const rule = timeLimitRule(draft); if (!rule) return; setAfterClose(() => () => { app.addLimit(rule, template); router.dismissAll(); router.navigate(!template && !app.shareGuideSeen ? '/share-devices' : '/(tabs)/rules'); }); setSwipeClosing(true); };
   const selectedCount = draft.limitApps.length + draft.limitCategories.length;
   const badge = selectedCount ? <View style={styles.badge}><Icon name="apps-grid" width={14} height={14} color={c.ink} /><T size={14} weight={400} ls={0}>{selectedCount}</T></View> : <View style={styles.warning}><T size={12} color={c.warning} ls={0}>● Выбрать</T></View>;
   const row = (title: string, value: string, action: () => void, margin = 14) => <View style={{ marginTop: margin }}><EditorRow title={title} value={value} onPress={action} /></View>;
   const afterValue = `${durationLabel(draft.minutes)}　│　Приложения`;
   const extraValue = draft.unlocks ? `${draft.unlocks}　│　${draft.unlockMethod === 'wait' ? 'Ожидание' : unlockMethodLabel[draft.unlockMethod]}` : 'Нет';
-  return <SheetTransition closing={swipeClosing} onHidden={dismiss} onSwipeClose={() => setSwipeClosing(true)} backdrop={<Pressable accessibilityLabel="Закрыть лимит времени" onPress={dismiss} style={[StyleSheet.absoluteFill, { backgroundColor: c.backdrop }]} />}>
+  return <SheetTransition closing={swipeClosing} onHidden={() => { if (afterClose) afterClose(); else dismiss(); }} onSwipeClose={() => setSwipeClosing(true)} backdrop={<Pressable accessibilityLabel="Закрыть лимит времени" onPress={() => setSwipeClosing(true)} style={[StyleSheet.absoluteFill, { backgroundColor: c.backdrop }]} />}>
     <View style={[styles.sheet, { marginTop: Math.max(59, insets.top + 1) }]}>
       <ScrollView key={deep ? 'deep' : notify ? 'notify' : after ? 'after' : days || extra ? 'details' : 'overview'} showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 24 }}>
         {!compact && <RuleEditorHeader title={draft.title} fallback="Время экрана" subtitle={`Блокировать приложения после ${draft.minutes < 60 ? `${draft.minutes} ${draft.minutes === 1 ? 'минуты' : 'минут'}` : durationLabel(draft.minutes)} в них. Действует ${draft.days.length === 7 ? 'каждый день' : daysLabel(draft.days)}.`} image={art.timeLimitHourglass} width={39} height={51} top={70} onTitleChange={title => patch({ title })} editLabel="Изменить название лимита" inputLabel="Название лимита времени" />}

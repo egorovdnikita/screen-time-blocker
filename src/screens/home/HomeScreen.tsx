@@ -17,7 +17,7 @@ import { art } from '@/data/art';
 import type { Day } from '@/data/home';
 import { useAppState } from '@/state/app';
 import { T, TRACK_SMALL } from '@/theme/typography';
-import { colors, radii, shadows } from '@/theme/tokens';
+import { homeSkyTheme, colors, radii, shadows } from '@/theme/tokens';
 
 import { MostUsed } from './MostUsed';
 import { InsightSheet, LoadingScene, MostUsedMenu, NewStart, PeriodMenu, type Anchor } from './Overlays';
@@ -71,15 +71,15 @@ export function HomeScreen() {
   }, [loading, spin]);
 
   return (
-    <View style={styles.root}>
+    <View style={styles.root}><LinearGradient pointerEvents="none" colors={[homeSkyTheme.top, colors.bg, colors.bg]} locations={[0, .45, 1]} style={StyleSheet.absoluteFill} />
       <ScrollView
         onScroll={onScroll}
         scrollEventThrottle={32}
         showsVerticalScrollIndicator={false}
         scrollEnabled={!app.newStartVisible}
-        contentContainerStyle={{ paddingBottom: bottomSpace }}
+        contentContainerStyle={{ paddingBottom: bottomSpace, backgroundColor: colors.bg }}
       >
-        <Image source={art.homeSky} style={[styles.sky, { width, height: width * SKY_RATIO }]} contentFit="cover" />
+        <Image source={art.homeSky} style={[styles.sky, { width, height: width * SKY_RATIO }]} contentFit="cover" /><LinearGradient pointerEvents="none" colors={homeSkyTheme.fade} style={{ position: 'absolute', left: 0, right: 0, top: width * SKY_RATIO * .4, height: width * SKY_RATIO * .6 }} />
 
         <View style={[styles.header, { marginTop: top + 15 }]}>
           <Icon name="block-wordmark" width={98.572} height={27.666} color={colors.wordmark} style={{ marginLeft: -5.8 }} />

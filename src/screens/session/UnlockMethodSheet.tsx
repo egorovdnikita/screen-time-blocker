@@ -33,7 +33,7 @@ export function UnlockMethodSheet({ value, onCancel, onSave }: Props) {
     const timer = setTimeout(() => scroll.current?.scrollTo({ y: scrollY, animated: false }), 300);
     return () => clearTimeout(timer);
   }, [scrollY, draft.unlockMethod]);
-  return <SheetModal nativeOffset={Math.max(69, insets.top + 10)} onClose={onCancel} backdrop={<Pressable accessibilityLabel="Отменить способ открытия" onPress={onCancel} style={[StyleSheet.absoluteFill, { backgroundColor: m.backdrop }]} />}>
+  return <SheetModal animateClose nativeOffset={Math.max(69, insets.top + 10)} onClose={onCancel} backdrop={close => <Pressable accessibilityLabel="Отменить способ открытия" onPress={() => close()} style={[StyleSheet.absoluteFill, { backgroundColor: m.backdrop }]} />}>{close => <>
     <View pointerEvents="box-none" style={{ flex: 1 }}>
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} pointerEvents="box-none" style={{ flex: 1 }}>
       <View style={[styles.panel, { marginTop: Math.max(69, insets.top + 10) }]} accessibilityViewIsModal>
@@ -73,11 +73,11 @@ export function UnlockMethodSheet({ value, onCancel, onSave }: Props) {
 
         </ScrollView>
         {scrolled && !isText && !isReason && !scanNfc && <View pointerEvents="none" style={{ position: 'absolute', top: 101, left: 0, right: 0, height: isScan ? 17 : 13, backgroundColor: m.surface }} />}
-        <View style={[styles.footer, { paddingBottom: Math.max(39, insets.bottom + 5) }]}><PressScale accessibilityRole="button" disabled={!valid} accessibilityState={{ disabled: !valid }} onPress={() => onSave({ ...draft, copyText: draft.copyText.trim() })} style={[styles.save, !valid && (scanNfc ? { backgroundColor: m.scanDisabled } : { opacity: .4 })]}><T size={17} color={scanNfc ? m.scanDisabledInk : colors.white} ls={0}>Сохранить</T></PressScale></View>
+        <View style={[styles.footer, { paddingBottom: Math.max(39, insets.bottom + 5) }]}><PressScale accessibilityRole="button" disabled={!valid} accessibilityState={{ disabled: !valid }} onPress={() => close(() => onSave({ ...draft, copyText: draft.copyText.trim() }))} style={[styles.save, !valid && (scanNfc ? { backgroundColor: m.scanDisabled } : { opacity: .4 })]}><T size={17} color={scanNfc ? m.scanDisabledInk : colors.white} ls={0}>Сохранить</T></PressScale></View>
       </View>
       </KeyboardAvoidingView>
     </View>
-  </SheetModal>;
+  </>}</SheetModal>;
 }
 const styles = StyleSheet.create({
 
