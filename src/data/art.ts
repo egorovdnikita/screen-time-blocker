@@ -1,5 +1,17 @@
 // Растр из макетов (@3x).
 export const art = {
+  galleryWork: require('../../assets/art/gallery/work.png'),
+  galleryFocus: require('../../assets/art/gallery/focus.png'),
+  galleryIntention: require('../../assets/art/gallery/intention.png'),
+  galleryLimit: require('../../assets/art/gallery/limit.png'),
+  galleryWind: require('../../assets/art/gallery/wind.png'),
+  galleryMorning: require('../../assets/art/gallery/morning.png'),
+  galleryFolder: require('../../assets/art/gallery/folder.png'),
+  galleryTarget: require('../../assets/art/gallery/target.png'),
+  galleryBrick: require('../../assets/art/gallery/brick.png'),
+  gallerySleep: require('../../assets/art/gallery/sleep.png'),
+  galleryPresent: require('../../assets/art/gallery/present.png'),
+
   ruleDetailHourglass: require('../../assets/art/rule-detail/hourglass.png'),
   ruleDetailLaptop: require('../../assets/art/rule-detail/laptop.png'),
   settingsHeader: require('../../assets/art/settings/header.png'),

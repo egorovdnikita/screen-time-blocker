@@ -1,3 +1,4 @@
+import { gallerySession } from '@/data/gallery';
 import { useDarkStatusBar } from '@/components/useStatusBar';
 import { StrictModeRow } from '@/components/StrictModeRow';
 import { SheetTransition } from '@/components/SheetModal';
@@ -26,10 +27,10 @@ import { colors, sessionTheme as c } from '@/theme/tokens';
 
 export function SessionEditor() {
   useDarkStatusBar();
-  const { mode } = useLocalSearchParams<{ mode?: string }>();
+  const { mode, preset } = useLocalSearchParams<{ mode?: string; preset?: string }>();
   const insets = useSafeAreaInsets();
   const app = useAppState();
-  const [draft, setDraft] = useState(() => initialSession(mode === 'scheduled'));
+  const [draft, setDraft] = useState(() => gallerySession(preset) ?? initialSession(mode === 'scheduled'));
   const [open, setOpen] = useState<'duration' | 'unlocks' | null>(null);
   const [editing, setEditing] = useState(false);
   const [iconOpen, setIconOpen] = useState(false);

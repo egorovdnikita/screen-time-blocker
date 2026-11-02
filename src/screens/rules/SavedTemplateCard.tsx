@@ -13,7 +13,7 @@ import type { LimitRule, RoutineRule, SessionRule } from '@/data/rules';
 import { colors, savedTemplateTheme as s } from '@/theme/tokens';
 import { T } from '@/theme/typography';
 
-export function SavedTemplateCard({ template, onAdd }: { template: SessionRule | LimitRule | RoutineRule; onAdd: () => void }) {
+export function SavedTemplateCard({ template, onAdd, action = 'add' }: { action?: 'add' | 'start'; template: SessionRule | LimitRule | RoutineRule; onAdd: () => void }) {
   const [details, setDetails] = useState(false);
   const routine = !('emoji' in template);
   const limit = !routine && 'value' in template;
@@ -25,7 +25,7 @@ export function SavedTemplateCard({ template, onAdd }: { template: SessionRule |
     <View pointerEvents="none" style={styles.zap}>{routine ? <Image source={art.routinePlant} style={{ width: 20, height: 27 }} /> : limit ? <Image source={art.timeLimitHourglass} style={{ width: 20, height: 27 }} /> : <SessionIcon id={template.iconId || 'zap'} width={20} height={27} />}</View>
     <T pointerEvents="none" size={17} ls={0} numberOfLines={1} style={styles.title}>{template.title}</T>
     <T pointerEvents="none" size={12.5} weight={400} ls={0} numberOfLines={3} style={styles.copy}>{description}</T>
-    <PressScale accessibilityRole="button" accessibilityLabel={`Добавить шаблон ${template.title}`} onPress={onAdd} style={styles.add}><Icon name="plus" width={11} height={12} color={colors.black} /><T size={14} ls={0}>Добавить</T></PressScale>
+    <PressScale accessibilityRole="button" accessibilityLabel={`Добавить шаблон ${template.title}`} onPress={onAdd} style={styles.add}><Icon name={action === 'start' ? "play-fill" : "plus"} width={11} height={12} color={colors.black} /><T size={14} ls={0}>{action === 'start' ? 'Начать' : 'Добавить'}</T></PressScale>
   </DashedBox>{details && !routine && !limit && <TemplateDetails rule={template} onClose={() => setDetails(false)} />}</>;
 }
 const styles = StyleSheet.create({

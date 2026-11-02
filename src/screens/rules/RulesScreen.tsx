@@ -1,3 +1,4 @@
+import { TemplateGallery } from './TemplateGallery';
 import { SessionDetails, LimitDetails } from './SessionDetails';
 import { AppUnlockSheet } from '../unlocking/AppUnlockSheet';
 import { routineHabits } from '@/data/routine';
@@ -427,12 +428,13 @@ function MetaView({ meta }: { meta: Meta }) {
 
 function TemplatesShell({ children }: { children: React.ReactNode }) {
   const app = useAppState();
+  const [gallery, setGallery] = useState(false);
   return (
-    <View style={[styles.tplBand, app.savedTemplates.length > 0 && { paddingTop: 24 }]}>
+    <><View style={[styles.tplBand, app.savedTemplates.length > 0 && { paddingTop: 24 }]}>
       <SectionHeader
         title="Шаблоны"
         right={
-          <PressScale style={styles.seeMore}>
+          <PressScale accessibilityRole="button" accessibilityLabel="Открыть галерею шаблонов" onPress={() => setGallery(true)} style={styles.seeMore}>
             <T size={14.25} color={colors.white}>
               {app.savedTemplates.length ? 'Смотреть' : 'Ещё'}
             </T>
@@ -449,7 +451,7 @@ function TemplatesShell({ children }: { children: React.ReactNode }) {
           <Image source={art.templateMeTime} style={{ width: 170.667, height: 221, borderRadius: 25.5 }} />
         </> : children}
       </ScrollView>
-    </View>
+    </View>{gallery && <TemplateGallery onClose={() => setGallery(false)} onChoose={(kind, preset) => { setGallery(false); requestAnimationFrame(() => router.push({ pathname: kind === 'limit' ? '/limit' : '/session', params: preset ? { preset } : {} })); }} />}</>
   );
 }
 

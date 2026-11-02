@@ -337,3 +337,10 @@ GlassDialog общий предупреждению лимита/БЕТА нап
 ## Детали сохранённого шаблона — 2026-11-03
 
 210–212: TemplateDetails через RuleDetails и GlassDialog. Нажатие на карточку пользовательского шаблона сессии открывает детали; сохранить имя/strict, начать, подтвердить удаление. updateSessionTemplate/deleteSessionTemplate не затрагивают созданные сессии. Неизменённый/пустой шаблон не сохраняется. SVG корзины24×26 взят генератором из assets/icons выгрузки. Строки настроек readonly, лимиты/рутины пока без деталей. Числа/фон отличаются от исходных. Все3состояния просмотрены в Chrome, тест template-details + регрессии session-details/limit-details/typecheck/lint/web-export. iPhone не проверен. За текущий большой заход34новых состояния, не считать100%проекта.
+
+
+## Галерея — 2026-11-03
+
+208–209: TemplateGallery из кнопки Шаблоны/Ещё. Фиксированный header+tabs, вертикальная/горизонтальная прокрутка, фильтры, реальные personal templates и6built-in presets. data/gallery.ts создаёт SessionDraft для work/focus/wind/morning/intention; URLpreset в SessionEditor, лимит60мин через TimeLimitEditor. Preset открывает редактор, не создаёт правило без просмотра. Карточка личного шаблона переиспользует SavedTemplateCard action=start. Дни/приложения/значения остаются реальными.
+
+Фотографии gallery assets очищены от запечённых pill/button локальным OpenCV (временныйvenv, не dependencyExpo), native UI поверх. gen-gallery-art.py воспроизводит восстановление; оно приблизительное. Все2состояния просмотреныChrome, check-gallery/template-details/typecheck/lint/web-export/iOS bundle. iPhone не проверен. Всего36новых состояний в большом заходе:129,169–185,190–202,208–212.203–207 фото/AI не имитировать. Следующее: troubleshooting213–217/оставшиеся OS-зависимые и onboarding; проверить реальное покрытие до утверждения100%.

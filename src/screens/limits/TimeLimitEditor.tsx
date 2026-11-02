@@ -1,7 +1,7 @@
 import { useDarkStatusBar } from '@/components/useStatusBar';
 import { WeekdayPicker } from '@/components/WeekdayPicker';
 import { RuleEditorHeader, RuleSuggestions } from '@/components/RuleEditorPieces';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -23,7 +23,8 @@ import { LimitAppPicker } from './LimitAppPicker';
 type Open = 'after' | 'days' | 'unlocks' | 'notifications' | null;
 export function TimeLimitEditor() {
   useDarkStatusBar();
-  const [draft, setDraft] = useState(initialTimeLimit);
+  const { preset } = useLocalSearchParams<{ preset?: string }>();
+  const [draft, setDraft] = useState(() => ({ ...initialTimeLimit(), ...(preset === 'limit' ? { title: 'Лимит времени', minutes: 60 } : {}) }));
   const [open, setOpen] = useState<Open>(null);
   const [modal, setModal] = useState<'apps' | 'duration' | 'strict' | 'confirm' | null>(null);
   const insets = useSafeAreaInsets();

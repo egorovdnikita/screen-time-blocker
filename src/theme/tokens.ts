@@ -335,3 +335,5 @@ export const ruleDetailTheme = {
 };
 
 export const refreshAlertTheme = { surface: '#f9f9f9bd', ink: '#85858a', button: '#d0d0d0', radius: 31.623 };
+
+export const galleryTheme = { surface: '#f5f7f9', selected: '#4b82ee', border: '#e2e5e8', muted: '#7d8797', section: '#959eab', glass: '#17191a55', glassRim: '#ffffff40' };
