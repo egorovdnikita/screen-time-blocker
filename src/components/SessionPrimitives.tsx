@@ -1,6 +1,6 @@
 import { Image } from 'expo-image';
 import { useEffect, useState, type ReactNode } from 'react';
-import { Animated, Pressable, StyleSheet, View } from 'react-native';
+import { Animated, Platform, Pressable, StyleSheet, Switch, View } from 'react-native';
 import { art } from '@/data/art';
 import { T } from '@/theme/typography';
 import { colors, sessionPickerTheme as p, sessionTheme as c } from '@/theme/tokens';
@@ -38,6 +38,13 @@ export function SessionNotice({ message, top }: { message: string; top: number }
 }
 
 export function FlowSwitch({ label, value, onChange, width = 63 }: { label: string; value: boolean; onChange: (value: boolean) => void; width?: number }) {
+  if (Platform.OS !== 'web') return <Switch accessibilityLabel={label} value={value} onValueChange={onChange} trackColor={{ true: p.switchOn, false: p.switchOff }} thumbColor={Platform.OS === 'ios' ? undefined : colors.white} />;
+  return <WebFlowSwitch label={label} value={value} onChange={onChange} width={width} />;
+}
+
+// Геометрия HTML нужна веб-превью. На устройстве сохраняем системные
+// жесты, анимацию и материал UISwitch; цвет бегунка iOS не переопределяем.
+function WebFlowSwitch({ label, value, onChange, width }: { label: string; value: boolean; onChange: (value: boolean) => void; width: number }) {
   const [thumb] = useState(() => new Animated.Value(value ? width - 40 : 0));
   useEffect(() => { spring(thumb, value ? width - 40 : 0); }, [value, thumb, width]);
   // Общая геометрия из switches.css: трек 63×28, овальный бегунок 36×24.

@@ -270,3 +270,7 @@ ESLint теперь настроен: `npm run lint`. `npx expo lint` в уст�
 По замечанию о поднимающемся затемнении: общий SheetModal/SheetTransition разделяет неподвижный opacity-backdrop и translateY содержимого. У8открытий убран системный Modal.slide; у маршрута session animation none/gestureEnabled false, чтобы стек не перемещал всю подложку. Анимация320мс запускается после onShow, native driver на устройстве. Закрытие условно смонтированных листов пока мгновенное, отдельный swipe/exit не реализован.
 
 Кадры8открытий и проверка неподвижности подложки: docs/reviews/2026-11-02-sheet-motion/. Регрессия app-group/scan/strict/icons/unlocks/pickers; typecheck/lint/web-export/iOS bundle. На физическом iPhone визуально не проверено. Expo требуется reload после изменения root layout; туннель не перезапускать без необходимости, чтобы сохранить QR.
+
+## Системный Switch — 2026-11-02
+
+По замечанию о потерянном «жидком стекле» FlowSwitch возвращает React Native Switch на iOS/Android; кастомная пружина63×28 остаётся только в WebFlowSwitch. На iOS не задавать thumbColor/scale/жёсткие размеры: сохранить системный UISwitch и его реакцию. Все3места обновлены общей реализацией: строгий режим, весь день, автоматическая пауза. Это осознанное предпочтение пользователя поверх статической геометрии HTML. Причина регрессии — замена Switch в523a3ac, не изменение модальных слоёв. Отчёт docs/reviews/2026-11-02-switch.md. iPhone визуально не проверен.
