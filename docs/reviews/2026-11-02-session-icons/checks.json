@@ -1,0 +1,30 @@
+{
+  "initialCount": 35,
+  "empty": true,
+  "cancel": true,
+  "saved": true,
+  "applied": true,
+  "geometry": {
+    "search": {
+      "x": 26,
+      "y": 293,
+      "width": 341,
+      "height": 52,
+      "top": 293,
+      "right": 367,
+      "bottom": 345,
+      "left": 26
+    },
+    "firstTile": {
+      "x": 27,
+      "y": 363,
+      "width": 61.1875,
+      "height": 61.328125,
+      "top": 363,
+      "right": 88.1875,
+      "bottom": 424.328125,
+      "left": 27
+    }
+  },
+  "errors": []
+}

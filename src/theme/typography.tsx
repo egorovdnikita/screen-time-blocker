@@ -4,7 +4,7 @@ import { colors } from './tokens';
 
 // В макете SF Pro Rounded. На iOS это системный шрифт с дизайном rounded,
 // на вебе — ui-rounded, на Android — системный (Roboto).
-const rounded = Platform.select({
+export const rounded = Platform.select({
   ios: 'ui-rounded',
   web: 'ui-rounded, "SF Pro Rounded", -apple-system, system-ui, sans-serif',
   default: undefined,

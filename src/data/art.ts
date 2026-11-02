@@ -1,5 +1,6 @@
 // Растр из макетов (@3x).
 export const art = {
+  sessionBrain: require('../../assets/art/session/emoji/session-brain.png'),
   savedDeepWork: require('../../assets/art/session/saved-deep-work.png'),
   sessionZapCompact: require('../../assets/art/session/session-zap-compact.png'),
   sessionZap: require('../../assets/art/session/session-zap.png'),

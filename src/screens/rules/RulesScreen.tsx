@@ -5,6 +5,7 @@ import { Animated, Pressable, ScrollView, StyleSheet, View, useWindowDimensions 
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Circle } from 'react-native-svg';
 
+import { SessionIcon } from '@/components/SessionIcon';
 import { SavedTemplateCard } from './SavedTemplateCard';
 import { SessionApps, SessionNotice } from '@/components/SessionPrimitives';
 import { BottomChrome, useBottomSpace } from '@/components/BottomChrome';
@@ -213,7 +214,7 @@ const sessionEmoji = {
 function SessionCard({ rule }: { rule: SessionRule }) {
   return (
     <RuleCard style={[styles.wideCard, styles.cardGap]}>
-      <RuleHeader emoji={sessionEmoji[rule.emoji]} title={rule.title} streak={1} />
+      <RuleHeader emoji={rule.iconId ? <SessionIcon id={rule.iconId} width={23} height={25} /> : sessionEmoji[rule.emoji]} title={rule.title} streak={1} />
       <View style={[styles.metaRow, { marginTop: 11 }]}>
         <StatusPill status={rule.status} />
         <MetaView meta={rule.meta} />

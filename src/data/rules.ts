@@ -1,3 +1,4 @@
+import type { SessionIconId } from './sessionIcons';
 import type { RulesVariant } from '@/state/app';
 
 // Варианты экрана «Правила» из макетов (03-creating-an-account, 17/19/20-creating-a-rule, 37-rules).
@@ -16,6 +17,7 @@ export type LockRule = { id: string; app: 'apple-music' | 'bereal'; name: string
 export type SessionRule = {
   selectedApps?: boolean[];
   unlockMinutes?: number;
+  iconId?: SessionIconId;
   id: string;
   emoji: 'laptop' | 'briefcase' | 'zap';
   title: string;

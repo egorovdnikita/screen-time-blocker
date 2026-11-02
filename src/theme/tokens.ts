@@ -189,3 +189,10 @@ export const savedTemplateTheme = {
   width: 170.667, height: 221, radius: 25.5, pillRadius: 14, buttonRadius: 18,
   pill: '#fcfcfc', pillShadow: '0px 6px 20px #141e3c04', buttonShadow: '0px 6px 20px #171b2605',
 } as const;
+
+// Нижний лист выбора emoji059/060.
+export const sessionIconTheme = {
+  surface: '#f7f8fa', backdrop: 'rgba(0,0,0,.12)', handle: '#d7d9dc',
+  searchBorder: '#dedfe2', placeholder: '#b9bdc3', searchIcon: '#c2c5c9',
+  sheetTopRadius: 52, sheetBottomRadius: 64, searchRadius: 30, tileRadius: 16,
+} as const;
