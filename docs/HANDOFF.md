@@ -376,3 +376,12 @@ main-settings +activities-settings/typecheck/lint/web-export/iOS JSbundle. Фи�
 SheetModal animateClose опционален: SettingsStack/Plain включают его, backdrop получает requestClose, onRequestClose также анимирует; owner.onClose только после240ms. Keyboard.dismiss в начале. Для меню BlockScreens animateClose=false закрывает только меню. Прямые сохранения/крестики старых отдельных форм ещё обходят анимацию — следующий проход через общий callback. Не утверждать, что все способы закрытия уже исправлены.
 
 7открытий/7закрытий профиля измерены покадрово в Chrome, также main-settings/block-screens/goal-reminders/sheet-motion/typecheck/lint/web-export/iOSbundle. ФизическийiPhoneнепроверен. docs/reviews/2026-11-03-profile-sheet-motion/README.md. Новыхсостояний0, исправлены276/285–286 и связанные169/178/219/221/229. Далее закрытия по кнопкам форм, затем213–218 и остальная очередь. package-lock пользовательский, не трогать.
+
+
+## Завершён проход кнопок форм и подтверждений — 2026-11-03
+
+SheetModal принимает SheetContent(close) и close(afterClose), первое действие выигрывает при двойном нажатии. Анимация → visible=false → iOS onDismiss → действие владельца; Android/Web завершают без iOS-события. check-modal-lifecycle проверяет настоящий компонент на всех3ветках, без дополнительного тестового пакета. Отдельный overlay вне sheet-content не уезжает с листом.
+
+Кнопки DailyGoal/Reminders/ActivityForm/SessionIconPicker/AppGroupSheet/Options/NamedAppGroups(rename+select)/AppScreenSearch/MessageScreenForm закрывают через общий обработчик. У AppGroupSheet удалена fake-back копия и непрозрачный фон; иконки тоже с настоящим родителем. GlassDialog теперь использует SheetModal motion=dialog: только fade, без translate; PopIn внутри сохраняет появление. Сначала закрывается диалог, затем нижний лист/следующий modal.
+
+11закрытий кнопками и4перехода диалога измерены покадрово в Chrome. profile-sheet-motion + goal-reminders/activities-settings/named-groups/block-screens/template-details/limit-details прошли. Typecheck/lint/web-export/iOSbundle. На физическомiPhoneнепроверено. README и кадры docs/reviews/2026-11-03-profile-form-dismiss,dialog-motion. Пункт о неанимированных сохранениях из предыдущего прохода для этих форм закрыт. Остальные старые SheetModal вне настроек остаются с animateClose=false по умолчанию, переносить постепенно. Далее обещанные213–218.

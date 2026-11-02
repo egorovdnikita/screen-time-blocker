@@ -5,7 +5,7 @@ import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text
 import { Icon } from '@/components/Icon';
 import { PressScale } from '@/components/motion';
 import { sessionIcons, type SessionIconId } from '@/data/sessionIcons';
-import { colors, sessionIconTheme as c } from '@/theme/tokens';
+import { colors, modalTheme, sessionIconTheme as c } from '@/theme/tokens';
 import { T } from '@/theme/typography';
 
 export function SessionIconPicker({ selected, onSelect, onClose }: { selected: SessionIconId; onSelect: (id: SessionIconId) => void; onClose: () => void }) {
@@ -14,8 +14,8 @@ export function SessionIconPicker({ selected, onSelect, onClose }: { selected: S
   const search = query.trim().toLocaleLowerCase();
   const results = sessionIcons.filter(item => search ? `${item.glyph} ${item.label} ${item.keywords}`.toLocaleLowerCase().includes(search) : item.id.startsWith('face-'));
   const tileWidth = (width - 16 - 39 - 32) / 5;
-  return <SheetModal onClose={onClose} backdrop={<Pressable accessibilityLabel="Закрыть выбор иконки" onPress={onClose} style={[StyleSheet.absoluteFill, { backgroundColor: c.backdrop }]} />}>
-    <View pointerEvents="box-none" style={{ flex: 1 }}>
+  return <SheetModal animateClose onClose={onClose} backdrop={close => <Pressable accessibilityLabel="Закрыть выбор иконки" onPress={() => close()} style={[StyleSheet.absoluteFill, { backgroundColor: modalTheme.dim }]} />}>
+    {close => <View pointerEvents="box-none" style={{ flex: 1 }}>
 
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} pointerEvents="box-none" style={{ flex: 1 }}>
         <View pointerEvents="none" style={{ height: Math.min(220, height * .3) }} />
@@ -27,7 +27,7 @@ export function SessionIconPicker({ selected, onSelect, onClose }: { selected: S
             {!!query && <PressScale accessibilityRole="button" accessibilityLabel="Очистить поиск иконок" onPress={() => setQuery('')} style={styles.clear}><Icon name="session-clear" width={17} height={17} color={c.searchIcon} /></PressScale>}
           </View>
           <ScrollView keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} style={{ marginTop: 18 }} contentContainerStyle={styles.grid}>
-            {results.map(item => <PressScale key={item.id} accessibilityRole="button" accessibilityLabel={`Выбрать иконку ${item.label}`} accessibilityState={{ selected: selected === item.id }} onPress={() => onSelect(item.id)} style={[styles.tile, { width: tileWidth }]}>
+            {results.map(item => <PressScale key={item.id} accessibilityRole="button" accessibilityLabel={`Выбрать иконку ${item.label}`} accessibilityState={{ selected: selected === item.id }} onPress={() => close(() => onSelect(item.id))} style={[styles.tile, { width: tileWidth }]}>
               <Image source={item.image} contentFit="contain" style={{ width: 46, height: 46 }} />
             </PressScale>)}
             {!results.length && <T size={14} weight={400} color={c.placeholder} center style={{ flex: 1, marginTop: 20 }}>Ничего не найдено</T>}
@@ -35,7 +35,7 @@ export function SessionIconPicker({ selected, onSelect, onClose }: { selected: S
         </View>
       </KeyboardAvoidingView>
     </View>
-  </SheetModal>;
+  }</SheetModal>;
 }
 const styles = StyleSheet.create({
   sheet: { flex: 1, marginHorizontal: 8, marginBottom: 8, backgroundColor: c.surface, borderTopLeftRadius: c.sheetTopRadius, borderTopRightRadius: c.sheetTopRadius, borderBottomLeftRadius: c.sheetBottomRadius, borderBottomRightRadius: c.sheetBottomRadius, overflow: 'hidden' },

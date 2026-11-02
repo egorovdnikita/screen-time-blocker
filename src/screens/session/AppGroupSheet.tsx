@@ -5,14 +5,14 @@ import { BlurView } from 'expo-blur';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Fragment, useRef, useState, type ComponentRef } from 'react';
-import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, TextInput, View, useWindowDimensions } from 'react-native';
+import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, TextInput, View, useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { GroupExtraGlyphs } from '@/components/AppGroupSummary';
 import { Icon } from '@/components/Icon';
 import { animateLayout, PressScale } from '@/components/motion';
 import { cloneAppGroup, groupApps, groupCategories, groupSummary, hasGroupExtras, hasGroupSelection, countLabel, type AppGroupDraft, type AppCategoryId } from '@/data/appGroup';
 import { art } from '@/data/art';
-import { colors, appGroupTheme as c, lockTheme, routineTheme, namedGroupTheme } from '@/theme/tokens';
+import { colors, modalTheme, appGroupTheme as c, lockTheme, routineTheme, namedGroupTheme } from '@/theme/tokens';
 import { T } from '@/theme/typography';
 import { AppGroupCheck } from './AppGroupCheck';
 import { AppGroupOptions } from './AppGroupOptions';
@@ -47,17 +47,16 @@ export function AppGroupSheet({ value, onCancel, onConfirm, purpose = 'group', n
   const toggleApp = (index: number) => patch({ selectedApps: draft.selectedApps.map((selected, i) => i === index ? !selected : selected), categories: draft.categories.filter(category => category !== 'social') });
   const toggleAll = () => patch({ selectedApps: groupApps.map(() => !all), categories: all ? [] : groupCategories.map(category => category.id) });
   const searchTop = Math.min(extra ? 594 : 612, Math.max(140, sheetHeight - (compact ? 64 : 171)));
-  return <SheetModal onClose={onCancel} backdrop={<View style={[StyleSheet.absoluteFill, { backgroundColor: optionsOpen ? c.optionsBackdrop : routine ? lockTheme.backdrop : extra ? c.summaryBackdrop : c.backdrop }]} />}>
-    <View pointerEvents="box-none" style={styles.root}>
-      <View pointerEvents="none" style={[styles.back, { top: Math.max(59, insets.top) }]} />
+  return <SheetModal animateClose onClose={onCancel} backdrop={close => <Pressable accessibilityLabel="Отменить выбор группы" onPress={() => close()} style={[StyleSheet.absoluteFill, { backgroundColor: modalTheme.dim }]} />}>
+    {close => <View pointerEvents="box-none" style={styles.root}>
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} pointerEvents="box-none" style={{ flex: 1 }}>
         <View pointerEvents="none" style={{ height: groupTop }} />
         <View style={[styles.sheet, (routine || named) && { borderRadius: 44 }]} onLayout={event => setSheetHeight(event.nativeEvent.layout.height)} accessibilityViewIsModal>
           <View style={[styles.handle, named && { width: 63, top: 12 }]} />
           <View style={[styles.header, compact && { marginTop: 20 }]}>
-            <PressScale accessibilityRole="button" accessibilityLabel="Отменить группу приложений" onPress={onCancel} style={styles.close}><Icon name="session-clear" width={19} height={19} color={colors.black} /></PressScale>
+            <PressScale accessibilityRole="button" accessibilityLabel="Отменить группу приложений" onPress={() => close()} style={styles.close}><Icon name="session-clear" width={19} height={19} color={colors.black} /></PressScale>
             <PressScale accessibilityRole="button" accessibilityLabel={named ? "Переименовать группу" : "Выбрать сохранённую группу"} onPress={() => named ? onRename?.() : setCatalogOpen(true)} style={[styles.title, named && { paddingTop: 2 }]}>{named ? <Image source={art.namedGroupForbidden} style={{ width: 22, height: 22 }} /> : <Icon name={routine ? "lock-up-down" : "plus"} width={routine ? 12 : 17} height={routine ? 16 : 17} color={routine ? lockTheme.note : c.title} />}<T size={20} color={named ? colors.black : routine ? lockTheme.note : c.title} ls={0} numberOfLines={1} style={{ lineHeight: 28 }}>{named ? name : routine ? 'Связать группу' : 'Группа приложений'}</T>{named && <Icon name="pencil" width={16} height={18} style={{ opacity: .22 }} />}</PressScale>
-            <PressScale accessibilityRole="button" accessibilityLabel="Сохранить группу приложений" disabled={(routine || named) && !hasGroupSelection(draft)} accessibilityState={{ disabled: (routine || named) && !hasGroupSelection(draft) }} onPress={() => onConfirm(cloneAppGroup(draft))} style={[styles.confirm, routine && !hasGroupSelection(draft) && { opacity: .5 }, named && !hasGroupSelection(draft) && { backgroundColor: namedGroupTheme.disabled }]}><Icon name="group-check" width={named ? 21 : 26} height={named ? 23 : 26} color={colors.white} /></PressScale>
+            <PressScale accessibilityRole="button" accessibilityLabel="Сохранить группу приложений" disabled={(routine || named) && !hasGroupSelection(draft)} accessibilityState={{ disabled: (routine || named) && !hasGroupSelection(draft) }} onPress={() => close(() => onConfirm(cloneAppGroup(draft)))} style={[styles.confirm, routine && !hasGroupSelection(draft) && { opacity: .5 }, named && !hasGroupSelection(draft) && { backgroundColor: namedGroupTheme.disabled }]}><Icon name="group-check" width={named ? 21 : 26} height={named ? 23 : 26} color={colors.white} /></PressScale>
           </View>
           {!compact && <>
             <View style={styles.modes}>{(['only', 'except'] as const).map(mode => <PressScale key={mode} accessibilityRole="radio" accessibilityLabel={mode === 'only' ? 'Только эти' : 'Все, кроме'} accessibilityState={{ checked: draft.mode === mode }} onPress={() => { animateLayout(); patch({ mode }); }} style={[styles.mode, draft.mode === mode && styles.modeOn]}><T size={14} ls={0}>{mode === 'only' ? named ? 'Только' : 'Только эти' : 'Все, кроме'}</T></PressScale>)}</View>
@@ -94,10 +93,10 @@ export function AppGroupSheet({ value, onCancel, onConfirm, purpose = 'group', n
       {catalogOpen && <NamedAppGroups renderEditor={props => <AppGroupSheet {...props} purpose="named" />} onClose={() => setCatalogOpen(false)} onSelect={group => { setDraft(cloneAppGroup(group)); setCatalogOpen(false); }} />}
       {optionsOpen && <AppGroupOptions group={draft} onChange={patch} onClose={() => setOptionsOpen(false)} />}
     </View>
-  </SheetModal>;
+  }</SheetModal>;
 }
 const styles = StyleSheet.create({
-  root: { flex: 1 }, back: { position: 'absolute', left: 10, right: 10, bottom: 8, borderRadius: c.sheetBottomRadius, backgroundColor: c.backSheet }, sheet: { flex: 1, backgroundColor: c.surface, borderTopLeftRadius: c.sheetRadius, borderTopRightRadius: c.sheetRadius, borderBottomLeftRadius: c.sheetBottomRadius, borderBottomRightRadius: c.sheetBottomRadius, overflow: 'hidden' },
+  root: { flex: 1 }, sheet: { flex: 1, backgroundColor: c.surface, borderTopLeftRadius: c.sheetRadius, borderTopRightRadius: c.sheetRadius, borderBottomLeftRadius: c.sheetBottomRadius, borderBottomRightRadius: c.sheetBottomRadius, overflow: 'hidden' },
   handle: { position: 'absolute', top: 11, alignSelf: 'center', width: 60, height: 5, borderRadius: 4, backgroundColor: c.handle }, header: { marginTop: 45, height: 44, marginHorizontal: 20, flexDirection: 'row', alignItems: 'center' }, close: { width: 44, height: 44, borderRadius: 22, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.white }, confirm: { width: 44, height: 44, borderRadius: 22, alignItems: 'center', justifyContent: 'center', backgroundColor: c.blue }, title: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingTop: 8, gap: 6 },
   modes: { marginTop: 28, height: 33, marginHorizontal: 20, borderRadius: c.segmentRadius, padding: 3, backgroundColor: c.segment, flexDirection: 'row' }, mode: { flex: 1, borderRadius: c.segmentInnerRadius, alignItems: 'center', justifyContent: 'center' }, modeOn: { backgroundColor: colors.white, boxShadow: c.segmentShadow },
   summary: { marginTop: 15, paddingLeft: 20, paddingRight: 18, backgroundColor: c.summary }, listClip: { marginHorizontal: 16, borderRadius: c.listRadius, backgroundColor: colors.white, overflow: 'hidden' }, listFade: { position: 'absolute', bottom: 0, left: 0, right: 0, height: 100 },

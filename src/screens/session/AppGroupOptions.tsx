@@ -28,7 +28,7 @@ export function AppGroupOptions({ group, onChange, onClose }: Props) {
     onChange({ websites: group.websites.some(site => site.host === host) ? group.websites.map(site => site.host === host ? { ...site, selected: true } : site) : [...group.websites, { host, selected: true }] });
     setEntry(''); setError(''); input.current?.blur();
   };
-  return <SheetModal onClose={onClose} backdrop={<Pressable accessibilityLabel="Вернуться к группе приложений" onPress={onClose} style={[StyleSheet.absoluteFill, { backgroundColor: c.dim }]} />}>
+  return <SheetModal animateClose onClose={onClose} backdrop={close => <Pressable accessibilityLabel="Вернуться к группе приложений" onPress={() => close()} style={[StyleSheet.absoluteFill, { backgroundColor: c.dim }]} />}>
     <View pointerEvents="box-none" style={{ flex: 1 }}>
 
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} pointerEvents="box-none" style={{ flex: 1 }}>
