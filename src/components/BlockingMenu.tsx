@@ -1,4 +1,4 @@
-import { SheetModal } from './SheetModal';
+import { SheetModal, SheetGrabber } from './SheetModal';
 import { BlurView } from 'expo-blur';
 import { router } from 'expo-router';
 import { Pressable, StyleSheet, View } from 'react-native';
@@ -24,7 +24,7 @@ export function BlockingMenu({ visible, onClose }: { visible: boolean; onClose: 
       <View style={[styles.sheet, { bottom: Math.max(8, insets.bottom - 26) }]}>
         <BlurView intensity={28} tint="light" style={StyleSheet.absoluteFill} />
         <View pointerEvents="none" style={[StyleSheet.absoluteFill, { backgroundColor: c.menu }]} />
-        <View style={styles.handle} />
+        <SheetGrabber style={styles.handle} />
         <T size={25} center ls={-.35} style={styles.title}>Блокировать</T>
         {options.map((item, i) => <PressScale key={item.title} accessibilityRole="button" accessibilityLabel={item.title} accessibilityHint={item.hint} accessibilityState={{ disabled: !item.mode }} disabled={!item.mode}
           onPress={() => { onClose(); if (item.mode === 'lock') router.push('/lock'); else if (item.mode === 'limit') router.push('/limit'); else if (item.mode === 'routine') router.push('/routine'); else router.push({ pathname: '/session', params: { mode: item.mode } }); }}

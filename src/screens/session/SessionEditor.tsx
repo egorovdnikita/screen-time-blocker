@@ -1,12 +1,12 @@
+import { SheetScrollView as ScrollView, SheetTransition, SheetGrabber } from '@/components/SheetModal';
 import { gallerySession } from '@/data/gallery';
 import { useDarkStatusBar } from '@/components/useStatusBar';
 import { StrictModeRow } from '@/components/StrictModeRow';
-import { SheetTransition, SheetGrabber } from '@/components/SheetModal';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Image } from 'expo-image';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
+import { Pressable, StyleSheet, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AppGroupSummary } from '@/components/AppGroupSummary';
 import { AppGroupSheet } from './AppGroupSheet';

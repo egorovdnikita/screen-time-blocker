@@ -4,12 +4,12 @@ import { createRequire } from 'node:module';
 import ts from 'typescript';
 const require = createRequire(import.meta.url);
 const js = ts.transpileModule(fs.readFileSync(new URL('../src/components/SheetModal.tsx', import.meta.url), 'utf8'), { compilerOptions: { module: ts.ModuleKind.CommonJS, jsx: ts.JsxEmit.ReactJSX, target: ts.ScriptTarget.ES2020 } }).outputText;
-function mount(os, animated = true) {
+function mount(os, animated = true, native = false) {
   const slots = []; let index = 0, close, cancelled = 0, saved = 0, other = 0;
-  const react = { createContext: () => ({}), useCallback: fn => fn, useRef: initial => { const i = index++; return slots[i] ??= { current: initial }; }, useState: initial => { const i = index++; if (!(i in slots)) slots[i] = typeof initial === 'function' ? initial() : initial; return [slots[i], next => { slots[i] = typeof next === 'function' ? next(slots[i]) : next; }]; } };
+  const react = { createContext: () => ({}), useEffect: () => {}, useCallback: fn => fn, useRef: initial => { const i = index++; return slots[i] ??= { current: initial }; }, useState: initial => { const i = index++; if (!(i in slots)) slots[i] = typeof initial === 'function' ? initial() : initial; return [slots[i], next => { slots[i] = typeof next === 'function' ? next(slots[i]) : next; }]; } };
   const exports = {};
-  new Function('exports', 'require', js)(exports, id => id === 'react' ? react : id === 'react/jsx-runtime' ? require(id) : { Platform: { OS: os }, Modal: 'NativeModal', View: 'View', Keyboard: { dismiss() {} }, StyleSheet: { absoluteFill: {} } });
-  const element = exports.SheetModal({ animateClose: animated, onClose: () => cancelled++, children: request => { close = request; return null; }, backdrop: null });
+  new Function('exports', 'require', js)(exports, id => id === 'react' ? react : id === 'react/jsx-runtime' ? require(id) : id === '@/theme/tokens' ? { colors: { bg: '#f4f6f8' } } : { Platform: { OS: os }, Modal: 'NativeModal', View: 'View', Keyboard: { dismiss() {} }, StyleSheet: { absoluteFill: {} } });
+  const element = exports.SheetModal({ animateClose: animated, nativeOffset: native ? 69 : undefined, onClose: () => cancelled++, children: request => { close = request; return null; }, backdrop: null });
   const render = () => { index = 0; return element.type(element.props); };
   render();
   return { render, close: callback => close(callback), save: () => saved++, alternative: () => other++, counts: () => ({ cancelled, saved, other }) };
@@ -23,4 +23,7 @@ const cancel = mount('ios'); cancel.render().props.onRequestClose(); modal = can
 for (const os of ['android', 'web']) { const instance = mount(os); instance.close(instance.save); modal = instance.render(); transition(modal).props.onHidden(); assert.equal(instance.counts().saved, 1); modal.props.onDismiss(); assert.equal(instance.counts().saved, 1); }
 const instant = mount('ios', false); instant.close(instant.save); assert.equal(instant.counts().saved, 1); assert.equal(transition(instant.render()).props.closing, false);
 const swipe = mount('ios', false); transition(swipe.render()).props.onSwipeClose(); modal = swipe.render(); assert.equal(transition(modal).props.closing, true); transition(modal).props.onHidden(); assert.equal(swipe.counts().cancelled, 0); swipe.render().props.onDismiss(); assert.deepEqual(swipe.counts(), { cancelled: 1, saved: 0, other: 0 });
+const page = mount('ios', true, true); modal = page.render(); assert.equal(modal.props.presentationStyle, 'pageSheet'); assert.equal(modal.props.transparent, false); assert.equal(modal.props.allowSwipeDismissal, true); page.close(page.save); modal = page.render(); assert.equal(modal.props.visible, false); assert.equal(page.counts().saved, 0); modal.props.onDismiss(); assert.equal(page.counts().saved, 1);
+const nativeSwipe = mount('ios', true, true); modal = nativeSwipe.render(); modal.props.onRequestClose(); modal.props.onRequestClose(); assert.equal(nativeSwipe.counts().cancelled, 1);
+for (const os of ['android', 'web']) { const fallback = mount(os, true, true); const view = fallback.render(); assert.equal(view.props.transparent, true); assert.equal(view.props.presentationStyle, undefined); }
 console.log('Modal lifecycle: iOS dismiss barrier, first action wins, once-only completion OK');

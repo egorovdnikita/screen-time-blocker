@@ -1,11 +1,11 @@
+import { SheetScrollView as ScrollView, SheetTransition, SheetGrabber } from '@/components/SheetModal';
 import { useDarkStatusBar } from '@/components/useStatusBar';
 import { WeekdayPicker } from '@/components/WeekdayPicker';
 import { RuleEditorHeader, RuleSuggestions } from '@/components/RuleEditorPieces';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { SheetTransition, SheetGrabber } from '@/components/SheetModal';
 import { StrictModeRow } from '@/components/StrictModeRow';
 import { EditorRow, SessionAction } from '@/components/SessionPrimitives';
 import { Icon } from '@/components/Icon';

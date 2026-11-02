@@ -1,11 +1,11 @@
+import { SheetScrollView as ScrollView, SheetTransition, SheetGrabber } from '@/components/SheetModal';
 import { useDarkStatusBar } from '@/components/useStatusBar';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import { useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { SheetTransition, SheetGrabber } from '@/components/SheetModal';
 import { StrictModeRow } from '@/components/StrictModeRow';
 import { Icon } from '@/components/Icon';
 import { PressScale } from '@/components/motion';

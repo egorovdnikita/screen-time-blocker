@@ -1,8 +1,8 @@
-import { SheetGrabber, SheetModal } from '@/components/SheetModal';
+import { SheetScrollView as ScrollView, SheetGrabber, SheetModal } from '@/components/SheetModal';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useState } from 'react';
-import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, Pressable, StyleSheet, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Icon } from '@/components/Icon';
 import { PressScale } from '@/components/motion';
@@ -23,7 +23,7 @@ export function SingleAppPicker({ value, onCancel, onConfirm }: { value: LockApp
   const isConfirm = phase === 'confirm';
   const bottom = Math.max(39, insets.bottom + 5);
   const continueStep = () => { if (!selected) return; setQuery(''); setConfirmed(null); setPhase('confirm'); };
-  return <SheetModal onClose={onCancel} backdrop={<Pressable accessibilityLabel="Отменить выбор одного приложения" onPress={onCancel} style={[StyleSheet.absoluteFill, { backgroundColor: c.backdrop }]} />}>
+  return <SheetModal nativeOffset={Math.max(69, insets.top + 10)} onClose={onCancel} backdrop={<Pressable accessibilityLabel="Отменить выбор одного приложения" onPress={onCancel} style={[StyleSheet.absoluteFill, { backgroundColor: c.backdrop }]} />}>
     <View pointerEvents="box-none" style={{ flex: 1 }}>
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} pointerEvents="box-none" style={{ flex: 1 }}>
         <View pointerEvents="none" style={{ height: Math.max(69, insets.top + 10) }} />

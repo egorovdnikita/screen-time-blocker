@@ -1,6 +1,7 @@
+import { SheetScrollView as ScrollView } from '@/components/SheetModal';
 import { DarkButtonSurface } from '@/components/DarkButtonSurface';
 import { useEffect, useState } from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Icon } from '@/components/Icon';
 import { PressScale } from '@/components/motion';
 import { useAppState } from '@/state/app';

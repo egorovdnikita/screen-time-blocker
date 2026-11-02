@@ -1,11 +1,11 @@
+import { SheetScrollView as ScrollView, SheetModal, SheetGrabber } from '@/components/SheetModal';
 import { useAppState } from '@/state/app';
 import { BlurView } from 'expo-blur';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native';
+import { Pressable, StyleSheet, View, useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { SheetModal } from '@/components/SheetModal';
 import { FlowSwitch } from '@/components/SessionPrimitives';
 import { FadeIn, PressScale } from '@/components/motion';
 import { Icon } from '@/components/Icon';
@@ -29,8 +29,8 @@ export function ReflectionSheet({ app, value, onCancel, onSave, onExclude, onDel
   const activity = catalog.find(a => a.id === draft.activity);
   const mood = reflectionMoods.find(m => m.id === draft.mood)!;
   const menuTop = Math.max(insets.top + 8, Math.min(top + (menu === 'activity' ? 77 : 196.666), height - insets.bottom - (menu === 'activity' ? 519.667 : 258.667)));
-  return <SheetModal onClose={() => menu ? setMenu(null) : onCancel()} backdrop={<Pressable accessibilityLabel="Отменить оценку времени" onPress={onCancel} style={[StyleSheet.absoluteFill, { backgroundColor: c.backdrop }]} />}>
-    <View accessibilityViewIsModal style={[styles.panel, { top }]}>
+  return <SheetModal swipeEnabled={!menu} onClose={() => menu ? setMenu(null) : onCancel()} backdrop={<Pressable accessibilityLabel="Отменить оценку времени" onPress={onCancel} style={[StyleSheet.absoluteFill, { backgroundColor: c.backdrop }]} />}>
+    <View accessibilityViewIsModal style={[styles.panel, { top }]}><SheetGrabber style={{ position: 'absolute', top: 12, width: 0, height: 0 }} />
       <View style={styles.controls}><PressScale accessibilityRole="button" accessibilityLabel={onDelete ? "Удалить оценку времени" : "Закрыть оценку времени"} onPress={onDelete ?? onCancel} style={styles.round}><Icon name={onDelete ? "reflection-trash" : "reflection-close"} width={18} height={onDelete ? 22 : 18} /></PressScale><PressScale accessibilityRole="button" accessibilityLabel="Сохранить оценку времени" onPress={() => onSave({ ...draft })} style={[styles.round, { backgroundColor: c.blue, boxShadow: c.confirmRim }]}><Icon name="reflection-confirm" width={21} height={23} color={colors.white} /></PressScale></View>
       <View style={styles.copy}>
         <View style={styles.line}><T size={26} color={c.muted} ls={-.3}>Я был в</T><View style={styles.app}><View style={{ width: 20, height: 20, overflow: 'hidden' }}><AppIcon icon={app.icon} size={20} /></View><T size={22} color={colors.black} ls={-.3} numberOfLines={1}>{app.name}</T></View><T size={26} color={c.muted} ls={-.3}>и</T></View>

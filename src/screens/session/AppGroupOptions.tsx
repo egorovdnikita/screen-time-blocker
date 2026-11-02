@@ -1,6 +1,6 @@
-import { SheetGrabber, SheetModal } from '@/components/SheetModal';
+import { SheetScrollView as ScrollView, SheetGrabber, SheetModal } from '@/components/SheetModal';
 import { useRef, useState, type ComponentRef } from 'react';
-import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, TextInput, View, useWindowDimensions } from 'react-native';
+import { KeyboardAvoidingView, Platform, Pressable, StyleSheet, TextInput, View, useWindowDimensions } from 'react-native';
 import { Icon } from '@/components/Icon';
 import { PressScale } from '@/components/motion';
 import { websiteHost, type AppGroupDraft } from '@/data/appGroup';

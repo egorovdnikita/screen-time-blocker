@@ -1,7 +1,7 @@
-import { SheetGrabber, SheetModal } from '@/components/SheetModal';
+import { SheetScrollView as ScrollView, SheetGrabber, SheetModal } from '@/components/SheetModal';
 import { Image } from 'expo-image';
 import { useEffect, useRef, useState } from 'react';
-import { Keyboard, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
+import { Keyboard, KeyboardAvoidingView, Platform, Pressable, StyleSheet, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { DarkButtonSurface } from '@/components/DarkButtonSurface';
 import { UnlockCard } from '@/components/UnlockCard';
@@ -33,7 +33,7 @@ export function AppUnlockSheet({ rule, onCancel, onConfirm }: { rule: LockRule; 
   const choices = [...new Set([1, 2, 5, 10, 15, maxMinutes])].sort((a, b) => a - b);
   const confirm = () => { if (sent.current || !ready) return; sent.current = true; Keyboard.dismiss(); onConfirm(minutes, reason.trim()); };
   const cancel = () => { Keyboard.dismiss(); onCancel(); };
-  return <SheetModal onClose={cancel} backdrop={<Pressable accessibilityLabel="Отменить открытие приложения" onPress={cancel} style={[StyleSheet.absoluteFill, { backgroundColor: c.backdrop }]} />}>
+  return <SheetModal nativeOffset={Math.max(59, insets.top)} onClose={cancel} backdrop={<Pressable accessibilityLabel="Отменить открытие приложения" onPress={cancel} style={[StyleSheet.absoluteFill, { backgroundColor: c.backdrop }]} />}>
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1, paddingTop: Math.max(59, insets.top) }} pointerEvents="box-none"><View accessibilityViewIsModal style={styles.sheet}><SheetGrabber style={styles.handle} />
       <View style={styles.badge}><Image source={lockApp(rule.app)?.image ?? art.appAppleMusic} contentFit="contain" style={{ width: 18, height: 18 }} /><Icon name="app-unlock-lock" width={15} height={18} /><T size={14.25} ls={0}>от «{rule.name}»</T></View>
       <ScrollView keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} style={{ flex: 1 }} contentContainerStyle={{ height: 610 }}>

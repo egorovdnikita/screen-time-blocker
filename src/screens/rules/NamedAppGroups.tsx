@@ -1,10 +1,10 @@
+import { SheetScrollView as ScrollView, SheetModal, SheetGrabber } from '@/components/SheetModal';
 import { useEffect, useRef, useState, type ReactNode, type ComponentRef } from 'react';
 import { Image } from 'expo-image';
-import { Keyboard, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
+import { Keyboard, KeyboardAvoidingView, Platform, Pressable, StyleSheet, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { PlainSettingsSheet } from '@/components/PlainSettingsSheet';
 import { DarkButtonSurface } from '@/components/DarkButtonSurface';
-import { SheetModal, SheetGrabber } from '@/components/SheetModal';
 import { Icon } from '@/components/Icon';
 import { PressScale } from '@/components/motion';
 import { AppsCount } from '@/components/Rule';

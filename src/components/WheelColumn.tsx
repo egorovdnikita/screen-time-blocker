@@ -1,3 +1,4 @@
+import { useSheetGestureBlocker } from './SheetModal';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useEffect, useRef, useState, type ComponentRef } from 'react';
 import { Animated, Platform, Pressable, StyleSheet, View, type NativeScrollEvent, type NativeSyntheticEvent, type ScrollView, type ViewProps } from 'react-native';
@@ -29,6 +30,7 @@ export function WheelColumn({ label, items, value, onChange, width, height = p.c
   const rows = cyclic ? [...items.slice(-padding), ...items, ...items.slice(0, padding)] : items;
   const index = Math.max(0, items.findIndex(item => item.value === value)) + padding;
   const [offset] = useState(() => new Animated.Value(index * rowHeight));
+  const blockSheetGesture = useSheetGestureBlocker();
   const scroll = useRef<ComponentRef<typeof ScrollView>>(null);
   const idle = useRef<ReturnType<typeof setTimeout> | null>(null);
   const dragging = useRef(false);
@@ -81,7 +83,7 @@ export function WheelColumn({ label, items, value, onChange, width, height = p.c
     },
   });
 
-  return <View {...keyboard} focusable accessible accessibilityRole="adjustable" accessibilityLabel={label}
+  return <View onStartShouldSetResponderCapture={() => { blockSheetGesture(); return false; }} onTouchStart={blockSheetGesture} {...keyboard} focusable accessible accessibilityRole="adjustable" accessibilityLabel={label}
     aria-valuemin={items[0].value} aria-valuemax={items[items.length - 1].value} aria-valuenow={value} aria-valuetext={rows[index].label}
     accessibilityValue={{ min: items[0].value, max: items[items.length - 1].value, now: value, text: rows[index].label }}
     accessibilityActions={[{ name: 'increment', label: 'Увеличить' }, { name: 'decrement', label: 'Уменьшить' }]}

@@ -1,8 +1,8 @@
-import { SheetGrabber, SheetModal } from '@/components/SheetModal';
+import { SheetScrollView as ScrollView, SheetGrabber, SheetModal } from '@/components/SheetModal';
 import { BlurView } from 'expo-blur';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useState } from 'react';
-import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, Pressable, StyleSheet, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { PressScale } from '@/components/motion';
 import { Icon } from '@/components/Icon';
@@ -17,7 +17,7 @@ export function LimitAppPicker({ value, categories, onCancel, onSave }: { value:
   const count = selected.length + selectedCategories.length;
   const [query, setQuery] = useState('');
   const insets = useSafeAreaInsets();
-  return <SheetModal onClose={onCancel} backdrop={<Pressable accessibilityLabel="Отменить приложения лимита" onPress={onCancel} style={[StyleSheet.absoluteFill, { backgroundColor: c.backdrop }]} />}>
+  return <SheetModal nativeOffset={Math.max(69, insets.top + 10)} onClose={onCancel} backdrop={<Pressable accessibilityLabel="Отменить приложения лимита" onPress={onCancel} style={[StyleSheet.absoluteFill, { backgroundColor: c.backdrop }]} />}>
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} pointerEvents="box-none" style={{ flex: 1, paddingTop: Math.max(69, insets.top + 10) }}>
       <View style={styles.sheet} accessibilityViewIsModal>
         <SheetGrabber style={styles.handle} />

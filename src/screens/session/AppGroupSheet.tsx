@@ -1,11 +1,11 @@
-import { SheetGrabber, SheetModal } from '@/components/SheetModal';
+import { SheetScrollView as ScrollView, SheetGrabber, SheetModal } from '@/components/SheetModal';
 import { NamedAppGroups } from '../rules/NamedAppGroups';
 import { namedGroupSummary } from '@/data/namedGroups';
 import { BlurView } from 'expo-blur';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Fragment, useRef, useState, type ComponentRef } from 'react';
-import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, TextInput, View, useWindowDimensions } from 'react-native';
+import { KeyboardAvoidingView, Platform, Pressable, StyleSheet, TextInput, View, useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { GroupExtraGlyphs } from '@/components/AppGroupSummary';
 import { Icon } from '@/components/Icon';
@@ -47,7 +47,7 @@ export function AppGroupSheet({ value, onCancel, onConfirm, purpose = 'group', n
   const toggleApp = (index: number) => patch({ selectedApps: draft.selectedApps.map((selected, i) => i === index ? !selected : selected), categories: draft.categories.filter(category => category !== 'social') });
   const toggleAll = () => patch({ selectedApps: groupApps.map(() => !all), categories: all ? [] : groupCategories.map(category => category.id) });
   const searchTop = Math.min(extra ? 594 : 612, Math.max(140, sheetHeight - (compact ? 64 : 171)));
-  return <SheetModal animateClose onClose={onCancel} backdrop={close => <Pressable accessibilityLabel="Отменить выбор группы" onPress={() => close()} style={[StyleSheet.absoluteFill, { backgroundColor: modalTheme.dim }]} />}>
+  return <SheetModal nativeOffset={groupTop} animateClose onClose={onCancel} backdrop={close => <Pressable accessibilityLabel="Отменить выбор группы" onPress={() => close()} style={[StyleSheet.absoluteFill, { backgroundColor: modalTheme.dim }]} />}>
     {close => <View pointerEvents="box-none" style={styles.root}>
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} pointerEvents="box-none" style={{ flex: 1 }}>
         <View pointerEvents="none" style={{ height: groupTop }} />

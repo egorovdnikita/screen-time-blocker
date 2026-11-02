@@ -1,5 +1,6 @@
+import { SheetScrollView as ScrollView } from '@/components/SheetModal';
 import { useRef, useState, type ComponentRef } from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Icon } from '@/components/Icon';
 import { PressScale } from '@/components/motion';

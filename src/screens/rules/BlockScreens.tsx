@@ -1,8 +1,9 @@
+import { SheetScrollView as ScrollView } from '@/components/SheetModal';
 import { useEffect, useState } from 'react';
 import { BlurView } from 'expo-blur';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Platform, Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { Platform, Pressable, StyleSheet, View } from 'react-native';
 import { PlainSettingsSheet } from '@/components/PlainSettingsSheet';
 import { DashedBox } from '@/components/Dashed';
 import { Icon } from '@/components/Icon';

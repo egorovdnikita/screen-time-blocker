@@ -1,9 +1,9 @@
-import { SheetGrabber, SheetModal } from '@/components/SheetModal';
+import { SheetScrollView as ScrollView, SheetGrabber, SheetModal } from '@/components/SheetModal';
 import { useAppState } from '@/state/app';
 import { HabitForm } from './HabitForm';
 import { Image } from 'expo-image';
 import { useEffect, useRef, useState, type ComponentRef } from 'react';
-import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, Pressable, StyleSheet, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Icon } from '@/components/Icon';
 import { PressScale } from '@/components/motion';
@@ -23,7 +23,7 @@ export function HabitPicker({ value, onCancel, onSave, library = false }: { libr
   const insets = useSafeAreaInsets();
   const needle = query.trim().toLocaleLowerCase();
   const visible = catalog.filter(h => h.kind !== 'manual').filter(habit => habit.label.toLocaleLowerCase().includes(needle));
-  return <SheetModal onClose={onCancel} backdrop={<Pressable accessibilityLabel="Отменить выбор привычек" onPress={onCancel} style={[StyleSheet.absoluteFill, { backgroundColor: f.backdrop }]} />}>
+  return <SheetModal nativeOffset={Math.max(69, insets.top + 10)} onClose={onCancel} backdrop={<Pressable accessibilityLabel="Отменить выбор привычек" onPress={onCancel} style={[StyleSheet.absoluteFill, { backgroundColor: f.backdrop }]} />}>
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} pointerEvents="box-none" style={{ flex: 1, paddingTop: Math.max(69, insets.top + 10) }}>
       <View style={styles.sheet} accessibilityViewIsModal><SheetGrabber style={styles.handle} /><T size={20} center ls={0} style={styles.title}>Все привычки</T>
         <View style={styles.search}><Icon name="session-search" width={19} height={19} color={c.placeholder} /><TextInput accessibilityLabel="Поиск привычек" value={query} onChangeText={setQuery} placeholder="Поиск или новая привычка" placeholderTextColor={c.placeholder} autoCorrect={false} autoCapitalize="none" style={styles.input} /></View>

@@ -1,6 +1,7 @@
+import { SheetScrollView as ScrollView } from '@/components/SheetModal';
 import { useRef, useState, type ComponentRef } from 'react';
 import { Image } from 'expo-image';
-import { Keyboard, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, TextInput, View } from 'react-native';
+import { Keyboard, KeyboardAvoidingView, Platform, StyleSheet, TextInput, View } from 'react-native';
 import { PlainSettingsSheet } from '@/components/PlainSettingsSheet';
 import { Icon } from '@/components/Icon';
 import { PressScale } from '@/components/motion';

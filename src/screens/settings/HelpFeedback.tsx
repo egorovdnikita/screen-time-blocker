@@ -1,8 +1,9 @@
+import { SheetScrollView as ScrollView } from '@/components/SheetModal';
 import { useState } from 'react';
 import { PressScale } from '@/components/motion';
 import { Troubleshoot } from './Troubleshoot';
 import { Image } from 'expo-image';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Icon, type IconName } from '@/components/Icon';
 import { art } from '@/data/art';
 import { T } from '@/theme/typography';

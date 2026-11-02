@@ -1,7 +1,7 @@
-import { SheetGrabber, SheetModal } from '@/components/SheetModal';
+import { SheetScrollView as ScrollView, SheetGrabber, SheetModal } from '@/components/SheetModal';
 import { Image } from 'expo-image';
 import { useRef, useState, type ComponentRef } from 'react';
-import { Keyboard, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
+import { Keyboard, KeyboardAvoidingView, Platform, Pressable, StyleSheet, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Icon } from '@/components/Icon';
 import { PressScale } from '@/components/motion';
@@ -22,11 +22,11 @@ export function HabitForm({ value, onCancel, onSave }: { value?: Habit; onCancel
   const insets = useSafeAreaInsets();
   const valid = !!draft.title.trim() && (draft.kind === 'manual' || !!draft.criterion?.trim());
   const save = () => { if (!valid) return; Keyboard.dismiss(); onSave({ ...draft, label: draft.title.trim(), title: draft.title.trim(), criterion: draft.criterion?.trim() }); };
-  return <SheetModal onShown={onShown} onClose={onCancel} backdrop={<Pressable accessibilityLabel="Отменить редактирование привычки" onPress={onCancel} style={[StyleSheet.absoluteFill, { backgroundColor: c.backdrop }]} />}>
+  return <SheetModal nativeOffset={Math.max(69, insets.top + 10)} onShown={onShown} onClose={onCancel} backdrop={<Pressable accessibilityLabel="Отменить редактирование привычки" onPress={onCancel} style={[StyleSheet.absoluteFill, { backgroundColor: c.backdrop }]} />}>
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} pointerEvents="box-none" style={{ flex: 1, paddingTop: Math.max(69, insets.top + 10) }}>
-      <View style={styles.sheet} accessibilityViewIsModal>
-        <ScrollView keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 30 }}>
-          <View style={styles.header}><SheetGrabber style={styles.handle} /><PressScale accessibilityRole="button" accessibilityLabel="Закрыть новую привычку" onPress={onCancel} style={[styles.round, { left: 20, backgroundColor: colors.white }]}><Icon name="session-clear" width={21} height={21} color={colors.black} /></PressScale><PressScale accessibilityRole="button" accessibilityLabel="Сохранить привычку" disabled={!valid} accessibilityState={{ disabled: !valid }} onPress={save} style={[styles.round, { right: 20, backgroundColor: l.blue, opacity: valid ? 1 : .5 }]}><Icon name="group-check" width={24} height={26} color={colors.white} /></PressScale>
+      <View style={styles.sheet} accessibilityViewIsModal><SheetGrabber style={styles.handle} />
+        <ScrollView accessibilityLabel="Содержимое редактора привычки" keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 30 }}>
+          <View style={styles.header}><PressScale accessibilityRole="button" accessibilityLabel="Закрыть новую привычку" onPress={onCancel} style={[styles.round, { left: 20, backgroundColor: colors.white }]}><Icon name="session-clear" width={21} height={21} color={colors.black} /></PressScale><PressScale accessibilityRole="button" accessibilityLabel="Сохранить привычку" disabled={!valid} accessibilityState={{ disabled: !valid }} onPress={save} style={[styles.round, { right: 20, backgroundColor: l.blue, opacity: valid ? 1 : .5 }]}><Icon name="group-check" width={24} height={26} color={colors.white} /></PressScale>
             <Image source={draft.title ? draft.image : art.habitCamera} style={{ position: 'absolute', top: 114, alignSelf: 'center', width: draft.title ? 47 : 55, height: draft.title ? 53 : 51 }} />
             {nameFocused ? <TextInput ref={nameInput} accessibilityLabel="Имя привычки" autoFocus value={draft.title} onChangeText={title => setDraft(d => ({ ...d, title }))} placeholder="Имя привычки" placeholderTextColor={c.placeholder} maxLength={80} onBlur={() => { if (focusReady.current) setNameFocused(false); }} onSubmitEditing={() => Keyboard.dismiss()} returnKeyType="done" style={styles.name} /> : <PressScale accessibilityRole="button" accessibilityLabel="Изменить имя привычки" onPress={() => setNameFocused(true)} style={styles.nameRow}><T size={27} color={draft.title ? c.ink : c.placeholder} ls={0} numberOfLines={1}>{draft.title || 'Имя привычки'}</T><Icon name="pencil" width={17} height={18} color={c.edit} /></PressScale>}
           </View>

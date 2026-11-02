@@ -1,10 +1,11 @@
+import { SheetScrollView as ScrollView } from '@/components/SheetModal';
 import { EstimatedTime } from './EstimatedTime';
 import { Reminders } from './Reminders';
 import { remindersEnabled } from '@/data/reminders';
 import { DailyGoal } from './DailyGoal';
 import { currentGoalDay, goalTimeLabel } from '@/data/dailyGoal';
 import { useEffect, useState } from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Icon } from '@/components/Icon';
 import { PressScale } from '@/components/motion';
 import { activityCatalog } from '@/data/reflection';
