@@ -1,3 +1,4 @@
+import { reflectedDay } from '@/data/reflectionSummary';
 import { reflectionKey, type Reflection } from '@/data/reflection';
 import type { Habit } from '@/data/routine';
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
@@ -61,6 +62,8 @@ type AppState = {
 const Ctx = createContext<AppState | null>(null);
 
 export function AppStateProvider({ children }: { children: ReactNode }) {
+  const [reflectionTouchedDays, setReflectionTouchedDays] = useState<string[]>([]);
+  const touchReflectionDay = (dayId: string) => setReflectionTouchedDays(xs => [...new Set([...xs, reflectionKey(dayId, '')])]);
   const [reflections, setReflections] = useState<Record<string, Reflection>>({});
   const [reflectionDefaults, setReflectionDefaults] = useState<Record<string, Reflection>>({});
   const [reflectionExcluded, setReflectionExcludedRaw] = useState<string[]>([]);
@@ -117,13 +120,14 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     setMostUsedMode('apps');
     setExcluded([]);
     setProductive([]);
+    setReflectionTouchedDays([]);
     setReflections({}); setReflectionDefaults({}); setReflectionExcludedRaw([]);
     setNewStartVisible(s === 'firstRun');
     setOnboarding(s === 'firstRun' ? 'tip-first-rule' : 'done');
     setRulesVariant(s === 'firstRun' ? 'first' : 'full');
   }, []);
 
-  const day = useMemo<Day>(() => {
+  const baseDay = useMemo<Day>(() => {
     if (period === 'yesterday') return dayYesterday;
     if (period === 'june-24') return dayJune24;
     if (scenario === 'firstRun') return dayFirst;
@@ -131,14 +135,17 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     return refreshed ? dayTodayRefreshed : dayToday;
   }, [period, scenario, refreshed]);
 
+  const day = useMemo(() => reflectedDay(baseDay, reflections, reflectionExcluded, excluded, reflectionTouchedDays.includes(reflectionKey(baseDay.id, ''))), [baseDay, reflections, reflectionExcluded, excluded, reflectionTouchedDays]);
+
   const value: AppState = {
     reflections, reflectionDefaults, reflectionExcluded,
-    deleteReflection: (dayId, appId) => setReflections(xs => { const next = { ...xs }; delete next[reflectionKey(dayId, appId)]; return next; }),
+    deleteReflection: (dayId, appId) => { touchReflectionDay(dayId); setReflections(xs => { const next = { ...xs }; delete next[reflectionKey(dayId, appId)]; return next; }); },
     saveReflection: (dayId, appId, value) => {
+      touchReflectionDay(dayId);
       setReflections(xs => ({ ...xs, [reflectionKey(dayId, appId)]: { ...value } }));
       setReflectionDefaults(xs => { const next = { ...xs }; if (value.always) next[appId] = { ...value }; else delete next[appId]; return next; });
     },
-    setReflectionExcluded: (dayId, appId, excluded) => { const key = reflectionKey(dayId, appId); setReflectionExcludedRaw(xs => excluded ? [...new Set([...xs, key])] : xs.filter(x => x !== key)); },
+    setReflectionExcluded: (dayId, appId, excluded) => { touchReflectionDay(dayId); const key = reflectionKey(dayId, appId); setReflectionExcludedRaw(xs => excluded ? [...new Set([...xs, key])] : xs.filter(x => x !== key)); },
     customHabits, upsertHabit: habit => setCustomHabits(items => [...items.filter(h => h.id !== habit.id), { ...habit }]),
     sessionNotice, createdSessions, savedTemplates, createdLocks, createdLimits, savedLimitTemplates, createdRoutines, savedRoutineTemplates,
     addRoutine: (rule, template = false) => {

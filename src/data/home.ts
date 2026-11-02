@@ -36,7 +36,7 @@ export type AppRow = {
 };
 
 export type ActivityIcon = 'work' | 'inspiration' | 'procrastinate';
-export type ActivityAppIcon = 'block' | 'flight' | 'photos' | 'store';
+export type ActivityAppIcon = AppIconKind | 'flight' | 'store';
 
 export type ActivityRow = {
   id: string;
@@ -44,7 +44,9 @@ export type ActivityRow = {
   time: string;
   ratio: number;
   icon: ActivityIcon;
-  quality: 'productive' | 'distracting';
+  image?: number | null;
+  emoji?: string;
+  quality: 'productive' | 'neutral' | 'distracting';
   apps: ActivityAppIcon[];
 };
 

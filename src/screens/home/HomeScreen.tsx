@@ -230,7 +230,7 @@ function QualityPage({ day, width }: { day: Day; width: number }) {
       <T size={58.5} ls={-1.5} color={colors.white} onSky numberOfLines={1} adjustsFontSizeToFit style={styles.qWord}>
         {q.word}
       </T>
-      <View style={styles.qTiles}>
+      <View accessibilityLabel={`Качество времени: ${q.pct[0]}% с пользой, ${q.pct[1]}% нейтрально, ${q.pct[2]}% отвлекает`} style={styles.qTiles}>
         {FACES.map((f, i) => (
           <View key={f} style={{ alignItems: 'center', width: 53.8 }}>
             <View style={[styles.qTile, q.pct[i] === 100 && { backgroundColor: colors.qTileOn, boxShadow: undefined }]}>

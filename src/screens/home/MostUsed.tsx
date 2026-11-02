@@ -42,6 +42,7 @@ export function MostUsed({ day, onOpenMenu }: Props) {
             onPress={() => pillRef.current?.measureInWindow((x, y, width, height) => onOpenMenu({ x, y, width, height }))}
             style={styles.pill}
             accessibilityRole="button"
+            accessibilityLabel="Режим сводки"
           >
             <Icon name="updown" width={12} height={14.5} color={colors.black} style={{ marginRight: 3.4 }} />
             <T size={14.25}>{mode === 'apps' ? 'Приложения' : 'Активности'}</T>
@@ -189,6 +190,10 @@ function ActivityAppGlyph({ icon }: { icon: ActivityAppIcon }) {
       return <Image source={art.activityFlight} style={{ width: 22, height: 24 }} />;
     case 'photos':
       return <Image source={art.activityPhotos} style={{ width: 23, height: 24 }} />;
+    case 'phia':
+    case 'substack':
+    case 'other':
+      return <AppIcon icon={icon} size={20} />;
     case 'store':
       return <Image source={art.activityStore} style={{ width: 24, height: 25 }} />;
   }
@@ -198,8 +203,8 @@ function ActivityItem({ activity }: { activity: ActivityRow }) {
   const a = activityArt[activity.icon];
   const good = activity.quality === 'productive';
   return (
-    <View style={[styles.row, { height: 88, paddingLeft: 22 }]}>
-      <Image source={a.src} style={{ width: a.w, height: a.h, marginRight: 14 }} />
+    <View accessibilityLabel={`Активность ${activity.name}: ${activity.quality}`} style={[styles.row, { height: 88, paddingLeft: 22 }]}>
+      {activity.emoji ? <T size={28} style={{ width: 32, marginRight: 14 }}>{activity.emoji}</T> : <Image source={activity.image ?? a.src} style={{ width: a.w, height: a.h, marginRight: 14 }} />}
       <View style={{ flex: 1 }}>
         <View style={styles.rowTop}>
           <T size={15.25}>{activity.name}</T>
@@ -212,7 +217,7 @@ function ActivityItem({ activity }: { activity: ActivityRow }) {
         </View>
         <View style={styles.activityMeta}>
           <T size={12.25} ls={TRACK_SMALL} color={good ? colors.qProductive : colors.qNeutral} style={{ width: 73 }}>
-            {good ? 'С пользой' : 'Отвлекает'}
+            {good ? 'С пользой' : activity.quality === 'neutral' ? 'Норма' : 'Отвлекает'}
           </T>
           <View style={styles.metaSep} />
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 2, marginLeft: 8 }}>
