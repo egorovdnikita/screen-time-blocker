@@ -1,3 +1,4 @@
+import { SheetTransition } from '@/components/SheetModal';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Image } from 'expo-image';
 import { router, useLocalSearchParams } from 'expo-router';
@@ -42,8 +43,8 @@ export function SessionEditor() {
   const patch = (update: Partial<typeof draft>) => setDraft(d => ({ ...d, ...update }));
   const dismiss = () => router.canGoBack() ? router.back() : router.replace('/(tabs)');
   const finish = (template: boolean) => { app.addSession(sessionRule(draft), template); router.dismissAll(); router.navigate('/(tabs)/rules'); };
-  return <View style={styles.overlay}>
-    <Pressable style={StyleSheet.absoluteFill} accessibilityLabel="Закрыть редактор сессии" onPress={dismiss} />
+  return <SheetTransition backdrop={<Pressable style={[StyleSheet.absoluteFill, { backgroundColor: c.backdrop }]} accessibilityLabel="Закрыть редактор сессии" onPress={dismiss} />}>
+    <View pointerEvents="box-none" style={styles.overlay}>
     <View style={[styles.sheet, { marginTop: Math.max(60, insets.top + 1) }]}>
       <View style={styles.handle} />
       <ScrollView key={compact ? "compact" : shortHeader ? "short" : "overview"} showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 24 }}>
@@ -87,10 +88,10 @@ export function SessionEditor() {
     {strictOpen && <StrictSettingsSheet value={draft} onCancel={() => setStrictOpen(false)} onActivate={settings => { patch({ ...settings, strict: true }); setStrictOpen(false); }} />}
     {strictConfirm && <StrictConfirmation onCancel={() => setStrictConfirm(false)} onContinue={() => { setStrictConfirm(false); finish(false); }} />}
     {iconOpen && <SessionIconPicker selected={draft.iconId} onSelect={iconId => { patch({ iconId }); setIconOpen(false); }} onClose={() => setIconOpen(false)} />}
-  </View>;
+  </View></SheetTransition>;
 }
 const styles = StyleSheet.create({
-  overlay: { flex: 1, backgroundColor: c.backdrop }, sheet: { flex: 1, borderTopLeftRadius: c.sheetRadius, borderTopRightRadius: c.sheetRadius, overflow: 'hidden', backgroundColor: c.surface },
+  overlay: { flex: 1 }, sheet: { flex: 1, borderTopLeftRadius: c.sheetRadius, borderTopRightRadius: c.sheetRadius, overflow: 'hidden', backgroundColor: c.surface },
   handle: { position: 'absolute', zIndex: 1, top: 12, alignSelf: 'center', width: 60, height: 5, borderRadius: 4, backgroundColor: c.handle },
   header: { height: 216, paddingTop: 66, backgroundColor: colors.white, alignItems: 'center' }, iconButton: { width: 55, height: 56, alignItems: 'center', justifyContent: 'center' }, title: { maxWidth: '85%', marginTop: 14.667, flexDirection: 'row', alignItems: 'center', gap: 6 }, titleInput: { height: 34, marginTop: 14.667, fontFamily: rounded, fontSize: 28, fontWeight: '700', textAlign: 'center', color: c.ink, width: '85%' },
   suggestionHeading: { marginTop: 22, marginHorizontal: 22, flexDirection: 'row', alignItems: 'center', gap: 12, height: 26 }, suggestions: { paddingHorizontal: 20, paddingTop: 6, gap: 8 }, suggestion: { width: 160, height: 80, borderRadius: c.suggestionRadius, overflow: 'hidden' }, suggestionCopy: { paddingLeft: 8, paddingTop: 21 }, rows: { marginTop: 20, paddingHorizontal: 20, gap: 14 },

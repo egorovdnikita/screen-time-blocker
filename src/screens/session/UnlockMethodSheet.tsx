@@ -1,7 +1,8 @@
+import { SheetModal } from '@/components/SheetModal';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useEffect, useRef, useState, type ComponentRef } from 'react';
-import { KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Icon } from '@/components/Icon';
 import { FlowSwitch } from '@/components/SessionPrimitives';
@@ -32,9 +33,9 @@ export function UnlockMethodSheet({ value, onCancel, onSave }: Props) {
     const timer = setTimeout(() => scroll.current?.scrollTo({ y: scrollY, animated: false }), 300);
     return () => clearTimeout(timer);
   }, [scrollY, draft.unlockMethod]);
-  return <Modal transparent animationType="slide" onRequestClose={onCancel}>
-    <View style={{ flex: 1 }}>
-      <Pressable accessibilityLabel="Отменить способ открытия" onPress={onCancel} style={[StyleSheet.absoluteFill, { backgroundColor: m.backdrop }]} />
+  return <SheetModal onClose={onCancel} backdrop={<Pressable accessibilityLabel="Отменить способ открытия" onPress={onCancel} style={[StyleSheet.absoluteFill, { backgroundColor: m.backdrop }]} />}>
+    <View pointerEvents="box-none" style={{ flex: 1 }}>
+
       <View pointerEvents="none" style={[styles.backSheet, { top: Math.max(59, insets.top) }]} />
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} pointerEvents="box-none" style={{ flex: 1 }}>
       <View style={[styles.panel, { marginTop: Math.max(69, insets.top + 10) }]} accessibilityViewIsModal>
@@ -78,7 +79,7 @@ export function UnlockMethodSheet({ value, onCancel, onSave }: Props) {
       </View>
       </KeyboardAvoidingView>
     </View>
-  </Modal>;
+  </SheetModal>;
 }
 const styles = StyleSheet.create({
   backSheet: { position: 'absolute', left: 16, right: 16, bottom: 14, backgroundColor: m.backSheet, borderRadius: m.panelRadius },

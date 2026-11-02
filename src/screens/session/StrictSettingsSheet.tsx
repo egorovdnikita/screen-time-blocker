@@ -1,3 +1,4 @@
+import { SheetModal } from '@/components/SheetModal';
 import { BlurView } from 'expo-blur';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useState } from 'react';
@@ -15,8 +16,8 @@ export function StrictSettingsSheet({ value, onCancel, onActivate }: { value: St
   const { height } = useWindowDimensions();
   const insets = useSafeAreaInsets();
   const session = draft.strictScope === 'session';
-  return <Modal transparent animationType="slide" onRequestClose={onCancel}>
-    <View style={{ flex: 1 }}><Pressable accessibilityLabel="Отменить строгий режим" onPress={onCancel} style={[StyleSheet.absoluteFill, { backgroundColor: c.backdrop }]} />
+  return <SheetModal onClose={onCancel} backdrop={<Pressable accessibilityLabel="Отменить строгий режим" onPress={onCancel} style={[StyleSheet.absoluteFill, { backgroundColor: c.backdrop }]} />}>
+    <View pointerEvents="box-none" style={{ flex: 1 }}>
       <View style={[styles.sheet, { top: Math.max(insets.top + 20, height - 579) }]} accessibilityViewIsModal>
         <View style={styles.handle} /><View style={styles.title}><Icon name="session-shield" width={22} height={24} /><T size={20} ls={0}>Строгий режим</T></View>
         <ScrollView showsVerticalScrollIndicator={false} style={{ marginTop: 97 }} contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 120 }}>
@@ -35,7 +36,7 @@ export function StrictSettingsSheet({ value, onCancel, onActivate }: { value: St
         <PressScale accessibilityRole="button" accessibilityLabel="Включить строгий режим" onPress={() => onActivate(draft)} style={[styles.activate, { bottom: Math.max(45, insets.bottom + 10) }]}><LinearGradient colors={c.gradient} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={StyleSheet.absoluteFill} /><Icon name="shield-check-white" width={17} height={19} color={colors.white} /><T size={16} color={colors.white} ls={0}>Включить строгий режим</T></PressScale>
       </View>
     </View>
-  </Modal>;
+  </SheetModal>;
 }
 export function StrictConfirmation({ onCancel, onContinue }: { onCancel: () => void; onContinue: () => void }) {
   const { height } = useWindowDimensions();

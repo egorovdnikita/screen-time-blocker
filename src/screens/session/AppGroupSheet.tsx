@@ -1,8 +1,9 @@
+import { SheetModal } from '@/components/SheetModal';
 import { BlurView } from 'expo-blur';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Fragment, useRef, useState, type ComponentRef } from 'react';
-import { KeyboardAvoidingView, Modal, Platform, ScrollView, StyleSheet, TextInput, View, useWindowDimensions } from 'react-native';
+import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, TextInput, View, useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { GroupExtraGlyphs } from '@/components/AppGroupSummary';
 import { Icon } from '@/components/Icon';
@@ -40,8 +41,8 @@ export function AppGroupSheet({ value, onCancel, onConfirm }: Props) {
   const toggleApp = (index: number) => patch({ selectedApps: draft.selectedApps.map((selected, i) => i === index ? !selected : selected), categories: draft.categories.filter(category => category !== 'social') });
   const toggleAll = () => patch({ selectedApps: groupApps.map(() => !all), categories: all ? [] : groupCategories.map(category => category.id) });
   const searchTop = Math.min(extra ? 594 : 612, Math.max(140, sheetHeight - (compact ? 64 : 171)));
-  return <Modal transparent animationType="slide" onRequestClose={onCancel}>
-    <View style={[styles.root, { backgroundColor: optionsOpen ? c.optionsBackdrop : extra ? c.summaryBackdrop : c.backdrop }]}>
+  return <SheetModal onClose={onCancel} backdrop={<View style={[StyleSheet.absoluteFill, { backgroundColor: optionsOpen ? c.optionsBackdrop : extra ? c.summaryBackdrop : c.backdrop }]} />}>
+    <View pointerEvents="box-none" style={styles.root}>
       <View pointerEvents="none" style={[styles.back, { top: Math.max(59, insets.top) }]} />
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} pointerEvents="box-none" style={{ flex: 1 }}>
         <View pointerEvents="none" style={{ height: groupTop }} />
@@ -86,7 +87,7 @@ export function AppGroupSheet({ value, onCancel, onConfirm }: Props) {
       </KeyboardAvoidingView>
       {optionsOpen && <AppGroupOptions group={draft} onChange={patch} onClose={() => setOptionsOpen(false)} />}
     </View>
-  </Modal>;
+  </SheetModal>;
 }
 const styles = StyleSheet.create({
   root: { flex: 1 }, back: { position: 'absolute', left: 10, right: 10, bottom: 8, borderRadius: c.sheetBottomRadius, backgroundColor: c.backSheet }, sheet: { flex: 1, backgroundColor: c.surface, borderTopLeftRadius: c.sheetRadius, borderTopRightRadius: c.sheetRadius, borderBottomLeftRadius: c.sheetBottomRadius, borderBottomRightRadius: c.sheetBottomRadius, overflow: 'hidden' },

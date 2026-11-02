@@ -1,6 +1,7 @@
+import { SheetModal } from '@/components/SheetModal';
 import { Image } from 'expo-image';
 import { useState } from 'react';
-import { KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, StyleSheet, TextInput, View, useWindowDimensions } from 'react-native';
+import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, TextInput, View, useWindowDimensions } from 'react-native';
 import { Icon } from '@/components/Icon';
 import { PressScale } from '@/components/motion';
 import { sessionIcons, type SessionIconId } from '@/data/sessionIcons';
@@ -13,9 +14,9 @@ export function SessionIconPicker({ selected, onSelect, onClose }: { selected: S
   const search = query.trim().toLocaleLowerCase();
   const results = sessionIcons.filter(item => search ? `${item.glyph} ${item.label} ${item.keywords}`.toLocaleLowerCase().includes(search) : item.id.startsWith('face-'));
   const tileWidth = (width - 16 - 39 - 32) / 5;
-  return <Modal transparent animationType="slide" onRequestClose={onClose}>
-    <View style={{ flex: 1 }}>
-      <Pressable accessibilityLabel="Закрыть выбор иконки" onPress={onClose} style={[StyleSheet.absoluteFill, { backgroundColor: c.backdrop }]} />
+  return <SheetModal onClose={onClose} backdrop={<Pressable accessibilityLabel="Закрыть выбор иконки" onPress={onClose} style={[StyleSheet.absoluteFill, { backgroundColor: c.backdrop }]} />}>
+    <View pointerEvents="box-none" style={{ flex: 1 }}>
+
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} pointerEvents="box-none" style={{ flex: 1 }}>
         <View pointerEvents="none" style={{ height: Math.min(220, height * .3) }} />
         <View style={styles.sheet} accessibilityViewIsModal>
@@ -34,7 +35,7 @@ export function SessionIconPicker({ selected, onSelect, onClose }: { selected: S
         </View>
       </KeyboardAvoidingView>
     </View>
-  </Modal>;
+  </SheetModal>;
 }
 const styles = StyleSheet.create({
   sheet: { flex: 1, marginHorizontal: 8, marginBottom: 8, backgroundColor: c.surface, borderTopLeftRadius: c.sheetTopRadius, borderTopRightRadius: c.sheetTopRadius, borderBottomLeftRadius: c.sheetBottomRadius, borderBottomRightRadius: c.sheetBottomRadius, overflow: 'hidden' },

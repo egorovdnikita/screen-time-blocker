@@ -1,5 +1,6 @@
+import { SheetModal } from '@/components/SheetModal';
 import { useState } from 'react';
-import { Modal, Pressable, StyleSheet, View, useWindowDimensions } from 'react-native';
+import { Pressable, StyleSheet, View, useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Icon } from '@/components/Icon';
 import { animateLayout, PressScale } from '@/components/motion';
@@ -50,8 +51,8 @@ function UnlockDuration({ value, onCancel, onConfirm }: { value: number; onCance
   const insets = useSafeAreaInsets();
   const hour = Math.floor(selected / 60), minute = selected % 60;
   const setTime = (h: number, m: number) => setSelected(Math.max(1, Math.min(120, h * 60 + m)));
-  return <Modal transparent animationType="slide" onRequestClose={onCancel}><View style={StyleSheet.absoluteFill}>
-    <Pressable accessibilityLabel="Отменить длительность разблокировки" onPress={onCancel} style={[StyleSheet.absoluteFill, { backgroundColor: u.durationBackdrop }]} />
+  return <SheetModal onClose={onCancel} backdrop={<Pressable accessibilityLabel="Отменить длительность разблокировки" onPress={onCancel} style={[StyleSheet.absoluteFill, { backgroundColor: u.durationBackdrop }]} />}><View pointerEvents="box-none" style={StyleSheet.absoluteFill}>
+
     <View style={[styles.durationSheet, { top: Math.max(100, height - 462), bottom: 8 }]} accessibilityViewIsModal>
       <View style={styles.handle} /><T size={22} center ls={0} style={{ marginTop: 38 }}>Длительность</T>
       <View style={styles.wheel}>
@@ -64,7 +65,7 @@ function UnlockDuration({ value, onCancel, onConfirm }: { value: number; onCance
       <T size={13} weight={400} color={u.durationHelp} center ls={0} style={{ position: 'absolute', bottom: 128, left: 12, right: 12 }}>От 1 минуты до 2 часов.</T>
       <PressScale accessibilityRole="button" onPress={() => onConfirm(selected)} style={[styles.confirm, { bottom: Math.max(40, insets.bottom + 6) }]}><T size={17} color={colors.white} ls={0}>Подтвердить</T></PressScale>
     </View>
-  </View></Modal>;
+  </View></SheetModal>;
 }
 const styles = StyleSheet.create({
   choices: { flexDirection: 'row', gap: 7, paddingHorizontal: 17 },

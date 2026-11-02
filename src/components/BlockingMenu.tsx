@@ -1,9 +1,10 @@
+import { SheetModal } from './SheetModal';
 import { BlurView } from 'expo-blur';
 import { router } from 'expo-router';
-import { Modal, Pressable, StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Icon, type IconName } from './Icon';
-import { FadeIn, PressScale } from './motion';
+import { PressScale } from './motion';
 import { T } from '@/theme/typography';
 import { colors, sessionTheme as c } from '@/theme/tokens';
 
@@ -17,10 +18,10 @@ const options: { title: string; hint: string; icon: IconName; color: string; mod
 
 export function BlockingMenu({ visible, onClose }: { visible: boolean; onClose: () => void }) {
   const insets = useSafeAreaInsets();
-  return <Modal visible={visible} transparent animationType="fade" onRequestClose={onClose}>
-    <View style={styles.root}>
-      <Pressable accessibilityLabel="Закрыть меню блокировки" onPress={onClose} style={[StyleSheet.absoluteFill, { backgroundColor: c.backdrop }]} />
-      <FadeIn from={40} style={[styles.sheet, { bottom: Math.max(8, insets.bottom - 26) }]}>
+  return <SheetModal visible={visible} onClose={onClose} backdrop={<Pressable accessibilityLabel="Закрыть меню блокировки" onPress={onClose} style={[StyleSheet.absoluteFill, { backgroundColor: c.backdrop }]} />}>
+    <View pointerEvents="box-none" style={styles.root}>
+
+      <View style={[styles.sheet, { bottom: Math.max(8, insets.bottom - 26) }]}>
         <BlurView intensity={28} tint="light" style={StyleSheet.absoluteFill} />
         <View pointerEvents="none" style={[StyleSheet.absoluteFill, { backgroundColor: c.menu }]} />
         <View style={styles.handle} />
@@ -31,9 +32,9 @@ export function BlockingMenu({ visible, onClose }: { visible: boolean; onClose: 
           <View style={[styles.icon, { backgroundColor: item.color }]}><Icon name={item.icon} width={item.icon === 'blocking-viewfinder' ? 31 : 28} height={28} color={colors.white} />{item.icon === 'blocking-viewfinder' && <Icon name="lock-fill" width={16} height={18} color={colors.white} style={{ position: 'absolute' }} />}</View>
           <View style={{ flex: 1 }}><T size={18} ls={-.2}>{item.title}</T><T size={13.5} weight={400} ls={-.1} style={{ marginTop: 1 }}>{item.hint}</T></View>
         </PressScale>)}
-      </FadeIn>
+      </View>
     </View>
-  </Modal>;
+  </SheetModal>;
 }
 const styles = StyleSheet.create({
   root: { flex: 1, justifyContent: 'flex-end' },

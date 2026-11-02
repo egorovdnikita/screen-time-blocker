@@ -1,5 +1,6 @@
+import { SheetModal } from '@/components/SheetModal';
 import { useRef, useState, type ComponentRef } from 'react';
-import { KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, StyleSheet, TextInput, View, useWindowDimensions } from 'react-native';
+import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, TextInput, View, useWindowDimensions } from 'react-native';
 import { Icon } from '@/components/Icon';
 import { PressScale } from '@/components/motion';
 import { websiteHost, type AppGroupDraft } from '@/data/appGroup';
@@ -27,9 +28,9 @@ export function AppGroupOptions({ group, onChange, onClose }: Props) {
     onChange({ websites: group.websites.some(site => site.host === host) ? group.websites.map(site => site.host === host ? { ...site, selected: true } : site) : [...group.websites, { host, selected: true }] });
     setEntry(''); setError(''); input.current?.blur();
   };
-  return <Modal transparent animationType="slide" onRequestClose={onClose}>
-    <View style={{ flex: 1 }}>
-      <Pressable accessibilityLabel="Вернуться к группе приложений" onPress={onClose} style={[StyleSheet.absoluteFill, { backgroundColor: c.dim }]} />
+  return <SheetModal onClose={onClose} backdrop={<Pressable accessibilityLabel="Вернуться к группе приложений" onPress={onClose} style={[StyleSheet.absoluteFill, { backgroundColor: c.dim }]} />}>
+    <View pointerEvents="box-none" style={{ flex: 1 }}>
+
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} pointerEvents="box-none" style={{ flex: 1 }}>
         <View pointerEvents="none" style={{ height: Math.min(220, height * .3) }} />
         <View style={styles.sheet} accessibilityViewIsModal>
@@ -58,7 +59,7 @@ export function AppGroupOptions({ group, onChange, onClose }: Props) {
         </View>
       </KeyboardAvoidingView>
     </View>
-  </Modal>;
+  </SheetModal>;
 }
 function SectionLabel({ title }: { title: string }) { return <View style={styles.section}><Icon name="group-section" width={12} height={8} color={c.section} /><T size={19} color={c.section} ls={0}>{title}</T></View>; }
 const styles = StyleSheet.create({
