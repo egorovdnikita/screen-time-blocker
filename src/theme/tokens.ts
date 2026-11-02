@@ -202,5 +202,7 @@ export const unlockMethodTheme = {
   surface: '#f6f8fa', backSheet: '#dadbdd', handle: '#dcdfe2', radioBorder: '#e5e8eb',
   grid: '#f7f8fa', line: '#f0f0f2', stepper: '#e9eaed', stepperLine: '#c6c8cc',
   value: '#7c8797', note: '#858d97', deviceLabel: '#949494', deviceIntent: '#94bff6',
+  copyFade: 'rgba(255,255,255,0)', surfaceFade: 'rgba(246,248,250,0)',
+  copyBorder: '#e7e8eb', copyAction: '#4f91ce', copyPlaceholder: '#b0b5bd', copyRadius: 25,
   panelRadius: 44, cardRadius: 21, gridRadius: 19, stepperRadius: 20,
 } as const;

@@ -1,5 +1,7 @@
 // Растр из макетов (@3x).
 export const art = {
+  unlockRecopyDevice: require('../../assets/art/session/methods/unlock-recopy-device.png'),
+  unlockIconPhoto: require('../../assets/art/session/methods/unlock-icon-photo.png'),
   unlockIconNothing: require('../../assets/art/session/methods/unlock-icon-nothing.png'),
   unlockIconWait: require('../../assets/art/session/methods/unlock-icon-wait.png'),
   unlockIconReason: require('../../assets/art/session/methods/unlock-icon-reason.png'),

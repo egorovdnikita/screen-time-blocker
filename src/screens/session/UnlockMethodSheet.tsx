@@ -1,12 +1,13 @@
 import { Image } from 'expo-image';
-import { useState } from 'react';
-import { Modal, Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+import { useEffect, useRef, useState, type ComponentRef } from 'react';
+import { KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Icon } from '@/components/Icon';
 import { FlowSwitch } from '@/components/SessionPrimitives';
 import { animateLayout, PressScale } from '@/components/motion';
 import { art } from '@/data/art';
-import type { UnlockMethod, UnlockSettings } from '@/data/session';
+import { copyTextIdeas, copyPreviewQuote, type UnlockMethod, type UnlockSettings } from '@/data/session';
 import { colors, sessionTheme as c, sessionPickerTheme as p, unlockMethodTheme as m } from '@/theme/tokens';
 import { T } from '@/theme/typography';
 
@@ -15,30 +16,47 @@ const options: { id: UnlockMethod; label: string; image: number }[] = [
   { id: 'none', label: 'Ничего не делать', image: art.unlockIconNothing },
   { id: 'wait', label: 'Немного подождать', image: art.unlockIconWait },
   { id: 'reason', label: 'Указать причину', image: art.unlockIconReason },
+  { id: 'text', label: 'Перепечатать текст', image: art.unlockIconText },
 ];
 export function UnlockMethodSheet({ value, onCancel, onSave }: Props) {
-  const [draft, setDraft] = useState<UnlockSettings>(() => ({ unlockMethod: value.unlockMethod, waitAutomatic: value.waitAutomatic, waitSeconds: value.waitSeconds }));
+  const [draft, setDraft] = useState<UnlockSettings>(() => ({ unlockMethod: value.unlockMethod, waitAutomatic: value.waitAutomatic, waitSeconds: value.waitSeconds, copyText: value.copyText }));
   const insets = useSafeAreaInsets();
+  const [editingText, setEditingText] = useState(false);
   const patch = (update: Partial<UnlockSettings>) => { animateLayout(); setDraft(d => ({ ...d, ...update })); };
   const isReason = draft.unlockMethod === 'reason';
+  const isText = draft.unlockMethod === 'text';
+  const visibleOptions = isReason || isText ? options : options.slice(0, 3);
+  const valid = !isText || !!draft.copyText.trim();
+  const scroll = useRef<ComponentRef<typeof ScrollView>>(null);
+  useEffect(() => {
+    // RN Web не применяет начальный contentOffset после смены выбранного метода.
+    const timer = setTimeout(() => scroll.current?.scrollTo({ y: isText ? 210 : 0, animated: false }), 300);
+    return () => clearTimeout(timer);
+  }, [isText, draft.unlockMethod]);
   return <Modal transparent animationType="slide" onRequestClose={onCancel}>
     <View style={{ flex: 1 }}>
       <Pressable accessibilityLabel="Отменить способ открытия" onPress={onCancel} style={[StyleSheet.absoluteFill, { backgroundColor: c.backdrop }]} />
       <View pointerEvents="none" style={[styles.backSheet, { top: Math.max(59, insets.top) }]} />
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} pointerEvents="box-none" style={{ flex: 1 }}>
       <View style={[styles.panel, { marginTop: Math.max(69, insets.top + 10) }]} accessibilityViewIsModal>
         <View style={styles.heading}><View style={styles.handle} /><T size={20} ls={0} center style={{ marginTop: 44 }}>Перед открытием…</T></View>
-        <ScrollView key={draft.unlockMethod} showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 134 }}>
-          {options.map(option => {
+        <ScrollView ref={scroll} contentOffset={{ x: 0, y: isText ? 210 : 0 }} keyboardShouldPersistTaps="handled" key={draft.unlockMethod} showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 134 }}>
+          {visibleOptions.map(option => {
             const selected = draft.unlockMethod === option.id;
             const expanded = selected && option.id !== 'none';
             return <View key={option.id} style={{ marginBottom: isReason && option.id === 'none' ? 11 : isReason && option.id === 'wait' ? 14 : option.id === 'wait' && selected && !draft.waitAutomatic ? 27 : 12 }}>
-              <View style={[styles.card, isReason && option.id === 'none' && { height: 51 }, expanded && { height: option.id === 'reason' ? 296 : draft.waitAutomatic ? 391 : 418 }]}>
+              <View style={[styles.card, isReason && option.id === 'none' && { height: 51 }, expanded && { height: option.id === 'text' ? 455 : option.id === 'reason' ? 296 : draft.waitAutomatic ? 391 : 418 }]}>
                 <PressScale accessibilityRole="radio" accessibilityLabel={option.label} accessibilityState={{ checked: selected }} onPress={() => patch({ unlockMethod: option.id })} style={styles.option}>
                   <Image source={option.image} style={{ width: 22, height: 22 }} /><T size={expanded ? 20 : 15} weight={expanded ? 700 : 400} ls={0} style={{ flex: 1 }}>{option.label}</T>
                   <View style={[styles.radio, selected && styles.radioOn]}>{selected && <Icon name="period-check" width={24} height={24} color={colors.white} />}</View>
                 </PressScale>
                 {expanded && <>
-                  <View style={styles.illustration}><Image source={isReason ? art.unlockReasonDevice : art.unlockWaitDevice} contentFit="contain" style={{ width: 243, height: 220 }} /><T size={14} weight={600} ls={0} color={m.deviceLabel} center style={styles.deviceLabel}>Время подумать</T>{isReason && <T size={8.5} weight={500} ls={0} color={m.deviceIntent} center style={styles.intent}>Введите причину</T>}</View>
+                  <View style={styles.illustration}><Image source={isText ? art.unlockRecopyDevice : isReason ? art.unlockReasonDevice : art.unlockWaitDevice} contentFit="contain" style={{ width: 243, height: 220 }} />{!isText && <T size={14} weight={600} ls={0} color={m.deviceLabel} center style={styles.deviceLabel}>Время подумать</T>}{isText && <><T size={9.2} color={colors.white} ls={0} center style={styles.quote}>{copyPreviewQuote}</T><T size={9.2} weight={600} color={m.copyPlaceholder} ls={0} style={styles.devicePlaceholder}>Введите текст здесь</T></>}{isReason && <T size={8.5} weight={500} ls={0} color={m.deviceIntent} center style={styles.intent}>Введите причину</T>}</View>
+                  {option.id === 'text' && <>
+                    <TextInput accessibilityLabel="Текст для перепечатывания" onFocus={() => setEditingText(true)} onBlur={() => setEditingText(false)} multiline value={draft.copyText} onChangeText={copyText => setDraft(d => ({ ...d, copyText }))} maxLength={2000} placeholder="Введите текст" placeholderTextColor={m.copyPlaceholder} textAlignVertical="top" style={styles.copyBox} />
+                    {!editingText && <LinearGradient pointerEvents="none" colors={[m.copyFade, colors.white]} locations={[0, .7]} style={styles.copyFade} />}
+                    <PressScale accessibilityRole="button" accessibilityLabel="Идея текста" onPress={() => patch({ copyText: draft.copyText === copyTextIdeas[1] ? copyTextIdeas[0] : copyTextIdeas[1] })} style={styles.inspire}><Icon name="session-wand" width={20} height={20} color={m.copyAction} /><T size={15} color={m.copyAction} ls={0}>Идея текста</T></PressScale>
+                  </>}
                   {option.id === 'wait' && <>
                     <View style={styles.settings}>
                       <View style={styles.setting}><T size={15} weight={400} ls={0}>Автоматически</T><FlowSwitch label="Автоматическая пауза" value={draft.waitAutomatic} onChange={waitAutomatic => patch({ waitAutomatic })} /></View>
@@ -53,10 +71,11 @@ export function UnlockMethodSheet({ value, onCancel, onSave }: Props) {
               </View>
             </View>;
           })}
-          {isReason && [{ title: 'Перепечатать текст', image: art.unlockIconText }, { title: 'Ввести случайный код', image: art.unlockIconCode }].map(option => <View key={option.title} style={[styles.card, { marginBottom: 12 }]} accessibilityState={{ disabled: true }}><View style={styles.option}><Image source={option.image} style={{ width: 22, height: 22 }} /><T size={15} weight={400} ls={0} style={{ flex: 1 }}>{option.title}</T><View style={styles.radio} /></View></View>)}
+          {(isReason || isText) && [{ title: 'Ввести случайный код', image: art.unlockIconCode }, ...(isText ? [{ title: 'Подтвердить фото', image: art.unlockIconPhoto }] : [])].map(option => <View key={option.title} style={[styles.card, { marginBottom: 12 }]} accessibilityState={{ disabled: true }}><View style={styles.option}><Image source={option.image} style={{ width: 22, height: 22 }} /><T size={15} weight={400} ls={0} style={{ flex: 1 }}>{option.title}</T><View style={styles.radio} /></View>{option.title === 'Подтвердить фото' && <LinearGradient pointerEvents="none" colors={[m.surfaceFade, m.surfaceFade, m.surface, m.surface]} locations={[0, .2, .42, 1]} style={StyleSheet.absoluteFill} />}</View>)}
         </ScrollView>
-        <View style={[styles.footer, { paddingBottom: Math.max(39, insets.bottom + 5) }]}><PressScale accessibilityRole="button" onPress={() => onSave(draft)} style={styles.save}><T size={17} color={colors.white} ls={0}>Сохранить</T></PressScale></View>
+        <View style={[styles.footer, { paddingBottom: Math.max(39, insets.bottom + 5) }]}><PressScale accessibilityRole="button" disabled={!valid} accessibilityState={{ disabled: !valid }} onPress={() => onSave({ ...draft, copyText: draft.copyText.trim() })} style={[styles.save, !valid && { opacity: .4 }]}><T size={17} color={colors.white} ls={0}>Сохранить</T></PressScale></View>
       </View>
+      </KeyboardAvoidingView>
     </View>
   </Modal>;
 }
@@ -71,5 +90,9 @@ const styles = StyleSheet.create({
   settings: { position: 'absolute', top: 293, left: 16, right: 16, borderRadius: m.gridRadius, backgroundColor: m.grid, overflow: 'hidden' }, setting: { height: 60, paddingHorizontal: 16, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 14 }, fixed: { height: 65, borderTopWidth: 1, borderColor: m.line },
   stepper: { width: 94, height: 32, flexDirection: 'row', backgroundColor: m.stepper, borderRadius: m.stepperRadius }, step: { width: 47, height: 32, alignItems: 'center', justifyContent: 'center' }, stepperLine: { position: 'absolute', left: 47, top: 4, bottom: 4, width: 1, backgroundColor: m.stepperLine },
   note: { position: 'absolute', top: 362, left: 16, right: 16, lineHeight: 16 },
+  quote: { position: 'absolute', left: 44, right: 44, top: 19, lineHeight: 14.8 }, devicePlaceholder: { position: 'absolute', left: 40, top: 124, lineHeight: 12 },
+  copyBox: { position: 'absolute', left: 16, right: 16, top: 291, height: 100, borderWidth: 1, borderColor: m.copyBorder, borderRadius: m.copyRadius, padding: 16, fontSize: 15, lineHeight: 18, fontWeight: '400', color: colors.black, outlineWidth: 0 },
+  copyFade: { position: 'absolute', left: 17, right: 17, top: 337, height: 53, borderBottomLeftRadius: m.copyRadius, borderBottomRightRadius: m.copyRadius },
+  inspire: { position: 'absolute', top: 411, left: 0, right: 0, height: 24, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8 },
   footer: { position: 'absolute', left: 0, right: 0, bottom: 0, paddingHorizontal: 20, backgroundColor: m.surface }, save: { height: 60, borderRadius: 32, backgroundColor: c.dark, boxShadow: c.buttonShadow, alignItems: 'center', justifyContent: 'center' },
 });
