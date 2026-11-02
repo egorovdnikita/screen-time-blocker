@@ -19,6 +19,8 @@ export type OnboardingStep = 'tip-first-rule' | 'tip-add-more' | 'done';
 const LOADING_MS = 1400;
 
 type AppState = {
+  legacyLimits: boolean;
+  setLegacyLimits: (value: boolean) => void;
   troubleshooting: { hideIcons: boolean; realTime: boolean };
   setTroubleshooting: (value: { hideIcons: boolean; realTime: boolean }) => void;
   expertScreens: boolean;
@@ -103,6 +105,7 @@ type AppState = {
 const Ctx = createContext<AppState | null>(null);
 
 export function AppStateProvider({ children }: { children: ReactNode }) {
+  const [legacyLimits, setLegacyLimits] = useState(false);
   const [troubleshooting, setTroubleshooting] = useState({ hideIcons: false, realTime: true });
   const [ruleChanges, setRuleChanges] = useState<Record<string, RuleDetailChanges>>({});
   const [pausedSessions, setPausedSessions] = useState<Record<string, 'next' | 'manual'>>({});
@@ -172,6 +175,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     setSavedLimitTemplates([]);
     setSavedTemplates([]);
     setNamedGroups([]);
+    setLegacyLimits(false);
     setTroubleshooting({ hideIcons: false, realTime: true });
     setExpertScreens(false); setAlternativeScreens(false); setCustomBlockScreens([]);
     setScenarioRaw(s);
@@ -232,6 +236,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     },
     setReflectionExcluded: (dayId, appId, excluded) => { touchReflectionDay(dayId); const key = reflectionKey(dayId, appId); setReflectionExcludedRaw(xs => excluded ? [...new Set([...xs, key])] : xs.filter(x => x !== key)); },
     customHabits, upsertHabit: habit => setCustomHabits(items => [...items.filter(h => h.id !== habit.id), { ...habit }]),
+    legacyLimits, setLegacyLimits,
     troubleshooting, setTroubleshooting,
     expertScreens, alternativeScreens, setExpertScreens, setAlternativeScreens, customBlockScreens,
     saveBlockScreen: screen => setCustomBlockScreens(xs => xs.some(x => x.id === screen.id) ? xs.map(x => x.id === screen.id ? { ...screen } : x) : [...xs, { ...screen }]),

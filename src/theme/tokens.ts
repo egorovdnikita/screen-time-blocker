@@ -351,3 +351,5 @@ export const modalTheme = { dim: 'rgba(0,0,0,.2)' };
 
 // Решение проблем213–218, измерения troubleshoot.css.
 export const troubleshootTheme = { surface: '#f3f5f7', options: '#f6f8fa', section: '#959eab', caption: '#7d8797', ink: '#17191a', border: '#e1e4e8', active: '#3784f5', disabled: '#bbbbbb', disabledText: '#d3d3d3', separator: '#f0f2f4', switchOn: '#4d82eb', switchOff: '#c5c4c7', panelShadow: '0px 18px 30px #17202a05', contactShadow: '0px 12px 30px #17202a06' } as const;
+
+export const legacyLimitsTheme = { text: '#666666', surface: 'rgba(249,249,249,.78)', cancel: '#d0d0d0', confirm: '#0085ff', switchOn: '#3784f7', switchOff: '#c5c4c7' } as const;

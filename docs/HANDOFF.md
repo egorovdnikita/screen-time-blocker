@@ -390,3 +390,8 @@ SheetModal принимает SheetContent(close) и close(afterClose), перв
 ## Руководство решения проблем — 2026-11-03
 
 213–218:6новых состояний, общий Troubleshoot/PlainSettingsSheet;4шага + прокручиваемые8тем +2локальных switch. Настройки app.troubleshooting в памяти и очищаются reset. Реальный родитель/неподвижный dim/общая анимация закрытия. Входы Rules «Справка» и HelpFeedback «Ошибки и проблемы». Системные действия/статьи/contact readonly, OSуспех не имитировать. SVG5штук генератором,7emojiPNG, существующий forbidden переиспользован. check-troubleshoot:6кадров, геометрия, toggle/reopen/оба входа; main-settings/typecheck/lint/web-export/iOSbundle проходят. Все6пар просмотреныChrome, iPhoneнепроверен. docs/reviews/2026-11-03-troubleshoot. Далее245–246legacy,287–302/раннийonboarding. Expo8082; package-lock пользовательский.
+
+
+## Старые лимиты входов — 2026-11-03
+
+245–246:2новых состояния RuleSettings/GlassDialog/FlowSwitch. Включение через предупреждение, cancel сохраняетoff, confirm после dismiss ставитon, выключение напрямую. app.legacyLimits в памяти, resetочищает; интеграции Shortcuts/OS нет. check-legacy-limits/cancel/confirm/disable, dialog-motion/typecheck/lint/web-export/iOSbundle. Обе пары просмотреныChrome, физическийiPhoneнепроверен. docs/reviews/2026-11-03-legacy-limits. За этот заход8новыхсостояний:213–218,245–246. Следующая очередь287–302 и раннийonboarding; не100%проекта.
