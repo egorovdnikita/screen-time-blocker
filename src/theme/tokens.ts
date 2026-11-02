@@ -199,11 +199,16 @@ export const sessionIconTheme = {
 
 // Настройки перед открытием080–082/084.
 export const unlockMethodTheme = {
+  backdrop: '#c4c6c8',
   surface: '#f6f8fa', backSheet: '#dadbdd', handle: '#dcdfe2', radioBorder: '#e5e8eb',
   grid: '#f7f8fa', line: '#f0f0f2', stepper: '#e9eaed', stepperLine: '#c6c8cc',
   value: '#7c8797', note: '#858d97', deviceLabel: '#949494', deviceIntent: '#94bff6',
   copyFade: 'rgba(255,255,255,0)', surfaceFade: 'rgba(246,248,250,0)',
   copyBorder: '#e7e8eb', copyAction: '#4f91ce', copyPlaceholder: '#b0b5bd', copyRadius: 25,
+  scanGrid: '#f5f7f9', scanLine: '#eef0f2', scanValue: '#818d9f', scanChevron: '#c6ccd2',
+  scanNote: '#7b8799', scanLink: '#91bffa', scanHint: '#a1a6ab', scanWarning: '#ef9c00', scanWarningFill: '#fff3d9',
+  scanDisabled: '#b6b7b9', scanDisabledInk: '#d9dadd', scanMenu: '#fafbfbd9', scanMenuBorder: '#ffffffb0',
+  scanMenuShadow: '0px 8px 26px #27334515', scanMenuRadius: 35, scanPillRadius: 14,
   panelRadius: 44, cardRadius: 21, gridRadius: 19, stepperRadius: 20,
 } as const;
 

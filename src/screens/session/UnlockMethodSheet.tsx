@@ -7,50 +7,50 @@ import { Icon } from '@/components/Icon';
 import { FlowSwitch } from '@/components/SessionPrimitives';
 import { animateLayout, PressScale } from '@/components/motion';
 import { art } from '@/data/art';
-import { copyTextIdeas, copyPreviewQuote, type UnlockMethod, type UnlockSettings } from '@/data/session';
+import { copyTextIdeas, copyPreviewQuote, type UnlockSettings } from '@/data/session';
 import { colors, sessionTheme as c, sessionPickerTheme as p, unlockMethodTheme as m } from '@/theme/tokens';
 import { T } from '@/theme/typography';
+import { unlockMethods } from '@/data/unlockMethods';
+import { ScanMethodSettings } from './ScanMethodSettings';
 
 type Props = { value: UnlockSettings; onCancel: () => void; onSave: (value: UnlockSettings) => void };
-const options: { id: UnlockMethod; label: string; image: number }[] = [
-  { id: 'none', label: 'Ничего не делать', image: art.unlockIconNothing },
-  { id: 'wait', label: 'Немного подождать', image: art.unlockIconWait },
-  { id: 'reason', label: 'Указать причину', image: art.unlockIconReason },
-  { id: 'text', label: 'Перепечатать текст', image: art.unlockIconText },
-];
 export function UnlockMethodSheet({ value, onCancel, onSave }: Props) {
-  const [draft, setDraft] = useState<UnlockSettings>(() => ({ unlockMethod: value.unlockMethod, waitAutomatic: value.waitAutomatic, waitSeconds: value.waitSeconds, copyText: value.copyText }));
+  const [draft, setDraft] = useState<UnlockSettings>(() => ({ unlockMethod: value.unlockMethod, waitAutomatic: value.waitAutomatic, waitSeconds: value.waitSeconds, copyText: value.copyText, scanType: value.scanType }));
   const insets = useSafeAreaInsets();
+  const [scrolled, setScrolled] = useState(false);
   const [editingText, setEditingText] = useState(false);
   const patch = (update: Partial<UnlockSettings>) => { animateLayout(); setDraft(d => ({ ...d, ...update })); };
   const isReason = draft.unlockMethod === 'reason';
   const isText = draft.unlockMethod === 'text';
-  const visibleOptions = isReason || isText ? options : options.slice(0, 3);
-  const valid = !isText || !!draft.copyText.trim();
+  const isScan = draft.unlockMethod === 'scan';
+  const scanNfc = isScan && draft.scanType === 'nfc';
+  const scrollY = isText ? 210 : isScan ? scanNfc ? 445 : 415 : 0;
+  const valid = (!isText || !!draft.copyText.trim()) && !scanNfc;
   const scroll = useRef<ComponentRef<typeof ScrollView>>(null);
   useEffect(() => {
     // RN Web не применяет начальный contentOffset после смены выбранного метода.
-    const timer = setTimeout(() => scroll.current?.scrollTo({ y: isText ? 210 : 0, animated: false }), 300);
+    const timer = setTimeout(() => scroll.current?.scrollTo({ y: scrollY, animated: false }), 300);
     return () => clearTimeout(timer);
-  }, [isText, draft.unlockMethod]);
+  }, [scrollY, draft.unlockMethod]);
   return <Modal transparent animationType="slide" onRequestClose={onCancel}>
     <View style={{ flex: 1 }}>
-      <Pressable accessibilityLabel="Отменить способ открытия" onPress={onCancel} style={[StyleSheet.absoluteFill, { backgroundColor: c.backdrop }]} />
+      <Pressable accessibilityLabel="Отменить способ открытия" onPress={onCancel} style={[StyleSheet.absoluteFill, { backgroundColor: m.backdrop }]} />
       <View pointerEvents="none" style={[styles.backSheet, { top: Math.max(59, insets.top) }]} />
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} pointerEvents="box-none" style={{ flex: 1 }}>
       <View style={[styles.panel, { marginTop: Math.max(69, insets.top + 10) }]} accessibilityViewIsModal>
-        <View style={styles.heading}><View style={styles.handle} /><T size={20} ls={0} center style={{ marginTop: 44 }}>Перед открытием…</T></View>
-        <ScrollView ref={scroll} contentOffset={{ x: 0, y: isText ? 210 : 0 }} keyboardShouldPersistTaps="handled" key={draft.unlockMethod} showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 134 }}>
-          {visibleOptions.map(option => {
+        <View style={styles.heading}><View style={styles.handle} /><T size={20} ls={0} center style={{ marginTop: 44 }}>{isScan ? 'Перед каждой разблокировкой…' : 'Перед открытием…'}</T></View>
+        <ScrollView onScroll={e => setScrolled(e.nativeEvent.contentOffset.y > 100)} scrollEventThrottle={32} ref={scroll} contentOffset={{ x: 0, y: scrollY }} keyboardShouldPersistTaps="handled" key={draft.unlockMethod + (isScan ? draft.scanType : '')} showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 180 }}>
+          {unlockMethods.map(option => {
             const selected = draft.unlockMethod === option.id;
             const expanded = selected && option.id !== 'none';
-            return <View key={option.id} style={{ marginBottom: isReason && option.id === 'none' ? 11 : isReason && option.id === 'wait' ? 14 : option.id === 'wait' && selected && !draft.waitAutomatic ? 27 : 12 }}>
-              <View style={[styles.card, isReason && option.id === 'none' && { height: 51 }, expanded && { height: option.id === 'text' ? 455 : option.id === 'reason' ? 296 : draft.waitAutomatic ? 391 : 418 }]}>
-                <PressScale accessibilityRole="radio" accessibilityLabel={option.label} accessibilityState={{ checked: selected }} onPress={() => patch({ unlockMethod: option.id })} style={styles.option}>
-                  <Image source={option.image} style={{ width: 22, height: 22 }} /><T size={expanded ? 20 : 15} weight={expanded ? 700 : 400} ls={0} style={{ flex: 1 }}>{option.label}</T>
+            return <View key={option.id} style={{ marginBottom: isScan && option.id === 'password' ? 8 : isReason && option.id === 'none' ? 11 : isReason && option.id === 'wait' ? 14 : option.id === 'wait' && selected && !draft.waitAutomatic ? 27 : 12 }}>
+              <View style={[styles.card, isReason && option.id === 'none' && { height: 51 }, expanded && { height: option.id === 'scan' ? scanNfc ? 425 : 399 : option.id === 'text' ? 455 : option.id === 'reason' ? 296 : draft.waitAutomatic ? 391 : 418 }]}>
+                <PressScale accessibilityRole="radio" accessibilityLabel={option.label} accessibilityState={{ checked: selected, disabled: !option.method }} disabled={!option.method} onPress={() => { if (option.method) patch({ unlockMethod: option.method }); }} style={styles.option}>
+                  <Image source={option.image} style={{ width: 22, height: 22 }} /><T size={expanded ? isScan ? 21 : 20 : 15} weight={expanded ? 700 : 400} ls={0} style={{ flex: 1 }}>{option.label}</T>
                   <View style={[styles.radio, selected && styles.radioOn]}>{selected && <Icon name="period-check" width={24} height={24} color={colors.white} />}</View>
                 </PressScale>
-                {expanded && <>
+                {expanded && option.id === 'scan' && <ScanMethodSettings type={draft.scanType} onChange={scanType => patch({ scanType })} />}
+                {expanded && option.id !== 'scan' && <>
                   <View style={styles.illustration}><Image source={isText ? art.unlockRecopyDevice : isReason ? art.unlockReasonDevice : art.unlockWaitDevice} contentFit="contain" style={{ width: 243, height: 220 }} />{!isText && <T size={14} weight={600} ls={0} color={m.deviceLabel} center style={styles.deviceLabel}>Время подумать</T>}{isText && <><T size={9.2} color={colors.white} ls={0} center style={styles.quote}>{copyPreviewQuote}</T><T size={9.2} weight={600} color={m.copyPlaceholder} ls={0} style={styles.devicePlaceholder}>Введите текст здесь</T></>}{isReason && <T size={8.5} weight={500} ls={0} color={m.deviceIntent} center style={styles.intent}>Введите причину</T>}</View>
                   {option.id === 'text' && <>
                     <TextInput accessibilityLabel="Текст для перепечатывания" onFocus={() => setEditingText(true)} onBlur={() => setEditingText(false)} multiline value={draft.copyText} onChangeText={copyText => setDraft(d => ({ ...d, copyText }))} maxLength={2000} placeholder="Введите текст" placeholderTextColor={m.copyPlaceholder} textAlignVertical="top" style={styles.copyBox} />
@@ -71,9 +71,10 @@ export function UnlockMethodSheet({ value, onCancel, onSave }: Props) {
               </View>
             </View>;
           })}
-          {(isReason || isText) && [{ title: 'Ввести случайный код', image: art.unlockIconCode }, ...(isText ? [{ title: 'Подтвердить фото', image: art.unlockIconPhoto }] : [])].map(option => <View key={option.title} style={[styles.card, { marginBottom: 12 }]} accessibilityState={{ disabled: true }}><View style={styles.option}><Image source={option.image} style={{ width: 22, height: 22 }} /><T size={15} weight={400} ls={0} style={{ flex: 1 }}>{option.title}</T><View style={styles.radio} /></View>{option.title === 'Подтвердить фото' && <LinearGradient pointerEvents="none" colors={[m.surfaceFade, m.surfaceFade, m.surface, m.surface]} locations={[0, .2, .42, 1]} style={StyleSheet.absoluteFill} />}</View>)}
+
         </ScrollView>
-        <View style={[styles.footer, { paddingBottom: Math.max(39, insets.bottom + 5) }]}><PressScale accessibilityRole="button" disabled={!valid} accessibilityState={{ disabled: !valid }} onPress={() => onSave({ ...draft, copyText: draft.copyText.trim() })} style={[styles.save, !valid && { opacity: .4 }]}><T size={17} color={colors.white} ls={0}>Сохранить</T></PressScale></View>
+        {scrolled && !isText && !isReason && !scanNfc && <View pointerEvents="none" style={{ position: 'absolute', top: 101, left: 0, right: 0, height: isScan ? 17 : 13, backgroundColor: m.surface }} />}
+        <View style={[styles.footer, { paddingBottom: Math.max(39, insets.bottom + 5) }]}><PressScale accessibilityRole="button" disabled={!valid} accessibilityState={{ disabled: !valid }} onPress={() => onSave({ ...draft, copyText: draft.copyText.trim() })} style={[styles.save, !valid && (scanNfc ? { backgroundColor: m.scanDisabled } : { opacity: .4 })]}><T size={17} color={scanNfc ? m.scanDisabledInk : colors.white} ls={0}>Сохранить</T></PressScale></View>
       </View>
       </KeyboardAvoidingView>
     </View>
