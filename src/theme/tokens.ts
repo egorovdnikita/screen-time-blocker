@@ -348,3 +348,6 @@ export const softNoticeTheme = { surface: '#5bbe6d', shadow: '0 12px 24px #00000
 export const mainSettingsTheme = { surface: '#f6f8fa', ink: '#111111', section: '#929aa8', caption: '#949ba8', avatar: '#4385e8', avatarShadow: '0 2px 8px #14285014', planShadow: '0 7px 18px #2337550b', planName: '#f57d4a', planNote: '#969daa', money: '#c4c9d1', manageShadow: '0 5px 16px #1e283c14', help: '#4883f1', helpShadow: '0 7px 18px #23375517', rowIcon: '#969eaa', separator: '#eff0f2', helpNote: '#8791a2' };
 
 export const modalTheme = { dim: 'rgba(0,0,0,.2)' };
+
+// Решение проблем213–218, измерения troubleshoot.css.
+export const troubleshootTheme = { surface: '#f3f5f7', options: '#f6f8fa', section: '#959eab', caption: '#7d8797', ink: '#17191a', border: '#e1e4e8', active: '#3784f5', disabled: '#bbbbbb', disabledText: '#d3d3d3', separator: '#f0f2f4', switchOn: '#4d82eb', switchOff: '#c5c4c7', panelShadow: '0px 18px 30px #17202a05', contactShadow: '0px 12px 30px #17202a06' } as const;

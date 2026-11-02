@@ -19,6 +19,8 @@ export type OnboardingStep = 'tip-first-rule' | 'tip-add-more' | 'done';
 const LOADING_MS = 1400;
 
 type AppState = {
+  troubleshooting: { hideIcons: boolean; realTime: boolean };
+  setTroubleshooting: (value: { hideIcons: boolean; realTime: boolean }) => void;
   expertScreens: boolean;
   alternativeScreens: boolean;
   setExpertScreens: (value: boolean) => void;
@@ -101,6 +103,7 @@ type AppState = {
 const Ctx = createContext<AppState | null>(null);
 
 export function AppStateProvider({ children }: { children: ReactNode }) {
+  const [troubleshooting, setTroubleshooting] = useState({ hideIcons: false, realTime: true });
   const [ruleChanges, setRuleChanges] = useState<Record<string, RuleDetailChanges>>({});
   const [pausedSessions, setPausedSessions] = useState<Record<string, 'next' | 'manual'>>({});
   const [appUnlocks, setAppUnlocks] = useState<Record<string, { until: number; used: number; reason: string }>>({});
@@ -169,6 +172,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     setSavedLimitTemplates([]);
     setSavedTemplates([]);
     setNamedGroups([]);
+    setTroubleshooting({ hideIcons: false, realTime: true });
     setExpertScreens(false); setAlternativeScreens(false); setCustomBlockScreens([]);
     setScenarioRaw(s);
     setPeriod('today');
@@ -228,6 +232,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     },
     setReflectionExcluded: (dayId, appId, excluded) => { touchReflectionDay(dayId); const key = reflectionKey(dayId, appId); setReflectionExcludedRaw(xs => excluded ? [...new Set([...xs, key])] : xs.filter(x => x !== key)); },
     customHabits, upsertHabit: habit => setCustomHabits(items => [...items.filter(h => h.id !== habit.id), { ...habit }]),
+    troubleshooting, setTroubleshooting,
     expertScreens, alternativeScreens, setExpertScreens, setAlternativeScreens, customBlockScreens,
     saveBlockScreen: screen => setCustomBlockScreens(xs => xs.some(x => x.id === screen.id) ? xs.map(x => x.id === screen.id ? { ...screen } : x) : [...xs, { ...screen }]),
     deleteBlockScreen: id => setCustomBlockScreens(xs => xs.filter(x => x.id !== id)),

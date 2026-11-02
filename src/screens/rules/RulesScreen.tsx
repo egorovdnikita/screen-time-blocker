@@ -1,3 +1,4 @@
+import { Troubleshoot } from '../settings/Troubleshoot';
 import { RuleSettings } from './RuleSettings';
 import { TemplateGallery } from './TemplateGallery';
 import { SessionDetails, LimitDetails } from './SessionDetails';
@@ -52,6 +53,7 @@ export function RulesScreen() {
   const app = useAppState();
   const base = rulesVariants[app.rulesVariant];
   const data = { ...base, locks: [...app.createdLocks, ...base.locks], limits: [...app.createdLimits, ...base.limits], routines: [...app.createdRoutines, ...base.routines], sessions: [...app.createdSessions, ...base.sessions], active: activeRuleCount(base, app) };
+  const [helpOpen, setHelpOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [demoOpen, setDemoOpen] = useState(false);
   const scrollRef = useRef<ComponentRef<typeof ScrollView>>(null);
@@ -158,7 +160,7 @@ export function RulesScreen() {
           </T>
         </View>
         <View style={styles.hdrButtons}>
-          <RoundButton variant="white" icon="questionmark" iconWidth={15} iconHeight={20} accessibilityLabel="Справка" />
+          <RoundButton variant="white" icon="questionmark" iconWidth={15} iconHeight={20} accessibilityLabel="Справка" onPress={() => setHelpOpen(true)} />
           <RoundButton
             variant="white"
             icon="ellipsis"
@@ -175,6 +177,7 @@ export function RulesScreen() {
       {app.sessionNotice && <SessionNotice message={app.sessionNotice} top={Math.max(insets.top, 59) + 13} />}
 
       <Tips step={tips} firstCardBottom={firstCardBottom} onNext={app.advanceOnboarding} />
+      {helpOpen && <Troubleshoot onClose={() => setHelpOpen(false)} />}
       {settingsOpen && <RuleSettings onClose={() => setSettingsOpen(false)} />}
       <DemoMenu visible={demoOpen} onClose={() => setDemoOpen(false)} />
     </View>

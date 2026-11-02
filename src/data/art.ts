@@ -1,5 +1,13 @@
 // Растр из макетов (@3x).
 export const art = {
+  troubleshootUnlocked: require('../../assets/art/help/help-unlocked.png'),
+  troubleshootLocked: require('../../assets/art/help/help-locked.png'),
+  troubleshootHourglass: require('../../assets/art/help/help-hourglass.png'),
+  troubleshootCross: require('../../assets/art/help/help-cross.png'),
+  troubleshootPhone: require('../../assets/art/help/help-phone.png'),
+  troubleshootNerd: require('../../assets/art/help/help-nerd.png'),
+  troubleshootTrash: require('../../assets/art/help/help-trash.png'),
+
   helpTopic0: require('../../assets/art/help/help-topic-0.png'),
   helpTopic1: require('../../assets/art/help/help-topic-1.png'),
   helpTopic2: require('../../assets/art/help/help-topic-2.png'),
