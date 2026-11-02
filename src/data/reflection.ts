@@ -21,4 +21,4 @@ export const reflectionMoods = [
 export type ReflectionMoodId = typeof reflectionMoods[number]['id'];
 export type Reflection = { activity: ReflectionActivityId | null; mood: ReflectionMoodId; always: boolean };
 export const newReflection = (): Reflection => ({ activity: null, mood: 'neutral', always: false });
-export const reflectionKey = (dayId: string, appId: string) => `${dayId}:${appId}`;
+export const reflectionKey = (dayId: string, appId: string) => `${dayId === 'today-refreshed' ? 'today' : dayId}:${appId}`;

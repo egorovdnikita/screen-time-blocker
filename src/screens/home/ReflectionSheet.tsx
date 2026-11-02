@@ -15,7 +15,7 @@ import { colors, reflectionTheme as c } from '@/theme/tokens';
 import { T } from '@/theme/typography';
 import { AppIcon } from './AppIcon';
 
-export function ReflectionSheet({ app, value, onCancel, onSave, onExclude }: { app: AppRow; value?: Reflection; onCancel: () => void; onSave: (value: Reflection) => void; onExclude: () => void }) {
+export function ReflectionSheet({ app, value, onCancel, onSave, onExclude, onDelete }: { app: AppRow; value?: Reflection; onCancel: () => void; onSave: (value: Reflection) => void; onExclude: () => void; onDelete?: () => void }) {
   const [draft, setDraft] = useState<Reflection>(() => ({ ...(value ?? newReflection()) }));
   const [menu, setMenu] = useState<'activity' | 'mood' | null>(null);
   const { height } = useWindowDimensions();
@@ -26,7 +26,7 @@ export function ReflectionSheet({ app, value, onCancel, onSave, onExclude }: { a
   const menuTop = Math.max(insets.top + 8, Math.min(top + (menu === 'activity' ? 77 : 196.666), height - insets.bottom - (menu === 'activity' ? 519.667 : 258.667)));
   return <SheetModal onClose={() => menu ? setMenu(null) : onCancel()} backdrop={<Pressable accessibilityLabel="Отменить оценку времени" onPress={onCancel} style={[StyleSheet.absoluteFill, { backgroundColor: c.backdrop }]} />}>
     <View accessibilityViewIsModal style={[styles.panel, { top }]}>
-      <View style={styles.controls}><PressScale accessibilityRole="button" accessibilityLabel="Закрыть оценку времени" onPress={onCancel} style={styles.round}><Icon name="reflection-close" width={18} height={18} /></PressScale><PressScale accessibilityRole="button" accessibilityLabel="Сохранить оценку времени" onPress={() => onSave({ ...draft })} style={[styles.round, { backgroundColor: c.blue, boxShadow: c.confirmRim }]}><Icon name="reflection-confirm" width={21} height={23} color={colors.white} /></PressScale></View>
+      <View style={styles.controls}><PressScale accessibilityRole="button" accessibilityLabel={onDelete ? "Удалить оценку времени" : "Закрыть оценку времени"} onPress={onDelete ?? onCancel} style={styles.round}><Icon name={onDelete ? "reflection-trash" : "reflection-close"} width={18} height={onDelete ? 22 : 18} /></PressScale><PressScale accessibilityRole="button" accessibilityLabel="Сохранить оценку времени" onPress={() => onSave({ ...draft })} style={[styles.round, { backgroundColor: c.blue, boxShadow: c.confirmRim }]}><Icon name="reflection-confirm" width={21} height={23} color={colors.white} /></PressScale></View>
       <View style={styles.copy}>
         <View style={styles.line}><T size={26} color={c.muted} ls={-.3}>Я был в</T><View style={styles.app}><View style={{ width: 20, height: 20, overflow: 'hidden' }}><AppIcon icon={app.icon} size={20} /></View><T size={22} color={colors.black} ls={-.3} numberOfLines={1}>{app.name}</T></View><T size={26} color={c.muted} ls={-.3}>и</T></View>
         <Selection label="Выбрать занятие оценки" title={activity?.title ?? 'Выбрать занятие'} image={activity ? activity.image : art.reflectionPhone} emoji={activity?.id === 'care' ? '🧘' : undefined} onPress={() => setMenu('activity')} />

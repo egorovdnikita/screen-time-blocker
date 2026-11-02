@@ -107,7 +107,7 @@ export function MostUsed({ day, onOpenMenu }: Props) {
           </T>
         </FadeIn>
       )}
-      {editing && <ReflectionSheet app={editing} value={app.reflections[reflectionKey(day.id, editing.id)] ?? app.reflectionDefaults[editing.id]} onCancel={() => setEditing(null)} onSave={value => { app.saveReflection(day.id, editing.id, value); setEditing(null); }} onExclude={() => { app.setReflectionExcluded(day.id, editing.id, true); setEditing(null); }} />}
+      {editing && <ReflectionSheet app={editing} value={app.reflections[reflectionKey(day.id, editing.id)] ?? app.reflectionDefaults[editing.id]} onCancel={() => setEditing(null)} onDelete={app.reflections[reflectionKey(day.id, editing.id)] ? () => { app.deleteReflection(day.id, editing.id); setEditing(null); } : undefined} onSave={value => { app.saveReflection(day.id, editing.id, value); setEditing(null); }} onExclude={() => { app.setReflectionExcluded(day.id, editing.id, true); setEditing(null); }} />}
     </View>
   );
 }

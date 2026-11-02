@@ -16,6 +16,7 @@ const LOADING_MS = 1400;
 type AppState = {
   reflections: Record<string, Reflection>;
   reflectionDefaults: Record<string, Reflection>;
+  deleteReflection: (day: string, appId: string) => void;
   reflectionExcluded: string[];
   saveReflection: (day: string, appId: string, value: Reflection) => void;
   setReflectionExcluded: (day: string, appId: string, excluded: boolean) => void;
@@ -132,6 +133,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
 
   const value: AppState = {
     reflections, reflectionDefaults, reflectionExcluded,
+    deleteReflection: (dayId, appId) => setReflections(xs => { const next = { ...xs }; delete next[reflectionKey(dayId, appId)]; return next; }),
     saveReflection: (dayId, appId, value) => {
       setReflections(xs => ({ ...xs, [reflectionKey(dayId, appId)]: { ...value } }));
       setReflectionDefaults(xs => { const next = { ...xs }; if (value.always) next[appId] = { ...value }; else delete next[appId]; return next; });
