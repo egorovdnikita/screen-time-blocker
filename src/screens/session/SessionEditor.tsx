@@ -1,7 +1,7 @@
 import { gallerySession } from '@/data/gallery';
 import { useDarkStatusBar } from '@/components/useStatusBar';
 import { StrictModeRow } from '@/components/StrictModeRow';
-import { SheetTransition } from '@/components/SheetModal';
+import { SheetTransition, SheetGrabber } from '@/components/SheetModal';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Image } from 'expo-image';
 import { router, useLocalSearchParams } from 'expo-router';
@@ -26,6 +26,7 @@ import { T, rounded } from '@/theme/typography';
 import { colors, sessionTheme as c } from '@/theme/tokens';
 
 export function SessionEditor() {
+  const [swipeClosing, setSwipeClosing] = useState(false);
   useDarkStatusBar();
   const { mode, preset } = useLocalSearchParams<{ mode?: string; preset?: string }>();
   const insets = useSafeAreaInsets();
@@ -47,10 +48,10 @@ export function SessionEditor() {
   const patch = (update: Partial<typeof draft>) => setDraft(d => ({ ...d, ...update }));
   const dismiss = () => router.canGoBack() ? router.back() : router.replace('/(tabs)');
   const finish = (template: boolean) => { app.addSession(sessionRule(draft), template); router.dismissAll(); router.navigate('/(tabs)/rules'); };
-  return <SheetTransition backdrop={<Pressable style={[StyleSheet.absoluteFill, { backgroundColor: c.backdrop }]} accessibilityLabel="Закрыть редактор сессии" onPress={dismiss} />}>
+  return <SheetTransition closing={swipeClosing} onHidden={dismiss} onSwipeClose={() => setSwipeClosing(true)} backdrop={<Pressable style={[StyleSheet.absoluteFill, { backgroundColor: c.backdrop }]} accessibilityLabel="Закрыть редактор сессии" onPress={dismiss} />}>
     <View pointerEvents="box-none" style={styles.overlay}>
     <View style={[styles.sheet, { marginTop: Math.max(60, insets.top + 1) }]}>
-      <View style={styles.handle} />
+      <SheetGrabber style={styles.handle} />
       <ScrollView key={compact ? "compact" : shortHeader ? "short" : "overview"} showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 24 }}>
         {!compact && <View style={[styles.header, shortHeader && { height: 197, paddingTop: 60 }]}>
           <PressScale accessibilityRole="button" accessibilityLabel="Изменить иконку сессии" onPress={() => setIconOpen(true)} style={[styles.iconButton, shortHeader && { height: 43 }]}>

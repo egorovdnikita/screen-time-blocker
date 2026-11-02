@@ -1,9 +1,9 @@
+import { SheetGrabber, SheetModal } from '@/components/SheetModal';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useState } from 'react';
 import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { SheetModal } from '@/components/SheetModal';
 import { Icon } from '@/components/Icon';
 import { PressScale } from '@/components/motion';
 import { lockApps, lockApp, lockPickerImage, lockCategories, popularLockApps, suggestedLockApps, type LockAppId } from '@/data/lockRule';
@@ -25,11 +25,10 @@ export function SingleAppPicker({ value, onCancel, onConfirm }: { value: LockApp
   const continueStep = () => { if (!selected) return; setQuery(''); setConfirmed(null); setPhase('confirm'); };
   return <SheetModal onClose={onCancel} backdrop={<Pressable accessibilityLabel="Отменить выбор одного приложения" onPress={onCancel} style={[StyleSheet.absoluteFill, { backgroundColor: c.backdrop }]} />}>
     <View pointerEvents="box-none" style={{ flex: 1 }}>
-      <View pointerEvents="none" style={[styles.backSheet, { top: Math.max(59, insets.top) }]} />
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} pointerEvents="box-none" style={{ flex: 1 }}>
         <View pointerEvents="none" style={{ height: Math.max(69, insets.top + 10) }} />
         <View style={[styles.sheet, { backgroundColor: isConfirm ? c.surface : c.picker }]} accessibilityViewIsModal>
-          <View style={styles.handle} />
+          <SheetGrabber style={styles.handle} />
           {isConfirm ? <>
             <PressScale accessibilityRole="button" accessibilityLabel="Назад к выбору приложения" onPress={() => { setPhase('select'); setQuery(''); setConfirmed(null); }} style={styles.back}><Icon name="lock-back" width={24} height={24} color={colors.black} style={{ transform: [{ rotate: '180deg' }] }} /></PressScale>
             <View style={styles.confirmTitle}><T size={19} ls={0}>Какое из них</T>{chosen && <Image source={lockPickerImage(chosen.id)} style={{ width: 24, height: 24, borderRadius: 7 }} />}<T size={19} ls={0}>?</T></View>
@@ -69,7 +68,7 @@ function AppRow({ id, selected, onPress, child, multiple }: { id: LockAppId; sel
   return <PressScale accessibilityRole={multiple ? "checkbox" : "radio"} accessibilityLabel={`Выбрать ${app.name}`} accessibilityState={{ checked: selected }} onPress={onPress} style={[styles.categoryRow, child && { backgroundColor: c.rowChild }]}><View pointerEvents="none" style={styles.separator} /><View style={[styles.radio, selected && styles.selected]}>{selected && <Icon name="period-check" width={18} height={20} color={colors.white} />}</View><Image source={lockPickerImage(app.id)} style={{ width: 30, height: 30 }} /><T size={17} weight={400} variant="display" ls={0}>{app.name}{id === 'bereal' ? '.' : ''}</T></PressScale>;
 }
 const styles = StyleSheet.create({
-  backSheet: { position: 'absolute', left: 16, right: 16, bottom: 14, borderRadius: c.panelRadius, backgroundColor: c.backSheet },
+
   sheet: { flex: 1, borderRadius: c.panelRadius, overflow: 'hidden' }, handle: { position: 'absolute', top: 12, width: 64, height: 5, alignSelf: 'center', borderRadius: 5, backgroundColor: c.handle },
   title: { position: 'absolute', top: 44, left: 16, right: 16, lineHeight: 24 },
   categoryList: { position: 'absolute', top: 128, left: 16, right: 16, height: 560, backgroundColor: colors.white, borderRadius: c.categoryRadius },

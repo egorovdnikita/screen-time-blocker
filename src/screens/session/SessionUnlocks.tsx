@@ -1,4 +1,4 @@
-import { SheetModal } from '@/components/SheetModal';
+import { SheetGrabber, SheetModal } from '@/components/SheetModal';
 import { useState } from 'react';
 import { Pressable, StyleSheet, View, useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -55,7 +55,7 @@ export function UnlockDuration({ value, onCancel, onConfirm, maxHours = 2 }: { v
   return <SheetModal onClose={onCancel} backdrop={<Pressable accessibilityLabel="Отменить длительность разблокировки" onPress={onCancel} style={[StyleSheet.absoluteFill, { backgroundColor: u.durationBackdrop }]} />}><View pointerEvents="box-none" style={StyleSheet.absoluteFill}>
 
     <View style={[styles.durationSheet, { top: Math.max(100, height - 462), bottom: 8 }]} accessibilityViewIsModal>
-      <View style={styles.handle} /><T size={22} center ls={0} style={{ marginTop: 38 }}>Длительность</T>
+      <SheetGrabber style={styles.handle} /><T size={22} center ls={0} style={{ marginTop: 38 }}>Длительность</T>
       <View style={styles.wheel}>
         <View pointerEvents="none" style={styles.wheelHighlight} />
         <View style={{ position: 'absolute', left: maxHours === 24 ? 120 : 105 }}><WheelColumn label="Часы разблокировки" items={hours} value={hour} onChange={h => setTime(h, minute)} width={48} height={200} center={100} rowHeight={26} surface={u.durationSurface} fade={u.durationFade} /></View>

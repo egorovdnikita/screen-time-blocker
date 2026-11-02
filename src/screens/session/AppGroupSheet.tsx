@@ -1,6 +1,6 @@
+import { SheetGrabber, SheetModal } from '@/components/SheetModal';
 import { NamedAppGroups } from '../rules/NamedAppGroups';
 import { namedGroupSummary } from '@/data/namedGroups';
-import { SheetModal } from '@/components/SheetModal';
 import { BlurView } from 'expo-blur';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -52,7 +52,7 @@ export function AppGroupSheet({ value, onCancel, onConfirm, purpose = 'group', n
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} pointerEvents="box-none" style={{ flex: 1 }}>
         <View pointerEvents="none" style={{ height: groupTop }} />
         <View style={[styles.sheet, (routine || named) && { borderRadius: 44 }]} onLayout={event => setSheetHeight(event.nativeEvent.layout.height)} accessibilityViewIsModal>
-          <View style={[styles.handle, named && { width: 63, top: 12 }]} />
+          <SheetGrabber style={[styles.handle, named && { width: 63, top: 12 }]} />
           <View style={[styles.header, compact && { marginTop: 20 }]}>
             <PressScale accessibilityRole="button" accessibilityLabel="Отменить группу приложений" onPress={() => close()} style={styles.close}><Icon name="session-clear" width={19} height={19} color={colors.black} /></PressScale>
             <PressScale accessibilityRole="button" accessibilityLabel={named ? "Переименовать группу" : "Выбрать сохранённую группу"} onPress={() => named ? onRename?.() : setCatalogOpen(true)} style={[styles.title, named && { paddingTop: 2 }]}>{named ? <Image source={art.namedGroupForbidden} style={{ width: 22, height: 22 }} /> : <Icon name={routine ? "lock-up-down" : "plus"} width={routine ? 12 : 17} height={routine ? 16 : 17} color={routine ? lockTheme.note : c.title} />}<T size={20} color={named ? colors.black : routine ? lockTheme.note : c.title} ls={0} numberOfLines={1} style={{ lineHeight: 28 }}>{named ? name : routine ? 'Связать группу' : 'Группа приложений'}</T>{named && <Icon name="pencil" width={16} height={18} style={{ opacity: .22 }} />}</PressScale>

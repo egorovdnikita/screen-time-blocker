@@ -5,7 +5,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { SheetTransition } from '@/components/SheetModal';
+import { SheetTransition, SheetGrabber } from '@/components/SheetModal';
 import { StrictModeRow } from '@/components/StrictModeRow';
 import { EditorRow, SessionAction } from '@/components/SessionPrimitives';
 import { Icon } from '@/components/Icon';
@@ -22,6 +22,7 @@ import { LimitAppPicker } from './LimitAppPicker';
 
 type Open = 'after' | 'days' | 'unlocks' | 'notifications' | null;
 export function TimeLimitEditor() {
+  const [swipeClosing, setSwipeClosing] = useState(false);
   useDarkStatusBar();
   const { preset } = useLocalSearchParams<{ preset?: string }>();
   const [draft, setDraft] = useState(() => ({ ...initialTimeLimit(), ...(preset === 'limit' ? { title: 'Лимит времени', minutes: 60 } : {}) }));
@@ -42,7 +43,7 @@ export function TimeLimitEditor() {
   const row = (title: string, value: string, action: () => void, margin = 14) => <View style={{ marginTop: margin }}><EditorRow title={title} value={value} onPress={action} /></View>;
   const afterValue = `${durationLabel(draft.minutes)}　│　Приложения`;
   const extraValue = draft.unlocks ? `${draft.unlocks}　│　${draft.unlockMethod === 'wait' ? 'Ожидание' : unlockMethodLabel[draft.unlockMethod]}` : 'Нет';
-  return <SheetTransition backdrop={<Pressable accessibilityLabel="Закрыть лимит времени" onPress={dismiss} style={[StyleSheet.absoluteFill, { backgroundColor: c.backdrop }]} />}>
+  return <SheetTransition closing={swipeClosing} onHidden={dismiss} onSwipeClose={() => setSwipeClosing(true)} backdrop={<Pressable accessibilityLabel="Закрыть лимит времени" onPress={dismiss} style={[StyleSheet.absoluteFill, { backgroundColor: c.backdrop }]} />}>
     <View style={[styles.sheet, { marginTop: Math.max(59, insets.top + 1) }]}>
       <ScrollView key={deep ? 'deep' : notify ? 'notify' : after ? 'after' : days || extra ? 'details' : 'overview'} showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 24 }}>
         {!compact && <RuleEditorHeader title={draft.title} fallback="Время экрана" subtitle={`Блокировать приложения после ${draft.minutes < 60 ? `${draft.minutes} ${draft.minutes === 1 ? 'минуты' : 'минут'}` : durationLabel(draft.minutes)} в них. Действует ${draft.days.length === 7 ? 'каждый день' : daysLabel(draft.days)}.`} image={art.timeLimitHourglass} width={39} height={51} top={70} onTitleChange={title => patch({ title })} editLabel="Изменить название лимита" inputLabel="Название лимита времени" />}
@@ -68,7 +69,7 @@ export function TimeLimitEditor() {
           {notify ? <View style={styles.notify}><PressScale accessibilityRole="button" accessibilityLabel="Свернуть уведомления лимита" onPress={() => toggle('notifications')} style={styles.panelTitle}><Icon name="chevron-down-section" width={10} height={8} color={c.hint} style={{ transform: [{ rotate: '180deg' }] }} /><T size={20} ls={0}>Уведомления</T></PressScale><View style={styles.notifyGrid}><NotifyRow label={'До достижения\nлимита'} value={draft.notifyBefore} max={Math.max(0, Math.floor((draft.minutes - 1) / 10) * 10)} onChange={notifyBefore => patch({ notifyBefore })} /><NotifyRow label="Каждые" value={draft.notifyEvery} max={Math.floor(draft.minutes / 10) * 10} onChange={notifyEvery => patch({ notifyEvery })} /></View></View> : compact && !after ? row('Уведомления', draft.notifyBefore || draft.notifyEvery ? 'Настроены' : 'Нет', () => toggle('notifications'), extra && draft.unlocks > 0 ? 12 : days ? 16 : 13) : null}
         </View>
       </ScrollView>
-      <View pointerEvents="none" style={styles.handle} />
+      <SheetGrabber style={styles.handle} />
       <View style={[styles.footer, { paddingBottom: Math.max(39, insets.bottom + 5) }]}><StrictModeRow value={draft.strict} description={draft.strict ? draft.strictScope === 'session' ? 'Активен во время сессии' : `Активен ${strictDaysLabel(draft.strictDays)}` : 'Без изменения и удаления'} onOpen={() => setModal('strict')} onChange={strict => strict ? setModal('strict') : patch({ strict: false })} style={{ marginLeft: 5 }} /><View style={styles.actions}><SessionAction disabled={!selectedCount} onPress={() => finish(true)}>Новый шаблон</SessionAction><SessionAction primary disabled={!selectedCount} onPress={() => draft.strict ? setModal('confirm') : finish()}>Расписание</SessionAction></View></View>
     </View>
     {modal === 'apps' && <LimitAppPicker value={draft.limitApps} categories={draft.limitCategories} onCancel={() => setModal(null)} onSave={(limitApps, limitCategories) => { patch({ limitApps, limitCategories }); setModal(null); }} />}

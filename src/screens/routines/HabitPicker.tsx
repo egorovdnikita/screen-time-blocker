@@ -1,3 +1,4 @@
+import { SheetGrabber, SheetModal } from '@/components/SheetModal';
 import { useAppState } from '@/state/app';
 import { HabitForm } from './HabitForm';
 import { Image } from 'expo-image';
@@ -6,7 +7,6 @@ import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Icon } from '@/components/Icon';
 import { PressScale } from '@/components/motion';
-import { SheetModal } from '@/components/SheetModal';
 import { art } from '@/data/art';
 import { countLabel } from '@/data/appGroup';
 import { habitCatalog, type Habit, type HabitId } from '@/data/routine';
@@ -24,9 +24,8 @@ export function HabitPicker({ value, onCancel, onSave, library = false }: { libr
   const needle = query.trim().toLocaleLowerCase();
   const visible = catalog.filter(h => h.kind !== 'manual').filter(habit => habit.label.toLocaleLowerCase().includes(needle));
   return <SheetModal onClose={onCancel} backdrop={<Pressable accessibilityLabel="Отменить выбор привычек" onPress={onCancel} style={[StyleSheet.absoluteFill, { backgroundColor: f.backdrop }]} />}>
-    <View pointerEvents="none" style={[styles.back, { top: Math.max(59, insets.top) }]} />
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} pointerEvents="box-none" style={{ flex: 1, paddingTop: Math.max(69, insets.top + 10) }}>
-      <View style={styles.sheet} accessibilityViewIsModal><View style={styles.handle} /><T size={20} center ls={0} style={styles.title}>Все привычки</T>
+      <View style={styles.sheet} accessibilityViewIsModal><SheetGrabber style={styles.handle} /><T size={20} center ls={0} style={styles.title}>Все привычки</T>
         <View style={styles.search}><Icon name="session-search" width={19} height={19} color={c.placeholder} /><TextInput accessibilityLabel="Поиск привычек" value={query} onChangeText={setQuery} placeholder="Поиск или новая привычка" placeholderTextColor={c.placeholder} autoCorrect={false} autoCapitalize="none" style={styles.input} /></View>
         <ScrollView ref={scroll} contentContainerStyle={{ paddingBottom: 40 }} contentOffset={{ x: 0, y: library ? 165 : 0 }} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} style={styles.list}>
           {!needle && <><T size={20} color={c.group} ls={0} style={{ lineHeight: 24 }}>Полезные приложения</T><T size={14} color={c.note} ls={0} style={styles.example}>Например, «Читать 15 минут»</T><View accessibilityState={{ disabled: true }} style={[styles.row, { height: 65, marginTop: 10 }]}><Image source={art.habitPhone} style={styles.emoji} /><View style={{ flex: 1 }}><T size={15} weight={400} variant="display" ls={0}>Полезное приложение</T><View style={{ flexDirection: 'row', alignItems: 'center', gap: 2 }}><T size={14} weight={400} color={c.muted} ls={0}>Проверка</T><Icon name="habit-block" width={14} height={14} /></View></View><View style={styles.circle} /></View></>}
@@ -43,7 +42,7 @@ export function HabitPicker({ value, onCancel, onSave, library = false }: { libr
   </SheetModal>;
 }
 const styles = StyleSheet.create({
-  back: { position: 'absolute', left: 16, right: 16, bottom: 14, borderRadius: c.pickerRadius, backgroundColor: l.backSheet }, sheet: { flex: 1, backgroundColor: l.surface, borderRadius: c.pickerRadius, overflow: 'hidden' }, handle: { position: 'absolute', top: 12, width: 64, height: 5, borderRadius: 5, alignSelf: 'center', backgroundColor: l.handle }, title: { position: 'absolute', top: 44, left: 0, right: 0, lineHeight: 24 }, search: { position: 'absolute', top: 97, left: 20, right: 20, height: 54, paddingHorizontal: 20, gap: 12, flexDirection: 'row', alignItems: 'center', borderWidth: 1, borderColor: l.searchBorder, borderRadius: l.searchRadius }, input: { flex: 1, height: 52, padding: 0, outlineWidth: 0, color: l.ink, fontSize: 15, fontWeight: '400' },
+ sheet: { flex: 1, backgroundColor: l.surface, borderRadius: c.pickerRadius, overflow: 'hidden' }, handle: { position: 'absolute', top: 12, width: 64, height: 5, borderRadius: 5, alignSelf: 'center', backgroundColor: l.handle }, title: { position: 'absolute', top: 44, left: 0, right: 0, lineHeight: 24 }, search: { position: 'absolute', top: 97, left: 20, right: 20, height: 54, paddingHorizontal: 20, gap: 12, flexDirection: 'row', alignItems: 'center', borderWidth: 1, borderColor: l.searchBorder, borderRadius: l.searchRadius }, input: { flex: 1, height: 52, padding: 0, outlineWidth: 0, color: l.ink, fontSize: 15, fontWeight: '400' },
   create: { marginTop: 12, height: 42, borderWidth: 1.3, borderStyle: 'dashed', borderColor: f.createBorder, borderRadius: 24, paddingHorizontal: 12, flexDirection: 'row', alignItems: 'center', gap: 12 }, createPlus: { width: 24, height: 24, borderRadius: 12, backgroundColor: f.createFill, alignItems: 'center', justifyContent: 'center' },
   list: { position: 'absolute', top: 175, left: 20, right: 20, bottom: 114 }, example: { marginTop: 8, lineHeight: 17 }, row: { height: 55, borderRadius: c.cardRadius, backgroundColor: colors.white, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16 }, emoji: { width: 24, height: 24, marginRight: 10 }, circle: { width: 24, height: 24, borderRadius: 12, borderWidth: 2, borderColor: c.border, justifyContent: 'center', alignItems: 'center' }, save: { position: 'absolute', left: 20, right: 20, height: 60, borderRadius: l.buttonRadius, alignItems: 'center', justifyContent: 'center' },
 });

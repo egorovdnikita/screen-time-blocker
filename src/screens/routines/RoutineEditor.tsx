@@ -6,7 +6,7 @@ import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { RuleEditorHeader, RuleSuggestions } from '@/components/RuleEditorPieces';
 import { WeekdayPicker } from '@/components/WeekdayPicker';
-import { SheetTransition } from '@/components/SheetModal';
+import { SheetTransition, SheetGrabber } from '@/components/SheetModal';
 import { StrictModeRow } from '@/components/StrictModeRow';
 import { EditorRow, FlowSwitch, SessionAction } from '@/components/SessionPrimitives';
 import { Icon } from '@/components/Icon';
@@ -24,6 +24,7 @@ import { StrictSettingsSheet, StrictConfirmation, strictDaysLabel } from '../ses
 import { HabitPicker } from './HabitPicker';
 
 export function RoutineEditor() {
+  const [swipeClosing, setSwipeClosing] = useState(false);
   useDarkStatusBar();
   const [draft, setDraft] = useState(initialRoutine);
   const [open, setOpen] = useState<'after' | 'days' | null>(null);
@@ -42,7 +43,7 @@ export function RoutineEditor() {
   const warning = <View style={[styles.warning, { flexDirection: 'row', alignItems: 'center', gap: 3 }]}><View style={{ width: 10, height: 10, borderRadius: 5, backgroundColor: c.warningDot, alignItems: 'center', justifyContent: 'center' }}><T size={9} color={colors.white} ls={0} style={{ lineHeight: 10 }}>!</T></View><T size={12} color={c.warning} ls={0}>Выбрать</T></View>;
   const badge = hasGroupSelection(draft.appGroup) ? <View style={styles.badge}><Icon name="apps-grid" width={14} height={14} color={l.ink} /><T size={14} weight={400} ls={0}>{count || 'Все'}</T></View> : warning;
   const subtitle = draft.earningMode === 'completion' ? `Завершайте привычки, чтобы разблокировать приложения. Действует ${draft.days.length === 7 ? 'каждый день' : daysLabel(draft.days)}.` : `Зарабатывайте время в приложениях${days ? ' после выполнения привычек с фото.' : ', выполняя привычки.'} Действует ${draft.days.length === 7 ? 'каждый день' : daysLabel(draft.days)}.`;
-  return <SheetTransition backdrop={<Pressable accessibilityLabel="Закрыть рутину" onPress={dismiss} style={[StyleSheet.absoluteFill, { backgroundColor: draft.earningMode === 'completion' ? habitFormTheme.backdrop : l.backdrop }]} />}>
+  return <SheetTransition closing={swipeClosing} onHidden={dismiss} onSwipeClose={() => setSwipeClosing(true)} backdrop={<Pressable accessibilityLabel="Закрыть рутину" onPress={dismiss} style={[StyleSheet.absoluteFill, { backgroundColor: draft.earningMode === 'completion' ? habitFormTheme.backdrop : l.backdrop }]} />}>
     <View style={[styles.sheet, { marginTop: Math.max(59, insets.top + 1) }]}>
       <ScrollView key={days ? 'days' : after ? selected ? 'selected' : 'after' : 'overview'} showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 24 }}>
         {!compact && <RuleEditorHeader title={draft.title} fallback="Рутина" subtitle={subtitle} image={art.routinePlant} width={47} height={53} top={68} onTitleChange={title => patch({ title })} editLabel="Изменить название рутины" inputLabel="Название рутины" />}
@@ -62,7 +63,7 @@ export function RoutineEditor() {
           {days ? <View style={styles.daysPanel}><PressScale accessibilityRole="button" accessibilityLabel="Свернуть дни рутины" onPress={() => toggle('days')} style={[styles.panelTitle, { height: 24 }]}><Icon name="chevron-down-section" width={10} height={8} color={c.muted} style={{ transform: [{ rotate: '180deg' }] }} /><T size={20} ls={0}>Активно</T></PressScale><View style={styles.allDay}><T size={15} weight={400} ls={0}>Весь день</T><FlowSwitch label="Рутина весь день" value={draft.allDay} onChange={allDay => patch({ allDay })} /></View><WeekdayPicker value={draft.days} onChange={days => patch({ days })} labelPrefix="День рутины" weight={700} style={{ marginTop: 10 }} /><T size={11} weight={400} color={c.muted} center ls={0} style={{ marginTop: 7 }}>Активно по дням недели ({draft.days.length}/7)</T></View> : <View style={{ marginTop: completion ? 12.333 : after ? 12 : 13 }}><EditorRow title="Активно" value={daysLabel(draft.days)} onPress={() => toggle('days')} /></View>}
         </View>
       </ScrollView>
-      {compact && <View pointerEvents="none" style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 64, backgroundColor: colors.white }} />}<View pointerEvents="none" style={styles.handle} />
+      {compact && <View pointerEvents="none" style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 64, backgroundColor: colors.white }} />}<SheetGrabber style={styles.handle} />
       <View style={[styles.footer, { paddingBottom: Math.max(39, insets.bottom + 5) }]}><StrictModeRow value={draft.strict} description={draft.strict ? draft.strictScope === 'session' ? 'Активен во время сессии' : `Активен ${strictDaysLabel(draft.strictDays)}` : 'Без изменения и удаления'} onOpen={() => setModal('strict')} onChange={strict => strict ? setModal('strict') : patch({ strict: false })} style={{ marginLeft: 5 }} /><View style={[styles.actions, { marginTop: compact ? 26 : 24 }]}><SessionAction disabled={!canSaveRoutine(draft)} onPress={() => finish(true)}>Новый шаблон</SessionAction><SessionAction primary disabled={!canSaveRoutine(draft)} onPress={() => draft.strict ? setModal('confirm') : finish()}>Расписание</SessionAction></View></View>
     </View>
     {modal === 'apps' && <AppGroupSheet purpose="routine" value={draft.appGroup} onCancel={() => setModal(null)} onConfirm={appGroup => { patch({ appGroup }); setModal(null); }} />}

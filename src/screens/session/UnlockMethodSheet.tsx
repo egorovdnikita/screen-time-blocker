@@ -1,4 +1,4 @@
-import { SheetModal } from '@/components/SheetModal';
+import { SheetGrabber, SheetModal } from '@/components/SheetModal';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useEffect, useRef, useState, type ComponentRef } from 'react';
@@ -35,11 +35,9 @@ export function UnlockMethodSheet({ value, onCancel, onSave }: Props) {
   }, [scrollY, draft.unlockMethod]);
   return <SheetModal onClose={onCancel} backdrop={<Pressable accessibilityLabel="Отменить способ открытия" onPress={onCancel} style={[StyleSheet.absoluteFill, { backgroundColor: m.backdrop }]} />}>
     <View pointerEvents="box-none" style={{ flex: 1 }}>
-
-      <View pointerEvents="none" style={[styles.backSheet, { top: Math.max(59, insets.top) }]} />
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} pointerEvents="box-none" style={{ flex: 1 }}>
       <View style={[styles.panel, { marginTop: Math.max(69, insets.top + 10) }]} accessibilityViewIsModal>
-        <View style={styles.heading}><View style={styles.handle} /><T size={20} ls={0} center style={{ marginTop: 44 }}>{isScan ? 'Перед каждой разблокировкой…' : 'Перед открытием…'}</T></View>
+        <View style={styles.heading}><SheetGrabber style={styles.handle} /><T size={20} ls={0} center style={{ marginTop: 44 }}>{isScan ? 'Перед каждой разблокировкой…' : 'Перед открытием…'}</T></View>
         <ScrollView onScroll={e => setScrolled(e.nativeEvent.contentOffset.y > 100)} scrollEventThrottle={32} ref={scroll} contentOffset={{ x: 0, y: scrollY }} keyboardShouldPersistTaps="handled" key={draft.unlockMethod + (isScan ? draft.scanType : '')} showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 180 }}>
           {unlockMethods.map(option => {
             const selected = draft.unlockMethod === option.id;
@@ -82,7 +80,7 @@ export function UnlockMethodSheet({ value, onCancel, onSave }: Props) {
   </SheetModal>;
 }
 const styles = StyleSheet.create({
-  backSheet: { position: 'absolute', left: 16, right: 16, bottom: 14, backgroundColor: m.backSheet, borderRadius: m.panelRadius },
+
   panel: { flex: 1, borderTopLeftRadius: m.panelRadius, borderTopRightRadius: m.panelRadius, backgroundColor: m.surface, overflow: 'hidden' },
   heading: { height: 101 }, handle: { position: 'absolute', top: 12, width: 64, height: 5, alignSelf: 'center', borderRadius: 4, backgroundColor: m.handle },
   card: { height: 60, borderRadius: m.cardRadius, backgroundColor: colors.white, overflow: 'hidden' },

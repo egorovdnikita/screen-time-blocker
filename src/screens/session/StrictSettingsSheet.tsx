@@ -1,4 +1,4 @@
-import { SheetModal } from '@/components/SheetModal';
+import { SheetGrabber, SheetModal } from '@/components/SheetModal';
 import { BlurView } from 'expo-blur';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useState } from 'react';
@@ -19,7 +19,7 @@ export function StrictSettingsSheet({ value, onCancel, onActivate }: { value: St
   return <SheetModal onClose={onCancel} backdrop={<Pressable accessibilityLabel="Отменить строгий режим" onPress={onCancel} style={[StyleSheet.absoluteFill, { backgroundColor: c.backdrop }]} />}>
     <View pointerEvents="box-none" style={{ flex: 1 }}>
       <View style={[styles.sheet, { top: Math.max(insets.top + 20, height - 579) }]} accessibilityViewIsModal>
-        <View style={styles.handle} /><View style={styles.title}><Icon name="session-shield" width={22} height={24} /><T size={20} ls={0}>Строгий режим</T></View>
+        <SheetGrabber style={styles.handle} /><View style={styles.title}><Icon name="session-shield" width={22} height={24} /><T size={20} ls={0}>Строгий режим</T></View>
         <ScrollView showsVerticalScrollIndicator={false} style={{ marginTop: 97 }} contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 120 }}>
           <View style={[styles.card, { height: session ? 194 : draft.strictDays === 1 ? 315 : 292 }]}>
             <View style={styles.section}><Icon name="chevron-down-section" width={10} height={8} color={c.handle} style={{ transform: [{ rotate: '180deg' }] }} /><T size={20} ls={0}>Активность…</T></View>

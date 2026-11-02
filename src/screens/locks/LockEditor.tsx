@@ -5,7 +5,7 @@ import { router } from 'expo-router';
 import { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { SheetTransition } from '@/components/SheetModal';
+import { SheetTransition, SheetGrabber } from '@/components/SheetModal';
 import { StrictModeRow } from '@/components/StrictModeRow';
 import { Icon } from '@/components/Icon';
 import { PressScale } from '@/components/motion';
@@ -21,6 +21,7 @@ import { StrictSettingsSheet, StrictConfirmation, strictDaysLabel } from '../ses
 import { SingleAppPicker } from './SingleAppPicker';
 
 export function LockEditor() {
+  const [swipeClosing, setSwipeClosing] = useState(false);
   useDarkStatusBar();
   const [draft, setDraft] = useState(initialLock);
   const [picker, setPicker] = useState<'app' | 'duration' | 'method' | 'strict' | 'confirm' | null>(null);
@@ -30,10 +31,10 @@ export function LockEditor() {
   const patch = (update: Partial<LockDraft>) => setDraft(d => ({ ...d, ...update }));
   const dismiss = () => router.canGoBack() ? router.back() : router.replace('/(tabs)');
   const add = () => { const rule = createLock(draft); if (!rule) return; app.addLock(rule); router.dismissAll(); router.navigate('/(tabs)/rules'); };
-  return <SheetTransition backdrop={<Pressable accessibilityLabel="Закрыть лимит запусков" onPress={dismiss} style={[StyleSheet.absoluteFill, { backgroundColor: c.backdrop }]} />}>
+  return <SheetTransition closing={swipeClosing} onHidden={dismiss} onSwipeClose={() => setSwipeClosing(true)} backdrop={<Pressable accessibilityLabel="Закрыть лимит запусков" onPress={dismiss} style={[StyleSheet.absoluteFill, { backgroundColor: c.backdrop }]} />}>
     <View style={[styles.sheet, { marginTop: Math.max(59, insets.top + 1) }]}>
       <LinearGradient pointerEvents="none" colors={c.gradient} locations={[0, .45, 1]} style={StyleSheet.absoluteFill} />
-      <View style={styles.handle} />
+      <SheetGrabber style={styles.handle} />
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingTop: 149, paddingBottom: 240 }}>
         <View style={styles.card}>
           <PressScale accessibilityRole="button" accessibilityLabel="Приложение для лимита запусков" onPress={() => setPicker('app')} style={styles.use}><T size={24} color={c.hint} ls={0}>Для</T>{selected ? <Image source={selected.image} style={{ width: 24, height: 24, borderRadius: 7 }} /> : <View style={styles.placeholder} />}<T size={24} ls={0}>{selected?.name ?? 'прил.'}</T><Icon name="lock-up-down" width={12} height={16} color={c.hint} /></PressScale>

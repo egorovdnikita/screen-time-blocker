@@ -1,9 +1,9 @@
+import { SheetGrabber, SheetModal } from '@/components/SheetModal';
 import { DarkButtonSurface } from '@/components/DarkButtonSurface';
 import { Image } from 'expo-image';
 import { useState } from 'react';
 import { Keyboard, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { SheetModal } from '@/components/SheetModal';
 import { PressScale } from '@/components/motion';
 import { Icon } from '@/components/Icon';
 import { art } from '@/data/art';
@@ -33,7 +33,7 @@ function ActivityForm({ value, catalog, onCancel, onSave }: { value?: ActivityDe
   const [iconId, setIconId] = useState<SessionIconId>('magnifier');
   const valid = !!title.trim() && !catalog.some(item => item.id !== value?.id && item.title.trim().toLocaleLowerCase() === title.trim().toLocaleLowerCase());
   return <SheetModal animateClose onClose={onCancel} backdrop={close => <Pressable accessibilityLabel="Отменить занятие" onPress={() => close()} style={[StyleSheet.absoluteFill, { top: 69, backgroundColor: c.dim }]} />}>
-    {close => <><KeyboardAvoidingView pointerEvents="box-none" behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1 }}><View pointerEvents="none" style={{ flex: 1 }} /><View accessibilityViewIsModal style={styles.form}><View pointerEvents="none" style={styles.handle} /><PressScale accessibilityRole="button" accessibilityLabel="Сохранить занятие" disabled={!valid} accessibilityState={{ disabled: !valid }} onPress={() => { Keyboard.dismiss(); close(() => onSave({ id: value?.id ?? `activity-${Date.now()}`, title: title.trim(), image })); }} style={[styles.confirm, { backgroundColor: valid ? c.blue : c.formDisabled }]}><Icon name={value ? "reflection-confirm" : "plus"} width={18} height={18} color={valid ? colors.white : c.formDisabledInk} /></PressScale>
+    {close => <><KeyboardAvoidingView pointerEvents="box-none" behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1 }}><View pointerEvents="none" style={{ flex: 1 }} /><View accessibilityViewIsModal style={styles.form}><SheetGrabber style={styles.handle} /><PressScale accessibilityRole="button" accessibilityLabel="Сохранить занятие" disabled={!valid} accessibilityState={{ disabled: !valid }} onPress={() => { Keyboard.dismiss(); close(() => onSave({ id: value?.id ?? `activity-${Date.now()}`, title: title.trim(), image })); }} style={[styles.confirm, { backgroundColor: valid ? c.blue : c.formDisabled }]}><Icon name={value ? "reflection-confirm" : "plus"} width={18} height={18} color={valid ? colors.white : c.formDisabledInk} /></PressScale>
       <View style={styles.field}><PressScale accessibilityRole="button" accessibilityLabel="Выбрать иконку занятия" onPress={() => { Keyboard.dismiss(); setPicker(true); }}><Image source={image} contentFit="contain" style={{ width: 29, height: 31 }} /></PressScale><TextInput accessibilityLabel="Название занятия" value={title} onChangeText={setTitle} maxLength={80} returnKeyType="done" onSubmitEditing={() => Keyboard.dismiss()} style={{ flex: 1, height: 52, padding: 0, fontSize: 14, color: colors.black, outlineWidth: 0 }} /><Icon name="pencil" width={16} height={16} color={c.pencil} /></View>
     </View></KeyboardAvoidingView>
     {picker && <SessionIconPicker selected={iconId} onClose={() => setPicker(false)} onSelect={id => { setIconId(id); setImage(sessionIcon(id).image); setPicker(false); }} />}

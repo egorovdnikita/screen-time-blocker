@@ -1,9 +1,9 @@
+import { SheetGrabber, SheetModal } from '@/components/SheetModal';
 import { BlurView } from 'expo-blur';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useState } from 'react';
 import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { SheetModal } from '@/components/SheetModal';
 import { PressScale } from '@/components/motion';
 import { Icon } from '@/components/Icon';
 import { AppCatalog } from '../locks/SingleAppPicker';
@@ -18,10 +18,9 @@ export function LimitAppPicker({ value, categories, onCancel, onSave }: { value:
   const [query, setQuery] = useState('');
   const insets = useSafeAreaInsets();
   return <SheetModal onClose={onCancel} backdrop={<Pressable accessibilityLabel="Отменить приложения лимита" onPress={onCancel} style={[StyleSheet.absoluteFill, { backgroundColor: c.backdrop }]} />}>
-    <View pointerEvents="none" style={{ position: 'absolute', left: 16, right: 16, top: Math.max(59, insets.top), bottom: 14, borderRadius: c.panelRadius, backgroundColor: c.backSheet }} />
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} pointerEvents="box-none" style={{ flex: 1, paddingTop: Math.max(69, insets.top + 10) }}>
       <View style={styles.sheet} accessibilityViewIsModal>
-        <View style={styles.handle} />
+        <SheetGrabber style={styles.handle} />
         <PressScale accessibilityRole="button" accessibilityLabel="Закрыть приложения лимита" onPress={onCancel} style={[styles.round, { left: 20, backgroundColor: colors.white }]}><Icon name="session-clear" width={22} height={22} color={colors.black} /></PressScale>
         <PressScale accessibilityRole="button" accessibilityLabel="Сохранить приложения лимита" disabled={!count} accessibilityState={{ disabled: !count }} onPress={() => onSave([...selected], [...selectedCategories])} style={[styles.round, { right: 20, backgroundColor: l.blue, opacity: count ? 1 : .5 }]}><Icon name="group-check" width={24} height={26} color={colors.white} /></PressScale>
         <View style={styles.summary}><T size={14} weight={600} color={l.blue} ls={0}>Будет закрыто:</T><T size={14} weight={400} color={l.blue} ls={0}>{selected.length || !selectedCategories.length ? `${selected.length} ${selected.length === 1 ? 'приложение' : selected.length > 1 && selected.length < 5 ? 'приложения' : 'приложений'}` : ''}{selected.length && selectedCategories.length ? ', ' : ''}{selectedCategories.length ? `${selectedCategories.length} ${selectedCategories.length === 1 ? 'категория' : selectedCategories.length < 5 ? 'категории' : 'категорий'}` : ''}</T></View>

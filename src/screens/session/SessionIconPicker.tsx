@@ -1,4 +1,4 @@
-import { SheetModal } from '@/components/SheetModal';
+import { SheetGrabber, SheetModal } from '@/components/SheetModal';
 import { Image } from 'expo-image';
 import { useState } from 'react';
 import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, TextInput, View, useWindowDimensions } from 'react-native';
@@ -20,7 +20,7 @@ export function SessionIconPicker({ selected, onSelect, onClose }: { selected: S
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} pointerEvents="box-none" style={{ flex: 1 }}>
         <View pointerEvents="none" style={{ height: Math.min(220, height * .3) }} />
         <View style={styles.sheet} accessibilityViewIsModal>
-          <View style={styles.handle} />
+          <SheetGrabber style={styles.handle} />
           <View style={styles.search}>
             <Icon name="session-search" width={22} height={22} color={c.searchIcon} />
             <TextInput accessibilityLabel="Поиск иконок" value={query} onChangeText={setQuery} placeholder="Поиск (английский или emoji)" placeholderTextColor={c.placeholder} autoCorrect={false} autoCapitalize="none" returnKeyType="search" style={styles.input} />

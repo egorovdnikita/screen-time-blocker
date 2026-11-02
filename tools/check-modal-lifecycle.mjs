@@ -6,7 +6,7 @@ const require = createRequire(import.meta.url);
 const js = ts.transpileModule(fs.readFileSync(new URL('../src/components/SheetModal.tsx', import.meta.url), 'utf8'), { compilerOptions: { module: ts.ModuleKind.CommonJS, jsx: ts.JsxEmit.ReactJSX, target: ts.ScriptTarget.ES2020 } }).outputText;
 function mount(os, animated = true) {
   const slots = []; let index = 0, close, cancelled = 0, saved = 0, other = 0;
-  const react = { useCallback: fn => fn, useRef: initial => { const i = index++; return slots[i] ??= { current: initial }; }, useState: initial => { const i = index++; if (!(i in slots)) slots[i] = typeof initial === 'function' ? initial() : initial; return [slots[i], next => { slots[i] = typeof next === 'function' ? next(slots[i]) : next; }]; } };
+  const react = { createContext: () => ({}), useCallback: fn => fn, useRef: initial => { const i = index++; return slots[i] ??= { current: initial }; }, useState: initial => { const i = index++; if (!(i in slots)) slots[i] = typeof initial === 'function' ? initial() : initial; return [slots[i], next => { slots[i] = typeof next === 'function' ? next(slots[i]) : next; }]; } };
   const exports = {};
   new Function('exports', 'require', js)(exports, id => id === 'react' ? react : id === 'react/jsx-runtime' ? require(id) : { Platform: { OS: os }, Modal: 'NativeModal', View: 'View', Keyboard: { dismiss() {} }, StyleSheet: { absoluteFill: {} } });
   const element = exports.SheetModal({ animateClose: animated, onClose: () => cancelled++, children: request => { close = request; return null; }, backdrop: null });
@@ -22,4 +22,5 @@ modal.props.onDismiss(); modal.props.onDismiss(); assert.deepEqual(ios.counts(),
 const cancel = mount('ios'); cancel.render().props.onRequestClose(); modal = cancel.render(); transition(modal).props.onHidden(); modal = cancel.render(); assert.equal(cancel.counts().cancelled, 0); modal.props.onDismiss(); assert.equal(cancel.counts().cancelled, 1);
 for (const os of ['android', 'web']) { const instance = mount(os); instance.close(instance.save); modal = instance.render(); transition(modal).props.onHidden(); assert.equal(instance.counts().saved, 1); modal.props.onDismiss(); assert.equal(instance.counts().saved, 1); }
 const instant = mount('ios', false); instant.close(instant.save); assert.equal(instant.counts().saved, 1); assert.equal(transition(instant.render()).props.closing, false);
+const swipe = mount('ios', false); transition(swipe.render()).props.onSwipeClose(); modal = swipe.render(); assert.equal(transition(modal).props.closing, true); transition(modal).props.onHidden(); assert.equal(swipe.counts().cancelled, 0); swipe.render().props.onDismiss(); assert.deepEqual(swipe.counts(), { cancelled: 1, saved: 0, other: 0 });
 console.log('Modal lifecycle: iOS dismiss barrier, first action wins, once-only completion OK');

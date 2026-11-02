@@ -1,4 +1,4 @@
-import { SheetModal } from '@/components/SheetModal';
+import { SheetGrabber, SheetModal } from '@/components/SheetModal';
 import { useRef, useState, type ComponentRef } from 'react';
 import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, TextInput, View, useWindowDimensions } from 'react-native';
 import { Icon } from '@/components/Icon';
@@ -34,7 +34,7 @@ export function AppGroupOptions({ group, onChange, onClose }: Props) {
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} pointerEvents="box-none" style={{ flex: 1 }}>
         <View pointerEvents="none" style={{ height: Math.min(220, height * .3) }} />
         <View style={styles.sheet} accessibilityViewIsModal>
-          <View style={styles.handle} /><T size={19} ls={0} center style={styles.title}>Другие параметры</T>
+          <SheetGrabber style={styles.handle} /><T size={19} ls={0} center style={styles.title}>Другие параметры</T>
           <ScrollView ref={scroll} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} contentContainerStyle={{ minHeight: 527, paddingBottom: 32 }}>
             <SectionLabel title="Разное" />
             <View style={styles.options}>
