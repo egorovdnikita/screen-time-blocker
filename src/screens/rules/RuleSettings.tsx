@@ -9,11 +9,11 @@ import { T } from '@/theme/typography';
 import { colors, ruleSettingsTheme as c } from '@/theme/tokens';
 import { AppGroupSheet } from '../session/AppGroupSheet';
 import { NamedAppGroups } from './NamedAppGroups';
-export function RuleSettings({ onClose }: { onClose: () => void }) {
+export function RuleSettings({ onClose, nested = false }: { onClose: () => void; nested?: boolean }) {
   const [screens, setScreens] = useState(false);
   const [groups, setGroups] = useState(false);
   const [advanced, setAdvanced] = useState(false);
-  return <PlainSettingsSheet title="Настройки" onClose={onClose}>
+  return <PlainSettingsSheet title="Настройки" top={nested ? 69 : 59} onClose={onClose}>
     <T size={20} color={c.section} ls={0} style={{ position: 'absolute', top: 101, left: 20, lineHeight: 25 }}>Персонализация</T>
     <View style={styles.list}>{[
       { title: 'Группы приложений', text: 'Списки для разных правил.', icon: 'rule-settings-groups', height: 66.667, onPress: () => setGroups(true) },

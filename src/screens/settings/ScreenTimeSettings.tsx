@@ -14,7 +14,7 @@ import { colors, dailyGoalTheme as g, settingsTheme as c } from '@/theme/tokens'
 import { SettingsStack } from './SettingsStack';
 import { ActivityCatalog } from './ActivityCatalog';
 
-export function ScreenTimeSettings({ onClose }: { onClose: () => void }) {
+export function ScreenTimeSettings({ onClose, nested = false }: { onClose: () => void; nested?: boolean }) {
   const app = useAppState();
   const [estimated, setEstimated] = useState(false);
   const [activities, setActivities] = useState(false);
@@ -24,7 +24,7 @@ export function ScreenTimeSettings({ onClose }: { onClose: () => void }) {
   useEffect(() => { if (!notice) return; const timer = setTimeout(() => setNotice(0), 2800); return () => clearTimeout(timer); }, [notice]);
   const goal = app.dailyGoals?.[currentGoalDay(app.period)] ?? app.dailyGoalMinutes ?? 260;
   const goalLabel = goalTimeLabel(goal);
-  return <SettingsStack root onClose={onClose}><ScrollView contentContainerStyle={{ minHeight: 720, paddingBottom: 24 }} showsVerticalScrollIndicator={false}>
+  return <SettingsStack root={!nested} surface={c.surface} onClose={onClose}><ScrollView contentContainerStyle={{ minHeight: 720, paddingBottom: 24 }} showsVerticalScrollIndicator={false}>
     <T size={18} color={c.title} center ls={0} style={{ marginTop: 44, lineHeight: 25 }}>Настройки времени</T>
     <T size={20} color={c.section} ls={0} style={{ marginTop: 31, marginHorizontal: 20, lineHeight: 24 }}>Цель на день</T>
     <View style={styles.goal}><PressScale accessibilityRole="button" accessibilityLabel="Уменьшить цель на день" disabled={goal <= 5} onPress={() => app.setDailyGoalMinutes(goal - 5)} style={[styles.step, { left: 52 }, reminders && { backgroundColor: c.transparent, boxShadow: undefined }]}><T size={23} variant="display" weight={500} color={c.title} ls={0}>−</T></PressScale><T size={37} color={c.ink} ls={-.6}>{app.dailyGoalEnabled ? `${goalLabel}/день` : 'Выкл.'}</T><PressScale accessibilityRole="button" accessibilityLabel="Увеличить цель на день" disabled={goal >= 1440} onPress={() => app.setDailyGoalMinutes(goal + 5)} style={[styles.step, { right: 52 }, reminders && { backgroundColor: c.transparent, boxShadow: undefined }]}><T size={23} variant="display" weight={500} color={c.title} ls={0}>+</T></PressScale></View>

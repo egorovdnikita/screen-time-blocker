@@ -346,3 +346,5 @@ export const blockScreensTheme = { searchBorder: '#dce1e6', switchOn: '#4d82eb',
 export const softNoticeTheme = { surface: '#5bbe6d', shadow: '0 12px 24px #0000001a' };
 
 export const mainSettingsTheme = { surface: '#f6f8fa', ink: '#111111', section: '#929aa8', caption: '#949ba8', avatar: '#4385e8', avatarShadow: '0 2px 8px #14285014', planShadow: '0 7px 18px #2337550b', planName: '#f57d4a', planNote: '#969daa', money: '#c4c9d1', manageShadow: '0 5px 16px #1e283c14', help: '#4883f1', helpShadow: '0 7px 18px #23375517', rowIcon: '#969eaa', separator: '#eff0f2', helpNote: '#8791a2' };
+
+export const modalTheme = { dim: 'rgba(0,0,0,.2)' };
