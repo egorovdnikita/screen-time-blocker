@@ -10,7 +10,12 @@ export const reflectionActivities = [
   { id: 'buy', title: 'Покупать сгоряча', image: art.reflectionMoney, top: 399 },
   { id: 'care', title: 'Беречь себя', image: null, top: 501 },
 ] as const;
-export type ReflectionActivityId = typeof reflectionActivities[number]['id'];
+export type ReflectionActivityId = string;
+export type ActivityDefinition = { id: string; title: string; image: number | null; menu?: string; top?: number };
+export function activityCatalog(custom: ActivityDefinition[]): ActivityDefinition[] {
+  const base: ActivityDefinition[] = reflectionActivities.map(activity => custom.find(item => item.id === activity.id) ?? activity);
+  return [...base.slice(0, 3), ...custom.filter(item => !reflectionActivities.some(activity => activity.id === item.id)), ...base.slice(3)];
+}
 export const reflectionMoods = [
   { id: 'very-distracting', title: 'Очень отвлекает', image: art.reflectionMoodVeryDistracting, menuImage: art.reflectionMoodVeryDistracting, quality: 'distracting' },
   { id: 'distracting', title: 'Отвлекает', image: art.reflectionMoodDistracting, menuImage: art.reflectionMoodDistracting, quality: 'distracting' },

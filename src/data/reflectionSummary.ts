@@ -1,5 +1,5 @@
 import type { ActivityRow, Day } from './home';
-import { reflectionActivities, reflectionKey, reflectionMoods, type Reflection } from './reflection';
+import { reflectionActivities, reflectionKey, reflectionMoods, type Reflection, type ActivityDefinition } from './reflection';
 
 // В исходных данных есть только длительность приложения, без распределения по часам.
 // Поэтому сводка использует известные длительности и не выдумывает новые столбики.
@@ -25,7 +25,7 @@ function percentages(values: number[]): [number, number, number] {
   for (let i = 0; i < remaining; i++) result[order[i].i]++;
   return result as [number, number, number];
 }
-export function reflectedDay(day: Day, records: Record<string, Reflection>, excluded: string[], legacyExcluded: string[], touched: boolean): Day {
+export function reflectedDay(day: Day, records: Record<string, Reflection>, excluded: string[], legacyExcluded: string[], touched: boolean, catalog: ActivityDefinition[] = [...reflectionActivities]): Day {
   if (!touched) return day;
   const groups = new Map<string, { row: ActivityRow; seconds: number }>();
   let good = 0, bad = 0, includedSeconds = 0, excludedSeconds = 0;
@@ -38,7 +38,7 @@ export function reflectedDay(day: Day, records: Record<string, Reflection>, excl
     const quality = reflectionMoods.find(mood => mood.id === reflection.mood)!.quality;
     if (quality === 'productive') good += seconds;
     if (quality === 'distracting') bad += seconds;
-    const activity = reflectionActivities.find(activity => activity.id === reflection.activity);
+    const activity = catalog.find(activity => activity.id === reflection.activity);
     if (!activity) continue;
     // Разные оценки одного занятия не теряются при объединении приложений.
     const id = `${activity.id}:${quality}`;

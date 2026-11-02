@@ -1,3 +1,4 @@
+import { useAppState } from '@/state/app';
 import { BlurView } from 'expo-blur';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -10,18 +11,22 @@ import { FadeIn, PressScale } from '@/components/motion';
 import { Icon } from '@/components/Icon';
 import { art } from '@/data/art';
 import type { AppRow } from '@/data/home';
-import { newReflection, reflectionActivities, reflectionMoods, type Reflection } from '@/data/reflection';
+import { newReflection, activityCatalog, reflectionMoods, type Reflection } from '@/data/reflection';
 import { colors, reflectionTheme as c } from '@/theme/tokens';
 import { T } from '@/theme/typography';
 import { AppIcon } from './AppIcon';
 
 export function ReflectionSheet({ app, value, onCancel, onSave, onExclude, onDelete }: { app: AppRow; value?: Reflection; onCancel: () => void; onSave: (value: Reflection) => void; onExclude: () => void; onDelete?: () => void }) {
+  const appState = useAppState();
+  const catalog = activityCatalog(appState.customActivities);
+  let nextTop = 65;
+  const activityItems = catalog.map(item => { if (item.id === 'care') nextTop += 60; const top = nextTop; nextTop += item.menu?.includes('\n') ? 62 : 42; return { ...item, top }; });
   const [draft, setDraft] = useState<Reflection>(() => ({ ...(value ?? newReflection()) }));
   const [menu, setMenu] = useState<'activity' | 'mood' | null>(null);
   const { height } = useWindowDimensions();
   const insets = useSafeAreaInsets();
   const top = Math.max(insets.top + 12, Math.min(172.667, height - insets.bottom - 437));
-  const activity = reflectionActivities.find(a => a.id === draft.activity);
+  const activity = catalog.find(a => a.id === draft.activity);
   const mood = reflectionMoods.find(m => m.id === draft.mood)!;
   const menuTop = Math.max(insets.top + 8, Math.min(top + (menu === 'activity' ? 77 : 196.666), height - insets.bottom - (menu === 'activity' ? 519.667 : 258.667)));
   return <SheetModal onClose={() => menu ? setMenu(null) : onCancel()} backdrop={<Pressable accessibilityLabel="Отменить оценку времени" onPress={onCancel} style={[StyleSheet.absoluteFill, { backgroundColor: c.backdrop }]} />}>
@@ -36,8 +41,8 @@ export function ReflectionSheet({ app, value, onCancel, onSave, onExclude, onDel
       <View style={styles.switchRow}><T size={14} weight={400} variant="display" ls={0}>Всегда для приложения</T><View style={{ marginLeft: 'auto' }}><FlowSwitch label="Всегда применять оценку" value={draft.always} onChange={always => setDraft(d => ({ ...d, always }))} /></View></View>
       <PressScale accessibilityRole="button" accessibilityLabel="Исключить приложение сегодня" onPress={onExclude} style={styles.exclude}><Icon name="reflection-exclude" width={17} height={20} color={c.blue} /><T size={17} color={c.blue} ls={0}>Исключить сегодня</T></PressScale>
     </View>
-    {menu && <><Pressable accessibilityLabel="Закрыть меню оценки" style={StyleSheet.absoluteFill} onPress={() => setMenu(null)} /><FadeIn from={0} style={[styles.context, { top: menuTop, height: menu === 'activity' ? 519.667 : 258.667 }]}><BlurView pointerEvents="none" intensity={14} tint="default" style={StyleSheet.absoluteFill} /><LinearGradient pointerEvents="none" colors={[c.menuTop, c.menuBottom]} style={StyleSheet.absoluteFill} /><ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ height: menu === 'activity' ? 553 : 258.667 }}><T size={13.5} weight={400} variant="display" color={c.header} ls={0} style={styles.menuHeader}>{menu === 'activity' ? 'Изменить занятия: Главная →\n… → Занятия' : `Время в ${app.name} — это…`}</T>
-      {menu === 'activity' ? reflectionActivities.map(a => <PressScale key={a.id} accessibilityRole="button" accessibilityLabel={`Занятие ${a.title}`} onPress={() => { setDraft(d => ({ ...d, activity: a.id })); setMenu(null); }} style={[styles.menuRow, { top: a.top, alignItems: 'flex-start', minHeight: 42 }]}>{a.image ? <Image source={a.image} style={{ width: 22, height: 24 }} /> : <T size={20} ls={0}>🧘</T>}<T size={17} weight={400} variant="display" ls={0} style={{ paddingTop: 2, lineHeight: 20 }}>{'menu' in a ? a.menu : a.title}</T></PressScale>) : reflectionMoods.map((m, i) => <PressScale key={m.id} accessibilityRole="radio" accessibilityLabel={`Оценка ${m.title}`} aria-checked={draft.mood === m.id} accessibilityState={{ checked: draft.mood === m.id }} onPress={() => { setDraft(d => ({ ...d, mood: m.id })); setMenu(null); }} style={[styles.menuRow, { top: 40 + i * 42, height: 42 }]}>{draft.mood === m.id && <Icon name="checkmark" width={18} height={19} style={{ position: 'absolute', left: -34, top: 13 }} />}<Image source={m.menuImage} style={{ width: 24, height: 25 }} /><T size={17} weight={400} variant="display" ls={0}>{m.title}</T></PressScale>)}
+    {menu && <><Pressable accessibilityLabel="Закрыть меню оценки" style={StyleSheet.absoluteFill} onPress={() => setMenu(null)} /><FadeIn from={0} style={[styles.context, { top: menuTop, height: menu === 'activity' ? 519.667 : 258.667 }]}><BlurView pointerEvents="none" intensity={14} tint="default" style={StyleSheet.absoluteFill} /><LinearGradient pointerEvents="none" colors={[c.menuTop, c.menuBottom]} style={StyleSheet.absoluteFill} /><ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ height: menu === 'activity' ? Math.max(553, nextTop + 10) : 258.667 }}><T size={13.5} weight={400} variant="display" color={c.header} ls={0} style={styles.menuHeader}>{menu === 'activity' ? 'Изменить занятия: Главная →\n… → Занятия' : `Время в ${app.name} — это…`}</T>
+      {menu === 'activity' ? activityItems.map(a => <PressScale key={a.id} accessibilityRole="button" accessibilityLabel={`Занятие ${a.title}`} onPress={() => { setDraft(d => ({ ...d, activity: a.id })); setMenu(null); }} style={[styles.menuRow, { top: a.top, alignItems: 'flex-start', minHeight: 42 }]}>{a.image ? <Image source={a.image} style={{ width: 22, height: 24 }} /> : <T size={20} ls={0}>🧘</T>}<T size={17} weight={400} variant="display" ls={0} style={{ paddingTop: 2, lineHeight: 20 }}>{'menu' in a ? a.menu : a.title}</T></PressScale>) : reflectionMoods.map((m, i) => <PressScale key={m.id} accessibilityRole="radio" accessibilityLabel={`Оценка ${m.title}`} aria-checked={draft.mood === m.id} accessibilityState={{ checked: draft.mood === m.id }} onPress={() => { setDraft(d => ({ ...d, mood: m.id })); setMenu(null); }} style={[styles.menuRow, { top: 40 + i * 42, height: 42 }]}>{draft.mood === m.id && <Icon name="checkmark" width={18} height={19} style={{ position: 'absolute', left: -34, top: 13 }} />}<Image source={m.menuImage} style={{ width: 24, height: 25 }} /><T size={17} weight={400} variant="display" ls={0}>{m.title}</T></PressScale>)}
     </ScrollView></FadeIn></>}
   </SheetModal>;
 }

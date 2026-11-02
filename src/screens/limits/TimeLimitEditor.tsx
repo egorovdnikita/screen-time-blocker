@@ -35,7 +35,7 @@ export function TimeLimitEditor() {
   const toggle = (next: Open) => { animateLayout(); setOpen(x => x === next ? null : next); };
   const setMinutes = (minutes: number) => patch({ minutes, notifyBefore: Math.min(draft.notifyBefore, Math.floor((minutes - 1) / 10) * 10), notifyEvery: Math.min(draft.notifyEvery, Math.floor(minutes / 10) * 10) });
   const dismiss = () => router.canGoBack() ? router.back() : router.replace('/(tabs)');
-  const finish = (template = false) => { const rule = timeLimitRule(draft); if (!rule) return; app.addLimit(rule, template); router.dismissAll(); router.navigate('/(tabs)/rules'); };
+  const finish = (template = false) => { const rule = timeLimitRule(draft); if (!rule) return; app.addLimit(rule, template); router.dismissAll(); router.navigate(!template && !app.shareGuideSeen ? '/share-devices' : '/(tabs)/rules'); };
   const selectedCount = draft.limitApps.length + draft.limitCategories.length;
   const badge = selectedCount ? <View style={styles.badge}><Icon name="apps-grid" width={14} height={14} color={c.ink} /><T size={14} weight={400} ls={0}>{selectedCount}</T></View> : <View style={styles.warning}><T size={12} color={c.warning} ls={0}>● Выбрать</T></View>;
   const row = (title: string, value: string, action: () => void, margin = 14) => <View style={{ marginTop: margin }}><EditorRow title={title} value={value} onPress={action} /></View>;

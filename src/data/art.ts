@@ -1,5 +1,8 @@
 // Растр из макетов (@3x).
 export const art = {
+  settingsHeader: require('../../assets/art/settings/header.png'),
+  activityNew: require('../../assets/art/settings/activity-new.png'),
+  reflectionInspiration: require('../../assets/art/settings/inspiration.png'),
   reflectionGear: require('../../assets/art/reflection/reflection-gear.png'),
   reflectionBrain: require('../../assets/art/reflection/reflection-brain.png'),
   reflectionMoodNeutral: require('../../assets/art/reflection/reflection-mood-neutral.png'),

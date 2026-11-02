@@ -1,5 +1,7 @@
+import { initialReminders, type ReminderSettings } from '@/data/reminders';
+import { currentGoalDay, goalTimeLabel, boundedGoal } from '@/data/dailyGoal';
 import { reflectedDay } from '@/data/reflectionSummary';
-import { reflectionKey, type Reflection } from '@/data/reflection';
+import { activityCatalog, reflectionKey, type ActivityDefinition, type Reflection } from '@/data/reflection';
 import type { Habit } from '@/data/routine';
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 
@@ -15,6 +17,22 @@ export type OnboardingStep = 'tip-first-rule' | 'tip-add-more' | 'done';
 const LOADING_MS = 1400;
 
 type AppState = {
+  shareGuideSeen: boolean;
+  markShareGuideSeen: () => void;
+  estimatedMinutes: number;
+  estimatedAccuracy: boolean;
+  refreshEstimatedDemo: () => void;
+  reminders: ReminderSettings;
+  remindersAcknowledged: boolean;
+  saveReminders: (value: ReminderSettings) => void;
+  customActivities: ActivityDefinition[];
+  upsertActivity: (activity: ActivityDefinition) => void;
+  dailyGoalMinutes: number | null;
+  dailyGoals: number[] | null;
+  dailyGoalEnabled: boolean;
+  saveDailyGoals: (days: number[]) => void;
+  disableDailyGoal: () => void;
+  setDailyGoalMinutes: (minutes: number) => void;
   reflections: Record<string, Reflection>;
   reflectionDefaults: Record<string, Reflection>;
   deleteReflection: (day: string, appId: string) => void;
@@ -62,6 +80,15 @@ type AppState = {
 const Ctx = createContext<AppState | null>(null);
 
 export function AppStateProvider({ children }: { children: ReactNode }) {
+  const [shareGuideSeen, setShareGuideSeen] = useState(false);
+  const [estimatedMinutes, setEstimatedMinutes] = useState(125);
+  const [estimatedAccuracy, setEstimatedAccuracy] = useState(false);
+  const [reminders, setReminders] = useState(initialReminders);
+  const [remindersAcknowledged, setRemindersAcknowledged] = useState(false);
+  const [customActivities, setCustomActivities] = useState<ActivityDefinition[]>([]);
+  const [dailyGoals, setDailyGoals] = useState<number[] | null>(null);
+  const [dailyGoalEnabled, setDailyGoalEnabled] = useState(true);
+  const [dailyGoalMinutes, setDailyGoalMinutes] = useState<number | null>(null);
   const [reflectionTouchedDays, setReflectionTouchedDays] = useState<string[]>([]);
   const touchReflectionDay = (dayId: string) => setReflectionTouchedDays(xs => [...new Set([...xs, reflectionKey(dayId, '')])]);
   const [reflections, setReflections] = useState<Record<string, Reflection>>({});
@@ -120,6 +147,10 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     setMostUsedMode('apps');
     setExcluded([]);
     setProductive([]);
+    setShareGuideSeen(false);
+    setEstimatedMinutes(125); setEstimatedAccuracy(false);
+    setReminders(initialReminders()); setRemindersAcknowledged(false);
+    setCustomActivities([]); setDailyGoalMinutes(null); setDailyGoals(null); setDailyGoalEnabled(true);
     setReflectionTouchedDays([]);
     setReflections({}); setReflectionDefaults({}); setReflectionExcludedRaw([]);
     setNewStartVisible(s === 'firstRun');
@@ -135,9 +166,18 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     return refreshed ? dayTodayRefreshed : dayToday;
   }, [period, scenario, refreshed]);
 
-  const day = useMemo(() => reflectedDay(baseDay, reflections, reflectionExcluded, excluded, reflectionTouchedDays.includes(reflectionKey(baseDay.id, ''))), [baseDay, reflections, reflectionExcluded, excluded, reflectionTouchedDays]);
+  const selectedGoal = dailyGoals?.[currentGoalDay(period)] ?? dailyGoalMinutes;
+  const day = useMemo(() => reflectedDay(selectedGoal === null && dailyGoalEnabled ? baseDay : { ...baseDay, goal: { ...baseDay.goal, enabled: dailyGoalEnabled, text: `${baseDay.goal.kind === 'check' ? 'В пределах' : 'Не больше'} ${goalTimeLabel(selectedGoal ?? 260)}` } }, reflections, reflectionExcluded, excluded, reflectionTouchedDays.includes(reflectionKey(baseDay.id, '')), activityCatalog(customActivities)), [baseDay, reflections, reflectionExcluded, excluded, reflectionTouchedDays, customActivities, selectedGoal, dailyGoalEnabled]);
 
   const value: AppState = {
+    shareGuideSeen, markShareGuideSeen: () => setShareGuideSeen(true),
+    estimatedMinutes, estimatedAccuracy, refreshEstimatedDemo: () => { setEstimatedMinutes(value => value === 125 ? 110 : 125); setEstimatedAccuracy(true); },
+    reminders, remindersAcknowledged, saveReminders: value => { setReminders({ ...value }); setRemindersAcknowledged(true); },
+    customActivities, upsertActivity: activity => setCustomActivities(xs => [...xs.filter(item => item.id !== activity.id), { ...activity }]),
+    dailyGoalMinutes, dailyGoals, dailyGoalEnabled,
+    saveDailyGoals: days => { if (days.length !== 7) return; setDailyGoals(days.map(boundedGoal)); setDailyGoalEnabled(true); },
+    disableDailyGoal: () => setDailyGoalEnabled(false),
+    setDailyGoalMinutes: minutes => { const goal = boundedGoal(minutes); setDailyGoalMinutes(goal); setDailyGoals(Array(7).fill(goal)); setDailyGoalEnabled(true); },
     reflections, reflectionDefaults, reflectionExcluded,
     deleteReflection: (dayId, appId) => { touchReflectionDay(dayId); setReflections(xs => { const next = { ...xs }; delete next[reflectionKey(dayId, appId)]; return next; }); },
     saveReflection: (dayId, appId, value) => {

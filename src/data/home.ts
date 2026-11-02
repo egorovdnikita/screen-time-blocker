@@ -54,7 +54,7 @@ export type Day = {
   id: string;
   label: string;
   screenTime: string;
-  goal: { kind: 'target' | 'check'; text: string };
+  goal: { kind: 'target' | 'check'; text: string; enabled?: boolean };
   stats: { saved: string; pickups: string; notifications: string };
   chart: ChartData;
   quality: Quality;

@@ -288,3 +288,33 @@ export const reflectionTheme = {
   roundShadow: '0 10px 25px #16202a0a', confirmRim: 'inset 0 0 0 1px #ffffff44',
   menuShadow: 'inset 0 0 0 1px #ffffffc0, 0 12px 30px #0000001a', radius: 34,
 };
+
+export const settingsTheme = {
+  backdrop: '#858585', transparent: '#ffffff00', surface: '#f4f6f9', front: '#f6f8fa', back: '#d8dadd', handle: '#d9dce1',
+  title: '#111111', ink: '#090909', section: '#929aa8', icon: '#969eaa', value: '#7f899a', chevron: '#c1c6ce', note: '#8791a2', border: '#eff0f2',
+  stepShadow: '0 3px 12px #25354c12', description: '#7e899c', field: '#d8dce1', pencil: '#c0c5ce',
+  formDisabled: '#9fbff2', formDisabledInk: '#ffffffa6', blue: '#4384f4', dim: '#00000021', dark: '#17191a',
+  buttonShadow: '0 12px 25px #16202a0a', stackRadius: 44, formRadius: 44,
+};
+
+export const dailyGoalTheme = {
+  round: '#ffffffbd', disabled: '#a2c2f1', separator: '#f0f1f3', value: '#80899a', off: '#ffffffc0',
+  wheelHighlight: '#f5f5f5', wheelFade: '#ffffff00', toast: '#57bf6c', toastShadow: '0 2px 9px #0002',
+};
+
+export const reminderTheme = {
+  close: '#e9edf0', stepper: '#f4f4f5', separator: '#e0e0e4', alertDim: 'rgba(0,0,0,.2)',
+  alertSurface: 'rgba(246,249,249,.73)', alertInk: '#636a6c', cancel: '#c5c8c7', proceed: '#0085ff',
+  alertShadow: 'inset 0 0 0 1px #ffffffcc,0 12px 30px #0000001a', alertRadius: 35.8557,
+};
+
+export const estimatedTheme = {
+  learn: '#e2ebfa', blue: '#2682ff', section: '#949eae', dateInk: '#778398', border: '#d7dce3', selected: '#0085ff',
+  value: '#7b879d', hint: '#7d899e', toast: '#5fc772', toastShadow: '0 12px 24px #0000001a',
+  buttonShadow: '0 8px 20px #0000000a',
+};
+
+export const shareDevicesTheme = {
+  top: '#f9f9f9', bottom: '#f8fafb', ink: '#090a0c', setting: '#f2f2f7', border: '#dedfe4', copy: '#898a90', number: '#c5c9d0',
+  closeShadow: '0 10px 25px #00000006',
+};

@@ -37,6 +37,7 @@ export const sessionIcons = [
   { id: 'face-32', glyph: "🫣", label: "🫣", keywords: " smile face улыбка лицо смех", image: require('../../assets/art/session/emoji/picker-emoji-32.png') },
   { id: 'face-33', glyph: "🤫", label: "🤫", keywords: "face with finger covering closed lips smile face улыбка лицо смех", image: require('../../assets/art/session/emoji/picker-emoji-33.png') },
   { id: 'face-34', glyph: "🤔", label: "🤔", keywords: "thinking face smile face улыбка лицо смех", image: require('../../assets/art/session/emoji/picker-emoji-34.png') },
+  { id: 'magnifier', glyph: '🔎', label: 'Лупа', keywords: 'magnifier search inspiration лупа вдохновение', image: art.reflectionInspiration },
   { id: 'brain', glyph: '🧠', label: 'Мозг', keywords: 'brain mind мозг фокус', image: require('../../assets/art/session/emoji/picker-emoji-brain.png') },
 ] as const;
 export type SessionIconId = typeof sessionIcons[number]['id'];

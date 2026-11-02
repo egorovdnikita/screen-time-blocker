@@ -1,3 +1,4 @@
+import { ScreenTimeSettings } from '../settings/ScreenTimeSettings';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRef, useEffect, useState, type ComponentRef } from 'react';
@@ -43,6 +44,7 @@ export function HomeScreen() {
   const [menuAnchor, setMenuAnchor] = useState<Anchor | null>(null);
   const [insight, setInsight] = useState<'glued' | 'offline' | null>(null);
   const [demoOpen, setDemoOpen] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
 
   // Страница героя: 0 — экранное время, 1 — качество. Свайп плавно меняет содержимое карточки.
   const [pageX] = useState(() => new Animated.Value(0));
@@ -99,6 +101,7 @@ export function HomeScreen() {
               iconWidth={20}
               iconHeight={7}
               accessibilityLabel="Ещё"
+              onPress={() => setSettingsOpen(true)}
               onLongPress={() => setDemoOpen(true)}
             />
           </View>
@@ -186,6 +189,7 @@ export function HomeScreen() {
         }}
       />
       <InsightSheet kind={insight} onClose={() => setInsight(null)} />
+      {settingsOpen && <ScreenTimeSettings onClose={() => setSettingsOpen(false)} />}
       <DemoMenu visible={demoOpen} onClose={() => setDemoOpen(false)} />
     </View>
   );
@@ -200,7 +204,7 @@ function ScreenTimePage({ day, width }: { day: Day; width: number }) {
       <T size={74.25} ls={-2} color={colors.white} onSky numberOfLines={1} adjustsFontSizeToFit style={styles.num}>
         {day.screenTime}
       </T>
-      <Glass radius={radii.pill} style={styles.goal}>
+      {day.goal.enabled !== false && <Glass radius={radii.pill} style={styles.goal}>
         <LinearGradient
           colors={[colors.goalGreen, colors.goalGreen, 'rgba(0, 195, 80, 0)']}
           locations={[0, 0.55, 1]}
@@ -212,7 +216,7 @@ function ScreenTimePage({ day, width }: { day: Day; width: number }) {
         <T size={17.25} color={colors.white} onSky>
           {day.goal.text}
         </T>
-      </Glass>
+      </Glass>}
     </View>
   );
 }
