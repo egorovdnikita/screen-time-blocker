@@ -1,3 +1,5 @@
+import { SessionDetails, LimitDetails } from './SessionDetails';
+import { AppUnlockSheet } from '../unlocking/AppUnlockSheet';
 import { routineHabits } from '@/data/routine';
 import { router } from 'expo-router';
 import { lockApp } from '@/data/lockRule';
@@ -35,7 +37,7 @@ import { START_BUTTON_HEIGHT } from '@/components/StartButton';
 import { TAB_BAR_HEIGHT, TAB_BAR_SIDE } from '@/components/TabBar';
 import { useDarkStatusBar } from '@/components/useStatusBar';
 import { art } from '@/data/art';
-import { activeLabel, rulesVariants, type LimitRule, type LockRule, type RoutineRule, type Meta, type SessionRule, type Status } from '@/data/rules';
+import { activeRuleCount, activeLabel, rulesVariants, type LimitRule, type LockRule, type RoutineRule, type Meta, type SessionRule, type Status } from '@/data/rules';
 import { useAppState } from '@/state/app';
 import { T, TRACK_SMALL, type TProps } from '@/theme/typography';
 import { colors, insetBorder, radii, shadows } from '@/theme/tokens';
@@ -47,7 +49,7 @@ export function RulesScreen() {
   const top = Math.max(insets.top, 20);
   const app = useAppState();
   const base = rulesVariants[app.rulesVariant];
-  const data = { ...base, locks: [...app.createdLocks, ...base.locks], limits: [...app.createdLimits, ...base.limits], routines: [...app.createdRoutines, ...base.routines], sessions: [...app.createdSessions, ...base.sessions], active: base.active + app.createdRoutines.length + app.createdLimits.length + app.createdLocks.length + app.createdSessions.filter(s => s.status.kind === 'blocking').length };
+  const data = { ...base, locks: [...app.createdLocks, ...base.locks], limits: [...app.createdLimits, ...base.limits], routines: [...app.createdRoutines, ...base.routines], sessions: [...app.createdSessions, ...base.sessions], active: activeRuleCount(base, app) };
   const [demoOpen, setDemoOpen] = useState(false);
   const scrollRef = useRef<ComponentRef<typeof ScrollView>>(null);
   const templatesTop = useRef(0);
@@ -177,6 +179,14 @@ export function RulesScreen() {
 // ——— Карточки ———
 
 function LockCard({ rule }: { rule: LockRule }) {
+  const app = useAppState();
+  const [open, setOpen] = useState(false);
+  const [now, setNow] = useState(Date.now);
+  const entry = app.appUnlocks[rule.id];
+  useEffect(() => { if (!entry || entry.until <= Date.now()) return; const timer = setInterval(() => { const time = Date.now(); setNow(time); if (time >= entry.until) clearInterval(timer); }, 500); return () => clearInterval(timer); }, [entry]);
+  const remaining = Math.max(0, Math.ceil(((entry?.until ?? 0) - now) / 1000));
+  const count = rule.count ?? (Number(rule.unlocks.match(/\d+/)?.[0]) || 3), available = Math.max(0, count - (entry?.used ?? 0));
+  const supported = !rule.unlockSettings || ['wait', 'reason', 'none'].includes(rule.unlockSettings.unlockMethod);
   return (
     <RuleCard style={styles.blockCard}>
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -188,17 +198,16 @@ function LockCard({ rule }: { rule: LockRule }) {
         style={{ width: 52, height: 58, marginLeft: -5.2, marginTop: 10.3 }}
       />
       <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 2.3 }}>
-        <Icon name="shield-check" width={19} height={20} color={colors.blocking} style={{ marginRight: 5.8 }} />
+        <Icon name={remaining ? "rule-unlocked-shield" : "shield-check"} width={19} height={20} color={colors.blocking} style={{ marginRight: 5.8 }} />
         <T size={15.25} numberOfLines={1} style={{ flexShrink: 1 }}>
           {rule.name}
         </T>
       </View>
-      <PressScale style={styles.unlock}>
-        <T size={14.25}>Открыть</T>
-        <T size={10} weight={500} color={colors.unlockCount} style={{ marginLeft: 5, marginTop: 2 }}>
-          {rule.unlocks}
-        </T>
+      <PressScale accessibilityRole="button" accessibilityLabel={`Открыть ${rule.name}`} disabled={remaining > 0 || !available || !supported} accessibilityState={{ disabled: remaining > 0 || !available || !supported }} onPress={() => setOpen(true)} style={styles.unlock}>
+        <T size={14.25}>{remaining ? `${String(Math.floor(remaining / 60)).padStart(2, '0')}:${String(remaining % 60).padStart(2, '0')}` : 'Открыть'}</T>
+        {!remaining && <T size={10} weight={500} color={colors.unlockCount} style={{ marginLeft: 5, marginTop: 2 }}>({available}/{count})</T>}
       </PressScale>
+      {open && <AppUnlockSheet rule={rule} onCancel={() => setOpen(false)} onConfirm={(minutes, reason) => { setNow(Date.now()); app.grantAppUnlock(rule.id, minutes, reason, rule.unlockSettings?.unlockMethod === 'reason'); setOpen(false); }} />}
     </RuleCard>
   );
 }
@@ -228,11 +237,15 @@ const sessionEmoji = {
 };
 
 function SessionCard({ rule }: { rule: SessionRule }) {
+  const app = useAppState();
+  const [details, setDetails] = useState(false);
+  const title = app.ruleChanges[rule.id]?.title ?? rule.title;
+  const status: Status = app.pausedSessions[rule.id] ? { kind: 'paused' } : rule.status.kind === 'blocking' ? { ...rule.status, strict: app.ruleChanges[rule.id]?.strict ?? rule.strict ?? rule.status.strict } : rule.status;
   return (
     <RuleCard style={[styles.wideCard, styles.cardGap]}>
-      <RuleHeader emoji={rule.iconId ? <SessionIcon id={rule.iconId} width={23} height={25} /> : sessionEmoji[rule.emoji]} title={rule.title} streak={1} />
+      <RuleHeader emoji={rule.iconId ? <SessionIcon id={rule.iconId} width={23} height={25} /> : sessionEmoji[rule.emoji]} title={title} streak={1} onPress={() => setDetails(true)} />
       <View style={[styles.metaRow, { marginTop: 11 }]}>
-        <StatusPill status={rule.status} />
+        <StatusPill status={status} />
         <MetaView meta={rule.meta} />
       </View>
       <View style={[styles.bottomRow, { marginTop: 17 }]}>
@@ -249,11 +262,15 @@ function SessionCard({ rule }: { rule: SessionRule }) {
           </PressScale>
         )}
       </View>
+      {details && <SessionDetails rule={rule} onClose={() => setDetails(false)} />}
     </RuleCard>
   );
 }
 
 function LimitCard({ rule }: { rule: LimitRule }) {
+  const app = useAppState();
+  const [details, setDetails] = useState(false);
+  const title = app.ruleChanges[rule.id]?.title ?? rule.title;
   return (
     <RuleCard style={[styles.wideCard, { marginTop: 10, paddingBottom: rule.progress === null ? 17 : 18.3 }]}>
       <RuleHeader
@@ -264,7 +281,9 @@ function LimitCard({ rule }: { rule: LimitRule }) {
             <Image source={art.emojiLimitHourglass} style={{ width: 24, height: 28 }} />
           )
         }
-        title={rule.title}
+        title={title}
+        onPress={() => setDetails(true)}
+        accessibilityLabel={`Подробности лимита ${title}`}
         streak={1}
       />
       <View style={[styles.metaRow, { marginTop: 10.6 }]}>
@@ -280,6 +299,7 @@ function LimitCard({ rule }: { rule: LimitRule }) {
         </T>
       </View>
       {rule.progress !== null && <Progress value={rule.progress} />}
+      {details && <LimitDetails rule={rule} onClose={() => setDetails(false)} />}
     </RuleCard>
   );
 }
@@ -325,6 +345,7 @@ function RoutineCard({ rule }: { rule: RoutineRule }) {
 }
 
 function StatusPill({ status, blockingText = 'Блокирует' }: { status: Status; blockingText?: string }) {
+  if (status.kind === 'paused') return <View style={styles.upcoming}><Icon name="snoozed" width={13.5} height={11.5} color={colors.meta} style={{ marginRight: 2.7 }} /><T size={12} weight={600} color={colors.meta}>На паузе</T></View>;
   if (status.kind === 'blocking') {
     return (
       <View style={styles.blockingPill}>

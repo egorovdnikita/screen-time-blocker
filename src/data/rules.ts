@@ -8,6 +8,7 @@ import type { RulesVariant } from '@/state/app';
 // Варианты экрана «Правила» из макетов (03-creating-an-account, 17/19/20-creating-a-rule, 37-rules).
 
 export type Status =
+  | { kind: 'paused' }
   | { kind: 'upcoming'; text?: string }
   | { kind: 'ongoing' }
   | { kind: 'blocking'; strict?: boolean };
@@ -18,7 +19,9 @@ export type Meta =
 
 export type LockRule = { id: string; app: string; name: string; unlocks: string; count?: number; minutes?: number; strict?: boolean; strictSettings?: StrictSettings; unlockSettings?: UnlockSettings };
 
+export type RuleDetailChanges = { title: string; strict: boolean; strictSettings: StrictSettings };
 export type SessionRule = {
+  strict?: boolean;
   selectedApps?: boolean[];
   appGroup?: AppGroupDraft;
   unlockMinutes?: number;
@@ -83,6 +86,7 @@ const limitAllDay: LimitRule = {
 const routine: RoutineRule = { id: 'routine', title: 'Рутина' };
 
 export const rulesVariants: Record<RulesVariant, RulesData> = {
+  reason: { active: 3, locks: [{ id: 'music', app: 'apple-music', name: 'Apple Music', unlocks: '(3/3)', unlockSettings: { unlockMethod: 'reason', waitAutomatic: true, waitSeconds: 3, copyText: '', scanType: 'qr' } }], sessions: [workHours], limits: [limitAllDay], routines: [routine], templates: 'classic' },
   // 37-rules__01
   full: {
     active: 3,
@@ -185,3 +189,10 @@ export const activeLabel = (n: number) => {
   if (mod10 === 1 && mod100 !== 11) return `${n} активное`;
   return `${n} активных`;
 };
+
+// Один счётчик для заголовка Правил и таббара, включая приостановленные сессии.
+export function activeRuleCount(base: RulesData, state: { createdRoutines: readonly RoutineRule[]; createdLimits: readonly LimitRule[]; createdLocks: readonly LockRule[]; createdSessions: readonly SessionRule[]; pausedSessions: Readonly<Record<string, 'next' | 'manual'>> }) {
+  const pausedBase = base.sessions.filter(rule => rule.status.kind === 'blocking' && state.pausedSessions[rule.id]).length;
+  const activeSessions = state.createdSessions.filter(rule => rule.status.kind === 'blocking' && !state.pausedSessions[rule.id]).length;
+  return Math.max(0, base.active - pausedBase) + state.createdRoutines.length + state.createdLimits.length + state.createdLocks.length + activeSessions;
+}

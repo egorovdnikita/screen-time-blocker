@@ -31,7 +31,7 @@ const CARD_H = 261.333;
 export function HomeScreen() {
   const insets = useSafeAreaInsets();
   const { width } = useWindowDimensions();
-  const onScroll = useSkyStatusBar();
+  const { onScroll, restore: restoreStatusBar } = useSkyStatusBar();
   const bottomSpace = useBottomSpace(true);
   const top = Math.max(insets.top, 20);
   const app = useAppState();
@@ -189,7 +189,7 @@ export function HomeScreen() {
         }}
       />
       <InsightSheet kind={insight} onClose={() => setInsight(null)} />
-      {settingsOpen && <ScreenTimeSettings onClose={() => setSettingsOpen(false)} />}
+      {settingsOpen && <ScreenTimeSettings onClose={() => { setSettingsOpen(false); requestAnimationFrame(restoreStatusBar); }} />}
       <DemoMenu visible={demoOpen} onClose={() => setDemoOpen(false)} />
     </View>
   );

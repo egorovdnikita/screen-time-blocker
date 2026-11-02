@@ -24,7 +24,8 @@ export function useSkyStatusBar(threshold = 280) {
     [threshold],
   );
 
-  return onScroll;
+  const restore = useCallback(() => setStatusBarStyle(dark.current ? 'dark' : 'light', true), []);
+  return { onScroll, restore };
 }
 
 export function useDarkStatusBar() {

@@ -16,6 +16,7 @@ const SCENARIOS: { id: Scenario; title: string; hint: string }[] = [
 
 const RULES: { id: RulesVariant; title: string }[] = [
   { id: 'full', title: 'Все правила' },
+  { id: 'reason', title: 'Открытие: указать причину' },
   { id: 'first', title: 'Первое правило' },
   { id: 'sessions', title: 'Две сессии' },
   { id: 'locks', title: 'Блокировки и сессии' },
@@ -83,7 +84,7 @@ export function DemoMenu({ visible, onClose }: { visible: boolean; onClose: () =
 
 function Row({ title, hint, selected, onPress }: { title: string; hint?: string; selected: boolean; onPress: () => void }) {
   return (
-    <Pressable onPress={onPress} style={({ pressed }) => [styles.row, selected && styles.rowOn, pressed && { opacity: 0.6 }]}>
+    <Pressable accessibilityRole="button" onPress={onPress} style={({ pressed }) => [styles.row, selected && styles.rowOn, pressed && { opacity: 0.6 }]}>
       <View style={{ flex: 1 }}>
         <T size={15.25} color={selected ? colors.bar : colors.text}>
           {title}

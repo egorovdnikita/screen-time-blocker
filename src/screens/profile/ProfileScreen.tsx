@@ -17,7 +17,7 @@ const SKY_RATIO = 2556 / 1179;
 export function ProfileScreen() {
   const insets = useSafeAreaInsets();
   const { width } = useWindowDimensions();
-  const onScroll = useSkyStatusBar();
+  const { onScroll } = useSkyStatusBar();
   const bottomSpace = useBottomSpace(false);
   const top = Math.max(insets.top, 20);
 

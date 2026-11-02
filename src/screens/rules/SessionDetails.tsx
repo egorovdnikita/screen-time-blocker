@@ -1,0 +1,71 @@
+import { GlassDialog } from '@/components/GlassDialog';
+import { AppsCount } from '@/components/Rule';
+import { daysLabel } from '@/data/timeLimit';
+import { goalTimeLabel } from '@/data/dailyGoal';
+import { AppGroupSummary } from '@/components/AppGroupSummary';
+import { SessionIcon } from '@/components/SessionIcon';
+import { BlurView } from 'expo-blur';
+import { Image } from 'expo-image';
+import { LinearGradient } from 'expo-linear-gradient';
+import { useState } from 'react';
+import { Platform, Pressable, StyleSheet, TextInput, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Icon } from '@/components/Icon';
+import { FadeIn, PressScale } from '@/components/motion';
+import { SheetModal } from '@/components/SheetModal';
+import { SessionApps } from '@/components/SessionPrimitives';
+import { StrictModeRow } from '@/components/StrictModeRow';
+import { art } from '@/data/art';
+import { unlockMethodLabel } from '@/data/session';
+import type { SessionRule, LimitRule } from '@/data/rules';
+import { useAppState } from '@/state/app';
+import { T, rounded } from '@/theme/typography';
+import { colors, refreshAlertTheme as a, ruleDetailTheme as c } from '@/theme/tokens';
+import { StrictSettingsSheet } from '../session/StrictSettingsSheet';
+
+export function SessionDetails(props: { rule: SessionRule; onClose: () => void }) { return <RuleDetails {...props} />; }
+export function LimitDetails({ rule, onClose }: { rule: LimitRule; onClose: () => void }) {
+  const adapter: SessionRule = { id: rule.id, title: rule.title, emoji: 'zap', status: rule.status, meta: rule.meta, apps: 'first-rule', strict: rule.configuration?.strict, strictSettings: rule.configuration, unlockSettings: rule.configuration };
+  return <RuleDetails rule={adapter} limit={rule} onClose={onClose} />;
+}
+function RuleDetails({ rule, limit, onClose }: { rule: SessionRule; limit?: LimitRule; onClose: () => void }) {
+  const app = useAppState();
+  const previous = app.ruleChanges[rule.id];
+  const [title, setTitle] = useState(previous?.title ?? rule.title);
+  const [strict, setStrict] = useState(previous?.strict ?? rule.strict ?? (rule.status.kind === 'blocking' && !!rule.status.strict));
+  const sourceSettings = previous?.strictSettings ?? rule.strictSettings;
+  const baselineSettings = { strictScope: sourceSettings?.strictScope ?? ('session' as const), strictDays: sourceSettings?.strictDays ?? 1 };
+  const [settings, setSettings] = useState(baselineSettings);
+  const [nameFocused, setNameFocused] = useState(false);
+  const [strictOpen, setStrictOpen] = useState(false);
+  const [menu, setMenu] = useState(false);
+  const [refreshAlert, setRefreshAlert] = useState(false);
+  const insets = useSafeAreaInsets();
+  const savedStrict = previous?.strict ?? rule.strict ?? (rule.status.kind === 'blocking' && !!rule.status.strict);
+  const locked = savedStrict && (rule.status.kind === 'blocking' || limit?.status.kind === 'ongoing' || (previous?.strictSettings ?? rule.strictSettings)?.strictScope === 'days');
+  const paused = !!app.pausedSessions[rule.id];
+  const changed = title.trim() !== (previous?.title ?? rule.title) || strict !== (previous?.strict ?? rule.strict ?? (rule.status.kind === 'blocking' && !!rule.status.strict)) || JSON.stringify(settings) !== JSON.stringify(baselineSettings);
+  const save = () => { if (!title.trim()) return; app.saveRuleDetails(rule.id, { title: title.trim(), strict, strictSettings: { ...settings } }); onClose(); };
+  const snooze = (mode: 'next' | 'manual') => { app.pauseSession(rule.id, mode); onClose(); };
+  return <SheetModal onClose={() => menu ? setMenu(false) : onClose()} backdrop={<Pressable accessibilityLabel={limit ? "Закрыть детали лимита" : "Закрыть детали сессии"} onPress={onClose} style={[StyleSheet.absoluteFill, { backgroundColor: c.backdrop }]} />}>
+    <View accessibilityViewIsModal style={{ flex: 1, marginTop: Math.max(59, insets.top), borderRadius: 44, backgroundColor: c.surface, overflow: 'hidden' }}>
+      <View style={[styles.header, limit && { height: 257 }]}><PressScale accessibilityRole="button" accessibilityLabel={limit ? "Отменить изменения лимита" : "Отменить изменения сессии"} onPress={onClose} style={[styles.round, { left: 20, backgroundColor: c.close, boxShadow: c.closeShadow }]}><Icon name="reflection-close" width={18} height={18} style={{ transform: [{ translateX: -1 }, { translateY: .333 }] }} /></PressScale><PressScale accessibilityRole="button" accessibilityLabel={limit ? "Сохранить изменения лимита" : "Сохранить изменения сессии"} disabled={locked || !changed || !title.trim()} accessibilityState={{ disabled: locked || !changed || !title.trim() }} onPress={save} style={[styles.round, { right: 20, backgroundColor: changed ? c.blue : c.disabled }]}><Icon name="audited-editor-check" width={28} height={29} style={{ opacity: changed ? 1 : .49 }} /></PressScale>
+        <View style={{ position: 'absolute', top: limit ? 106 : 111, width: limit ? 44 : 53, height: limit ? 56 : 55, alignSelf: 'center' }}>{limit ? <Image source={art.ruleDetailHourglass} contentFit="contain" style={{ width: 44, height: 56 }} /> : rule.iconId ? <SessionIcon id={rule.iconId} width={53} height={55} /> : <Image source={rule.emoji === 'briefcase' ? art.emojiBriefcase : rule.emoji === 'zap' ? art.emojiZap : art.ruleDetailLaptop} contentFit="contain" style={{ width: 53, height: 55 }} />}</View>
+        {nameFocused ? <TextInput accessibilityLabel={limit ? "Название существующего лимита" : "Название существующей сессии"} autoFocus value={title} onChangeText={setTitle} onBlur={() => setNameFocused(false)} returnKeyType="done" onSubmitEditing={() => setNameFocused(false)} maxLength={80} style={[styles.nameInput, limit && { top: 178 }]} /> : <PressScale accessibilityRole="button" accessibilityLabel={limit ? "Переименовать существующий лимит" : "Переименовать существующую сессию"} disabled={locked} accessibilityState={{ disabled: locked }} onPress={() => setNameFocused(true)} style={[styles.name, limit && { top: 178 }]}><T size={27} ls={-.3} numberOfLines={1} style={{ flexShrink: 1 }}>{title}</T><Icon name="pencil" width={16} height={18} style={{ opacity: .22 }} /></PressScale>}
+        <T size={13} weight={400} color={c.muted} center ls={0} style={{ position: 'absolute', top: limit ? 220 : 224, left: 10, right: 10, lineHeight: 18 }}>{paused ? 'На паузе. ' : rule.status.kind === 'blocking' ? 'Активно. ' : 'Не активно. '}<T size={13} weight={600} color={c.muted} ls={0}>{paused || rule.status.kind !== 'blocking' ? 'Приложения доступны.' : 'Приложения заблокированы.'}</T></T>
+      </View>
+      <View style={[styles.rows, limit && { top: 279 }]}>{(limit ? [
+        { title: 'Блокировать', value: <AppsCount count={limit.appCount ?? 1} /> },
+        { title: 'После', value: `${limit.configuration ? goalTimeLabel(limit.configuration.minutes) : limit.value.split('/')[1]?.trim() ?? '2ч15'}  |  В приложениях` },
+        { title: 'Активно', value: limit.configuration ? daysLabel(limit.configuration.days) : limit.meta.kind === 'schedule' ? limit.meta.days ?? 'Каждый день' : 'Каждый день' },
+        { title: 'Доп. входы', value: `${limit.configuration?.unlocks ?? 2} | ${unlockMethodLabel[limit.configuration?.unlockMethod ?? 'wait']}` },
+        { title: 'Уведомлять', value: !limit.configuration || limit.configuration.notifyBefore || limit.configuration.notifyEvery ? 'Да' : 'Нет' },
+      ] : [{ title: 'Блокировать', value: rule.appGroup ? <AppGroupSummary group={rule.appGroup} /> : <SessionApps selected={rule.selectedApps} style={{ width: 55, height: 31 }} /> }, { title: 'Активно', value: rule.meta.kind === 'schedule' ? `${rule.meta.time.replaceAll(' ', '')}  |  ${rule.meta.days ?? 'Каждый день'}` : rule.meta.text }, { title: 'Входы', value: `${rule.unlock?.match(/\d+/)?.[0] ?? (rule.id === 'work' ? '3' : '0')} | ${unlockMethodLabel[rule.unlockSettings?.unlockMethod ?? 'wait']}` }]).map(item => <View key={item.title} accessibilityState={{ disabled: true }} style={styles.row}><Icon name="chevron-down-section" width={11} height={8} color={c.chevron} /><T size={14.25} weight={600} color={c.muted} ls={0}>{item.title}</T><View style={{ marginLeft: 'auto' }}>{typeof item.value === 'string' ? <T size={13} weight={400} ls={0}>{item.value}</T> : item.value}</View></View>)}</View>
+      <StrictModeRow disabled={locked} value={strict} description="Без изменения и удаления" onOpen={() => setStrictOpen(true)} onChange={value => value ? setStrictOpen(true) : setStrict(false)} style={{ position: 'absolute', left: 25, right: 22, bottom: Math.max(103, insets.bottom + 69), height: 33 }} />
+      <View style={[styles.actions, { bottom: Math.max(37, insets.bottom + 3) }]}><PressScale accessibilityRole="button" accessibilityLabel={limit ? 'Обновить данные лимита' : paused ? 'Возобновить сессию' : 'Приостановить сессию'} disabled={!limit && locked} accessibilityState={{ disabled: !limit && locked }} onPress={() => limit ? setRefreshAlert(true) : paused ? (app.resumeSession(rule.id), onClose()) : setMenu(true)} style={[styles.action, { backgroundColor: c.snooze }]}><Icon name={limit ? "rule-detail-refresh" : "rule-detail-snooze"} width={14} height={17} /><T size={14.25} color={c.blue} ls={0}>{limit ? 'Обновить' : paused ? 'Включить' : 'Отложить'}</T></PressScale><View accessibilityState={{ disabled: true }} style={[styles.action, { backgroundColor: c.remove }]}><Icon name="rule-detail-trash" width={14} height={17} /><T size={14.25} color={c.orange} ls={0}>Удалить</T></View></View>
+      <View pointerEvents="none" style={styles.handle} />
+      {menu && <><Pressable accessibilityLabel="Закрыть меню приостановки" onPress={() => setMenu(false)} style={StyleSheet.absoluteFill} /><FadeIn from={0} style={[styles.menu, { bottom: Math.max(37, insets.bottom + 3) }]}><BlurView pointerEvents="none" intensity={Platform.OS === 'web' ? 80 : 16} tint="default" style={StyleSheet.absoluteFill} /><LinearGradient colors={[c.menuTop, c.menuBottom]} style={StyleSheet.absoluteFill} /><T size={12} weight={400} color={c.menuCaption} ls={0} style={{ lineHeight: 18, marginBottom: 8 }}>Отключить правило…</T><PressScale accessibilityRole="button" accessibilityLabel="Приостановить следующий запуск" onPress={() => snooze('next')} style={styles.menuRow}><Icon name="rule-next-occurrence" width={18} height={23} /><T size={15} weight={400} ls={0}>На следующий запуск</T></PressScale><PressScale accessibilityRole="button" accessibilityLabel="Приостановить до включения вручную" onPress={() => snooze('manual')} style={styles.menuRow}><Icon name="rule-reactivate" width={18} height={23} /><T size={15} weight={400} ls={0}>До включения вручную</T></PressScale></FadeIn></>}
+    </View>{refreshAlert && <GlassDialog title="Важно" name="обновление данных лимита" cancelAccessibilityLabel="Отмена обновления данных лимита" height={293} top={293} radius={a.radius} blur={4} surface={a.surface} confirmColor={a.button} cancelColor={a.button} titleWeight={700} buttonWeight={400} fontVariant="rounded" confirmInk={colors.black} titleSize={16} titleTop={20} titleSide={29} buttonSide={15} buttonBottom={16} buttonRadius={28} onCancel={() => setRefreshAlert(false)} onConfirm={() => { app.showRuleRefreshDemo(); onClose(); }}><T size={14} weight={400} color={a.ink} ls={0} style={{ position: 'absolute', top: 67, left: 29, right: 29, lineHeight: 20 }}>{'Обновление пересчитает время\nза сегодня, но не сбросит его\nдо нуля!'}</T><T size={14} weight={400} color={a.ink} ls={0} style={{ position: 'absolute', top: 147, left: 29, right: 29, lineHeight: 20 }}>{'💡 Частые ошибки? Правила → ?\n→ Другие настройки → отключите\n«Учёт в реальном времени».'}</T></GlassDialog>}{strictOpen && <StrictSettingsSheet value={settings} onCancel={() => setStrictOpen(false)} onActivate={value => { setSettings(value); setStrict(true); setStrictOpen(false); }} />}
+  </SheetModal>;
+}
+const styles = StyleSheet.create({ header: { height: 261, backgroundColor: colors.white, borderBottomWidth: 1, borderBottomColor: c.headerLine }, round: { position: 'absolute', top: 45, width: 44, height: 44, borderRadius: 22, alignItems: 'center', justifyContent: 'center' }, name: { position: 'absolute', top: 182, left: 20, right: 20, height: 33, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8 }, nameInput: { position: 'absolute', top: 182, left: 20, right: 20, height: 33, padding: 0, fontSize: 27, fontFamily: rounded, fontWeight: '700', textAlign: 'center', outlineWidth: 0 }, rows: { position: 'absolute', top: 283, left: 20, right: 20, gap: 12 }, row: { height: 60, borderRadius: 24, backgroundColor: colors.white, boxShadow: c.rowShadow, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, gap: 9 }, actions: { position: 'absolute', left: 20, right: 20, height: 42, flexDirection: 'row', gap: 8 }, action: { flex: 1, borderRadius: 24, borderWidth: 1, borderColor: colors.white, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 4 }, handle: { position: 'absolute', top: 12, width: 63, height: 5, borderRadius: 3, alignSelf: 'center', backgroundColor: c.handle }, menu: { position: 'absolute', left: 20, width: 250, height: 132, borderRadius: 34, borderWidth: 1, borderColor: c.menuBorder, boxShadow: c.menuShadow, overflow: 'hidden', paddingVertical: 10, paddingHorizontal: 26 }, menuRow: { height: 42, flexDirection: 'row', alignItems: 'center', gap: 16 } });

@@ -1,5 +1,7 @@
 // Растр из макетов (@3x).
 export const art = {
+  ruleDetailHourglass: require('../../assets/art/rule-detail/hourglass.png'),
+  ruleDetailLaptop: require('../../assets/art/rule-detail/laptop.png'),
   settingsHeader: require('../../assets/art/settings/header.png'),
   activityNew: require('../../assets/art/settings/activity-new.png'),
   reflectionInspiration: require('../../assets/art/settings/inspiration.png'),

@@ -1,7 +1,7 @@
 import { DarkButtonSurface } from '@/components/DarkButtonSurface';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
+import { useDarkStatusBar } from '@/components/useStatusBar';
 import { ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Icon } from '@/components/Icon';
@@ -12,11 +12,12 @@ import { T } from '@/theme/typography';
 import { colors, settingsTheme as c, shareDevicesTheme as g } from '@/theme/tokens';
 
 export function ShareDevicesGuide() {
+  useDarkStatusBar();
   const app = useAppState();
   const { height } = useWindowDimensions();
   const insets = useSafeAreaInsets();
   const finish = () => { app.markShareGuideSeen(); router.replace('/(tabs)/rules'); };
-  return <View style={{ flex: 1 }}><StatusBar style="dark" animated /><LinearGradient colors={[g.top, g.bottom]} style={StyleSheet.absoluteFill} /><ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ minHeight: Math.max(852, height) }}>
+  return <View style={{ flex: 1 }}><LinearGradient colors={[g.top, g.bottom]} style={StyleSheet.absoluteFill} /><ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ minHeight: Math.max(852, height) }}>
     <PressScale accessibilityRole="button" accessibilityLabel="Пропустить инструкцию общего доступа" onPress={finish} style={[styles.close, { top: Math.max(79, insets.top + 20) }]}><Icon name="reflection-close" width={18} height={18} /></PressScale>
     <T size={27} color={g.ink} ls={-.4} style={{ marginTop: 157, marginHorizontal: 20, lineHeight: 33 }}>{'Выключите общий доступ\nв Экранном времени'}</T>
     <T size={14} weight={400} color={g.ink} ls={0} style={{ marginTop: 7, marginHorizontal: 20, lineHeight: 17 }}>{'Block нужна эта настройка для учёта времени. '}<T size={14} color={g.ink} ls={0}>Нет других устройств Apple? Пропустите шаг.</T></T>

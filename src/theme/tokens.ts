@@ -318,3 +318,20 @@ export const shareDevicesTheme = {
   top: '#f9f9f9', bottom: '#f8fafb', ink: '#090a0c', setting: '#f2f2f7', border: '#dedfe4', copy: '#898a90', number: '#c5c9d0',
   closeShadow: '0 10px 25px #00000006',
 };
+
+export const appUnlockTheme = {
+  backdrop: '#777679', surface: '#f8fafb', handle: '#d9dcdf', badge: '#ffffffbf',
+  blueTop: '#3085fe', blueBottom: '#0266f6', blueRim: '#91bff1', green: '#15c666', greenRim: '#72dfa0',
+  blueShadow: '0 18px 40px #2781f233', greenShadow: '0 18px 40px #18bf6330',
+  badgeShadow: '0 10px 22px #2029380a', actionShadow: '0 12px 25px #16202a0a',
+  placeholder: '#ffffff4d', success: '#ffffff33', successRim: 'inset 0 0 0 1.5px #ffffff38', action: '#ffffffd9', choiceInk: '#8792a3',
+};
+
+export const ruleDetailTheme = {
+  backdrop: '#777679', surface: '#f5f7f9', headerLine: '#eceef0', muted: '#7d8797', chevron: '#c8cdd3', handle: '#e5e6e8',
+  close: '#fdfdfd', closeShadow: 'inset 0 0 0 .667px #ffffffb3,0 8px 30.091px #00000017', disabled: '#a2bff5',
+  rowShadow: '0 1px 2px #00000014', snooze: '#e9f1fc', blue: '#4384f4', remove: '#f8dccf', orange: '#f76524',
+  menuTop: '#fcfcfce8', menuBottom: '#fcfcfca8', menuBorder: '#ffffffbf', menuShadow: '0 12px 30px #20293820', menuCaption: '#88888c',
+};
+
+export const refreshAlertTheme = { surface: '#f9f9f9bd', ink: '#85858a', button: '#d0d0d0', radius: 31.623 };

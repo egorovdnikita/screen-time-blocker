@@ -3,7 +3,7 @@ import type { BottomTabBarProps } from 'expo-router/js-tabs';
 import { useEffect, useState } from 'react';
 import { Platform, Animated, Pressable, StyleSheet, View } from 'react-native';
 
-import { rulesVariants } from '@/data/rules';
+import { activeRuleCount, rulesVariants } from '@/data/rules';
 import { useAppState } from '@/state/app';
 import { T, TRACK_SMALL } from '@/theme/typography';
 import { colors, shadows } from '@/theme/tokens';
@@ -37,7 +37,7 @@ const LOCK_IDLE: Record<number, IconName> = { 0: 'tab-lock', 1: 'tab-lock', 2: '
 
 export function TabBar({ state, emitter, navigateToTab, insets }: BottomTabBarProps) {
   const app = useAppState();
-  const activeCount = rulesVariants[app.rulesVariant].active + app.createdRoutines.length + app.createdLimits.length + app.createdLocks.length + app.createdSessions.filter(s => s.status.kind === 'blocking').length;
+  const activeCount = activeRuleCount(rulesVariants[app.rulesVariant], app);
   const active = Math.min(3, activeCount);
   const [width, setWidth] = useState(0);
   const count = state.routes.length;

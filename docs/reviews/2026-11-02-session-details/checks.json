@@ -1,0 +1,11 @@
+{
+  "cancelMenu": true,
+  "next": true,
+  "resume": true,
+  "cancelEdit": true,
+  "rename": true,
+  "strict": true,
+  "manual": true,
+  "strictGuard": true,
+  "errors": []
+}

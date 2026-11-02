@@ -1,0 +1,14 @@
+{
+  "wait": true,
+  "cancel": true,
+  "countdown": true,
+  "reasonRequired": true,
+  "chooseTime": true,
+  "disabledDuration": true,
+  "notice": true,
+  "expiry": true,
+  "quota": true,
+  "profile": true,
+  "home": true,
+  "errors": []
+}

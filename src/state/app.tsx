@@ -5,18 +5,26 @@ import { activityCatalog, reflectionKey, type ActivityDefinition, type Reflectio
 import type { Habit } from '@/data/routine';
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 
-import type { LimitRule, LockRule, RoutineRule, SessionRule } from '@/data/rules';
+import type { LimitRule, LockRule, RoutineRule, SessionRule, RuleDetailChanges } from '@/data/rules';
 import { dayActive, dayFirst, dayJune24, dayToday, dayTodayRefreshed, dayYesterday, type Day } from '@/data/home';
 
 // Сценарии показывают все состояния из макетов. Переключаются в демо-меню (долгое нажатие на «⋯»).
 export type Scenario = 'regular' | 'active' | 'firstRun';
-export type RulesVariant = 'full' | 'sessions' | 'locks' | 'limits' | 'limitProgress' | 'first';
+export type RulesVariant = 'full' | 'sessions' | 'locks' | 'limits' | 'limitProgress' | 'first' | 'reason';
 export type PeriodId = 'today' | 'yesterday' | 'june-24';
 export type OnboardingStep = 'tip-first-rule' | 'tip-add-more' | 'done';
 
 const LOADING_MS = 1400;
 
 type AppState = {
+  showRuleRefreshDemo: () => void;
+  ruleChanges: Record<string, RuleDetailChanges>;
+  saveRuleDetails: (id: string, changes: RuleDetailChanges) => void;
+  pausedSessions: Record<string, 'next' | 'manual'>;
+  pauseSession: (id: string, mode: 'next' | 'manual') => void;
+  resumeSession: (id: string) => void;
+  appUnlocks: Record<string, { until: number; used: number; reason: string }>;
+  grantAppUnlock: (ruleId: string, minutes: number, reason: string, showNotice: boolean) => void;
   shareGuideSeen: boolean;
   markShareGuideSeen: () => void;
   estimatedMinutes: number;
@@ -80,6 +88,9 @@ type AppState = {
 const Ctx = createContext<AppState | null>(null);
 
 export function AppStateProvider({ children }: { children: ReactNode }) {
+  const [ruleChanges, setRuleChanges] = useState<Record<string, RuleDetailChanges>>({});
+  const [pausedSessions, setPausedSessions] = useState<Record<string, 'next' | 'manual'>>({});
+  const [appUnlocks, setAppUnlocks] = useState<Record<string, { until: number; used: number; reason: string }>>({});
   const [shareGuideSeen, setShareGuideSeen] = useState(false);
   const [estimatedMinutes, setEstimatedMinutes] = useState(125);
   const [estimatedAccuracy, setEstimatedAccuracy] = useState(false);
@@ -147,6 +158,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     setMostUsedMode('apps');
     setExcluded([]);
     setProductive([]);
+    setRuleChanges({}); setPausedSessions({});
+    setAppUnlocks({});
     setShareGuideSeen(false);
     setEstimatedMinutes(125); setEstimatedAccuracy(false);
     setReminders(initialReminders()); setRemindersAcknowledged(false);
@@ -169,7 +182,16 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const selectedGoal = dailyGoals?.[currentGoalDay(period)] ?? dailyGoalMinutes;
   const day = useMemo(() => reflectedDay(selectedGoal === null && dailyGoalEnabled ? baseDay : { ...baseDay, goal: { ...baseDay.goal, enabled: dailyGoalEnabled, text: `${baseDay.goal.kind === 'check' ? 'В пределах' : 'Не больше'} ${goalTimeLabel(selectedGoal ?? 260)}` } }, reflections, reflectionExcluded, excluded, reflectionTouchedDays.includes(reflectionKey(baseDay.id, '')), activityCatalog(customActivities)), [baseDay, reflections, reflectionExcluded, excluded, reflectionTouchedDays, customActivities, selectedGoal, dailyGoalEnabled]);
 
+  const ruleNotice = () => { if (noticeTimer.current) clearTimeout(noticeTimer.current); setSessionNotice('Изменения сохранены'); noticeTimer.current = setTimeout(() => setSessionNotice(null), 2800); };
   const value: AppState = {
+    showRuleRefreshDemo: () => { if (noticeTimer.current) clearTimeout(noticeTimer.current); setSessionNotice('Обновляем данные. Это может занять\nнесколько минут.'); noticeTimer.current = setTimeout(() => setSessionNotice(null), 4000); },
+    ruleChanges, saveRuleDetails: (id, changes) => { setRuleChanges(xs => ({ ...xs, [id]: { ...changes, strictSettings: { ...changes.strictSettings } } })); ruleNotice(); },
+    pausedSessions, pauseSession: (id, mode) => { setPausedSessions(xs => ({ ...xs, [id]: mode })); ruleNotice(); },
+    resumeSession: id => { setPausedSessions(xs => { const next = { ...xs }; delete next[id]; return next; }); ruleNotice(); },
+    appUnlocks, grantAppUnlock: (id, minutes, reason, showNotice) => {
+      setAppUnlocks(xs => ({ ...xs, [id]: { until: Date.now() + Math.max(1, minutes) * 60000, used: (xs[id]?.used ?? 0) + 1, reason } }));
+      if (showNotice) { if (noticeTimer.current) clearTimeout(noticeTimer.current); setSessionNotice(`Приложения откроются на ${minutes}мин.`); noticeTimer.current = setTimeout(() => setSessionNotice(null), 2800); }
+    },
     shareGuideSeen, markShareGuideSeen: () => setShareGuideSeen(true),
     estimatedMinutes, estimatedAccuracy, refreshEstimatedDemo: () => { setEstimatedMinutes(value => value === 125 ? 110 : 125); setEstimatedAccuracy(true); },
     reminders, remindersAcknowledged, saveReminders: value => { setReminders({ ...value }); setRemindersAcknowledged(true); },
@@ -218,7 +240,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     scenario,
     setScenario,
     rulesVariant,
-    setRulesVariant,
+    setRulesVariant: variant => { setRulesVariant(variant); setAppUnlocks({}); },
     period,
     setPeriod,
     day,

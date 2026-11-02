@@ -1,17 +1,17 @@
 import { DarkButtonSurface } from './DarkButtonSurface';
 import { Image } from 'expo-image';
 import { useEffect, useState, type ReactNode } from 'react';
-import { Animated, Platform, Pressable, StyleSheet, Switch, View } from 'react-native';
+import { Animated, Platform, Pressable, StyleSheet, Switch, View, type StyleProp, type ViewStyle } from 'react-native';
 import { art } from '@/data/art';
 import { T } from '@/theme/typography';
 import { colors, sessionPickerTheme as p, sessionTheme as c } from '@/theme/tokens';
 import { Icon } from './Icon';
 import { FadeIn, PressScale, spring } from './motion';
 
-export function SessionApps({ selected = [true, true, true], reverse = true, bare = false }: { selected?: boolean[]; reverse?: boolean; bare?: boolean }) {
+export function SessionApps({ selected = [true, true, true], reverse = true, bare = false, style }: { selected?: boolean[]; reverse?: boolean; bare?: boolean; style?: StyleProp<ViewStyle> }) {
   const items = [art.sessionXchat, art.sessionMessages, art.sessionBereal].map((source, i) => ({ source, selected: selected[i] })).filter(item => item.selected);
   if (reverse) items.reverse();
-  return <View style={[styles.apps, bare && { width: 45, height: 21, backgroundColor: p.whiteFade }]} accessibilityLabel={['XChat', 'Сообщения', 'BeReal'].filter((_, i) => selected[i]).join(', ')}>
+  return <View style={[styles.apps, bare && { width: 45, height: 21, backgroundColor: p.whiteFade }, style]} accessibilityLabel={['XChat', 'Сообщения', 'BeReal'].filter((_, i) => selected[i]).join(', ')}>
     {items.map((item, i) => <Image key={i} source={item.source} style={{ width: 16, height: 16, borderRadius: 4, marginLeft: i ? -4 : 0 }} />)}
   </View>;
 }
@@ -35,22 +35,22 @@ const styles = StyleSheet.create({
 });
 
 export function SessionNotice({ message, top }: { message: string; top: number }) {
-  return <FadeIn key={message} style={{ position: 'absolute', top, left: 16, right: 16, zIndex: 100 }}><View pointerEvents="none" accessibilityLiveRegion="polite" style={{ height: 48, borderRadius: 16, backgroundColor: colors.goalGreen, paddingHorizontal: 16, flexDirection: 'row', gap: 10, alignItems: 'center' }}><Icon name="period-check" width={18} height={18} color={colors.white} /><T size={14} color={colors.white}>{message}</T></View></FadeIn>;
+  return <FadeIn key={message} style={{ position: 'absolute', top, left: 16, right: 16, zIndex: 100 }}><View pointerEvents="none" accessibilityLiveRegion="polite" style={{ height: message.includes('\n') ? 67.333 : 48, borderRadius: 16, backgroundColor: colors.goalGreen, paddingHorizontal: 16, flexDirection: 'row', gap: 10, alignItems: 'center' }}><Icon name="period-check" width={18} height={18} color={colors.white} /><T size={14} color={colors.white} style={{ lineHeight: 20 }}>{message}</T></View></FadeIn>;
 }
 
-export function FlowSwitch({ label, value, onChange, width = 63, thumbWidth = 36 }: { label: string; value: boolean; onChange: (value: boolean) => void; width?: number; thumbWidth?: number }) {
-  if (Platform.OS !== 'web') return <Switch accessibilityLabel={label} value={value} onValueChange={onChange} trackColor={{ true: p.switchOn, false: p.switchOff }} thumbColor={Platform.OS === 'ios' ? undefined : colors.white} />;
-  return <WebFlowSwitch label={label} value={value} onChange={onChange} width={width} thumbWidth={thumbWidth} />;
+export function FlowSwitch({ label, value, onChange, width = 63, thumbWidth = 36, disabled = false }: { label: string; value: boolean; onChange: (value: boolean) => void; width?: number; thumbWidth?: number; disabled?: boolean }) {
+  if (Platform.OS !== 'web') return <Switch accessibilityLabel={label} disabled={disabled} value={value} onValueChange={onChange} trackColor={{ true: p.switchOn, false: p.switchOff }} thumbColor={Platform.OS === 'ios' ? undefined : colors.white} />;
+  return <WebFlowSwitch label={label} value={value} onChange={onChange} width={width} thumbWidth={thumbWidth} disabled={disabled} />;
 }
 
 // thumbWidth меняет только веб-иллюстрацию129; нативный UISwitch не масштабируется.
 // Геометрия HTML нужна веб-превью. На устройстве сохраняем системные
 // жесты, анимацию и материал UISwitch; цвет бегунка iOS не переопределяем.
-function WebFlowSwitch({ label, value, onChange, width, thumbWidth }: { label: string; value: boolean; onChange: (value: boolean) => void; width: number; thumbWidth: number }) {
+function WebFlowSwitch({ label, value, onChange, width, thumbWidth, disabled }: { label: string; value: boolean; onChange: (value: boolean) => void; width: number; thumbWidth: number; disabled: boolean }) {
   const [thumb] = useState(() => new Animated.Value(value ? width - thumbWidth - 4 : 0));
   useEffect(() => { spring(thumb, value ? width - thumbWidth - 4 : 0); }, [value, thumb, width, thumbWidth]);
   // Общая геометрия из switches.css: трек 63×28, овальный бегунок 36×24.
-  return <Pressable accessibilityLabel={label} accessibilityRole="switch" aria-checked={value} accessibilityState={{ checked: value }} onPress={() => onChange(!value)} style={{ width, height: 28, borderRadius: 14, backgroundColor: value ? p.switchOn : p.switchOff }}>
+  return <Pressable accessibilityLabel={label} accessibilityRole="switch" disabled={disabled} aria-checked={value} accessibilityState={{ checked: value, disabled }} onPress={() => onChange(!value)} style={{ width, height: 28, borderRadius: 14, backgroundColor: value ? p.switchOn : p.switchOff }}>
     <Animated.View pointerEvents="none" style={{ position: 'absolute', left: 2, top: 2, width: thumbWidth, height: 24, borderRadius: 14, backgroundColor: colors.white, boxShadow: p.switchThumbShadow, transform: [{ translateX: thumb }] }} />
   </Pressable>;
 }
