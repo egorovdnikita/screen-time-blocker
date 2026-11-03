@@ -9,6 +9,7 @@ import { reflectedDay } from '@/data/reflectionSummary';
 import { activityCatalog, reflectionKey, type ActivityDefinition, type Reflection } from '@/data/reflection';
 import type { Habit } from '@/data/routine';
 import { liveSession } from '@/data/sessionSchedule';
+import { localDay, unlocksUsedToday, type AppUnlockEntry } from '@/data/lockRule';
 import { clearSnapshot, encodeSnapshot, loadSnapshot, saveSnapshot } from '@/state/persist';
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 
@@ -67,7 +68,7 @@ type AppState = {
   pausedSessions: Record<string, 'next' | 'manual'>;
   pauseSession: (id: string, mode: 'next' | 'manual') => void;
   resumeSession: (id: string) => void;
-  appUnlocks: Record<string, { until: number; used: number; reason: string }>;
+  appUnlocks: Record<string, AppUnlockEntry>;
   grantAppUnlock: (ruleId: string, minutes: number, reason: string, showNotice: boolean) => void;
   shareGuideSeen: boolean;
   markShareGuideSeen: () => void;
@@ -147,7 +148,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const [troubleshooting, setTroubleshooting] = useState({ hideIcons: false, realTime: true });
   const [ruleChanges, setRuleChanges] = useState<Record<string, RuleDetailChanges>>({});
   const [pausedSessions, setPausedSessions] = useState<Record<string, 'next' | 'manual'>>({});
-  const [appUnlocks, setAppUnlocks] = useState<Record<string, { until: number; used: number; reason: string }>>({});
+  const [appUnlocks, setAppUnlocks] = useState<Record<string, AppUnlockEntry>>({});
   const [shareGuideSeen, setShareGuideSeen] = useState(false);
   const [estimatedMinutes, setEstimatedMinutes] = useState(125);
   const [estimatedAccuracy, setEstimatedAccuracy] = useState(false);
@@ -239,6 +240,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     const id = setTimeout(() => {
       saveSnapshot(encoded).then(ok => {
         if (ok) lastSaved.current = encoded;
+        // APP-25: ошибку записи не выдаём за успех — короткое сообщение и пометка в «Данных на устройстве».
+        else { if (noticeTimer.current) clearTimeout(noticeTimer.current); setSessionNotice('Не удалось сохранить изменения'); noticeTimer.current = setTimeout(() => setSessionNotice(null), 2800); }
         setStorage(s => s.writeError === !ok ? s : { ...s, writeError: !ok });
       });
     }, 250);
@@ -327,7 +330,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     pausedSessions, pauseSession: (id, mode) => { setPausedSessions(xs => ({ ...xs, [id]: mode })); ruleNotice(); },
     resumeSession: id => { setPausedSessions(xs => { const next = { ...xs }; delete next[id]; return next; }); ruleNotice(); },
     appUnlocks, grantAppUnlock: (id, minutes, reason, showNotice) => {
-      setAppUnlocks(xs => ({ ...xs, [id]: { until: Date.now() + Math.max(1, minutes) * 60000, used: (xs[id]?.used ?? 0) + 1, reason } }));
+      setAppUnlocks(xs => { const now = Date.now(); return { ...xs, [id]: { until: now + Math.max(1, minutes) * 60000, used: unlocksUsedToday(xs[id], now) + 1, reason, day: localDay(now) } }; });
       if (showNotice) { if (noticeTimer.current) clearTimeout(noticeTimer.current); setSessionNotice(`Приложения откроются на ${minutes}мин.`); noticeTimer.current = setTimeout(() => setSessionNotice(null), 2800); }
     },
     shareGuideSeen, markShareGuideSeen: () => setShareGuideSeen(true),

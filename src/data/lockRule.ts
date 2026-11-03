@@ -41,3 +41,5 @@ export function createLock(draft: LockDraft): LockRule | null {
 
 const pickerImages: Partial<Record<LockAppId, number>> = { bereal: art.lockPickerBereal, facetime: art.lockPickerFacetime, messages: art.lockPickerMessages, xchat: art.lockPickerXchat };
 export const lockPickerImage = (id: LockAppId) => pickerImages[id] ?? lockApp(id)!.image;
+
+export { localDay, unlocksUsedToday, type AppUnlockEntry } from './unlockDay';

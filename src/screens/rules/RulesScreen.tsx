@@ -6,7 +6,7 @@ import { RemoveRuleDialog } from './RemoveRuleDialog';
 import { AppUnlockSheet } from '../unlocking/AppUnlockSheet';
 import { routineHabits } from '@/data/routine';
 import { router, useLocalSearchParams } from 'expo-router';
-import { lockApp } from '@/data/lockRule';
+import { lockApp, unlocksUsedToday } from '@/data/lockRule';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useEffect, useRef, useState, type ComponentRef } from 'react';
@@ -197,7 +197,7 @@ function LockCard({ rule }: { rule: LockRule }) {
   const entry = app.appUnlocks[rule.id];
   useEffect(() => { if (!entry || entry.until <= Date.now()) return; const timer = setInterval(() => { const time = Date.now(); setNow(time); if (time >= entry.until) clearInterval(timer); }, 500); return () => clearInterval(timer); }, [entry]);
   const remaining = Math.max(0, Math.ceil(((entry?.until ?? 0) - now) / 1000));
-  const count = rule.count ?? (Number(rule.unlocks.match(/\d+/)?.[0]) || 3), available = Math.max(0, count - (entry?.used ?? 0));
+  const count = rule.count ?? (Number(rule.unlocks.match(/\d+/)?.[0]) || 3), available = Math.max(0, count - unlocksUsedToday(entry, now));
   const supported = !rule.unlockSettings || ['wait', 'reason', 'none'].includes(rule.unlockSettings.unlockMethod);
   return (
     <RuleCard style={styles.blockCard}>
