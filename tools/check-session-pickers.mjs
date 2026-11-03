@@ -17,7 +17,7 @@ const chooseWheel = async (label, target) => {
 const tap = async(x,y)=>{await cdp('Input.dispatchMouseEvent',{type:'mousePressed',button:'left',clickCount:1,x,y});await cdp('Input.dispatchMouseEvent',{type:'mouseReleased',button:'left',clickCount:1,x,y});await wait(350)};
 try {
  await cdp('Page.enable').then(()=>cdp('Page.addScriptToEvaluateOnNewDocument',{source:'globalThis.__BLOCK_DEMO__=1'}));await cdp('Runtime.enable');await cdp('Network.enable');await cdp('Network.setCacheDisabled',{cacheDisabled:true});await cdp('Emulation.setDeviceMetricsOverride',{width:393,height:852,deviceScaleFactor:3,mobile:false});
- await cdp('Page.navigate',{url:'http://localhost:8081'});for(let i=0;i<80;i++){if(await ev("document.body.innerText.includes('Начать блокировку')"))break;await wait(500)}
+ await cdp('Page.navigate',{url:(process.env.EXPO_WEB_URL??'http://localhost:8081')+''});for(let i=0;i<80;i++){if(await ev("document.body.innerText.includes('Начать блокировку')"))break;await wait(500)}
  await click('Начать блокировку');await click('Прямо сейчас');await wait(600);await shot('00-overview');await click('Длительность');await shot('01-immediate-048');
  const initial=await wheel('Минуты длительности');
  await chooseWheel('Минуты длительности',1);const minimumMinute=(await wheel('Минуты длительности')).value===1;if(!minimumMinute)throw Error('Нулевая длительность');
