@@ -9,7 +9,7 @@ const check = (ok,message) => {if(!ok)throw Error(message)};
 const checked = async(label)=>ev(`document.querySelector('[aria-label="'+${JSON.stringify(label)}+'"]').getAttribute('aria-checked')==='true'`);
 try {
  await cdp('Page.enable').then(()=>cdp('Page.addScriptToEvaluateOnNewDocument',{source:'globalThis.__BLOCK_DEMO__=1'}));await cdp('Runtime.enable');await cdp('Network.enable');await cdp('Network.setCacheDisabled',{cacheDisabled:true});await cdp('Emulation.setDeviceMetricsOverride',{width:393,height:852,deviceScaleFactor:3,mobile:false});
- await cdp('Page.navigate',{url:(process.env.EXPO_WEB_URL??'http://localhost:8081')+''});for(let i=0;i<80;i++){if(await ev("document.body.innerText.includes('Начать блокировку')"))break;await wait(500)}
+ await cdp('Page.navigate',{url:(process.env.EXPO_WEB_URL??'http://localhost:8081')+''});for(let i=0;i<80;i++){if(await ev("[...document.querySelectorAll('[aria-label]')].some(e=>e.getAttribute('aria-label')==='Начать блокировку')"))break;await wait(500)}await wait(1500);
  await click('Начать блокировку');await click('Прямо сейчас');await click('Разблокировки');await click('Разблокировки: Да');await click('Способ перед входом');
  const scrollTo=async y=>{await ev(`(()=>{let e=document.querySelector('[aria-label="Ничего не делать"]');while(e&&getComputedStyle(e).overflowY!=='auto'&&getComputedStyle(e).overflowY!=='scroll')e=e.parentElement;if(!e)throw Error('Нет списка');e.scrollTop=${y};})()`);await wait(400)};
  await scrollTo(462);await shot('00-methods-list-083');

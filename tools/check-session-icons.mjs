@@ -10,7 +10,7 @@ const input = async(label,text) => { await ev(`(()=>{const e=document.querySelec
 const enter = async() => {await cdp('Input.dispatchKeyEvent',{type:'keyDown',key:'Enter',code:'Enter',windowsVirtualKeyCode:13});await cdp('Input.dispatchKeyEvent',{type:'keyUp',key:'Enter',code:'Enter',windowsVirtualKeyCode:13});await wait(400);};
 try {
  await cdp('Page.enable').then(()=>cdp('Page.addScriptToEvaluateOnNewDocument',{source:'globalThis.__BLOCK_DEMO__=1'}));await cdp('Runtime.enable');await cdp('Network.enable');await cdp('Network.setCacheDisabled',{cacheDisabled:true});await cdp('Emulation.setDeviceMetricsOverride',{width:393,height:852,deviceScaleFactor:3,mobile:false});
- await cdp('Page.navigate',{url:(process.env.EXPO_WEB_URL??'http://localhost:8081')+''});for(let i=0;i<80;i++){if(await ev("document.body.innerText.includes('Начать блокировку')"))break;await wait(500)}
+ await cdp('Page.navigate',{url:(process.env.EXPO_WEB_URL??'http://localhost:8081')+''});for(let i=0;i<80;i++){if(await ev("[...document.querySelectorAll('[aria-label]')].some(e=>e.getAttribute('aria-label')==='Начать блокировку')"))break;await wait(500)}await wait(1500);
  await click('Начать блокировку');await click('Прямо сейчас');await click('Изменить иконку сессии');await shot('00-icon-picker-059');
  const initialCount=await ev("document.querySelectorAll('[aria-label^=\"Выбрать иконку\"]').length");check(initialCount===35,'Неверное число emoji: '+initialCount);
  const geometry=await ev(`(()=>{const e=document.querySelector('input[aria-label="Поиск иконок"]');return{search:e.parentElement.getBoundingClientRect().toJSON(),firstTile:document.querySelector('[aria-label^="Выбрать иконку"]').getBoundingClientRect().toJSON()}})()`);

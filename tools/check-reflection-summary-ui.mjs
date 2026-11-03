@@ -7,7 +7,7 @@ const click=async(text)=>{let r=await ev(`(()=>{const els=[...document.querySele
 const check = (ok,message) => {if(!ok)throw Error(message)};
 
 try {
- await cdp('Page.enable').then(()=>cdp('Page.addScriptToEvaluateOnNewDocument',{source:'globalThis.__BLOCK_DEMO__=1'}));await cdp('Runtime.enable');await cdp('Emulation.setDeviceMetricsOverride',{width:393,height:852,deviceScaleFactor:3,mobile:false});await cdp('Page.navigate',{url:process.env.EXPO_WEB_URL ?? 'http://localhost:8081'});for(let i=0;i<80;i++){if(await ev("document.body.innerText.includes('Начать блокировку')"))break;await wait(500)}
+ await cdp('Page.enable').then(()=>cdp('Page.addScriptToEvaluateOnNewDocument',{source:'globalThis.__BLOCK_DEMO__=1'}));await cdp('Runtime.enable');await cdp('Emulation.setDeviceMetricsOverride',{width:393,height:852,deviceScaleFactor:3,mobile:false});await cdp('Page.navigate',{url:process.env.EXPO_WEB_URL ?? 'http://localhost:8081'});for(let i=0;i<80;i++){if(await ev("[...document.querySelectorAll('[aria-label]')].some(e=>e.getAttribute('aria-label')==='Начать блокировку')"))break;await wait(500)}await wait(1500);
  const scrollHome = async(y) => { await ev(`(()=>{let e=document.querySelector('[aria-label="Период"]');while(e){if(e.scrollHeight>e.clientHeight+40&&getComputedStyle(e).overflowY==='auto'){e.scrollTop=${y};return;}e=e.parentElement;}throw Error('Нет прокрутки Главной')})()`);await wait(450);};
  const save = async(name,mood) => {await click('Оценить время '+name);await click('Выбрать занятие оценки');await click('Занятие Выполнять дела');await click('Выбрать оценку пользы');await click('Оценка '+mood);await click('Сохранить оценку времени');};
  const mode=async(name)=>{await click('Режим сводки');await click(name);};
