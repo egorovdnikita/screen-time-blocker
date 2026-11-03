@@ -7,7 +7,7 @@ export async function openChrome({port=9350,width=393,height=852,demo=false}={})
   let tab;for(let i=0;i<100;i++){try{tab=(await(await fetch(`http://localhost:${port}/json`)).json()).find(t=>t.type==='page');if(tab)break}catch{}await wait(100)}
   const ws=new WebSocket(tab.webSocketDebuggerUrl);await new Promise(r=>ws.addEventListener('open',r));
   let seq=0;const pending=new Map();const errors=[];
-  ws.onmessage=e=>{const d=JSON.parse(e.data);if(d.method==='Runtime.exceptionThrown')errors.push(d.params.exceptionDetails?.exception?.description??d.params);if(d.method==='Runtime.consoleAPICalled'&&d.params.type==='error')errors.push(d.params.args?.map(a=>a.value??a.description).join(' '));if(d.id&&pending.has(d.id)){const p=pending.get(d.id);pending.delete(d.id);d.error?p.reject(Error(JSON.stringify(d.error))):p.resolve(d.result)}};
+  ws.onmessage=e=>{const d=JSON.parse(e.data);if(d.method==='Runtime.exceptionThrown')errors.push(d.params.exceptionDetails?.exception?.description??d.params);if(d.method==='Runtime.consoleAPICalled'&&d.params.type==='error')errors.push(d.params.args?.map(a=>a.value??a.description).join(' '));if(d.id&&pending.has(d.id)){const p=pending.get(d.id);pending.delete(d.id);if(d.error)p.reject(Error(JSON.stringify(d.error)));else p.resolve(d.result)}};
   const cdp=(method,params={})=>new Promise((resolve,reject)=>{const id=++seq;pending.set(id,{resolve,reject});ws.send(JSON.stringify({id,method,params}))});
   const ev=async expression=>{const r=await cdp('Runtime.evaluate',{expression,awaitPromise:true,returnByValue:true});if(r.exceptionDetails)throw Error(JSON.stringify(r.exceptionDetails.exception?.description??r.exceptionDetails));return r.result.value};
   await cdp('Page.enable');await cdp('Runtime.enable');

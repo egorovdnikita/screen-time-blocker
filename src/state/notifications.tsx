@@ -1,4 +1,4 @@
-import * as Notifications from 'expo-notifications';
+import type * as NotificationsModule from 'expo-notifications';
 import { router } from 'expo-router';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { AppState as RNAppState, Linking, Platform } from 'react-native';
@@ -10,6 +10,9 @@ import { memoryOnly, useAppState } from '@/state/app';
 // APP-21: локальные уведомления (работают в Expo Go). На вебе и в проверочных скриптах — выключено.
 const supported = Platform.OS !== 'web' && !memoryOnly;
 const PREFIX = 'block-';
+// На вебе модуль не импортируем вовсе: он пишет предупреждения уже при загрузке.
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const Notifications: typeof NotificationsModule = supported ? require('expo-notifications') : (null as never);
 
 if (supported) {
   Notifications.setNotificationHandler({
@@ -45,7 +48,7 @@ export function useNotificationPermission() {
   return { permission, request };
 }
 
-function trigger(item: PlannedNotification): Notifications.NotificationTriggerInput {
+function trigger(item: PlannedNotification): NotificationsModule.NotificationTriggerInput {
   const t = item.trigger;
   if (t.kind === 'daily') return { type: Notifications.SchedulableTriggerInputTypes.DAILY, hour: t.hour, minute: t.minute };
   if (t.kind === 'weekly') return { type: Notifications.SchedulableTriggerInputTypes.WEEKLY, weekday: t.weekday, hour: t.hour, minute: t.minute };
@@ -85,7 +88,7 @@ export function NotificationSync() {
   // Нажатие на уведомление открывает нужный раздел.
   useEffect(() => {
     if (!supported) return;
-    const open = (response: Notifications.NotificationResponse | null) => {
+    const open = (response: NotificationsModule.NotificationResponse | null) => {
       const route = response?.notification.request.content.data?.route;
       if (typeof route === 'string') router.navigate(route as never);
     };

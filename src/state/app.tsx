@@ -212,13 +212,14 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     newStartVisible: [newStartVisible, setNewStartVisible], onboarding: [onboarding, setOnboarding], onboardingCompleted: [onboardingCompleted, setOnboardingCompleted],
   };
   // APP-06: живой статус созданных сессий; тикаем, только если есть сессии с расписанием.
-  const [now, setNow] = useState(() => new Date());
+  const [tick, setTick] = useState(0);
   const hasSchedules = createdSessions.some(x => x.schedule);
-  useEffect(() => { if (!hasSchedules) return; setNow(new Date()); const id = setInterval(() => setNow(new Date()), 15000); return () => clearInterval(id); }, [hasSchedules]);
-  const liveSessions = useMemo(() => createdSessions.map(x => liveSession(x, now)), [createdSessions, now]);
+  useEffect(() => { if (!hasSchedules) return; const id = setInterval(() => setTick(t => t + 1), 15000); return () => clearInterval(id); }, [hasSchedules]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- tick перезапускает расчёт по часам
+  const liveSessions = useMemo(() => { const now = new Date(); return createdSessions.map(x => liveSession(x, now)); }, [createdSessions, tick]);
   const [storage, setStorage] = useState({ loaded: memoryOnly, readError: false, writeError: false, restoredBackup: false });
   const persistedRef = useRef(persisted);
-  persistedRef.current = persisted;
+  useEffect(() => { persistedRef.current = persisted; });
   useEffect(() => {
     if (memoryOnly) return;
     let alive = true;
