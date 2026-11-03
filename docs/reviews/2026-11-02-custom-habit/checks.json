@@ -1,0 +1,16 @@
+{
+  "geometry": {
+    "x": 36,
+    "y": 365.984375,
+    "width": 321,
+    "height": 26
+  },
+  "validation": true,
+  "cancel": true,
+  "customSaved": true,
+  "rewardEdited": true,
+  "template": true,
+  "snapshotIsolated": true,
+  "completion": true,
+  "errors": []
+}

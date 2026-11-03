@@ -1,0 +1,60 @@
+{
+  "id": 206,
+  "name": "photo-good-job",
+  "source": "/dist/42-completing-a-task__04-photo-good-job/index.html",
+  "status": "layout_present",
+  "component": "src/screens/previews/HabitPhoto.tsx",
+  "evidence": "docs/reviews/2026-11-03-remaining/README.md",
+  "acceptance": "pending_1to1",
+  "title": "Подтверждение привычки — Block",
+  "texts": [
+    {
+      "text": "1",
+      "x": 143.28125,
+      "y": 106,
+      "w": 6.84375,
+      "h": 17,
+      "font": "14.25px",
+      "weight": "700",
+      "line": "20px",
+      "color": "rgb(17, 17, 17)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "от «Рутина»",
+      "x": 179.125,
+      "y": 106,
+      "w": 85.59375,
+      "h": 17,
+      "font": "14.25px",
+      "weight": "700",
+      "line": "20px",
+      "color": "rgb(17, 17, 17)",
+      "bg": "rgba(255, 255, 255, 0.75)"
+    },
+    {
+      "text": "Отлично!",
+      "x": 135.4375,
+      "y": 227,
+      "w": 122.125,
+      "h": 34,
+      "font": "28px",
+      "weight": "700",
+      "line": "34px",
+      "color": "rgb(17, 17, 17)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Получить 5мин",
+      "x": 147.09375,
+      "y": 770.34375,
+      "w": 117.796875,
+      "h": 19,
+      "font": "16px",
+      "weight": "700",
+      "line": "22px",
+      "color": "rgb(255, 255, 255)",
+      "bg": "rgba(0, 0, 0, 0)"
+    }
+  ]
+}

@@ -1,12 +1,15 @@
+import { ReflectionSheet } from './ReflectionSheet';
+import { AppIcon } from './AppIcon';
+import { reflectionKey, reflectionMoods } from '@/data/reflection';
 import { Image } from 'expo-image';
-import { useRef, type ComponentRef } from 'react';
+import { useRef, useState, type ComponentRef } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 
 import { DashedLine } from '@/components/Dashed';
 import { Icon } from '@/components/Icon';
 import { FadeIn, PressScale, animateLayout } from '@/components/motion';
 import { art } from '@/data/art';
-import type { ActivityAppIcon, ActivityRow, AppIconKind, AppRow, Day } from '@/data/home';
+import type { ActivityAppIcon, ActivityRow, AppRow, Day } from '@/data/home';
 import { useAppState } from '@/state/app';
 import { T, TRACK_SMALL } from '@/theme/typography';
 import { colors, radii, shadows } from '@/theme/tokens';
@@ -19,10 +22,11 @@ export function MostUsed({ day, onOpenMenu }: Props) {
   const app = useAppState();
   const pillRef = useRef<ComponentRef<typeof View>>(null);
   const mode = app.mostUsedMode;
+  const [editing, setEditing] = useState<AppRow | null>(null);
 
   const apps = day.apps.map<AppRow>((a) => ({
     ...a,
-    state: app.excluded.includes(a.id) ? 'excluded' : app.productive.includes(a.id) ? 'productive' : a.state,
+    state: app.excluded.includes(a.id) || app.reflectionExcluded.includes(reflectionKey(day.id, a.id)) ? 'excluded' : app.productive.includes(a.id) ? 'productive' : a.state,
   }));
   const counted = apps.filter((a) => a.state !== 'excluded');
   const excluded = apps.filter((a) => a.state === 'excluded');
@@ -38,9 +42,10 @@ export function MostUsed({ day, onOpenMenu }: Props) {
             onPress={() => pillRef.current?.measureInWindow((x, y, width, height) => onOpenMenu({ x, y, width, height }))}
             style={styles.pill}
             accessibilityRole="button"
+            accessibilityLabel="Режим сводки"
           >
             <Icon name="updown" width={12} height={14.5} color={colors.black} style={{ marginRight: 3.4 }} />
-            <T size={14.25}>{mode === 'apps' ? 'Приложения' : 'Активности'}</T>
+            <T size={14.25}>{mode === 'apps' ? 'Приложения' : 'Занятия'}</T>
           </PressScale>
         </View>
       </View>
@@ -51,9 +56,10 @@ export function MostUsed({ day, onOpenMenu }: Props) {
             <AppItem
               key={a.id}
               app={a}
+              assessment={app.reflections[reflectionKey(day.id, a.id)]}
               onMark={() => {
                 animateLayout();
-                app.markProductive(a.id);
+                setEditing(a);
               }}
               onToggleExclude={() => {
                 animateLayout();
@@ -68,7 +74,10 @@ export function MostUsed({ day, onOpenMenu }: Props) {
                 <AppItem
                   key={a.id}
                   app={a}
+                  onMark={() => setEditing(a)}
+                  assessment={app.reflections[reflectionKey(day.id, a.id)]}
                   onToggleExclude={() => {
+                    if (app.reflectionExcluded.includes(reflectionKey(day.id, a.id))) { app.setReflectionExcluded(day.id, a.id, false); return; }
                     animateLayout();
                     app.toggleExcluded(a.id);
                   }}
@@ -99,30 +108,13 @@ export function MostUsed({ day, onOpenMenu }: Props) {
           </T>
         </FadeIn>
       )}
+      {editing && <ReflectionSheet app={editing} value={app.reflections[reflectionKey(day.id, editing.id)] ?? app.reflectionDefaults[editing.id]} onCancel={() => setEditing(null)} onDelete={app.reflections[reflectionKey(day.id, editing.id)] ? () => { app.deleteReflection(day.id, editing.id); setEditing(null); } : undefined} onSave={value => { app.saveReflection(day.id, editing.id, value); setEditing(null); }} onExclude={() => { app.setReflectionExcluded(day.id, editing.id, true); setEditing(null); }} />}
     </View>
   );
 }
 
-function AppIcon({ icon }: { icon: AppIconKind }) {
-  switch (icon) {
-    case 'block':
-      return <Icon name="ogonek-app-icon" width={28} />;
-    case 'photos':
-      return <Image source={art.appPhotos} style={{ width: 32, height: 34, margin: -2, marginTop: -3 }} />;
-    case 'phia':
-      return <Image source={art.appPhia} style={{ width: 32, height: 32, margin: -2 }} />;
-    case 'substack':
-      return <Image source={art.appSubstack} style={{ width: 32, height: 34, margin: -2, marginTop: -3 }} />;
-    case 'other':
-      return (
-        <View style={styles.otherIcon}>
-          <Icon name="archive" width={17.5} height={16} color={colors.otherIco} />
-        </View>
-      );
-  }
-}
 
-function AppItem({ app, onMark, onToggleExclude }: { app: AppRow; onMark?: () => void; onToggleExclude: () => void }) {
+function AppItem({ app, assessment, onMark, onToggleExclude }: { app: AppRow; assessment?: import('@/data/reflection').Reflection; onMark?: () => void; onToggleExclude: () => void }) {
   const isOther = app.icon === 'other';
   const excluded = app.state === 'excluded';
   return (
@@ -165,14 +157,12 @@ function AppItem({ app, onMark, onToggleExclude }: { app: AppRow; onMark?: () =>
             <View style={styles.barTrack}>
               <View style={[styles.bar, { width: `${Math.max(3.2, app.ratio * 100)}%` }]} />
             </View>
-            {app.state === 'productive' ? (
+            {assessment || app.state === 'productive' ? (
               <FadeIn from={4}>
-                <T size={12.25} ls={TRACK_SMALL} color={colors.qProductive} style={{ marginTop: 9 }}>
-                  С пользой
-                </T>
+                <PressScale onPress={onMark} accessibilityRole="button" accessibilityLabel={`Изменить оценку ${app.name}`}><T size={12.25} ls={TRACK_SMALL} color={!assessment || reflectionMoods.find(m => m.id === assessment.mood)?.quality === 'productive' ? colors.qProductive : colors.qNeutral} style={{ marginTop: 9 }}>{assessment ? reflectionMoods.find(m => m.id === assessment.mood)?.title : 'С пользой'}</T></PressScale>
               </FadeIn>
             ) : (
-              <PressScale onPress={onMark} style={styles.chip} accessibilityRole="button">
+              <PressScale onPress={onMark} style={styles.chip} accessibilityRole="button" accessibilityLabel={`Оценить время ${app.name}`}>
                 <Icon name="plus-chip" width={13} height={12} color={colors.chipInk} style={{ marginRight: 3.2 }} />
                 <T size={12.25} weight={600} ls={TRACK_SMALL} color={colors.chipInk}>
                   Время с пользой?
@@ -200,6 +190,10 @@ function ActivityAppGlyph({ icon }: { icon: ActivityAppIcon }) {
       return <Image source={art.activityFlight} style={{ width: 22, height: 24 }} />;
     case 'photos':
       return <Image source={art.activityPhotos} style={{ width: 23, height: 24 }} />;
+    case 'phia':
+    case 'substack':
+    case 'other':
+      return <AppIcon icon={icon} size={20} />;
     case 'store':
       return <Image source={art.activityStore} style={{ width: 24, height: 25 }} />;
   }
@@ -209,8 +203,8 @@ function ActivityItem({ activity }: { activity: ActivityRow }) {
   const a = activityArt[activity.icon];
   const good = activity.quality === 'productive';
   return (
-    <View style={[styles.row, { height: 88, paddingLeft: 22 }]}>
-      <Image source={a.src} style={{ width: a.w, height: a.h, marginRight: 14 }} />
+    <View accessibilityLabel={`Активность ${activity.name}: ${activity.quality}`} style={[styles.row, { height: 88, paddingLeft: 22 }]}>
+      {activity.emoji ? <T size={28} style={{ width: 32, marginRight: 14 }}>{activity.emoji}</T> : <Image source={activity.image ?? a.src} style={{ width: a.w, height: a.h, marginRight: 14 }} />}
       <View style={{ flex: 1 }}>
         <View style={styles.rowTop}>
           <T size={15.25}>{activity.name}</T>
@@ -223,7 +217,7 @@ function ActivityItem({ activity }: { activity: ActivityRow }) {
         </View>
         <View style={styles.activityMeta}>
           <T size={12.25} ls={TRACK_SMALL} color={good ? colors.qProductive : colors.qNeutral} style={{ width: 73 }}>
-            {good ? 'С пользой' : 'Отвлекает'}
+            {good ? 'С пользой' : activity.quality === 'neutral' ? 'Норма' : 'Отвлекает'}
           </T>
           <View style={styles.metaSep} />
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 2, marginLeft: 8 }}>

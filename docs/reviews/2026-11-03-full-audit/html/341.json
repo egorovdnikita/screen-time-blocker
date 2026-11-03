@@ -1,0 +1,60 @@
+{
+  "id": 341,
+  "name": "dynamic-island-expanded",
+  "source": "/dist/83-dynamic-island__02-dynamic-island-expanded/index.html",
+  "status": "layout_present",
+  "component": "src/screens/previews/SystemPreviews.tsx",
+  "evidence": "docs/reviews/2026-11-03-remaining/README.md",
+  "acceptance": "pending_1to1",
+  "title": "Dynamic Island — Block",
+  "texts": [
+    {
+      "text": "Block",
+      "x": 47.328125,
+      "y": 29.328125,
+      "w": 33.46875,
+      "h": 16,
+      "font": "13px",
+      "weight": "400",
+      "line": "17px",
+      "color": "rgb(125, 129, 135)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "23:11 – 23:41",
+      "x": 286.9375,
+      "y": 30.328125,
+      "w": 74.71875,
+      "h": 15,
+      "font": "12px",
+      "weight": "400",
+      "line": "17px",
+      "color": "rgb(125, 129, 135)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Сессия",
+      "x": 58.328125,
+      "y": 60.328125,
+      "w": 67.5,
+      "h": 23,
+      "font": "20px",
+      "weight": "400",
+      "line": "26px",
+      "color": "rgb(255, 255, 255)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "28:18",
+      "x": 262.390625,
+      "y": 50.99512481689453,
+      "w": 98.265625,
+      "h": 40,
+      "font": "34px",
+      "weight": "700",
+      "line": "40px",
+      "color": "rgb(255, 255, 255)",
+      "bg": "rgba(0, 0, 0, 0)"
+    }
+  ]
+}

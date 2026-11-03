@@ -1,7 +1,8 @@
+import { ScreenTimeSettings } from '../settings/ScreenTimeSettings';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useEffect, useRef, useState, type ComponentRef } from 'react';
-import { Animated, Pressable, ScrollView, StyleSheet, useWindowDimensions, View } from 'react-native';
+import { useRef, useEffect, useState, type ComponentRef } from 'react';
+import { Platform, Animated, Pressable, ScrollView, StyleSheet, useWindowDimensions, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Path } from 'react-native-svg';
 
@@ -16,7 +17,7 @@ import { art } from '@/data/art';
 import type { Day } from '@/data/home';
 import { useAppState } from '@/state/app';
 import { T, TRACK_SMALL } from '@/theme/typography';
-import { colors, radii, shadows } from '@/theme/tokens';
+import { homeSkyTheme, colors, radii, shadows } from '@/theme/tokens';
 
 import { MostUsed } from './MostUsed';
 import { InsightSheet, LoadingScene, MostUsedMenu, NewStart, PeriodMenu, type Anchor } from './Overlays';
@@ -30,7 +31,7 @@ const CARD_H = 261.333;
 export function HomeScreen() {
   const insets = useSafeAreaInsets();
   const { width } = useWindowDimensions();
-  const onScroll = useSkyStatusBar();
+  const { onScroll, restore: restoreStatusBar } = useSkyStatusBar();
   const bottomSpace = useBottomSpace(true);
   const top = Math.max(insets.top, 20);
   const app = useAppState();
@@ -43,9 +44,12 @@ export function HomeScreen() {
   const [menuAnchor, setMenuAnchor] = useState<Anchor | null>(null);
   const [insight, setInsight] = useState<'glued' | 'offline' | null>(null);
   const [demoOpen, setDemoOpen] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
 
   // Страница героя: 0 — экранное время, 1 — качество. Свайп плавно меняет содержимое карточки.
-  const pageX = useRef(new Animated.Value(0)).current;
+  const [chartSelection, setChartSelection] = useState({ day: day.id, page: 0 });
+  const chartPage = chartSelection.day === day.id ? chartSelection.page : 0;
+  const [pageX] = useState(() => new Animated.Value(0));
   const page = pageX.interpolate({ inputRange: [0, width], outputRange: [0, 1], extrapolate: 'clamp' });
   // Новый день или загрузка — пейджер пересоздаётся на первой странице, карточка должна совпасть.
   useEffect(() => {
@@ -59,25 +63,25 @@ export function HomeScreen() {
     });
 
   // Иконка «Обновить» крутится, пока идёт загрузка.
-  const spin = useRef(new Animated.Value(0)).current;
+  const [spin] = useState(() => new Animated.Value(0));
   useEffect(() => {
     if (!loading) return;
     spin.setValue(0);
-    const loop = Animated.loop(Animated.timing(spin, { toValue: 1, duration: 900, useNativeDriver: true }));
+    const loop = Animated.loop(Animated.timing(spin, { toValue: 1, duration: 900, useNativeDriver: Platform.OS !== 'web' }));
     loop.start();
     return () => loop.stop();
   }, [loading, spin]);
 
   return (
-    <View style={styles.root}>
+    <View style={styles.root}><LinearGradient pointerEvents="none" colors={[homeSkyTheme.top, colors.bg, colors.bg]} locations={[0, .45, 1]} style={StyleSheet.absoluteFill} />
       <ScrollView
         onScroll={onScroll}
         scrollEventThrottle={32}
         showsVerticalScrollIndicator={false}
         scrollEnabled={!app.newStartVisible}
-        contentContainerStyle={{ paddingBottom: bottomSpace }}
+        contentContainerStyle={{ paddingBottom: bottomSpace, backgroundColor: colors.bg }}
       >
-        <Image source={art.homeSky} style={[styles.sky, { width, height: width * SKY_RATIO }]} contentFit="cover" />
+        <Image source={art.homeSky} style={[styles.sky, { width, height: width * SKY_RATIO }]} contentFit="cover" /><LinearGradient pointerEvents="none" colors={homeSkyTheme.fade} style={{ position: 'absolute', left: 0, right: 0, top: width * SKY_RATIO * .4, height: width * SKY_RATIO * .6 }} />
 
         <View style={[styles.header, { marginTop: top + 15 }]}>
           <Icon name="block-wordmark" width={98.572} height={27.666} color={colors.wordmark} style={{ marginLeft: -5.8 }} />
@@ -99,6 +103,7 @@ export function HomeScreen() {
               iconWidth={20}
               iconHeight={7}
               accessibilityLabel="Ещё"
+              onPress={() => setSettingsOpen(true)}
               onLongPress={() => setDemoOpen(true)}
             />
           </View>
@@ -113,7 +118,7 @@ export function HomeScreen() {
                 pagingEnabled
                 showsHorizontalScrollIndicator={false}
                 scrollEventThrottle={16}
-                onScroll={Animated.event([{ nativeEvent: { contentOffset: { x: pageX } } }], { useNativeDriver: true })}
+                onScroll={Animated.event([{ nativeEvent: { contentOffset: { x: pageX } } }], { useNativeDriver: Platform.OS !== 'web', listener: (event: { nativeEvent: { contentOffset: { x: number } } }) => { const next = Math.round(event.nativeEvent.contentOffset.x / width); setChartSelection(current => current.day === day.id && current.page === next ? current : { day: day.id, page: next }); } })}
               >
                 <ScreenTimePage day={day} width={width} />
                 <QualityPage day={day} width={width} />
@@ -131,13 +136,13 @@ export function HomeScreen() {
             </FadeIn>
           ) : (
             <FadeIn key={day.id} style={StyleSheet.absoluteFill} from={4}>
-              <Animated.View style={[StyleSheet.absoluteFill, { opacity: page.interpolate({ inputRange: [0, 1], outputRange: [1, 0] }) }]}>
+              <Animated.View pointerEvents={chartPage === 0 ? 'auto' : 'none'} accessibilityElementsHidden={chartPage !== 0} importantForAccessibility={chartPage === 0 ? 'auto' : 'no-hide-descendants'} style={[StyleSheet.absoluteFill, { opacity: page.interpolate({ inputRange: [0, 1], outputRange: [1, 0] }) }]}>
                 <Stats first={{ label: 'Экономия', value: day.stats.saved, decrease: true }} pickups={day.stats.pickups} notifications={day.stats.notifications} />
-                <UsageChart data={day.chart} onInsight={setInsight} />
+                <UsageChart interactive={chartPage === 0} data={day.chart} onInsight={setInsight} />
               </Animated.View>
-              <Animated.View pointerEvents="box-none" style={[StyleSheet.absoluteFill, { opacity: page }]}>
+              <Animated.View pointerEvents={chartPage === 1 ? 'auto' : 'none'} accessibilityElementsHidden={chartPage !== 1} importantForAccessibility={chartPage === 1 ? 'auto' : 'no-hide-descendants'} style={[StyleSheet.absoluteFill, { opacity: page }]}>
                 <Stats first={{ label: 'Время экрана', value: day.quality.stats.screenTime }} pickups={day.quality.stats.pickups} notifications={day.quality.stats.notifications} />
-                <UsageChart data={day.quality.chart} onInsight={setInsight} />
+                <UsageChart interactive={chartPage === 1} data={day.quality.chart} onInsight={setInsight} />
               </Animated.View>
               <Icon name="chevron-compact-down" width={21} height={9} color={colors.chevronCompact} style={styles.cardChevron} />
             </FadeIn>
@@ -186,6 +191,7 @@ export function HomeScreen() {
         }}
       />
       <InsightSheet kind={insight} onClose={() => setInsight(null)} />
+      {settingsOpen && <ScreenTimeSettings onClose={() => { setSettingsOpen(false); requestAnimationFrame(restoreStatusBar); }} />}
       <DemoMenu visible={demoOpen} onClose={() => setDemoOpen(false)} />
     </View>
   );
@@ -200,7 +206,7 @@ function ScreenTimePage({ day, width }: { day: Day; width: number }) {
       <T size={74.25} ls={-2} color={colors.white} onSky numberOfLines={1} adjustsFontSizeToFit style={styles.num}>
         {day.screenTime}
       </T>
-      <Glass radius={radii.pill} style={styles.goal}>
+      {day.goal.enabled !== false && <Glass radius={radii.pill} style={styles.goal}>
         <LinearGradient
           colors={[colors.goalGreen, colors.goalGreen, 'rgba(0, 195, 80, 0)']}
           locations={[0, 0.55, 1]}
@@ -212,7 +218,7 @@ function ScreenTimePage({ day, width }: { day: Day; width: number }) {
         <T size={17.25} color={colors.white} onSky>
           {day.goal.text}
         </T>
-      </Glass>
+      </Glass>}
     </View>
   );
 }
@@ -230,7 +236,7 @@ function QualityPage({ day, width }: { day: Day; width: number }) {
       <T size={58.5} ls={-1.5} color={colors.white} onSky numberOfLines={1} adjustsFontSizeToFit style={styles.qWord}>
         {q.word}
       </T>
-      <View style={styles.qTiles}>
+      <View accessibilityLabel={`Качество времени: ${q.pct[0]}% с пользой, ${q.pct[1]}% нейтрально, ${q.pct[2]}% отвлекает`} style={styles.qTiles}>
         {FACES.map((f, i) => (
           <View key={f} style={{ alignItems: 'center', width: 53.8 }}>
             <View style={[styles.qTile, q.pct[i] === 100 && { backgroundColor: colors.qTileOn, boxShadow: undefined }]}>

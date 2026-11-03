@@ -1,3 +1,4 @@
+import { MaterialBlur } from '@/components/MaterialBlur';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Animated, Modal, Pressable, StyleSheet, View, useWindowDimensions } from 'react-native';
@@ -72,6 +73,7 @@ export function PeriodMenu({
           return (
             <Pressable
               key={o.id}
+              accessibilityRole="button"
               onPress={() => onSelect(o.id)}
               style={({ pressed }) => [
                 styles.option,
@@ -127,8 +129,10 @@ export function MostUsedMenu({
           },
         ]}
       >
+        <MaterialBlur pointerEvents="none" blurPx={12} nativeIntensity={14} tint="light" style={StyleSheet.absoluteFill}/>
+        <View pointerEvents="none" style={[StyleSheet.absoluteFill,{backgroundColor:colors.contextMenu}]}/>
         {(['apps', 'activities'] as const).map((m) => (
-          <Pressable key={m} onPress={() => onSelect(m)} style={styles.menuRow}>
+          <Pressable accessibilityRole="button" key={m} onPress={() => onSelect(m)} style={styles.menuRow}>
             {({ pressed }) => (
               <>
                 {pressed && (
@@ -145,7 +149,7 @@ export function MostUsedMenu({
                   style={{ position: 'absolute', left: m === 'apps' ? 30 : 29 }}
                 />
                 <T size={17} weight={400} ls={0} color={colors.menuInk} style={SYSTEM}>
-                  {m === 'apps' ? 'Приложения' : 'Активности'}
+                  {m === 'apps' ? 'Приложения' : 'Занятия'}
                 </T>
               </>
             )}
@@ -200,7 +204,7 @@ export function InsightSheet({ kind, onClose }: { kind: 'glued' | 'offline' | nu
             <T size={15.25}>Подумайте: </T>
             {copy.hint}
           </T>
-          <PressScale onPress={onClose} style={styles.sheetButton}>
+          <PressScale accessibilityRole="button" accessibilityLabel="Закрыть подсказку графика" onPress={onClose} style={styles.sheetButton}>
             <T size={17.25}>Понятно</T>
           </PressScale>
         </Animated.View>
@@ -226,9 +230,9 @@ export function NewStart({ onClose }: { onClose: () => void }) {
         <T size={15.25} weight={400} center style={{ lineHeight: 18.333, marginTop: 8 }}>
           {'Block поможет начать заново.\nОставьте прошлое позади. Следите\nза экранным временем, замечайте\nсвои привычки и постепенно\nсокращайте время у экрана.'}
         </T>
-        <PressScale onPress={onClose} style={styles.newStartButton}>
+        <PressScale accessibilityRole="button" accessibilityLabel="Понятно" onPress={onClose} style={styles.newStartButton}>
           <T size={15.25} color={colors.white}>
-            Понятно
+            Ясно
           </T>
         </PressScale>
       </View>
@@ -279,7 +283,7 @@ const styles = StyleSheet.create({
   menu: {
     position: 'absolute',
     borderRadius: 34,
-    backgroundColor: colors.contextMenu,
+    backgroundColor: 'transparent',
     boxShadow: shadows.contextMenu,
     paddingVertical: 9,
     overflow: 'hidden',

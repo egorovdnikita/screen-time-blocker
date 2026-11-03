@@ -1,10 +1,22 @@
+import { Troubleshoot } from '../settings/Troubleshoot';
+import { RuleSettings } from './RuleSettings';
+import { TemplateGallery } from './TemplateGallery';
+import { SessionDetails, LimitDetails } from './SessionDetails';
+import { AppUnlockSheet } from '../unlocking/AppUnlockSheet';
+import { routineHabits } from '@/data/routine';
+import { router, useLocalSearchParams } from 'expo-router';
+import { lockApp } from '@/data/lockRule';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useRef, useState, type ComponentRef } from 'react';
+import { useEffect, useRef, useState, type ComponentRef } from 'react';
 import { Animated, Pressable, ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Circle } from 'react-native-svg';
 
+import { AppGroupSummary } from '@/components/AppGroupSummary';
+import { SessionIcon } from '@/components/SessionIcon';
+import { SavedTemplateCard } from './SavedTemplateCard';
+import { SessionApps, SessionNotice } from '@/components/SessionPrimitives';
 import { BottomChrome, useBottomSpace } from '@/components/BottomChrome';
 import { DashedBox, DashedLine } from '@/components/Dashed';
 import { DemoMenu } from '@/components/DemoMenu';
@@ -28,19 +40,43 @@ import { START_BUTTON_HEIGHT } from '@/components/StartButton';
 import { TAB_BAR_HEIGHT, TAB_BAR_SIDE } from '@/components/TabBar';
 import { useDarkStatusBar } from '@/components/useStatusBar';
 import { art } from '@/data/art';
-import { activeLabel, rulesVariants, type LimitRule, type LockRule, type Meta, type SessionRule, type Status } from '@/data/rules';
+import { activeRuleCount, activeLabel, rulesForPresentation, type LimitRule, type LockRule, type RoutineRule, type Meta, type SessionRule, type Status } from '@/data/rules';
 import { useAppState } from '@/state/app';
 import { T, TRACK_SMALL, type TProps } from '@/theme/typography';
 import { colors, insetBorder, radii, shadows } from '@/theme/tokens';
 
 export function RulesScreen() {
+  const { earned } = useLocalSearchParams<{earned?:string}>();
+  const demoEarned = earned === '1';
   const insets = useSafeAreaInsets();
   useDarkStatusBar();
   const bottomSpace = useBottomSpace(true);
   const top = Math.max(insets.top, 20);
   const app = useAppState();
-  const data = rulesVariants[app.rulesVariant];
+  const base = rulesForPresentation(app.rulesVariant, demoEarned);
+  const data = { ...base, locks: [...app.createdLocks, ...base.locks].filter(x => !app.deletedRuleIds.includes(x.id)), limits: [...app.createdLimits, ...base.limits].filter(x => !app.deletedRuleIds.includes(x.id)), routines: [...app.createdRoutines, ...base.routines].filter(x => !app.deletedRuleIds.includes(x.id)), sessions: [...app.createdSessions, ...base.sessions].filter(x => !app.deletedRuleIds.includes(x.id)), active: activeRuleCount(base, app) };
+  const [helpOpen, setHelpOpen] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
   const [demoOpen, setDemoOpen] = useState(false);
+  const scrollRef = useRef<ComponentRef<typeof ScrollView>>(null);
+  const templatesTop = useRef(0);
+  const limitsTop = useRef(0);
+  const routinesTop = useRef(0);
+  useEffect(() => {
+    if (!app.createdRoutines.length) return;
+    const timer = setTimeout(() => scrollRef.current?.scrollTo({ y: Math.max(0, routinesTop.current - 190), animated: true }), 350);
+    return () => clearTimeout(timer);
+  }, [app.createdRoutines.length]);
+  useEffect(() => {
+    if (!app.createdLimits.length) return;
+    const timer = setTimeout(() => scrollRef.current?.scrollTo({ y: Math.max(0, limitsTop.current - 190), animated: true }), 350);
+    return () => clearTimeout(timer);
+  }, [app.createdLimits.length]);
+  useEffect(() => {
+    if (!app.savedTemplates.length && !app.savedLimitTemplates.length && !app.savedRoutineTemplates.length) return;
+    const timer = setTimeout(() => scrollRef.current?.scrollTo({ y: Math.max(0, templatesTop.current + 78.7 - 337), animated: true }), 350);
+    return () => clearTimeout(timer);
+  }, [app.savedTemplates.length, app.savedLimitTemplates.length, app.savedRoutineTemplates.length]);
 
   // Подсказка 1 привязана к первой карточке сессии.
   const firstCardRef = useRef<ComponentRef<typeof View>>(null);
@@ -53,6 +89,7 @@ export function RulesScreen() {
   return (
     <View style={styles.root}>
       <ScrollView
+        ref={scrollRef}
         key={app.rulesVariant}
         scrollEnabled={tips === 'done'}
         showsVerticalScrollIndicator={false}
@@ -61,12 +98,12 @@ export function RulesScreen() {
         {data.locks.length > 0 && (
           <FadeIn>
             <SectionHeader title="Блокировки" />
-            <View style={styles.blocksRow}>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.blocksRow}>
               {data.locks.map((l) => (
                 <LockCard key={l.id} rule={l} />
               ))}
               <AddBlockCard />
-            </View>
+            </ScrollView>
           </FadeIn>
         )}
 
@@ -88,24 +125,24 @@ export function RulesScreen() {
         )}
 
         {data.limits.length > 0 && (
-          <FadeIn delay={80} style={styles.section}>
+          <View onLayout={event => { limitsTop.current = event.nativeEvent.layout.y; }}><FadeIn delay={80} style={styles.section}>
             <SectionHeader title="Лимиты" />
             {data.limits.map((l) => (
               <LimitCard key={l.id} rule={l} />
             ))}
             <HintPill text="Напр., «Блок после 15 мин в день»" />
-          </FadeIn>
+          </FadeIn></View>
         )}
 
         {data.routines.length > 0 && (
-          <FadeIn delay={120} style={styles.section}>
+          <View onLayout={event => { routinesTop.current = event.nativeEvent.layout.y; }}><FadeIn delay={120} style={styles.section}>
             <SectionHeader title="Рутины" />
-            <RoutineCard />
+            {data.routines.map(rule => <RoutineCard key={rule.id} demoEarned={demoEarned && !rule.configuration} rule={rule} />)}
             <HintPill text="Напр., «Открыть после 5000 шагов»" />
-          </FadeIn>
+          </FadeIn></View>
         )}
 
-        <FadeIn delay={160}>{data.templates === 'classic' ? <ClassicTemplates /> : <GalleryTemplates />}</FadeIn>
+        <View onLayout={event => { templatesTop.current = event.nativeEvent.layout.y; }}><FadeIn delay={160}>{data.templates === 'classic' ? <ClassicTemplates /> : <GalleryTemplates />}</FadeIn></View>
       </ScrollView>
 
       {/* Неподвижная шапка */}
@@ -125,21 +162,25 @@ export function RulesScreen() {
           </T>
         </View>
         <View style={styles.hdrButtons}>
-          <RoundButton variant="white" icon="questionmark" iconWidth={15} iconHeight={20} accessibilityLabel="Справка" />
+          <RoundButton variant="white" icon="questionmark" iconWidth={15} iconHeight={20} accessibilityLabel="Справка" onPress={() => setHelpOpen(true)} />
           <RoundButton
             variant="white"
             icon="ellipsis"
             iconWidth={20}
             iconHeight={7}
             accessibilityLabel="Ещё"
+            onPress={() => setSettingsOpen(true)}
             onLongPress={() => setDemoOpen(true)}
           />
         </View>
       </View>
 
       <BottomChrome start="rules" />
+      {app.sessionNotice && <SessionNotice message={app.sessionNotice} top={Math.max(insets.top, 59) + 13} />}
 
       <Tips step={tips} firstCardBottom={firstCardBottom} onNext={app.advanceOnboarding} />
+      {helpOpen && <Troubleshoot onClose={() => setHelpOpen(false)} />}
+      {settingsOpen && <RuleSettings onClose={() => setSettingsOpen(false)} />}
       <DemoMenu visible={demoOpen} onClose={() => setDemoOpen(false)} />
     </View>
   );
@@ -148,6 +189,14 @@ export function RulesScreen() {
 // ——— Карточки ———
 
 function LockCard({ rule }: { rule: LockRule }) {
+  const app = useAppState();
+  const [open, setOpen] = useState(false);
+  const [now, setNow] = useState(Date.now);
+  const entry = app.appUnlocks[rule.id];
+  useEffect(() => { if (!entry || entry.until <= Date.now()) return; const timer = setInterval(() => { const time = Date.now(); setNow(time); if (time >= entry.until) clearInterval(timer); }, 500); return () => clearInterval(timer); }, [entry]);
+  const remaining = Math.max(0, Math.ceil(((entry?.until ?? 0) - now) / 1000));
+  const count = rule.count ?? (Number(rule.unlocks.match(/\d+/)?.[0]) || 3), available = Math.max(0, count - (entry?.used ?? 0));
+  const supported = !rule.unlockSettings || ['wait', 'reason', 'none'].includes(rule.unlockSettings.unlockMethod);
   return (
     <RuleCard style={styles.blockCard}>
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -155,28 +204,27 @@ function LockCard({ rule }: { rule: LockRule }) {
         <Icon name="chevron-right" width={8} height={11} color={colors.chevron} style={{ marginRight: 1 }} />
       </View>
       <Image
-        source={rule.app === 'bereal' ? art.appBereal : art.appAppleMusic}
+        source={rule.app === 'bereal' ? art.appBereal : lockApp(rule.app)?.image ?? art.appAppleMusic}
         style={{ width: 52, height: 58, marginLeft: -5.2, marginTop: 10.3 }}
       />
       <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 2.3 }}>
-        <Icon name="shield-check" width={19} height={20} color={colors.blocking} style={{ marginRight: 5.8 }} />
+        <Icon name={remaining ? "rule-unlocked-shield" : "shield-check"} width={19} height={20} color={colors.blocking} style={{ marginRight: 5.8 }} />
         <T size={15.25} numberOfLines={1} style={{ flexShrink: 1 }}>
           {rule.name}
         </T>
       </View>
-      <PressScale style={styles.unlock}>
-        <T size={14.25}>Открыть</T>
-        <T size={10} weight={500} color={colors.unlockCount} style={{ marginLeft: 5, marginTop: 2 }}>
-          {rule.unlocks}
-        </T>
+      <PressScale accessibilityRole="button" accessibilityLabel={`Открыть ${rule.name}`} disabled={remaining > 0 || !available || !supported} accessibilityState={{ disabled: remaining > 0 || !available || !supported }} onPress={() => setOpen(true)} style={styles.unlock}>
+        <T size={14.25}>{remaining ? `${String(Math.floor(remaining / 60)).padStart(2, '0')}:${String(remaining % 60).padStart(2, '0')}` : 'Открыть'}</T>
+        {!remaining && <T size={10} weight={500} color={colors.unlockCount} style={{ marginLeft: 5, marginTop: 2 }}>({available}/{count})</T>}
       </PressScale>
+      {open && <AppUnlockSheet rule={rule} onCancel={() => setOpen(false)} onConfirm={(minutes, reason) => { setNow(Date.now()); app.grantAppUnlock(rule.id, minutes, reason, rule.unlockSettings?.unlockMethod === 'reason'); setOpen(false); }} />}
     </RuleCard>
   );
 }
 
 function AddBlockCard() {
   return (
-    <PressScale style={{ marginTop: -0.5 }}>
+    <PressScale accessibilityRole="button" accessibilityLabel="Добавить лимит запусков из правил" onPress={() => router.push('/lock')} style={{ marginTop: -0.5 }}>
       <DashedBox radius={26} style={styles.addCard}>
         <PlusCircle />
         <View style={{ marginTop: 'auto' }}>
@@ -199,17 +247,21 @@ const sessionEmoji = {
 };
 
 function SessionCard({ rule }: { rule: SessionRule }) {
+  const app = useAppState();
+  const [details, setDetails] = useState(false);
+  const title = app.ruleChanges[rule.id]?.title ?? rule.title;
+  const status: Status = app.pausedSessions[rule.id] ? { kind: 'paused' } : rule.status.kind === 'blocking' ? { ...rule.status, strict: app.ruleChanges[rule.id]?.strict ?? rule.strict ?? rule.status.strict } : rule.status;
   return (
     <RuleCard style={[styles.wideCard, styles.cardGap]}>
-      <RuleHeader emoji={sessionEmoji[rule.emoji]} title={rule.title} streak={1} />
+      <RuleHeader emoji={rule.iconId ? <SessionIcon id={rule.iconId} width={23} height={25} /> : sessionEmoji[rule.emoji]} title={title} streak={1} onPress={() => setDetails(true)} />
       <View style={[styles.metaRow, { marginTop: 11 }]}>
-        <StatusPill status={rule.status} />
+        <StatusPill status={status} />
         <MetaView meta={rule.meta} />
       </View>
       <View style={[styles.bottomRow, { marginTop: 17 }]}>
         <Lock />
-        <View style={styles.sessionApps}>
-          <Image source={rule.apps === 'first-rule' ? art.appsFirstRule : art.appsSession} style={{ width: 45, height: 21 }} />
+        <View style={[styles.sessionApps, rule.appGroup && { width: 'auto', flexShrink: 1 }]}>
+          {rule.appIds ? <SessionApps appIds={rule.appIds} reverse={false}/> : rule.appGroup ? <AppGroupSummary group={rule.appGroup} /> : rule.selectedApps ? <SessionApps selected={rule.selectedApps} /> : <Image source={rule.apps === 'first-rule' ? art.appsFirstRule : art.appsSession} style={{ width: 45, height: 21 }} />}
         </View>
         {rule.unlock && (
           <PressScale style={styles.firstUnlock}>
@@ -220,11 +272,15 @@ function SessionCard({ rule }: { rule: SessionRule }) {
           </PressScale>
         )}
       </View>
+      {details && <SessionDetails rule={rule} onClose={() => setDetails(false)} />}
     </RuleCard>
   );
 }
 
 function LimitCard({ rule }: { rule: LimitRule }) {
+  const app = useAppState();
+  const [details, setDetails] = useState(false);
+  const title = app.ruleChanges[rule.id]?.title ?? rule.title;
   return (
     <RuleCard style={[styles.wideCard, { marginTop: 10, paddingBottom: rule.progress === null ? 17 : 18.3 }]}>
       <RuleHeader
@@ -235,7 +291,9 @@ function LimitCard({ rule }: { rule: LimitRule }) {
             <Image source={art.emojiLimitHourglass} style={{ width: 24, height: 28 }} />
           )
         }
-        title={rule.title}
+        title={title}
+        onPress={() => setDetails(true)}
+        accessibilityLabel={`Подробности лимита ${title}`}
         streak={1}
       />
       <View style={[styles.metaRow, { marginTop: 10.6 }]}>
@@ -244,19 +302,20 @@ function LimitCard({ rule }: { rule: LimitRule }) {
       </View>
       <View style={[styles.bottomRow, { marginTop: 15.7 }]}>
         <Lock />
-        <AppsCount count={1} />
+        <AppsCount count={rule.appCount ?? 1} />
         {rule.linkedApps && <Image source={art.limitLinkedApps} style={{ width: 29, height: 23, marginLeft: 4 }} />}
         <T size={17} style={{ marginLeft: 'auto' }}>
           {rule.value}
         </T>
       </View>
       {rule.progress !== null && <Progress value={rule.progress} />}
+      {details && <LimitDetails rule={rule} onClose={() => setDetails(false)} />}
     </RuleCard>
   );
 }
 
 function Progress({ value }: { value: number }) {
-  const v = useRef(new Animated.Value(0)).current;
+  const [v] = useState(() => new Animated.Value(0));
   const [w, setW] = useState(0);
   return (
     <View
@@ -280,52 +339,30 @@ function Progress({ value }: { value: number }) {
   );
 }
 
-function RoutineCard() {
-  const [done, setDone] = useState(false);
-  return (
-    <RuleCard style={[styles.wideCard, { marginTop: 10, paddingBottom: 8 }]}>
-      <RuleHeader emoji={<Image source={art.emojiPlant} style={{ width: 21, height: 31 }} />} title="Рутина" streak={1} />
-      <View style={[styles.metaRow, { marginTop: 11.3 }]}>
-        <StatusPill status={{ kind: 'blocking' }} />
-        <MetaSep />
-        <AllDay />
-      </View>
-      <Pressable style={styles.task} onPress={() => setDone((d) => !d)} accessibilityRole="checkbox" accessibilityState={{ checked: done }}>
-        <View style={[styles.taskRing, done && { backgroundColor: colors.limitProgress, boxShadow: undefined }]}>
-          {done && <Icon name="tip-check" width={14} height={12} color={colors.white} />}
-        </View>
-        <View style={{ flex: 1, marginLeft: 6.7 }}>
-          <T size={15.25}>Убрать в комнате</T>
-          <T size={11.75} weight={500} ls={TRACK_SMALL} color={colors.taskSub} style={{ marginTop: 1 }}>
-            Нажмите, чтобы проверить с ИИ
-          </T>
-        </View>
-        <View style={styles.plusTime}>
-          <Icon name="plus" width={12} height={12} color={colors.taskSub} style={{ marginRight: 3.8 }} />
-          <T size={11.75} ls={TRACK_SMALL} color={colors.taskSub}>
-            5 мин
-          </T>
-        </View>
-      </Pressable>
-      <DashedLine dash="5 5" style={{ marginTop: 17 }} />
-      <View style={[styles.bottomRow, { marginTop: 25.3 }]}>
-        <Lock />
-        <AppsCount count={1} />
-        <T size={24} style={{ marginLeft: 'auto' }}>
-          0с
-        </T>
-      </View>
-    </RuleCard>
-  );
+function RoutineCard({ rule, demoEarned = false }: { rule: RoutineRule; demoEarned?: boolean }) {
+  const [checked, setChecked] = useState(false);
+  const done = demoEarned || checked;
+  const config = rule.configuration;
+  const tasks = config ? routineHabits(config) : [{ id: 'demo', title: demoEarned ? 'Убрать комнату' : 'Убрать в комнате', minutes: 5 }];
+  const appCount = config ? config.appGroup.selectedApps.filter(Boolean).length + config.appGroup.categories.length : 1;
+  return <RuleCard style={[styles.wideCard, { marginTop: 10, paddingBottom: 8 }]}>
+    <RuleHeader emoji={<Image source={art.emojiPlant} style={{ width: 21, height: 31 }} />} title={rule.title} streak={1} />
+    <View style={[styles.metaRow, { marginTop: 11.3 }]}><StatusPill status={{ kind: 'blocking' }} blockingText={config || done ? 'Закрыто' : undefined} /><MetaSep /><AllDay /></View>
+    {tasks.map(task => <Pressable key={task.id} style={styles.task} disabled={!!config || demoEarned} onPress={() => setChecked(value => !value)} accessibilityLabel={`Проверить с ИИ: ${task.title}`} accessibilityHint={config ? 'Проверка по фото пока недоступна' : undefined} accessibilityRole="checkbox" accessibilityState={{ checked: done, disabled: !!config || demoEarned }} aria-checked={done}>
+      <View style={[styles.taskRing, done && { backgroundColor: 'transparent' }]}>{done && <Icon name="goal-check" width={13} height={13} color={colors.ruleCompleted} />}</View><View style={{ flex: 1, marginLeft: 6.7 }}><T size={15.25} color={done ? colors.ruleCompleted : colors.text}>{task.title}</T>{!done && <T size={11.75} weight={500} ls={TRACK_SMALL} color={colors.taskSub} style={{ marginTop: 1 }}>{config ? 'Проверить с ИИ' : 'Нажмите, чтобы проверить с ИИ'}</T>}</View><View style={[styles.plusTime, done && {backgroundColor: colors.ruleRewardBg, boxShadow: undefined}]}><Icon name="plus" width={12} height={12} color={done ? colors.limitProgress : colors.taskSub} style={{ marginRight: 3.8 }} /><T size={11.75} ls={TRACK_SMALL} color={done ? colors.limitProgress : colors.taskSub}>{task.minutes}{done ? 'мин' : ' мин'}</T></View>
+    </Pressable>)}
+    <DashedLine dash="5 5" style={{ marginTop: 17 }} /><View style={[styles.bottomRow, { marginTop: 25.3 }]}><Lock /><AppsCount count={appCount || 1} />{demoEarned && <Pressable accessibilityRole="button" accessibilityLabel="Демо: забрать время" onPress={() => router.setParams({earned:'0'})} style={{marginLeft:'auto',marginRight:8,width:114,height:33,borderRadius:24,backgroundColor:colors.white,boxShadow:shadows.pillSoft,alignItems:'center',justifyContent:'center'}}><T size={13} ls={0}>Забрать время</T></Pressable>}<T size={24} style={{ marginLeft: demoEarned ? 0 : 'auto' }}>{demoEarned?'5мин':'0с'}</T></View>
+  </RuleCard>;
 }
 
-function StatusPill({ status }: { status: Status }) {
+function StatusPill({ status, blockingText = 'Блокирует' }: { status: Status; blockingText?: string }) {
+  if (status.kind === 'paused') return <View style={styles.upcoming}><Icon name="snoozed" width={13.5} height={11.5} color={colors.meta} style={{ marginRight: 2.7 }} /><T size={12} weight={600} color={colors.meta}>На паузе</T></View>;
   if (status.kind === 'blocking') {
     return (
       <View style={styles.blockingPill}>
         <Icon name="shield-check-white" width={13.5} height={17} color={colors.white} style={{ marginRight: 2.3 }} />
         <T size={12.5} color={colors.white}>
-          Блокирует
+          {blockingText}
         </T>
         {status.strict && <Icon name="strict-badge" width={14} color="#ff7428" style={{ position: 'absolute', right: -5, top: -6 }} />}
       </View>
@@ -400,23 +437,31 @@ function MetaView({ meta }: { meta: Meta }) {
 // ——— Шаблоны ———
 
 function TemplatesShell({ children }: { children: React.ReactNode }) {
+  const app = useAppState();
+  const [gallery, setGallery] = useState(false);
   return (
-    <View style={styles.tplBand}>
+    <><View style={[styles.tplBand, app.savedTemplates.length > 0 && { paddingTop: 24 }]}>
       <SectionHeader
         title="Шаблоны"
         right={
-          <PressScale style={styles.seeMore}>
+          <PressScale accessibilityRole="button" accessibilityLabel="Открыть галерею шаблонов" onPress={() => setGallery(true)} style={styles.seeMore}>
             <T size={14.25} color={colors.white}>
-              Ещё
+              {app.savedTemplates.length ? 'Смотреть' : 'Ещё'}
             </T>
             <Icon name="arrow-right-small" width={14} height={14} color={colors.white} style={{ marginLeft: 5 }} />
           </PressScale>
         }
       />
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.tplRow} decelerationRate="fast" snapToInterval={171.333 + 17.3}>
-        {children}
+      <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={[styles.tplRow, app.savedTemplates.length > 0 && { gap: 8 }]} decelerationRate="fast" snapToInterval={171.333 + 17.3}>
+        {app.savedRoutineTemplates.map(template => <SavedTemplateCard key={template.id} template={template} onAdd={() => app.addRoutine({ ...template, id: `routine-${Date.now()}` })} />)}
+        {app.savedLimitTemplates.map(template => <SavedTemplateCard key={template.id} template={template} onAdd={() => app.addLimit({ ...template, id: `limit-${Date.now()}` })} />)}
+        {app.savedTemplates.map(template => <SavedTemplateCard key={template.id} template={template} onAdd={() => app.addSession({ ...template, id: `session-${Date.now()}` })} />)}
+        {app.savedTemplates.length ? <>
+          <ImageTemplate image={art.savedDeepWork} duration="30 мин" title="Глубокий фокус" desc={'Полчаса на главную\nзадачу дня.'} withStart onStart={() => app.addSession({ id: `session-${Date.now()}`, title: 'Глубокий фокус', emoji: 'zap', status: { kind: 'blocking' }, meta: { kind: 'ring', text: 'Осталось 30 мин', progress: 0, tone: 'blocking' }, apps: 'first-rule', selectedApps: [true, true, true] })} />
+          <Image source={art.templateMeTime} style={{ width: 170.667, height: 221, borderRadius: 25.5 }} />
+        </> : children}
       </ScrollView>
-    </View>
+    </View>{gallery && <TemplateGallery onClose={() => setGallery(false)} onChoose={(kind, preset) => { setGallery(false); requestAnimationFrame(() => router.push({ pathname: kind === 'limit' ? '/limit' : '/session', params: preset ? { preset } : {} })); }} />}</>
   );
 }
 
@@ -463,16 +508,18 @@ function ImageTemplate({
   title,
   desc,
   withStart,
+  onStart,
 }: {
   image: number;
   duration: string;
   title: string;
   desc: string;
   withStart?: boolean;
+  onStart?: () => void;
 }) {
   const lines = desc.split('\n').length;
   return (
-    <PressScale scaleTo={0.97} style={[styles.tplCard, { borderRadius: 25.5, overflow: 'hidden' }]}>
+    <PressScale accessibilityRole={onStart ? "button" : undefined} accessibilityLabel={onStart ? `Начать шаблон ${title}` : undefined} onPress={onStart} scaleTo={0.97} style={[styles.tplCard, { borderRadius: 25.5, overflow: 'hidden' }]}>
       <Image source={image} style={StyleSheet.absoluteFill} contentFit="cover" />
       <Glass tone="template" radius={radii.pill} style={[styles.tplPill, { top: 14, left: 13.7, height: 21 }]}>
         <Icon name="lock-fill" width={13} height={15} color={colors.white} style={styles.tplPillIcon} />

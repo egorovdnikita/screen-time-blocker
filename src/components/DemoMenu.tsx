@@ -1,12 +1,13 @@
-import { Animated, Modal, Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { router } from 'expo-router';
+import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { type RulesVariant, type Scenario, useAppState } from '@/state/app';
 import { T, TRACK_SMALL } from '@/theme/typography';
-import { colors, radii } from '@/theme/tokens';
+import { colors, radii, modalTheme } from '@/theme/tokens';
 
 import { Icon } from './Icon';
-import { usePresence } from './motion';
+import { SheetModal } from './SheetModal';
 
 const SCENARIOS: { id: Scenario; title: string; hint: string }[] = [
   { id: 'regular', title: 'Обычный день', hint: '12 мин, «Обновить» → 13 мин' },
@@ -15,7 +16,9 @@ const SCENARIOS: { id: Scenario; title: string; hint: string }[] = [
 ];
 
 const RULES: { id: RulesVariant; title: string }[] = [
+  { id: 'strict', title: 'Строгое правило Apple Music' },
   { id: 'full', title: 'Все правила' },
+  { id: 'reason', title: 'Открытие: указать причину' },
   { id: 'first', title: 'Первое правило' },
   { id: 'sessions', title: 'Две сессии' },
   { id: 'locks', title: 'Блокировки и сессии' },
@@ -27,25 +30,13 @@ const RULES: { id: RulesVariant; title: string }[] = [
 export function DemoMenu({ visible, onClose }: { visible: boolean; onClose: () => void }) {
   const app = useAppState();
   const insets = useSafeAreaInsets();
-  const { mounted, progress } = usePresence(visible);
-  if (!mounted) return null;
-
-  return (
-    <Modal transparent visible animationType="none" onRequestClose={onClose} statusBarTranslucent>
-      <Animated.View style={[StyleSheet.absoluteFill, { backgroundColor: 'rgba(0, 0, 0, 0.35)', opacity: progress }]}>
-        <Pressable style={StyleSheet.absoluteFill} onPress={onClose} accessibilityLabel="Закрыть" />
-      </Animated.View>
-      <Animated.View
-        style={[
-          styles.sheet,
-          {
-            paddingBottom: insets.bottom + 16,
-            transform: [{ translateY: progress.interpolate({ inputRange: [0, 1], outputRange: [500, 0] }) }],
-          },
-        ]}
-      >
+  return <SheetModal visible={visible} animateClose onClose={onClose} backdrop={close => <Pressable style={[StyleSheet.absoluteFill,{backgroundColor:modalTheme.dim}]} onPress={() => close()} accessibilityLabel="Закрыть" />}>
+    {close => <View style={[styles.sheet, { paddingBottom: insets.bottom + 16 }]}>
         <View style={styles.grabber} />
         <ScrollView showsVerticalScrollIndicator={false}>
+          <Row title="Последние 22 экрана" hint="046, 094, 107, 203–207, 265, 310–318, 338–344" selected={false} onPress={() => close(() => { onClose(); router.push('/remaining'); })} />
+          <Row title="Знакомство с Block" hint="Экраны 000–017" selected={false} onPress={() => close(() => { onClose(); router.push('/onboarding'); })} />
+          <Row title="Настройка первой блокировки" hint="Экраны 018–025" selected={false} onPress={() => close(() => { onClose(); router.push('/onboarding?step=18'); })} />
           <T size={12} ls={TRACK_SMALL} color={colors.section} style={styles.caption}>
             ДЕМО · СЦЕНАРИЙ
           </T>
@@ -55,10 +46,7 @@ export function DemoMenu({ visible, onClose }: { visible: boolean; onClose: () =
               title={s.title}
               hint={s.hint}
               selected={app.scenario === s.id}
-              onPress={() => {
-                app.setScenario(s.id);
-                onClose();
-              }}
+              onPress={() => close(() => { app.setScenario(s.id); onClose(); })}
             />
           ))}
           <T size={12} ls={TRACK_SMALL} color={colors.section} style={[styles.caption, { marginTop: 18 }]}>
@@ -69,21 +57,17 @@ export function DemoMenu({ visible, onClose }: { visible: boolean; onClose: () =
               key={r.id}
               title={r.title}
               selected={app.rulesVariant === r.id}
-              onPress={() => {
-                app.setRulesVariant(r.id);
-                onClose();
-              }}
+              onPress={() => close(() => { app.setRulesVariant(r.id); onClose(); })}
             />
           ))}
         </ScrollView>
-      </Animated.View>
-    </Modal>
-  );
+    </View>}
+  </SheetModal>;
 }
 
 function Row({ title, hint, selected, onPress }: { title: string; hint?: string; selected: boolean; onPress: () => void }) {
   return (
-    <Pressable onPress={onPress} style={({ pressed }) => [styles.row, selected && styles.rowOn, pressed && { opacity: 0.6 }]}>
+    <Pressable accessibilityRole="button" accessibilityLabel={title} onPress={onPress} style={({ pressed }) => [styles.row, selected && styles.rowOn, pressed && { opacity: 0.6 }]}>
       <View style={{ flex: 1 }}>
         <T size={15.25} color={selected ? colors.bar : colors.text}>
           {title}

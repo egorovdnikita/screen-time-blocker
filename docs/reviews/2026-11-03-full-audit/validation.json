@@ -1,0 +1,246 @@
+{
+  "appCommit": "131f1ea",
+  "applicationChanged": false,
+  "htmlStatesMeasured": 267,
+  "mappedStatesReviewed": 267,
+  "baselineSnapshots": 315,
+  "contactPages": 34,
+  "findingGroups": 15,
+  "newP0": 0,
+  "newP1Web": 1,
+  "nativeP1Confirmed": 0,
+  "nativeNotTested": true,
+  "screenSizes": [
+    "393x852 main",
+    "375x852",
+    "430x852",
+    "320x568 stress",
+    "375x667 compact"
+  ],
+  "typecheck": "pass",
+  "lint": "pass",
+  "viewer": {
+    "options": 267,
+    "findings": 15,
+    "imagesLoad": true,
+    "zoom200WidthPx": [
+      786,
+      786
+    ]
+  },
+  "currentStaticBuild": "/tmp/block-remaining-final-web, application code unchanged since484ffc6",
+  "scriptRuns": [
+    {
+      "name": "onboarding",
+      "exit": 0,
+      "seconds": 58.7,
+      "shots": 25
+    },
+    {
+      "name": "session-flow",
+      "exit": 0,
+      "seconds": 20.3,
+      "shots": 8
+    },
+    {
+      "name": "session-icons",
+      "exit": 0,
+      "seconds": 20.0,
+      "shots": 7
+    },
+    {
+      "name": "app-group",
+      "exit": 0,
+      "seconds": 8.3,
+      "shots": 2,
+      "note": "Отдельный повтор после ошибки старта браузера: App group flow OK"
+    },
+    {
+      "name": "unlock-methods",
+      "exit": 0,
+      "seconds": 30.2,
+      "shots": 6
+    },
+    {
+      "name": "unlock-scan",
+      "exit": 0,
+      "seconds": 27.0,
+      "shots": 6
+    },
+    {
+      "name": "time-limit",
+      "exit": 1,
+      "seconds": 36.1,
+      "shots": 17
+    },
+    {
+      "name": "custom-habit",
+      "exit": 1,
+      "seconds": 49.3,
+      "shots": 7
+    },
+    {
+      "name": "reflection-delete",
+      "exit": 0,
+      "seconds": 30.3,
+      "shots": 3
+    },
+    {
+      "name": "activities-settings",
+      "exit": 0,
+      "seconds": 16.7,
+      "shots": 6
+    },
+    {
+      "name": "estimated-time",
+      "exit": 0,
+      "seconds": 11.8,
+      "shots": 4
+    },
+    {
+      "name": "session-details",
+      "exit": 0,
+      "seconds": 36.9,
+      "shots": 4
+    },
+    {
+      "name": "template-details",
+      "exit": 0,
+      "seconds": 12.0,
+      "shots": 3
+    },
+    {
+      "name": "named-groups",
+      "exit": 0,
+      "seconds": 23.8,
+      "shots": 10
+    },
+    {
+      "name": "main-settings",
+      "exit": 0,
+      "seconds": 8.4,
+      "shots": 3
+    },
+    {
+      "name": "legacy-limits",
+      "exit": 0,
+      "seconds": 7.4,
+      "shots": 2
+    },
+    {
+      "name": "editor-scroll-return",
+      "exit": 0,
+      "seconds": 30.0,
+      "shots": 16
+    },
+    {
+      "name": "remaining",
+      "exit": 0,
+      "seconds": 48.4,
+      "shots": 22
+    },
+    {
+      "name": "session-pickers",
+      "exit": 0,
+      "seconds": 37.1,
+      "shots": 10
+    },
+    {
+      "name": "session-unlocks",
+      "exit": 0,
+      "seconds": 38.9,
+      "shots": 11
+    },
+    {
+      "name": "strict-flow",
+      "exit": 0,
+      "seconds": 27.0,
+      "shots": 7
+    },
+    {
+      "name": "unlock-text",
+      "exit": 0,
+      "seconds": 22.4,
+      "shots": 4
+    },
+    {
+      "name": "lock-rule",
+      "exit": 0,
+      "seconds": 34.5,
+      "shots": 10
+    },
+    {
+      "name": "routine",
+      "exit": 0,
+      "seconds": 45.2,
+      "shots": 12
+    },
+    {
+      "name": "reflection",
+      "exit": 0,
+      "seconds": 26.9,
+      "shots": 6
+    },
+    {
+      "name": "reflection-summary-ui",
+      "exit": 0,
+      "seconds": 22.5,
+      "shots": 4
+    },
+    {
+      "name": "goal-reminders",
+      "exit": 0,
+      "seconds": 27.0,
+      "shots": 8
+    },
+    {
+      "name": "app-unlock",
+      "exit": 0,
+      "seconds": 29.8,
+      "shots": 9
+    },
+    {
+      "name": "limit-details",
+      "exit": 0,
+      "seconds": 9.6,
+      "shots": 3
+    },
+    {
+      "name": "gallery",
+      "exit": 0,
+      "seconds": 16.3,
+      "shots": 3
+    },
+    {
+      "name": "block-screens",
+      "exit": 0,
+      "seconds": 30.1,
+      "shots": 16
+    },
+    {
+      "name": "troubleshoot",
+      "exit": 0,
+      "seconds": 13.9,
+      "shots": 6
+    },
+    {
+      "name": "emergency-interface",
+      "exit": 0,
+      "seconds": 43.2,
+      "shots": 18
+    },
+    {
+      "name": "profile-sheet-motion",
+      "exit": 0,
+      "seconds": 15.6,
+      "shots": 7
+    }
+  ],
+  "legacyFailures": {
+    "time-limit": "Правило создано, заголовок4активных и карточка сохранены; проверка1400ms-тоста опоздала из-за измерений. Не записано как P1.",
+    "custom-habit": "Создание/редактирование выполнено, старый assert абсолютной позиции после раскрытия completion не совпадает с реальным scroll-каркасом. Это не зелёная приёмка геометрии; учесть при нативной сверке.",
+    "app-group": "Первый сбой старта Chrome, отдельный повтор успешен."
+  },
+  "knownLimitationsSource": "existing-known.json; previous AUDIT_LOG; prior feature reports",
+  "notes": "Успех UI-прогона/сопоставленная пара не означает0расхождений1:1. Внешние системные функции не проверялись и не подключались."
+}

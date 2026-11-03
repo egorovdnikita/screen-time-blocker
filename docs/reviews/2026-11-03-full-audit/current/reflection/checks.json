@@ -1,0 +1,19 @@
+{
+  "geometry": {
+    "x": 274,
+    "y": 457.984375,
+    "width": 63,
+    "height": 28,
+    "top": 457.984375,
+    "right": 337,
+    "bottom": 485.984375,
+    "left": 274
+  },
+  "cancel": true,
+  "save": true,
+  "edit": true,
+  "always": true,
+  "dayIsolation": true,
+  "excludeToday": true,
+  "errors": []
+}

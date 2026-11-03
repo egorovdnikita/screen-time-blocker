@@ -1,0 +1,71 @@
+{
+  "id": 241,
+  "name": "block-screen-message-preview",
+  "source": "/dist/51-creating-a-screen-message__05-block-screen-message-preview/index.html",
+  "status": "layout_present",
+  "component": "src/screens/rules/BlockScreens.tsx",
+  "evidence": "docs/reviews/2026-11-03-block-screens/README.md",
+  "title": "Экраны блокировки — Block",
+  "texts": [
+    {
+      "text": "Закрой",
+      "x": 159.015625,
+      "y": 404,
+      "w": 74.953125,
+      "h": 26,
+      "font": "22px",
+      "weight": "700",
+      "line": "28px",
+      "color": "rgb(17, 17, 17)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Просто закрой",
+      "x": 123.328125,
+      "y": 461,
+      "w": 146.34375,
+      "h": 24,
+      "font": "21px",
+      "weight": "400",
+      "line": "28px",
+      "color": "rgb(125, 135, 151)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Блокирует:",
+      "x": 87.890625,
+      "y": 516,
+      "w": 111.59375,
+      "h": 24,
+      "font": "21px",
+      "weight": "400",
+      "line": "28px",
+      "color": "rgb(125, 135, 151)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Рутина",
+      "x": 234.484375,
+      "y": 516,
+      "w": 70.625,
+      "h": 24,
+      "font": "21px",
+      "weight": "400",
+      "line": "28px",
+      "color": "rgb(125, 135, 151)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Закрыть",
+      "x": 162.078125,
+      "y": 775,
+      "w": 68.828125,
+      "h": 20,
+      "font": "17px",
+      "weight": "400",
+      "line": "22px",
+      "color": "rgb(255, 255, 255)",
+      "bg": "rgb(77, 130, 235)"
+    }
+  ]
+}

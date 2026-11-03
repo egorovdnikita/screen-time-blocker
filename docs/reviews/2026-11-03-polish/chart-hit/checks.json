@@ -1,0 +1,25 @@
+{
+  "results": [
+    {
+      "hour": 14,
+      "target": {
+        "x": 208.84440104166666,
+        "y": 552.796875,
+        "hidden": false
+      },
+      "glued": true,
+      "offline": false
+    },
+    {
+      "hour": 0,
+      "target": {
+        "x": 41.628255208333336,
+        "y": 552.796875,
+        "hidden": false
+      },
+      "glued": false,
+      "offline": true
+    }
+  ],
+  "errors": []
+}

@@ -1,0 +1,107 @@
+{
+  "id": 80,
+  "name": "unlock-wait-automatic",
+  "source": "/dist/10-updating-an-unlock-method-settings__01-unlock-wait-automatic/index.html",
+  "status": "layout_present",
+  "component": "src/screens/session/SessionEditor.tsx",
+  "evidence": "docs/HANDOFF.md",
+  "title": "Способ открытия — Block",
+  "texts": [
+    {
+      "text": "Перед открытием…",
+      "x": 101.828125,
+      "y": 113,
+      "w": 189.328125,
+      "h": 24,
+      "font": "20px",
+      "weight": "700",
+      "line": "24px",
+      "color": "rgb(17, 17, 17)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Ничего не делать",
+      "x": 70,
+      "y": 191,
+      "w": 115.703125,
+      "h": 18,
+      "font": "15px",
+      "weight": "400",
+      "line": "20px",
+      "color": "rgb(17, 17, 17)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Немного подождать",
+      "x": 70,
+      "y": 258,
+      "w": 196.171875,
+      "h": 24,
+      "font": "20px",
+      "weight": "700",
+      "line": "27px",
+      "color": "rgb(17, 17, 17)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Время подумать",
+      "x": 142.421875,
+      "y": 332,
+      "w": 108.140625,
+      "h": 16,
+      "font": "14px",
+      "weight": "600",
+      "line": "18px",
+      "color": "rgb(148, 148, 148)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Автоматически",
+      "x": 52,
+      "y": 556,
+      "w": 109.703125,
+      "h": 17,
+      "font": "15px",
+      "weight": "400",
+      "line": "20px",
+      "color": "rgb(17, 17, 17)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Пауза растёт с каждым открытием приложения.",
+      "x": 68.03125,
+      "y": 605,
+      "w": 256.9375,
+      "h": 14,
+      "font": "12px",
+      "weight": "400",
+      "line": "16px",
+      "color": "rgb(133, 141, 151)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Указать причину",
+      "x": 70,
+      "y": 666,
+      "w": 110.359375,
+      "h": 18,
+      "font": "15px",
+      "weight": "400",
+      "line": "20px",
+      "color": "rgb(17, 17, 17)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Сохранить",
+      "x": 152.34375,
+      "y": 773,
+      "w": 88.296875,
+      "h": 20,
+      "font": "17px",
+      "weight": "700",
+      "line": "22px",
+      "color": "rgb(255, 255, 255)",
+      "bg": "rgba(0, 0, 0, 0)"
+    }
+  ]
+}

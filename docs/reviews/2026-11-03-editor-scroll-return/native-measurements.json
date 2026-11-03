@@ -1,0 +1,30 @@
+{
+  "source": "Expo Go native runtime",
+  "editorScroll": [],
+  "switchGeometry": {
+    "style": [
+      {
+        "alignSelf": "flex-start"
+      },
+      {
+        "alignSelf": "center"
+      }
+    ],
+    "switch": {
+      "x": 261,
+      "y": 19,
+      "width": 63,
+      "height": 28,
+      "pageX": 298,
+      "pageY": 378
+    },
+    "row": {
+      "x": 17,
+      "y": 55,
+      "width": 340,
+      "height": 198,
+      "pageX": 37,
+      "pageY": 359
+    }
+  }
+}

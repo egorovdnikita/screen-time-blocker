@@ -1,0 +1,21 @@
+{
+  "geometry": {
+    "x": 28,
+    "y": 749.328125,
+    "width": 337,
+    "height": 54,
+    "top": 749.328125,
+    "right": 365,
+    "bottom": 803.328125,
+    "left": 28
+  },
+  "validation": true,
+  "cancel": true,
+  "save": true,
+  "duplicate": true,
+  "iconPicker": true,
+  "reflectionMenu": true,
+  "summary": true,
+  "goal": true,
+  "errors": []
+}

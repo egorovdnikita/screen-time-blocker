@@ -1,0 +1,45 @@
+{
+  "url": "http://localhost:8088/onboarding?step=14",
+  "width": 393,
+  "height": 852,
+  "texts": [
+    {
+      "text": "Поэтому мы запустили\nBlock в 2022 году,\nчтобы помочь вам",
+      "x": 46.53125,
+      "y": 446,
+      "w": 299.9375,
+      "h": 101,
+      "font": "27px",
+      "weight": "700",
+      "line": "34px",
+      "color": "rgb(0, 0, 0)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Как это работает?",
+      "x": 122.53125,
+      "y": 773,
+      "w": 147.9375,
+      "h": 20,
+      "font": "17px",
+      "weight": "700",
+      "line": "22px",
+      "color": "rgb(255, 255, 255)",
+      "bg": "rgba(0, 0, 0, 0)"
+    }
+  ],
+  "controls": [
+    {
+      "label": "Как это работает?",
+      "role": "button",
+      "disabled": null,
+      "checked": null,
+      "selected": null,
+      "x": 20,
+      "y": 753,
+      "w": 353,
+      "h": 60
+    }
+  ],
+  "scrollWidth": 393
+}

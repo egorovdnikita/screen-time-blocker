@@ -3,7 +3,7 @@
 //
 //   node tools/gen-icons.mjs <папка-с-выгрузками> [ещё папки…]
 //
-// Ищет рекурсивно все */icons/*.svg (кроме */assets/*), убирает width/height,
+// Ищет рекурсивно все */icons/*.svg (кроме */assets/*), убирает width/height только у корневого SVG,
 // склеивает в один модуль. Иконки из MANUAL не перезаписываются — они поправлены
 // руками (см. комментарии в data.ts). Иконки, которых нет в выгрузке, сохраняются.
 
@@ -31,7 +31,8 @@ function walk(dir) {
         found[f.slice(0, -4)] = fs
           .readFileSync(path.join(p, f), 'utf8')
           .trim()
-          .replace(/\s(width|height)="[^"]*"/g, '')
+          .replace(/\sdata-[\w-]+="[^"]*"/g, '')
+          .replace(/^<svg\b[^>]*>/, tag => tag.replace(/\s(width|height)="[^"]*"/g, ''))
           .replace(/\n\s*/g, ' ');
       }
     } else walk(p);

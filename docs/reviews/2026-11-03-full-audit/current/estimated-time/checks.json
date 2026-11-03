@@ -1,0 +1,18 @@
+{
+  "geometry": {
+    "x": 20,
+    "y": 509.640625,
+    "width": 353,
+    "height": 41,
+    "top": 509.640625,
+    "right": 373,
+    "bottom": 550.640625,
+    "left": 20
+  },
+  "expand": true,
+  "collapse": true,
+  "demoRefresh": true,
+  "persistDuringSession": true,
+  "toastExpires": true,
+  "errors": []
+}

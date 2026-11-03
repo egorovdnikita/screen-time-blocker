@@ -1,0 +1,22 @@
+{
+  "initial": {
+    "value": 30,
+    "rect": {
+      "x": 264.28125,
+      "y": 342,
+      "width": 48,
+      "height": 220,
+      "top": 342,
+      "right": 312.28125,
+      "bottom": 562,
+      "left": 264.28125
+    }
+  },
+  "scrollValue": 50,
+  "minimumMinute": true,
+  "durationSaved": true,
+  "midnightNoon": true,
+  "allDayDisabled": true,
+  "scheduleSaved": true,
+  "errors": []
+}

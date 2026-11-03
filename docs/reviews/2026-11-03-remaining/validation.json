@@ -1,0 +1,22 @@
+{
+  "date": "2026-11-03",
+  "typecheck": "pass",
+  "lint": "pass",
+  "webExport": "pass",
+  "iosJsBundle": "pass",
+  "chrome22States": "pass on Metro8082 and static8088",
+  "qrPngDownload": "pass on static8088",
+  "mainSettingsRegression": "pass on Metro8082",
+  "emergencyInterfaceRegression": "pass on static8088; first dev run ended with Metro1006 after scenarios",
+  "nativeSwitchIntrinsicSize": "pass",
+  "modalLifecycleIosDismissBarrier": "pass",
+  "coverage": {
+    "total": 267,
+    "layoutPresent": 267,
+    "missing": 0
+  },
+  "expoStatus": "running8082; ios manifestSDK58; ios dev bundleHTTP200",
+  "physicalIosVisual": "not tested",
+  "androidVisual": "not tested",
+  "acceptance1to1": "pending per user request"
+}

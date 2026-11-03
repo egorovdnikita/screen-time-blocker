@@ -1,0 +1,38 @@
+[
+  {
+    "name": "app-group",
+    "exit": 1,
+    "seconds": 8.3,
+    "shots": 2
+  },
+  {
+    "name": "unlock-scan",
+    "exit": 0,
+    "seconds": 27.0,
+    "shots": 6
+  },
+  {
+    "name": "custom-habit",
+    "exit": 1,
+    "seconds": 49.3,
+    "shots": 7
+  },
+  {
+    "name": "remaining",
+    "exit": 0,
+    "seconds": 48.4,
+    "shots": 22
+  },
+  {
+    "name": "strict-flow",
+    "exit": 0,
+    "seconds": 27.0,
+    "shots": 7
+  },
+  {
+    "name": "routine",
+    "exit": 0,
+    "seconds": 45.2,
+    "shots": 12
+  }
+]

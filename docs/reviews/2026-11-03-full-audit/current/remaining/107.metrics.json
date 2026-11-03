@@ -1,0 +1,68 @@
+{
+  "url": "http://localhost:8088/remaining?id=107",
+  "width": 393,
+  "height": 852,
+  "texts": [
+    {
+      "text": "1 приложение",
+      "x": 129.484375,
+      "y": 113,
+      "w": 134.015625,
+      "h": 24,
+      "font": "20px",
+      "weight": "700",
+      "line": "25px",
+      "color": "rgb(0, 0, 0)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Отлично! Всё настраиваем…",
+      "x": 116.234375,
+      "y": 433,
+      "w": 160.515625,
+      "h": 14,
+      "font": "12px",
+      "weight": "600",
+      "line": "16px",
+      "color": "rgb(133, 135, 142)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Продолжить",
+      "x": 142.984375,
+      "y": 773,
+      "w": 107.015625,
+      "h": 20,
+      "font": "17px",
+      "weight": "700",
+      "line": "normal",
+      "color": "rgb(255, 255, 255)",
+      "bg": "rgba(0, 0, 0, 0)"
+    }
+  ],
+  "controls": [
+    {
+      "label": "Закрыть лист свайпом вниз",
+      "role": "button",
+      "disabled": null,
+      "checked": null,
+      "selected": null,
+      "x": 0,
+      "y": 69,
+      "w": 393,
+      "h": 40
+    },
+    {
+      "label": "Настройка приложения: продолжить",
+      "role": "button",
+      "disabled": "true",
+      "checked": null,
+      "selected": null,
+      "x": 20,
+      "y": 753,
+      "w": 353,
+      "h": 60
+    }
+  ],
+  "scrollWidth": 393
+}

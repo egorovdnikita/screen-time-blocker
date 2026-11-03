@@ -54,6 +54,8 @@ export const colors = {
   progressTrack: '#eaeff0',
   blockingPill: '#3a82f7',
   taskRing: '#e4e5e6',
+  ruleCompleted: '#c5cbd3',
+  ruleRewardBg: '#eaf9ef',
   taskSub: '#777b82',
   seeMore: '#171717',
   hdrBlur: '#f9f9f9',
@@ -148,3 +150,264 @@ export const insetBorder = (color: string, width = 1.333) => `inset 0px 0px 0px 
 
 // Горизонтальное поле экрана в макете.
 export const GUTTER = 20;
+
+// Поток04: значения из session-editor.css и blocking-menu.css HTML-выгрузок.
+export const sessionTheme = {
+  backdrop: 'rgba(0,0,0,.52)', surface: '#f7f7f9', menu: 'rgba(250,250,252,.68)',
+  ink: '#111114', secondary: '#7a7f88', section: '#858b95', handle: '#e5e6e8',
+  orange: '#ffab13', cyan: '#22b8e8', red: '#ff5427', violet: '#bd69e8', green: '#12c67a',
+  strict: '#e1785c', blue: '#3983f0', off: '#c7c8ca', disabled: '#c5c7ca',
+  dark: '#191919', rim: '#929393', line: 'rgba(110,120,130,.28)', badge: '#edf0f3',
+  rowShadow: '0px 1px 2px #00000010, 0px 3px 10px #16203a04',
+  buttonShadow: 'inset 0px 0px 0px .833px #929393, 0px 6px 16px #1018200a',
+  buttonGradient: ['#191919', '#181818', '#1b1b1b'], buttonDisabled: '#b3b4b8', buttonDisabledInk: '#cdced2', buttonDisabledSecondary: '#a9aaae',
+  focusGradient: ['#21265e', '#9630a7'],
+  sheetRadius: 40, rowRadius: 22, suggestionRadius: 20, side: 20,
+} as const;
+
+// Колёса и поповер времени из состояний048–053 HTML-потока04.
+export const sessionPickerTheme = {
+  wheelMuted: '#aeb2b9', wheelPill: '#f4f5f7', wheelInk: '#18191b',
+  segmentBorder: '#e1e3e7', scheduleGrid: '#f7f8fa', scheduleLine: '#e4e6e9', scheduleTime: '#e9eaed',
+  clockFill: 'rgba(250,250,252,.94)', clockMask: '#fafafc', clockFade: 'rgba(250,250,252,0)',
+  whiteFade: 'rgba(255,255,255,0)', clockRim: 'rgba(255,255,255,.75)',
+  switchThumbShadow: 'none', switchOn: '#3983ed', switchOff: '#c1c0c5',
+  clockShadow: '0px 8px 24px #0f141e20, inset 0px 1px 0px #ffffffe6',
+  note: '#858a93', inactiveDay: '#858b95',
+  activityRadius: 25, gridRadius: 22, clockRadius: 28,
+  clockWidth: 234, clockHeight: 204, clockCenter: 103, clockRow: 28,
+  durationHeight: 220, durationCenter: 96, durationRow: 29,
+} as const;
+
+// Разблокировки055/056: значения сняты с template-editor-fixes.css.
+export const sessionUnlockTheme = {
+  radius: 25, choiceRadius: 23, countRadius: 21,
+  countShadow: '0px 2px 9px #10182814',
+  maxBackground: '#eff6fe', maxInk: '#3983d8', muted: '#c5c7ca',
+  durationRadius: 44, durationSurface: '#f7f9fb', durationFade: 'rgba(247,249,251,0)', durationBackdrop: 'rgba(20,22,27,.16)', durationHighlight: '#e3e4e6', durationHelp: '#89929f', durationButton: '#17191a',
+  countSize: 40, countButton: 41, detailHeight: 374,
+} as const;
+
+export const savedTemplateTheme = {
+  width: 170.667, height: 221, radius: 25.5, pillRadius: 14, buttonRadius: 18,
+  pill: '#fcfcfc', pillShadow: '0px 6px 20px #141e3c04', buttonShadow: '0px 6px 20px #171b2605',
+} as const;
+
+// Нижний лист выбора emoji059/060.
+export const sessionIconTheme = {
+  surface: '#f7f8fa', backdrop: 'rgba(0,0,0,.12)', handle: '#d7d9dc',
+  focusOutline: 'transparent', searchBorder: '#dedfe2', placeholder: '#b9bdc3', searchIcon: '#c2c5c9',
+  sheetTopRadius: 52, sheetBottomRadius: 64, searchRadius: 30, tileRadius: 16,
+} as const;
+
+// Настройки перед открытием080–082/084.
+export const unlockMethodTheme = {
+  backdrop: 'rgba(0,0,0,.2)',
+  surface: '#f6f8fa', backSheet: '#dadbdd', handle: '#dcdfe2', radioBorder: '#e5e8eb',
+  grid: '#f7f8fa', line: '#f0f0f2', stepper: '#e9eaed', stepperLine: '#c6c8cc',
+  value: '#7c8797', note: '#858d97', deviceLabel: '#949494', deviceIntent: '#94bff6',
+  copyFade: 'rgba(255,255,255,0)', surfaceFade: 'rgba(246,248,250,0)',
+  copyBorder: '#e7e8eb', copyAction: '#4f91ce', copyPlaceholder: '#b0b5bd', copyRadius: 25,
+  scanGrid: '#f5f7f9', scanLine: '#eef0f2', scanValue: '#818d9f', scanChevron: '#c6ccd2',
+  scanNote: '#7b8799', scanLink: '#91bffa', scanHint: '#a1a6ab', scanWarning: '#ef9c00', scanWarningFill: '#fff3d9',
+  scanDisabled: '#b6b7b9', scanDisabledInk: '#d9dadd', scanMenu: '#fafbfbd9', scanMenuBorder: '#ffffffb0',
+  scanMenuShadow: '0px 8px 26px #27334515', scanMenuRadius: 35, scanPillRadius: 14,
+  panelRadius: 44, cardRadius: 21, gridRadius: 19, stepperRadius: 20,
+} as const;
+
+export const strictTheme = {
+  surface: '#f6f8fa', backdrop: 'rgba(0,0,0,.13)', handle: '#dcdfe2', border: '#e3e5e8',
+  secondary: '#7b8698', blue: '#4b83ed', note: '#7d8797', countFill: '#f4f5f7',
+  gradient: ['#fa5851', '#ffaf46'], red: '#fb534b', orange: '#ffac49',
+  radius: 34, cardRadius: 21, tabRadius: 23,
+  surfaceFade: 'rgba(246,248,250,.9)',
+  alertBackdrop: 'rgba(0,0,0,.2)', alertCopy: '#595959', alertCancel: '#d0d0d0', alertPrimary: '#0088ff',
+  alertGradient: ['rgba(255,255,255,.46)', 'rgba(255,255,255,.82)'],
+  alertShadow: 'inset 0px 0px 0px 1px #ffffffa8, 0px 10px 30px #0000000c',
+} as const;
+
+// Группа приложений063–069: app-groups.css и app-group-fixes.css.
+export const appGroupTheme = {
+  backdrop: 'rgba(0,0,0,.2)', summaryBackdrop: 'rgba(0,0,0,.2)', optionsBackdrop: 'rgba(0,0,0,.2)', backSheet: '#e1e2e3',
+  surface: '#f2f2f8', optionsSurface: '#f7f8fa', dim: 'rgba(0,0,0,.13)',
+  handle: '#d9dadd', blue: '#3983ed', checkboxBlue: '#4285ed', title: '#8a9099',
+  segment: '#e5e5eb', segmentShadow: '0px 2px 5px #10182818',
+  summary: '#e6eaf8', summaryInk: '#4184e7', radio: '#d2d5da', optionRadio: '#d4d6da',
+  divider: '#ededee', optionDivider: '#f0f0f2', chevron: '#c3c7cc', count: '#a9adb4', section: '#969da8',
+  note: '#838b99', secondary: '#858d9a', placeholder: '#bec2c7', inputBorder: '#dedfe3',
+  addDisabled: '#a8c6f5', badge: '#e9edef', error: '#b73d37', focusOutline: 'transparent',
+  searchFill: 'rgba(255,255,255,.92)', searchShadow: '0px 5px 15px #12182714',
+  extraShadow: '0px 2px 8px #1018280c', surfaceFade: 'rgba(242,242,248,0)',
+  sheetRadius: 34, sheetBottomRadius: 40, segmentRadius: 18, segmentInnerRadius: 15,
+  listRadius: 25, extraRadius: 20, searchRadius: 26, badgeRadius: 16,
+  optionsTopRadius: 36, optionsBottomRadius: 52, inputRadius: 28, websiteRadius: 20,
+} as const;
+
+// Лимит запусков103–111: lock-rule-summary.css / single-app-picker.css / app-confirmation.css.
+export const lockTheme = {
+  buttonGradient: ['#191919', '#181818', '#1b1b1b'],
+  backdrop: 'rgba(0,0,0,.2)', surface: '#f6f8fa', gradient: ['#f8fafb', '#f3f5f7', '#f6f8fa'],
+  handle: '#dcdde1', backSheet: '#dedfe1', picker: '#f4f3fa', pickerFade: 'rgba(244,243,250,0)', pickerFadeMid: 'rgba(244,243,250,.64)', pickerFadeEnd: 'rgba(244,243,250,.94)', confirmFade: 'rgba(246,248,250,0)',
+  hint: '#c8cdd2', muted: '#c7ccd2', max: '#c6cbd2', note: '#7d8797', ink: '#111111',
+  sumFill: '#edf4ff', blue: '#3983ed', disabled: '#b3b4b8', disabledInk: '#cdced2', dark: '#17191a',
+  rowChild: '#f9f9fc', line: '#ededee', confirmLine: '#f0f1f2', radio: '#d1d1d6', radioOn: '#0095f5',
+  searchBorder: '#dce0e4', placeholder: '#b7bcc4', section: '#b9bfc7', searchFill: '#ffffffdf',
+  searchShadow: '0px 12px 35px #26232e0a', counterShadow: '0px 6px 18px #00000007', backShadow: '0px 10px 25px #00000008',
+  radius: 40, panelRadius: 44, categoryRadius: 28, searchRadius: 30, confirmRadius: 21, buttonRadius: 32,
+} as const;
+
+// Лимит времени114–130: time-limit-editor/fixes, limit-detail-states.
+export const timeLimitTheme = {
+  surface: '#f6f8fa', backdrop: 'rgba(0,0,0,.2)', handle: '#d8dade', ink: '#141517', secondary: '#828a95',
+  subtitle: '#777f8d', hint: '#858b95', grid: '#f7f8fb', line: '#eceef2', value: '#818894',
+  warningFill: '#fff7e3', warning: '#f5a400', badge: '#f1f3f6', summary: '#e4e8f7', blue: '#3983ed',
+  dayBorder: '#e2e3e6', dayOff: '#c5cad0', disabled: '#b3b4b8', disabledInk: '#cdced2',
+  stepper: '#e9eaed', stepperLine: '#c7c9cd', surfaceFade: 'rgba(246,248,250,0)',
+  panelRadius: 22, gridRadius: 18, stepperRadius: 18,
+} as const;
+
+// Рутины131–139: routine-editor-fixes / habit-picker / routine-selected-states.
+export const routineTheme = {
+  group: '#9ba2ad', border: '#e1e5e9', edit: '#cbd0d6', note: '#7d8797', placeholder: '#b7bcc4',
+  segmentBorder: '#e3e4e7', muted: '#858b95', blue: '#3983ed', warning: '#e7a91d', warningFill: '#fff8e9',
+  completionBlue: '#4c82eb', warningDot: '#ffb200', radioOn: '#0095f5', addBorder: '#d9dce1', addFill: '#e8eaee', earnedFill: '#edf4ff', earned: '#4386e2',
+  line: '#eff0f2', badgeBorder: '#e5e6e9', pickerRadius: 44, cardRadius: 21,
+} as const;
+
+// Создание привычки143–145: habit-form.css.
+export const habitFormTheme = {
+  backdrop: 'rgba(0,0,0,.2)', placeholder: '#bfc3c9', border: '#dfe1e5', ink: '#111111',
+  muted: '#858d9b', label: '#9ba2ad', edit: '#c3c8ce', badgeBorder: '#e5e6e9',
+  createBorder: '#d5d9df', createInk: '#858f9e', createFill: '#e4e7ec',
+  roundShadow: '0px 10px 25px #00000007', sectionRadius: 19, descriptionRadius: 22,
+} as const;
+
+// session-reflection-editor.css, состояния156–161.
+export const reflectionTheme = {
+  backdrop: 'rgba(0,0,0,.6)', panel: '#f6f8fa', rim: '#ffffff80', muted: '#969daa', blue: '#4384f4',
+  close: '#ffffffb3', exclude: '#e8f1ff', pair: '#00000033', header: '#80858b',
+  menuTop: '#f7f9fbea', menuBottom: '#f7f9fbaa',
+  roundShadow: '0 10px 25px #16202a0a', confirmRim: 'inset 0 0 0 1px #ffffff44',
+  menuShadow: 'inset 0 0 0 1px #ffffffc0, 0 12px 30px #0000001a', radius: 34,
+};
+
+export const settingsTheme = {
+  backdrop: 'rgba(0,0,0,.2)', transparent: '#ffffff00', surface: '#f4f6f9', front: '#f6f8fa', back: '#d8dadd', handle: '#d9dce1',
+  title: '#111111', ink: '#090909', section: '#929aa8', icon: '#969eaa', value: '#7f899a', chevron: '#c1c6ce', note: '#8791a2', border: '#eff0f2',
+  stepShadow: '0 3px 12px #25354c12', description: '#7e899c', field: '#d8dce1', pencil: '#c0c5ce',
+  formDisabled: '#9fbff2', formDisabledInk: '#ffffffa6', blue: '#4384f4', dim: '#00000021', dark: '#17191a',
+  buttonShadow: '0 12px 25px #16202a0a', stackRadius: 44, formRadius: 44,
+};
+
+export const dailyGoalTheme = {
+  round: '#ffffffbd', disabled: '#a2c2f1', separator: '#f0f1f3', value: '#80899a', off: '#ffffffc0',
+  wheelHighlight: '#f5f5f5', wheelFade: '#ffffff00', toast: '#57bf6c', toastShadow: '0 2px 9px #0002',
+};
+
+export const reminderTheme = {
+  close: '#e9edf0', stepper: '#f4f4f5', separator: '#e0e0e4', alertDim: 'rgba(0,0,0,.2)',
+  alertSurface: 'rgba(246,249,249,.73)', alertInk: '#636a6c', cancel: '#c5c8c7', proceed: '#0085ff',
+  alertShadow: 'inset 0 0 0 1px #ffffffcc,0 12px 30px #0000001a', alertRadius: 35.8557,
+};
+
+export const estimatedTheme = {
+  learn: '#e2ebfa', blue: '#2682ff', section: '#949eae', dateInk: '#778398', border: '#d7dce3', selected: '#0085ff',
+  value: '#7b879d', hint: '#7d899e', toast: '#5fc772', toastShadow: '0 12px 24px #0000001a',
+  buttonShadow: '0 8px 20px #0000000a',
+};
+
+export const shareDevicesTheme = {
+  top: '#f9f9f9', bottom: '#f8fafb', ink: '#090a0c', setting: '#f2f2f7', border: '#dedfe4', copy: '#898a90', number: '#c5c9d0',
+  closeShadow: '0 10px 25px #00000006',
+};
+
+export const appUnlockTheme = {
+  backdrop: 'rgba(0,0,0,.2)', surface: '#f8fafb', handle: '#d9dcdf', badge: '#ffffffbf',
+  blueTop: '#3085fe', blueBottom: '#0266f6', blueRim: '#91bff1', green: '#15c666', greenRim: '#72dfa0',
+  blueShadow: '0 18px 40px #2781f233', greenShadow: '0 18px 40px #18bf6330',
+  badgeShadow: '0 10px 22px #2029380a', actionShadow: '0 12px 25px #16202a0a',
+  placeholder: '#ffffff4d', success: '#ffffff33', successRim: 'inset 0 0 0 1.5px #ffffff38', action: '#ffffffd9', choiceInk: '#8792a3',
+};
+
+export const ruleDetailTheme = {
+  backdrop: 'rgba(0,0,0,.2)', surface: '#f5f7f9', headerLine: '#eceef0', muted: '#7d8797', chevron: '#c8cdd3', handle: '#e5e6e8',
+  close: '#fdfdfd', closeShadow: 'inset 0 0 0 .667px #ffffffb3,0 8px 30.091px #00000017', disabled: '#a2bff5',
+  rowShadow: '0 1px 2px #00000014', snooze: '#e9f1fc', blue: '#4384f4', remove: '#f8dccf', orange: '#f76524',
+  menuTop: '#fcfcfce8', menuBottom: '#fcfcfca8', menuBorder: '#ffffffbf', menuShadow: '0 12px 30px #20293820', menuCaption: '#88888c',
+};
+
+export const refreshAlertTheme = { surface: '#f9f9f9bd', ink: '#85858a', button: '#d0d0d0', radius: 31.623 };
+
+export const galleryTheme = { surface: '#f5f7f9', selected: '#4b82ee', border: '#e2e5e8', muted: '#7d8797', section: '#959eab', glass: '#17191a55', glassRim: '#ffffff40' };
+
+export const namedGroupTheme = { handle: '#d9dadd', title: '#959eab', caption: '#7d8797', surface: '#f5f7f9', dim: '#0002', field: '#17191a', disabled: '#a1c2f7', toast: '#58c36c', toastShadow: '0 12px 25px #17202a0a', formRadius: 44 };
+export const ruleSettingsTheme = { caption: '#7d8797', section: '#959eab', collapsed: '#c4cad2', line: '#f0f2f4' };
+
+export const blockScreensTheme = { searchBorder: '#dce1e6', switchOn: '#4d82eb', switchOff: '#b4b4b6', messageLabel: '#959da8', deleteButton: '#cfd0d1', deleteInk: '#ff3b30', deleteCaption: '#666666', surface: '#f6f8fa', previewTop: '#ebf0fa', previewBottom: '#eaeff9', caption: '#7d8797', section: '#959eab', dim: '#0000001f', inputBorder: '#dce0e3', inputPlaceholder: '#c4c9cf', blue: '#4385ef', previewBlue: '#4d82eb', disabled: '#a0c1f4', disabledInk: '#dfebff', createBorder: '#c8cdd3', createPlus: '#cbd0d8', tipsFill: '#e4ecf8', tipsInk: '#4385ed', menuTop: '#fafafae8', menuBottom: '#fafafab3', menuBorder: '#ffffffa6', menuShadow: '0 15px 35px #20293818', field: '#17191a', line: '#f0f2f4' };
+
+export const softNoticeTheme = { surface: '#5bbe6d', shadow: '0 12px 24px #0000001a' };
+
+export const mainSettingsTheme = { surface: '#f6f8fa', ink: '#111111', section: '#929aa8', caption: '#949ba8', avatar: '#4385e8', avatarShadow: '0 2px 8px #14285014', planShadow: '0 7px 18px #2337550b', planName: '#f57d4a', planNote: '#969daa', money: '#c4c9d1', manageShadow: '0 5px 16px #1e283c14', help: '#4883f1', helpShadow: '0 7px 18px #23375517', rowIcon: '#969eaa', separator: '#eff0f2', helpNote: '#8791a2' };
+
+export const modalTheme = { dim: 'rgba(0,0,0,.2)' };
+
+// Решение проблем213–218, измерения troubleshoot.css.
+export const troubleshootTheme = { surface: '#f3f5f7', options: '#f6f8fa', section: '#959eab', caption: '#7d8797', ink: '#17191a', border: '#e1e4e8', active: '#3784f5', disabled: '#bbbbbb', disabledText: '#d3d3d3', separator: '#f0f2f4', switchOn: '#4d82eb', switchOff: '#c5c4c7', panelShadow: '0px 18px 30px #17202a05', contactShadow: '0px 12px 30px #17202a06' } as const;
+
+export const legacyLimitsTheme = { text: '#666666', surface: 'rgba(249,249,249,.78)', cancel: '#d0d0d0', confirm: '#0085ff', switchOn: '#3784f7', switchOff: '#c5c4c7' } as const;
+
+export const homeSkyTheme = { top: '#0878ff', fade: ['#f4f6f800', '#f4f6f8'] as const } as const;
+
+// Общий зазор между прокруткой редакторов и закреплёнными действиями.
+export const ruleEditorSpacing = { footerTop: 20, scrollBottom: 32 } as const;
+
+// HTML287–302, styles/state-components.css и settings-reference.css.
+export const emergencyTheme = {
+  surface: '#f7f8fa', ink: '#111111', muted: '#858b96', dot: '#e9eef1',
+  key: '#fbfcfd', keyShadow: '0px 5px 18px #152a480b',
+  info: '#e8f0ff', infoInk: '#74a2ed', segment: '#e6e7eb', disabled: '#b7b7b9',
+  codeDim: '#ffffff77', input: '#e5ebf2', inputText: '#adb4bf', blue: ['#348bff', '#005df1'] as const,
+  codeShadow: '0px 12px 22px #1172e633', success: '#1ac979', successShadow: '0px 14px 25px #00c16e44',
+  successCheck: '#ffffff44', border: '#ffffff30', actionBlue: '#d9e1ef', actionBlueInk: '#4d80db',
+  actionSurface: '#f4f4f5', ruleToast: '#57c779', actionOrange: '#f1d4c6', actionOrangeInk: '#e76b39', actionCancel: '#e9e9eb', toast: '#20c778',
+};
+export const interfaceTheme = {
+  alertSurface: 'rgba(249,249,249,.78)', alertCancel: '#d0d2d2', alertConfirm: '#0085ff', alertInk: '#66666b',
+  surface: '#f5f8fa', section: '#929aa8', icon: '#969eaa', value: '#7f899a',
+  line: '#eff0f2', chevron: '#c1c6ce', iconGradient: ['#72c1ff', '#1971e8'] as const,
+};
+
+// HTML000–025: измерения сохранены в отчёте онбординга.
+export const onboardingTheme = {
+  white: '#ffffff', ink: '#111111', surface: '#f7f7f8', picker: '#f4f3fa',
+  pickerRadio: '#d1d1d6', pickerBlue: '#0095f5', pickerChild: '#f9f9fc', pickerLine: '#ededee',
+  muted: '#9299a4', note: '#818894', line: '#e0e3e9', rowLine: '#eff0f2',
+  blue: '#3985ed', progress: '#f0f3fb', purple: ['#a950f6','#6265f2'] as const,
+  gold: '#d8b66b', award: '#bd9855', avatar: '#e7edf7', avatarInk: '#66738c',
+  star: '#e8ad2d', dimBlue: '#99ccf4', quoteName: '#d5ecff', before: '#e36a4c', after: '#4c86e4',
+  badge: '#edf4ff', disabled: '#b7b7b9', range: '#f0f1f2', cap: '#6093b9',
+  promptBlue: '#00b5eb', promptButton: '#ebeced',
+  promptInk: '#818185', screenTime: '#5c51d8', skyFade: 'rgba(255,255,255,0)',
+  fadeHalf: 'rgba(255,255,255,.42)', frictionBlue: ['#88c5ff','#32aafa'] as const,
+  circleShadow: '0px 6px 24px #152a480b', navShadow: '0px 6px 24px #11111111',
+  cardShadow: '0px 8px 24px #141a230a', secondaryShadow: '0px 6px 18px #00000017',
+  rangeShadow: '0px 5px 17px #4b9fe71f', rangeFillShadow: '0px 3px 13px #318fe941',
+  glassBorder: 'rgba(255,255,255,.3)', glassFill: 'rgba(255,255,255,.05)',
+  codeBlue: ['#348bff','#005df1'] as const, prompt: ['#fafbfce8','#f7f8fbe8'] as const,
+};
+
+// Последние состояния HTML: локальные настройки и системные демо.
+export const remainingTheme = {
+  surface: '#f5f8fa', line: '#eff0f2', section: '#929aa8', icon: '#969eaa', value: '#7f899a',
+  selection: '#3484fb', handle: '#dcdee0', dim: '#00000020', alertDim: '#0003',
+  alert: '#f9f9f9c7', alertButton: '#cfd1d1c9', menu: '#f7f9fddd', menuBorder: '#ffffffd1',
+  menuSelected: '#d7e8fc75', menuShadow: '0 10px 28px #23324b21',
+  dark: '#17191a', photoSurface: '#f8fafb', scan: '#00d979', error: '#ff600c',
+  proof: '#54bd5c60', setup: '#f4f3fa', setupInk: '#85878e',
+  recap: '#169cff', recapDate: '#69b6ff', recapGradient: ['#a6dcff', '#e9f6ff', '#ffffff'] as const,
+  lockGradient: ['#c7c7c7','#cbcbcb','#bfbfbf','#c0c0c0','#c5c5c5'] as const,
+  system: '#d5d5d5', live: '#171717', liveMeta: '#7d8187', liveTrack: '#242424',
+  control: '#ededed', widgetInk: '#111111', widgetMeta: '#8b9099', widgetTrack: '#e9e7e8',
+  widgetProgress: '#dcd8da', limitGradient: ['#ffffff','#ffffff','#f7d7c8'] as const,
+  tip: '#050505', tipDim: 'rgba(20,22,27,.13)',
+};

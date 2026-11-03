@@ -1,0 +1,104 @@
+[
+  {
+    "name": "onboarding",
+    "exit": 0,
+    "seconds": 58.7,
+    "shots": 25
+  },
+  {
+    "name": "session-flow",
+    "exit": 0,
+    "seconds": 20.3,
+    "shots": 8
+  },
+  {
+    "name": "session-icons",
+    "exit": 1,
+    "seconds": 12.0,
+    "shots": 1
+  },
+  {
+    "name": "app-group",
+    "exit": 1,
+    "seconds": 5.7,
+    "shots": 2
+  },
+  {
+    "name": "unlock-methods",
+    "exit": 1,
+    "seconds": 4.0,
+    "shots": 1
+  },
+  {
+    "name": "unlock-scan",
+    "exit": 1,
+    "seconds": 5.3,
+    "shots": 1
+  },
+  {
+    "name": "time-limit",
+    "exit": 1,
+    "seconds": 32.4,
+    "shots": 16
+  },
+  {
+    "name": "custom-habit",
+    "exit": 1,
+    "seconds": 4.0,
+    "shots": 1
+  },
+  {
+    "name": "reflection-delete",
+    "exit": 0,
+    "seconds": 30.3,
+    "shots": 3
+  },
+  {
+    "name": "activities-settings",
+    "exit": 0,
+    "seconds": 16.7,
+    "shots": 6
+  },
+  {
+    "name": "estimated-time",
+    "exit": 0,
+    "seconds": 11.8,
+    "shots": 4
+  },
+  {
+    "name": "session-details",
+    "exit": 1,
+    "seconds": 17.5,
+    "shots": 4
+  },
+  {
+    "name": "template-details",
+    "exit": 0,
+    "seconds": 12.0,
+    "shots": 3
+  },
+  {
+    "name": "named-groups",
+    "exit": 0,
+    "seconds": 23.8,
+    "shots": 10
+  },
+  {
+    "name": "main-settings",
+    "exit": 0,
+    "seconds": 8.4,
+    "shots": 3
+  },
+  {
+    "name": "legacy-limits",
+    "exit": 0,
+    "seconds": 7.4,
+    "shots": 2
+  },
+  {
+    "name": "editor-scroll-return",
+    "exit": 0,
+    "seconds": 30.0,
+    "shots": 16
+  }
+]

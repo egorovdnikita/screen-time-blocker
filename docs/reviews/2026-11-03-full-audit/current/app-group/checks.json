@@ -1,0 +1,83 @@
+{
+  "geometry": {
+    "close": {
+      "x": 20,
+      "y": 114,
+      "width": 44,
+      "height": 44,
+      "top": 114,
+      "right": 64,
+      "bottom": 158,
+      "left": 20
+    },
+    "confirm": {
+      "x": 329,
+      "y": 114,
+      "width": 44,
+      "height": 44,
+      "top": 114,
+      "right": 373,
+      "bottom": 158,
+      "left": 329
+    },
+    "search": {
+      "x": 28,
+      "y": 681,
+      "width": 337,
+      "height": 48,
+      "top": 681,
+      "right": 365,
+      "bottom": 729,
+      "left": 28
+    },
+    "extra": {
+      "x": 16,
+      "y": 764,
+      "width": 361,
+      "height": 50,
+      "top": 764,
+      "right": 377,
+      "bottom": 814,
+      "left": 16
+    }
+  },
+  "optionGeometry": {
+    "input": {
+      "x": 27,
+      "y": 616,
+      "width": 285,
+      "height": 52,
+      "top": 616,
+      "right": 312,
+      "bottom": 668,
+      "left": 27
+    },
+    "site": {
+      "x": 27,
+      "y": 686,
+      "width": 339,
+      "height": 52,
+      "top": 686,
+      "right": 366,
+      "bottom": 738,
+      "left": 27
+    },
+    "add": {
+      "x": 321,
+      "y": 617,
+      "width": 46,
+      "height": 46,
+      "top": 617,
+      "right": 367,
+      "bottom": 663,
+      "left": 321
+    }
+  },
+  "savedSummary": "Группа: Блокируется: 3 приложения · 1 сайт (Safari: 0, все браузеры: 1) · Контент 18+ · Покупки · Установка",
+  "rollback": true,
+  "empty": true,
+  "exceptAll": true,
+  "categories": true,
+  "applied": "Группа: Блокируется: 0 приложений · 1 сайт (Safari: 0, все браузеры: 1)",
+  "errors": []
+}

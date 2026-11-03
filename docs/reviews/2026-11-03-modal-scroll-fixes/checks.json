@@ -1,0 +1,64 @@
+{
+  "results": [
+    {
+      "distance": 300,
+      "expectClose": false,
+      "before": {
+        "x": 196.5,
+        "y": 179,
+        "count": 2,
+        "height": 40
+      },
+      "middle": {
+        "sheet": 0,
+        "parent": 0,
+        "backdrop": 0,
+        "transform": "none"
+      },
+      "after": {
+        "count": 2,
+        "y": 0
+      }
+    },
+    {
+      "distance": 120,
+      "expectClose": true,
+      "before": {
+        "x": 196.5,
+        "y": 179,
+        "count": 2,
+        "height": 40
+      },
+      "middle": {
+        "sheet": 90,
+        "parent": 0,
+        "backdrop": 0,
+        "transform": "none"
+      },
+      "after": {
+        "count": 1,
+        "y": 0
+      }
+    }
+  ],
+  "initialScroll": {
+    "scrollTop": 237,
+    "client": 693,
+    "height": 930,
+    "children": [
+      {
+        "scrollTop": 0,
+        "client": 930,
+        "height": 930,
+        "overflow": "visible"
+      }
+    ]
+  },
+  "skyBackgrounds": [
+    "lock",
+    "limit",
+    "routine"
+  ],
+  "animatedBackdropDismiss": true,
+  "errors": []
+}

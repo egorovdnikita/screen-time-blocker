@@ -1,0 +1,59 @@
+{
+  "id": 14,
+  "name": "started-2022",
+  "source": "/dist/00-onboarding__15-started-2022/index.html",
+  "status": "layout_present",
+  "component": "src/screens/onboarding/OnboardingScreen.tsx",
+  "evidence": "docs/reviews/2026-11-03-onboarding/README.md",
+  "title": "Знакомство — Block",
+  "texts": [
+    {
+      "text": "Поэтому мы запустили",
+      "x": 46.53125,
+      "y": 446,
+      "w": 299.9375,
+      "h": 33,
+      "font": "27px",
+      "weight": "700",
+      "line": "34px",
+      "color": "rgb(0, 0, 0)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Block в 2022 году,",
+      "x": 81.21875,
+      "y": 480,
+      "w": 230.5625,
+      "h": 33,
+      "font": "27px",
+      "weight": "700",
+      "line": "34px",
+      "color": "rgb(0, 0, 0)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "чтобы помочь вам",
+      "x": 77.734375,
+      "y": 514,
+      "w": 237.515625,
+      "h": 33,
+      "font": "27px",
+      "weight": "700",
+      "line": "34px",
+      "color": "rgb(0, 0, 0)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Как это работает?",
+      "x": 122.53125,
+      "y": 773,
+      "w": 147.9375,
+      "h": 20,
+      "font": "17px",
+      "weight": "700",
+      "line": "22px",
+      "color": "rgb(255, 255, 255)",
+      "bg": "rgba(0, 0, 0, 0)"
+    }
+  ]
+}

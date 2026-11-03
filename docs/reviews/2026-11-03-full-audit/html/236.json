@@ -1,0 +1,107 @@
+{
+  "id": 236,
+  "name": "block-screen-substack-preview",
+  "source": "/dist/50-creating-a-screen-app__05-block-screen-substack-preview/index.html",
+  "status": "layout_present",
+  "component": "src/screens/rules/BlockScreens.tsx",
+  "evidence": "docs/reviews/2026-11-03-block-screens/README.md",
+  "title": "Экраны блокировки — Block",
+  "texts": [
+    {
+      "text": "Позаботьтесь о себе",
+      "x": 91.390625,
+      "y": 362,
+      "w": 210.203125,
+      "h": 26,
+      "font": "22px",
+      "weight": "700",
+      "line": "28px",
+      "color": "rgb(17, 17, 17)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "с Substack",
+      "x": 142.953125,
+      "y": 390,
+      "w": 107.078125,
+      "h": 26,
+      "font": "22px",
+      "weight": "700",
+      "line": "28px",
+      "color": "rgb(17, 17, 17)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Вы уже открыли XChat 5 раз",
+      "x": 53.671875,
+      "y": 446,
+      "w": 285.65625,
+      "h": 24,
+      "font": "21px",
+      "weight": "400",
+      "line": "28px",
+      "color": "rgb(125, 135, 151)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "за сегодня. Может, стоит",
+      "x": 70.015625,
+      "y": 474,
+      "w": 252.96875,
+      "h": 24,
+      "font": "21px",
+      "weight": "400",
+      "line": "28px",
+      "color": "rgb(125, 135, 151)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "заняться чем-нибудь другим?",
+      "x": 48.984375,
+      "y": 502,
+      "w": 295.03125,
+      "h": 24,
+      "font": "21px",
+      "weight": "400",
+      "line": "28px",
+      "color": "rgb(125, 135, 151)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Блокирует:",
+      "x": 87.890625,
+      "y": 558,
+      "w": 111.59375,
+      "h": 24,
+      "font": "21px",
+      "weight": "400",
+      "line": "28px",
+      "color": "rgb(125, 135, 151)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Рутина",
+      "x": 234.484375,
+      "y": 558,
+      "w": 70.625,
+      "h": 24,
+      "font": "21px",
+      "weight": "400",
+      "line": "28px",
+      "color": "rgb(125, 135, 151)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Закрыть",
+      "x": 162.078125,
+      "y": 775,
+      "w": 68.828125,
+      "h": 20,
+      "font": "17px",
+      "weight": "400",
+      "line": "22px",
+      "color": "rgb(255, 255, 255)",
+      "bg": "rgb(77, 130, 235)"
+    }
+  ]
+}

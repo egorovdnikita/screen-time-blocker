@@ -1,0 +1,71 @@
+{
+  "id": 237,
+  "name": "message-screen-empty",
+  "source": "/dist/51-creating-a-screen-message__01-message-screen-empty/index.html",
+  "status": "layout_present",
+  "component": "src/screens/rules/BlockScreens.tsx",
+  "evidence": "docs/reviews/2026-11-03-block-screens/README.md",
+  "title": "Свой экран — Block",
+  "texts": [
+    {
+      "text": "+",
+      "x": 342.234375,
+      "y": 118.5,
+      "w": 17.53125,
+      "h": 35,
+      "font": "29px",
+      "weight": "400",
+      "line": "29px",
+      "color": "rgb(223, 235, 255)",
+      "bg": "rgb(160, 193, 244)"
+    },
+    {
+      "text": "Заголовок",
+      "x": 20,
+      "y": 282,
+      "w": 100.53125,
+      "h": 24,
+      "font": "20px",
+      "weight": "700",
+      "line": "24px",
+      "color": "rgb(149, 157, 168)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Подзаголовок (необяз.)",
+      "x": 20,
+      "y": 397,
+      "w": 229.921875,
+      "h": 24,
+      "font": "20px",
+      "weight": "700",
+      "line": "24px",
+      "color": "rgb(149, 157, 168)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Текст кнопки (необяз.)",
+      "x": 20,
+      "y": 558,
+      "w": 218.65625,
+      "h": 24,
+      "font": "20px",
+      "weight": "700",
+      "line": "24px",
+      "color": "rgb(149, 157, 168)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Подсказки",
+      "x": 63,
+      "y": 694,
+      "w": 81.484375,
+      "h": 19,
+      "font": "16px",
+      "weight": "600",
+      "line": "20px",
+      "color": "rgb(67, 133, 237)",
+      "bg": "rgb(228, 236, 248)"
+    }
+  ]
+}

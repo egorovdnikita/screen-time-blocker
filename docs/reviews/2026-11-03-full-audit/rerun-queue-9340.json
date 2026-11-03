@@ -1,0 +1,44 @@
+[
+  {
+    "name": "session-icons",
+    "exit": 0,
+    "seconds": 20.0,
+    "shots": 7
+  },
+  {
+    "name": "unlock-methods",
+    "exit": 0,
+    "seconds": 30.2,
+    "shots": 6
+  },
+  {
+    "name": "time-limit",
+    "exit": 1,
+    "seconds": 36.1,
+    "shots": 17
+  },
+  {
+    "name": "session-details",
+    "exit": 0,
+    "seconds": 36.9,
+    "shots": 4
+  },
+  {
+    "name": "session-unlocks",
+    "exit": 0,
+    "seconds": 38.9,
+    "shots": 11
+  },
+  {
+    "name": "unlock-text",
+    "exit": 0,
+    "seconds": 22.4,
+    "shots": 4
+  },
+  {
+    "name": "gallery",
+    "exit": 0,
+    "seconds": 16.3,
+    "shots": 3
+  }
+]

@@ -1,0 +1,28 @@
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+import ts from 'typescript';
+const source=fs.readFileSync(new URL('../src/data/rules.ts',import.meta.url),'utf8');
+const code=ts.transpileModule(source,{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2020}}).outputText;
+const exports={};new Function('exports',code)(exports);
+const {activeRuleCount,rulesVariants}=exports;
+const empty={createdRoutines:[],createdLimits:[],createdLocks:[],createdSessions:[],pausedSessions:{}};
+assert.equal(activeRuleCount(rulesVariants.full,empty),3);
+assert.equal(activeRuleCount(rulesVariants.first,{...empty,pausedSessions:{work:'manual'}}),0);
+assert.equal(activeRuleCount(rulesVariants.full,{...empty,pausedSessions:{work:'next'}}),3);
+const state={...empty,createdSessions:[{id:'new',status:{kind:'blocking'}}],createdLocks:[{}],createdLimits:[{}],createdRoutines:[{}]};
+assert.equal(activeRuleCount(rulesVariants.full,state),7);
+assert.equal(activeRuleCount(rulesVariants.full,{...state,pausedSessions:{new:'next'}}),6);
+assert.equal(activeRuleCount(rulesVariants.full,{...empty,pausedSessions:{missing:'manual'}}),3);
+assert.equal(activeRuleCount(rulesVariants.full,{...empty,deletedRuleIds:['music']}),2);
+assert.equal(activeRuleCount(rulesVariants.full,{...empty,deletedRuleIds:['work']}),3);
+assert.equal(activeRuleCount(rulesVariants.full,{...empty,deletedRuleIds:['music','music','missing']}),2);
+assert.equal(activeRuleCount(rulesVariants.full,{...state,deletedRuleIds:['new']}),6);
+assert.equal(activeRuleCount(rulesVariants.full,{...state,deletedRuleIds:['new'],pausedSessions:{new:'manual'}}),6);
+console.log('Active rule count OK');
+// Демо207 использует ту же базу в заголовке и таббаре, не мутирует обычный вариант.
+const earned=exports.rulesForPresentation('full',true);
+assert.equal(activeRuleCount(earned,empty),2);
+assert.equal(activeRuleCount(earned,{...empty,createdRoutines:[{id:'own'}]}),3);
+assert.equal(exports.rulesForPresentation('full'),rulesVariants.full);
+assert.equal(rulesVariants.limitProgress.active,3);
+assert.equal(earned.sessions.length,0);

@@ -1,0 +1,10 @@
+{
+  "emptyDisabled": true,
+  "categories": true,
+  "rename": true,
+  "cancelName": true,
+  "saved": true,
+  "applyToSession": true,
+  "independentCopy": true,
+  "errors": []
+}

@@ -1,0 +1,23 @@
+import { EmergencyMode } from './EmergencyMode';
+import { SheetScrollView as ScrollView } from '@/components/SheetModal';
+import { useState } from 'react';
+import { PressScale } from '@/components/motion';
+import { Troubleshoot } from './Troubleshoot';
+import { Image } from 'expo-image';
+import { StyleSheet, View } from 'react-native';
+import { Icon, type IconName } from '@/components/Icon';
+import { art } from '@/data/art';
+import { T } from '@/theme/typography';
+import { colors, mainSettingsTheme as c } from '@/theme/tokens';
+import { SettingsStack } from './SettingsStack';
+const topics = ['Ошибки и проблемы', 'Первые шаги в Block', 'Дополнительные возможности', 'Строгий режим', 'Команды, фокус и виджеты', 'Удалить Block'];
+const images = [art.helpTopic0, art.helpTopic1, art.helpTopic2, art.helpTopic3, art.helpTopic4, art.helpTopic5];
+export function HelpFeedback({ onClose }: { onClose: () => void }) {
+  const [troubleshoot, setTroubleshoot] = useState(false);
+  const [emergency, setEmergency] = useState(false);
+  return <SettingsStack onClose={onClose} surface={c.surface} radius={44}><T size={20} color={c.ink} center ls={0} style={{ position: 'absolute', left: 20, right: 20, top: 44, lineHeight: 26 }}>Помощь и отзывы</T><ScrollView accessibilityLabel="Содержание справки" showsVerticalScrollIndicator={false} style={{ position: 'absolute', top: 90, left: 0, right: 0, bottom: 0 }} contentContainerStyle={{ height: 930 }}><T size={20} color={c.section} ls={0} style={{ position: 'absolute', left: 20, top: 10, lineHeight: 26 }}>Найдите в справке</T><View style={styles.topics}>{topics.map((title, index) => <PressScale accessibilityRole="button" accessibilityLabel={title} disabled={index !== 0} accessibilityState={{ disabled: index !== 0 }} onPress={() => setTroubleshoot(true)} key={title} style={styles.topic}><Image source={images[index]} contentFit="contain" style={{ width: 24, height: 24 }} /><T size={14.25} weight={400} variant="text" color={c.ink} ls={0}>{title}</T><Icon name="activity-row-chevron" width={13} height={20} style={{ marginLeft: 'auto', marginRight: 2 }} /></PressScale>)}</View><T size={20} color={c.section} ls={0} style={{ position: 'absolute', top: 459, left: 20, lineHeight: 26 }}>Дополнительно</T><View style={styles.further}><HelpRow title="Все статьи (+75)" icon="help-articles" /><HelpRow title="Предложить идею" icon="help-idea" /><HelpRow onPress={() => setEmergency(true)} title="Экстренный режим" icon="help-emergency" description="Нужно отключить строгий режим в экстренной ситуации? Нажмите здесь." /></View><View style={styles.contact}><HelpRow title="Связаться с нами" icon="help-contact" /></View><T size={11.5} weight={600} color={c.helpNote} ls={0} style={{ position: 'absolute', top: 774, left: 20, right: 20, lineHeight: 14 }}>Перед тем как написать нам, загляните в статьи. Там уже есть ответы на большинство вопросов!</T></ScrollView>{emergency && <EmergencyMode onClose={() => setEmergency(false)} />}{troubleshoot && <Troubleshoot onClose={() => setTroubleshoot(false)} />}</SettingsStack>;
+}
+function HelpRow({ title, icon, description, onPress }: { title: string; icon: IconName; description?: string; onPress?: () => void }) {
+  return <PressScale accessibilityRole="button" accessibilityLabel={title} onPress={onPress} disabled={!onPress} accessibilityState={{ disabled: !onPress }} style={{ height: description ? 84 : 52.667, paddingLeft: 15, paddingRight: 16, flexDirection: 'row', alignItems: 'center', gap: 11, borderBottomWidth: description ? 0 : 1, borderBottomColor: c.separator }}><Icon name={icon} width={22} height={23} color={c.rowIcon} /><View style={{ flex: 1 }}><T size={14.25} weight={400} variant="text" color={c.ink} ls={0} style={{ lineHeight: 20 }}>{title}</T>{description && <T size={13} weight={400} variant="text" color={c.helpNote} ls={0} style={{ lineHeight: 17, marginTop: 2 }}>{description}</T>}</View><Icon name="activity-row-chevron" width={13} height={20} /></PressScale>;
+}
+const styles = StyleSheet.create({ topics: { position: 'absolute', top: 47.333, left: 20, right: 20, gap: 8 }, topic: { height: 56, borderRadius: 20, backgroundColor: colors.white, flexDirection: 'row', alignItems: 'center', paddingLeft: 14, paddingRight: 14, gap: 10 }, further: { position: 'absolute', top: 492, left: 20, right: 20, borderRadius: 20, backgroundColor: colors.white, overflow: 'hidden' }, contact: { position: 'absolute', left: 20, right: 20, top: 714, height: 52, borderRadius: 20, backgroundColor: colors.white, overflow: 'hidden' } });

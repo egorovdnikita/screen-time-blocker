@@ -4,7 +4,7 @@ import { colors } from './tokens';
 
 // В макете SF Pro Rounded. На iOS это системный шрифт с дизайном rounded,
 // на вебе — ui-rounded, на Android — системный (Roboto).
-const rounded = Platform.select({
+export const rounded = Platform.select({
   ios: 'ui-rounded',
   web: 'ui-rounded, "SF Pro Rounded", -apple-system, system-ui, sans-serif',
   default: undefined,
@@ -16,6 +16,8 @@ const display = Platform.select({
   default: undefined,
 });
 
+const text = Platform.select({ ios: 'System', web: '"Block Text", -apple-system, system-ui, sans-serif', default: undefined });
+
 type Weight = 400 | 500 | 600 | 700 | 800;
 
 export type TProps = TextProps & {
@@ -23,7 +25,7 @@ export type TProps = TextProps & {
   weight?: Weight;
   color?: string;
   ls?: number;
-  variant?: 'rounded' | 'display';
+  variant?: 'rounded' | 'display' | 'text';
   center?: boolean;
   onSky?: boolean;
 };
@@ -51,7 +53,7 @@ export function T({
       {...rest}
       style={[
         {
-          fontFamily: variant === 'display' ? display : rounded,
+          fontFamily: variant === 'display' ? display : variant === 'text' ? text : rounded,
           fontSize: size,
           fontWeight: String(weight) as TextStyle['fontWeight'],
           color,

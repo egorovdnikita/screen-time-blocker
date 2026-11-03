@@ -1,0 +1,47 @@
+{
+  "id": 287,
+  "name": "emergency-mode",
+  "source": "/dist/68-unlocking-an-emergency-mode__01-emergency-mode/index.html",
+  "status": "layout_present",
+  "component": "src/screens/settings/EmergencyMode.tsx",
+  "evidence": "docs/reviews/2026-11-03-emergency-interface/README.md",
+  "title": "Экстренный режим — Block",
+  "texts": [
+    {
+      "text": "Экстренный режим",
+      "x": 82.734375,
+      "y": 502,
+      "w": 227.53125,
+      "h": 29,
+      "font": "24px",
+      "weight": "700",
+      "line": "29px",
+      "color": "rgb(0, 0, 0)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Экстренный случай? Ошибка? Бывает. Отключите строгий режим, если это действительно нужно.",
+      "x": 29.765625,
+      "y": 539,
+      "w": 333.46875,
+      "h": 36,
+      "font": "15px",
+      "weight": "400",
+      "line": "18px",
+      "color": "rgb(17, 17, 17)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Продолжить",
+      "x": 144.484375,
+      "y": 774,
+      "w": 104.015625,
+      "h": 20,
+      "font": "17px",
+      "weight": "700",
+      "line": "normal",
+      "color": "rgb(255, 255, 255)",
+      "bg": "rgba(0, 0, 0, 0)"
+    }
+  ]
+}

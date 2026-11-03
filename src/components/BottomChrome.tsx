@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import { BlockingMenu } from './BlockingMenu';
 import { LinearGradient } from 'expo-linear-gradient';
 import { StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -16,10 +18,12 @@ type Props = { start?: 'home' | 'rules' };
 
 // .edge-bottom (подложка под таб-баром) + плавающая кнопка «Начать блокировку».
 export function BottomChrome({ start }: Props) {
+  const [menuOpen, setMenuOpen] = useState(false);
   const insets = useSafeAreaInsets();
   const barBottom = insets.bottom > 0 ? TAB_BAR_SIDE : 12;
   return (
     <>
+      <BlockingMenu visible={menuOpen} onClose={() => setMenuOpen(false)} />
       <LinearGradient
         pointerEvents="none"
         colors={['rgba(244, 246, 248, 0)', 'rgba(244, 246, 248, 0.55)', 'rgba(244, 246, 248, 0.55)']}
@@ -28,7 +32,7 @@ export function BottomChrome({ start }: Props) {
       />
       {start && (
         <View style={[styles.start, { bottom: barBottom + TAB_BAR_HEIGHT + 20.7 }]}>
-          <StartButton variant={start} />
+          <StartButton variant={start} onPress={() => setMenuOpen(true)} />
         </View>
       )}
     </>

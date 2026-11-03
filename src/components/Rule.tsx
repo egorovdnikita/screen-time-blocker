@@ -1,3 +1,4 @@
+import { useAppState } from '@/state/app';
 import type { ReactNode } from 'react';
 import { Pressable, View, type StyleProp, type ViewStyle } from 'react-native';
 import Svg, { Circle } from 'react-native-svg';
@@ -5,6 +6,7 @@ import Svg, { Circle } from 'react-native-svg';
 import { T, TRACK_SMALL } from '@/theme/typography';
 import { colors, insetBorder, radii, shadows } from '@/theme/tokens';
 
+import { PressScale } from './motion';
 import { DashedBox } from './Dashed';
 import { Icon } from './Icon';
 
@@ -23,8 +25,10 @@ export function SectionHeader({ title, right }: { title: string; right?: ReactNo
 }
 
 export function Streak({ count }: { count: number }) {
+  const app = useAppState();
+  if (!app.interfaceSettings.streak) return <View style={{ height: 23.333 }} />;
   return (
-    <View
+    <View accessibilityLabel={`Серия: ${count}`}
       style={{
         flexDirection: 'row',
         alignItems: 'center',
@@ -64,17 +68,10 @@ export function RuleCard({ children, style, onPress }: { children: ReactNode; st
 }
 
 // Шапка карточки правила: эмодзи, название, серия, шеврон.
-export function RuleHeader({ emoji, title, streak }: { emoji: ReactNode; title: string; streak: number }) {
-  return (
-    <View style={{ flexDirection: 'row', alignItems: 'center', height: 33 }}>
-      <View style={{ width: 27.7 }}>{emoji}</View>
-      <T size={17} style={{ flex: 1 }}>
-        {title}
-      </T>
-      <Streak count={streak} />
-      <Icon name="chevron-right" width={8} height={11} color={colors.chevron} style={{ marginLeft: 9 }} />
-    </View>
-  );
+export function RuleHeader({ emoji, title, streak, onPress, accessibilityLabel }: { emoji: ReactNode; title: string; streak: number; onPress?: () => void; accessibilityLabel?: string }) {
+  const content = <><View style={{ width: 27.7 }}>{emoji}</View><T size={17} style={{ flex: 1 }}>{title}</T><Streak count={streak} /><Icon name="chevron-right" width={8} height={11} color={colors.chevron} style={{ marginLeft: 9 }} /></>;
+  const style = { flexDirection: 'row' as const, alignItems: 'center' as const, height: 33 };
+  return onPress ? <PressScale accessibilityRole="button" accessibilityLabel={accessibilityLabel ?? `Подробности сессии ${title}`} onPress={onPress} style={style}>{content}</PressScale> : <View style={style}>{content}</View>;
 }
 
 export function PlusCircle({ tone = 'light' }: { tone?: 'light' | 'hint' }) {

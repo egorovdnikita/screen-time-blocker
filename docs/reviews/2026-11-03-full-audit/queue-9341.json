@@ -1,0 +1,104 @@
+[
+  {
+    "name": "remaining",
+    "exit": 1,
+    "seconds": 8.5,
+    "shots": 0
+  },
+  {
+    "name": "session-pickers",
+    "exit": 0,
+    "seconds": 37.1,
+    "shots": 10
+  },
+  {
+    "name": "session-unlocks",
+    "exit": 1,
+    "seconds": 3.8,
+    "shots": 1
+  },
+  {
+    "name": "strict-flow",
+    "exit": 1,
+    "seconds": 3.1,
+    "shots": 1
+  },
+  {
+    "name": "unlock-text",
+    "exit": 1,
+    "seconds": 3.2,
+    "shots": 1
+  },
+  {
+    "name": "lock-rule",
+    "exit": 0,
+    "seconds": 34.5,
+    "shots": 10
+  },
+  {
+    "name": "routine",
+    "exit": 1,
+    "seconds": 21.4,
+    "shots": 11
+  },
+  {
+    "name": "reflection",
+    "exit": 0,
+    "seconds": 26.9,
+    "shots": 6
+  },
+  {
+    "name": "reflection-summary-ui",
+    "exit": 0,
+    "seconds": 22.5,
+    "shots": 4
+  },
+  {
+    "name": "goal-reminders",
+    "exit": 0,
+    "seconds": 27.0,
+    "shots": 8
+  },
+  {
+    "name": "app-unlock",
+    "exit": 0,
+    "seconds": 29.8,
+    "shots": 9
+  },
+  {
+    "name": "limit-details",
+    "exit": 0,
+    "seconds": 9.6,
+    "shots": 3
+  },
+  {
+    "name": "gallery",
+    "exit": 1,
+    "seconds": 6.7,
+    "shots": 2
+  },
+  {
+    "name": "block-screens",
+    "exit": 0,
+    "seconds": 30.1,
+    "shots": 16
+  },
+  {
+    "name": "troubleshoot",
+    "exit": 0,
+    "seconds": 13.9,
+    "shots": 6
+  },
+  {
+    "name": "emergency-interface",
+    "exit": 0,
+    "seconds": 43.2,
+    "shots": 18
+  },
+  {
+    "name": "profile-sheet-motion",
+    "exit": 0,
+    "seconds": 15.6,
+    "shots": 7
+  }
+]

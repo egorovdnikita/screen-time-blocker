@@ -1,0 +1,24 @@
+{
+  "id": 340,
+  "name": "dynamic-island-compact",
+  "source": "/dist/83-dynamic-island__01-dynamic-island-compact/index.html",
+  "status": "layout_present",
+  "component": "src/screens/previews/SystemPreviews.tsx",
+  "evidence": "docs/reviews/2026-11-03-remaining/README.md",
+  "acceptance": "pending_1to1",
+  "title": "Dynamic Island — Block",
+  "texts": [
+    {
+      "text": "28:23",
+      "x": 260.203125,
+      "y": 20.984375,
+      "w": 40.453125,
+      "h": 18,
+      "font": "15px",
+      "weight": "400",
+      "line": "20px",
+      "color": "rgb(255, 255, 255)",
+      "bg": "rgba(0, 0, 0, 0)"
+    }
+  ]
+}

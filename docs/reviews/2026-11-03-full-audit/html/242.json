@@ -1,0 +1,95 @@
+{
+  "id": 242,
+  "name": "message-screen-edit",
+  "source": "/dist/52-deleting-a-screen__01-message-screen-edit/index.html",
+  "status": "layout_present",
+  "component": "src/screens/rules/BlockScreens.tsx",
+  "evidence": "docs/reviews/2026-11-03-block-screens/README.md",
+  "title": "Свой экран — Block",
+  "texts": [
+    {
+      "text": "Заголовок",
+      "x": 20,
+      "y": 278,
+      "w": 100.53125,
+      "h": 24,
+      "font": "20px",
+      "weight": "700",
+      "line": "24px",
+      "color": "rgb(149, 157, 168)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Закрой",
+      "x": 39,
+      "y": 330.5,
+      "w": 48.328125,
+      "h": 18,
+      "font": "15px",
+      "weight": "400",
+      "line": "19px",
+      "color": "rgb(17, 17, 17)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Подзаголовок (необяз.)",
+      "x": 20,
+      "y": 391,
+      "w": 229.921875,
+      "h": 24,
+      "font": "20px",
+      "weight": "700",
+      "line": "24px",
+      "color": "rgb(149, 157, 168)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Просто закрой",
+      "x": 39,
+      "y": 445,
+      "w": 98.84375,
+      "h": 18,
+      "font": "15px",
+      "weight": "400",
+      "line": "19px",
+      "color": "rgb(17, 17, 17)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Текст кнопки (необяз.)",
+      "x": 20,
+      "y": 550,
+      "w": 218.65625,
+      "h": 24,
+      "font": "20px",
+      "weight": "700",
+      "line": "24px",
+      "color": "rgb(149, 157, 168)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Закрой сейчас",
+      "x": 39,
+      "y": 602.5,
+      "w": 97.9375,
+      "h": 18,
+      "font": "15px",
+      "weight": "400",
+      "line": "19px",
+      "color": "rgb(17, 17, 17)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Подсказки",
+      "x": 63,
+      "y": 690,
+      "w": 81.484375,
+      "h": 19,
+      "font": "16px",
+      "weight": "600",
+      "line": "20px",
+      "color": "rgb(67, 133, 237)",
+      "bg": "rgb(228, 236, 248)"
+    }
+  ]
+}
