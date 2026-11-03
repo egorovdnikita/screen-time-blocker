@@ -9,7 +9,7 @@ const check = (ok, message) => { if (!ok) throw Error(message); };
 const input = async(label,text) => { await ev(`(()=>{const e=document.querySelector('input[aria-label="'+${JSON.stringify(label)}+'"]');if(!e)throw Error('Нет поля');e.focus();e.select()})()`);await cdp('Input.insertText',{text});await wait(450); };
 const enter = async() => {await cdp('Input.dispatchKeyEvent',{type:'keyDown',key:'Enter',code:'Enter',windowsVirtualKeyCode:13});await cdp('Input.dispatchKeyEvent',{type:'keyUp',key:'Enter',code:'Enter',windowsVirtualKeyCode:13});await wait(400);};
 try {
- await cdp('Page.enable');await cdp('Runtime.enable');await cdp('Network.enable');await cdp('Network.setCacheDisabled',{cacheDisabled:true});await cdp('Emulation.setDeviceMetricsOverride',{width:393,height:852,deviceScaleFactor:3,mobile:false});
+ await cdp('Page.enable').then(()=>cdp('Page.addScriptToEvaluateOnNewDocument',{source:'globalThis.__BLOCK_DEMO__=1'}));await cdp('Runtime.enable');await cdp('Network.enable');await cdp('Network.setCacheDisabled',{cacheDisabled:true});await cdp('Emulation.setDeviceMetricsOverride',{width:393,height:852,deviceScaleFactor:3,mobile:false});
  await cdp('Page.navigate',{url:'http://localhost:8081'});for(let i=0;i<80;i++){if(await ev("document.body.innerText.includes('Начать блокировку')"))break;await wait(500)}
  await click('Начать блокировку');await click('Прямо сейчас');await click('Изменить иконку сессии');await shot('00-icon-picker-059');
  const initialCount=await ev("document.querySelectorAll('[aria-label^=\"Выбрать иконку\"]').length");check(initialCount===35,'Неверное число emoji: '+initialCount);

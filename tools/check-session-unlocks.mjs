@@ -18,7 +18,7 @@ const tap = async(x,y)=>{await cdp('Input.dispatchMouseEvent',{type:'mousePresse
 const check = (ok, message) => { if (!ok) throw Error(message); };
 const key = async key => { const windowsVirtualKeyCode=key==='ArrowDown'?40:38; await cdp('Input.dispatchKeyEvent',{type:'keyDown',key,code:key,windowsVirtualKeyCode});await cdp('Input.dispatchKeyEvent',{type:'keyUp',key,code:key,windowsVirtualKeyCode});await wait(500); };
 try {
- await cdp('Page.enable');await cdp('Runtime.enable');await cdp('Network.enable');await cdp('Network.setCacheDisabled',{cacheDisabled:true});await cdp('Emulation.setDeviceMetricsOverride',{width:393,height:852,deviceScaleFactor:3,mobile:false});
+ await cdp('Page.enable').then(()=>cdp('Page.addScriptToEvaluateOnNewDocument',{source:'globalThis.__BLOCK_DEMO__=1'}));await cdp('Runtime.enable');await cdp('Network.enable');await cdp('Network.setCacheDisabled',{cacheDisabled:true});await cdp('Emulation.setDeviceMetricsOverride',{width:393,height:852,deviceScaleFactor:3,mobile:false});
  await cdp('Page.navigate',{url:'http://localhost:8081'});for(let i=0;i<80;i++){if(await ev("document.body.innerText.includes('Начать блокировку')"))break;await wait(500)}
  await click('Начать блокировку');await click('По расписанию');await click('Активность');await click('Начало');await shot('00-cyclic-minutes');
  await chooseWheel('Минуты начала',0);await key('ArrowDown');const backward=(await wheel('Минуты начала')).value===59;check(backward,'Нет перехода 00→59');await key('ArrowUp');const forward=(await wheel('Минуты начала')).value===0;check(forward,'Нет перехода 59→00');

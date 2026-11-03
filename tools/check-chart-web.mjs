@@ -7,7 +7,7 @@ const errors=[];const ws=new WebSocket(tab.webSocketDebuggerUrl);await new Promi
 const base=process.env.EXPO_WEB_URL??'http://localhost:8088';
 const navigate=async url=>{await cdp('Page.navigate',{url:base+url});await wait(1600)};
 
-try{await cdp('Page.enable');await cdp('Runtime.enable');await cdp('Emulation.setDeviceMetricsOverride',{width:393,height:852,deviceScaleFactor:1,mobile:false});
+try{await cdp('Page.enable').then(()=>cdp('Page.addScriptToEvaluateOnNewDocument',{source:'globalThis.__BLOCK_DEMO__=1'}));await cdp('Runtime.enable');await cdp('Emulation.setDeviceMetricsOverride',{width:393,height:852,deviceScaleFactor:1,mobile:false});
 const results=[];
 for(const hour of [14,0]){
  await navigate('/');

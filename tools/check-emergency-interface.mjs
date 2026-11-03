@@ -14,7 +14,7 @@ const openEmergency = async () => {await click('Профиль');await click('Н
 const closeEmergency = async () => {await click('Закрыть: ');await click('Закрыть настройки');await click('Закрыть настройки');};
 const results={};
 try {
- await cdp('Page.enable');await cdp('Runtime.enable');await cdp('Emulation.setDeviceMetricsOverride',{width:393,height:852,deviceScaleFactor:3,mobile:false});await cdp('Page.navigate',{url:process.env.EXPO_WEB_URL??'http://localhost:8082'});
+ await cdp('Page.enable').then(()=>cdp('Page.addScriptToEvaluateOnNewDocument',{source:'globalThis.__BLOCK_DEMO__=1'}));await cdp('Runtime.enable');await cdp('Emulation.setDeviceMetricsOverride',{width:393,height:852,deviceScaleFactor:3,mobile:false});await cdp('Page.navigate',{url:process.env.EXPO_WEB_URL??'http://localhost:8082'});
  for(let i=0;i<100;i++){if(await ev(`!!document.querySelector('[aria-label="Ещё"]')`))break;await wait(150)}
  await openEmergency();await shot('287-emergency');
  await click('Настройки экстренного режима');await shot('292-settings-random');await click('Увеличить длину случайного кода');check(await ev(`document.body.innerText.includes('90-значный')`),'Длина не изменилась');await click('Назад из настроек экстренного режима');await click('Настройки экстренного режима');check(await ev(`document.body.innerText.includes('80-значный')`),'Отмена сохранила длину');results.cancelLength=true;

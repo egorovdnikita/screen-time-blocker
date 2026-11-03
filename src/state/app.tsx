@@ -8,6 +8,7 @@ import { currentGoalDay, goalTimeLabel, boundedGoal } from '@/data/dailyGoal';
 import { reflectedDay } from '@/data/reflectionSummary';
 import { activityCatalog, reflectionKey, type ActivityDefinition, type Reflection } from '@/data/reflection';
 import type { Habit } from '@/data/routine';
+import { clearSnapshot, encodeSnapshot, loadSnapshot, saveSnapshot } from '@/state/persist';
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 
 import type { LimitRule, LockRule, RoutineRule, SessionRule, RuleDetailChanges } from '@/data/rules';
@@ -20,8 +21,17 @@ export type PeriodId = 'today' | 'yesterday' | 'june-24';
 export type OnboardingStep = 'tip-first-rule' | 'tip-add-more' | 'done';
 
 const LOADING_MS = 1400;
+// Скрипты проверки в tools/ ставят этот флаг до загрузки: состояние живёт только в памяти,
+// как до появления хранилища, и демо-маршруты открываются без знакомства.
+export const memoryOnly = (globalThis as { __BLOCK_DEMO__?: number }).__BLOCK_DEMO__ === 1;
 
 type AppState = {
+  /** Состояние локального хранилища: ошибка чтения/записи показывается в настройках данных. */
+  storage: { loaded: boolean; readError: boolean; writeError: boolean; restoredBackup: boolean };
+  resetLocalData: () => Promise<boolean>;
+  /** Первый вход пройден: иначе вкладки открывают знакомство 000 (APP-02). */
+  onboardingCompleted: boolean;
+  completeOnboarding: () => void;
   onboardingDraft: OnboardingDraft;
   startOnboarding: (step?: number) => void;
   patchOnboarding: (patch: Partial<OnboardingDraft>) => void;
@@ -176,9 +186,57 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const [productive, setProductive] = useState<string[]>([]);
   const [newStartVisible, setNewStartVisible] = useState(false);
   const [onboarding, setOnboarding] = useState<OnboardingStep>('done');
+  const [onboardingCompleted, setOnboardingCompleted] = useState(memoryOnly);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => () => void (timer.current && clearTimeout(timer.current)), []);
+
+  // Постоянное хранение (APP-01): всё, что пользователь создал и настроил. Временные
+  // значения (загрузка, тосты, выбранный период) не сохраняются.
+  const persisted: Record<string, [unknown, (value: never) => void]> = {
+    onboardingDraft: [onboardingDraft, setOnboardingDraft], profileName: [profileName, setProfileName],
+    emergencySettings: [emergencySettings, saveEmergencySettings], appIcon: [appIcon, setAppIcon], notifications: [notifications, setNotifications],
+    interfaceSettings: [interfaceSettings, setInterfaceSettings], deletedRuleIds: [deletedRuleIds, setDeletedRuleIds], legacyLimits: [legacyLimits, setLegacyLimits],
+    troubleshooting: [troubleshooting, setTroubleshooting], ruleChanges: [ruleChanges, setRuleChanges], pausedSessions: [pausedSessions, setPausedSessions],
+    appUnlocks: [appUnlocks, setAppUnlocks], shareGuideSeen: [shareGuideSeen, setShareGuideSeen], estimatedMinutes: [estimatedMinutes, setEstimatedMinutes],
+    estimatedAccuracy: [estimatedAccuracy, setEstimatedAccuracy], reminders: [reminders, setReminders], remindersAcknowledged: [remindersAcknowledged, setRemindersAcknowledged],
+    customActivities: [customActivities, setCustomActivities], dailyGoals: [dailyGoals, setDailyGoals], dailyGoalEnabled: [dailyGoalEnabled, setDailyGoalEnabled],
+    dailyGoalMinutes: [dailyGoalMinutes, setDailyGoalMinutes], reflectionTouchedDays: [reflectionTouchedDays, setReflectionTouchedDays], reflections: [reflections, setReflections],
+    reflectionDefaults: [reflectionDefaults, setReflectionDefaults], reflectionExcluded: [reflectionExcluded, setReflectionExcludedRaw], customHabits: [customHabits, setCustomHabits],
+    createdRoutines: [createdRoutines, setCreatedRoutines], savedRoutineTemplates: [savedRoutineTemplates, setSavedRoutineTemplates], savedLimitTemplates: [savedLimitTemplates, setSavedLimitTemplates],
+    createdLimits: [createdLimits, setCreatedLimits], createdLocks: [createdLocks, setCreatedLocks], createdSessions: [createdSessions, setCreatedSessions],
+    expertScreens: [expertScreens, setExpertScreens], alternativeScreens: [alternativeScreens, setAlternativeScreens], customBlockScreens: [customBlockScreens, setCustomBlockScreens],
+    namedGroups: [namedGroups, setNamedGroups], savedTemplates: [savedTemplates, setSavedTemplates], scenario: [scenario, setScenarioRaw], rulesVariant: [rulesVariant, setRulesVariant],
+    mostUsedMode: [mostUsedMode, setMostUsedMode], excluded: [excluded, setExcluded], productive: [productive, setProductive],
+    newStartVisible: [newStartVisible, setNewStartVisible], onboarding: [onboarding, setOnboarding], onboardingCompleted: [onboardingCompleted, setOnboardingCompleted],
+  };
+  const [storage, setStorage] = useState({ loaded: memoryOnly, readError: false, writeError: false, restoredBackup: false });
+  const persistedRef = useRef(persisted);
+  persistedRef.current = persisted;
+  useEffect(() => {
+    if (memoryOnly) return;
+    let alive = true;
+    loadSnapshot().then(result => {
+      if (!alive) return;
+      if (result.status === 'ok') {
+        for (const [key, value] of Object.entries(result.data)) persistedRef.current[key]?.[1](value as never);
+      }
+      setStorage(s => ({ ...s, loaded: true, readError: result.status === 'error', restoredBackup: result.status === 'corrupt' }));
+    });
+    return () => { alive = false; };
+  }, []);
+  const encoded = !memoryOnly && storage.loaded && !storage.readError ? encodeSnapshot(Object.fromEntries(Object.entries(persisted).map(([key, [value]]) => [key, value]))) : null;
+  const lastSaved = useRef<string | null>(null);
+  useEffect(() => {
+    if (encoded === null || encoded === lastSaved.current) return;
+    const id = setTimeout(() => {
+      saveSnapshot(encoded).then(ok => {
+        if (ok) lastSaved.current = encoded;
+        setStorage(s => s.writeError === !ok ? s : { ...s, writeError: !ok });
+      });
+    }, 250);
+    return () => clearTimeout(id);
+  }, [encoded]);
 
   const startLoading = useCallback((then?: () => void) => {
     if (timer.current) clearTimeout(timer.current);
@@ -240,6 +298,12 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
 
   const ruleNotice = () => { if (noticeTimer.current) clearTimeout(noticeTimer.current); setSessionNotice('Изменения сохранены'); noticeTimer.current = setTimeout(() => setSessionNotice(null), 2800); };
   const value: AppState = {
+    storage, onboardingCompleted, completeOnboarding: () => setOnboardingCompleted(true),
+    resetLocalData: async () => {
+      const ok = await clearSnapshot();
+      if (ok) { lastSaved.current = null; setScenario('firstRun'); startOnboarding(0); setOnboardingCompleted(memoryOnly); setStorage(s => ({ ...s, readError: false, writeError: false, restoredBackup: false })); }
+      return ok;
+    },
     onboardingDraft, startOnboarding, patchOnboarding, profileName, setProfileName,
     appIcon, setAppIcon, notifications, setNotifications, emergencySettings, saveEmergencySettings, interfaceSettings, setInterfaceSettings, deletedRuleIds,
     deleteRule: id => setDeletedRuleIds(xs => xs.includes(id) ? xs : [...xs, id]),
@@ -328,6 +392,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     advanceOnboarding: () => setOnboarding((s) => (s === 'tip-first-rule' ? 'tip-add-more' : 'done')),
   };
 
+  // До чтения хранилища ничего не рисуем, чтобы не мигнули демо-данные и не сработал редирект.
+  if (!storage.loaded) return null;
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }
 

@@ -8,7 +8,7 @@ const check = (ok,message) => {if(!ok)throw Error(message)};
 
 
 try {
- await cdp('Page.enable');await cdp('Runtime.enable');await cdp('Emulation.setDeviceMetricsOverride',{width:393,height:852,deviceScaleFactor:3,mobile:false});await cdp('Page.navigate',{url:process.env.EXPO_WEB_URL ?? 'http://localhost:8082'});for(let i=0;i<100;i++){if(await ev(`!!document.querySelector('[aria-label="Ещё"]')`))break;await wait(150)}
+ await cdp('Page.enable').then(()=>cdp('Page.addScriptToEvaluateOnNewDocument',{source:'globalThis.__BLOCK_DEMO__=1'}));await cdp('Runtime.enable');await cdp('Emulation.setDeviceMetricsOverride',{width:393,height:852,deviceScaleFactor:3,mobile:false});await cdp('Page.navigate',{url:process.env.EXPO_WEB_URL ?? 'http://localhost:8082'});for(let i=0;i<100;i++){if(await ev(`!!document.querySelector('[aria-label="Ещё"]')`))break;await wait(150)}
  await ev(`document.querySelector('[aria-label^="Правила, активных:"]').click()`);await wait(500);await click('Справка');await wait(700);
  const checks=[];
  for(let i=1;i<=4;i++){await click('Решение проблем: шаг '+i);await shot('21'+(i+2)+'-step'+i);const panel=await ev(`(()=>{const r=document.querySelector('[data-testid="troubleshoot-panel"]').getBoundingClientRect();return {x:r.x,y:r.y,w:r.width,h:r.height}})()`);check(panel.x===20&&panel.y===220&&panel.w===353&&panel.h===[314,330,395,334][i-1],'Геометрия панели '+JSON.stringify(panel));checks.push({step:i,panel});}

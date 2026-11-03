@@ -19,7 +19,7 @@ const chooseWheel = async (label, target) => {
  throw Error('Не выбрано '+label+'='+target+'; '+JSON.stringify(await wheel(label)));
 };
 try {
- await cdp('Page.enable');await cdp('Runtime.enable');await cdp('Emulation.setDeviceMetricsOverride',{width:393,height:852,deviceScaleFactor:3,mobile:false});await cdp('Page.navigate',{url:process.env.EXPO_WEB_URL ?? 'http://localhost:8081'});for(let i=0;i<80;i++){if(await ev("document.body.innerText.includes('Начать блокировку')"))break;await wait(500)}
+ await cdp('Page.enable').then(()=>cdp('Page.addScriptToEvaluateOnNewDocument',{source:'globalThis.__BLOCK_DEMO__=1'}));await cdp('Runtime.enable');await cdp('Emulation.setDeviceMetricsOverride',{width:393,height:852,deviceScaleFactor:3,mobile:false});await cdp('Page.navigate',{url:process.env.EXPO_WEB_URL ?? 'http://localhost:8081'});for(let i=0;i<80;i++){if(await ev("document.body.innerText.includes('Начать блокировку')"))break;await wait(500)}
  await click('Начать блокировку');await click('Лимит времени');await shot('00-empty-114');check(await ev("[...document.querySelectorAll('[role=button]')].findLast(e=>e.textContent==='Расписание').getAttribute('aria-disabled')==='true'"),'Пустой лимит можно сохранить');
  await click('Блокировать');await shot('01-apps-empty-115');await click('Выбрать категорию Социальные сети');await shot('02-apps-social-116');await click('Закрыть приложения лимита');check(await ev("document.body.innerText.includes('● Выбрать')"),'Отмена применила приложения');
  await click('Блокировать');await click('Выбрать категорию Социальные сети');await click('Сохранить приложения лимита');await shot('03-overview-117');

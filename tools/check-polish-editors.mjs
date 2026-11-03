@@ -5,7 +5,7 @@ const errors=[];const ws=new WebSocket(tab.webSocketDebuggerUrl);await new Promi
 const click=async(text)=>{let r=await ev(`(()=>{const els=[...document.querySelectorAll('[role="button"],[role="checkbox"],[role="switch"],[aria-label]')];const e=els.findLast(e=>e.getAttribute('aria-label')===${JSON.stringify(text)}||e.textContent.trim()===${JSON.stringify(text)});if(!e)throw Error('Нет кнопки '+${JSON.stringify(text)});let r=e.getBoundingClientRect();if(r.y<60||r.bottom>690){e.scrollIntoView({block:'center',inline:'nearest'});r=e.getBoundingClientRect()}return{x:r.x+r.width/2,y:r.y+r.height/2}})()`);await cdp('Input.dispatchMouseEvent',{type:'mousePressed',button:'left',clickCount:1,...r});await cdp('Input.dispatchMouseEvent',{type:'mouseReleased',button:'left',clickCount:1,...r});await wait(1000)};
 
 const nav=async url=>{await cdp('Page.navigate',{url:(process.env.EXPO_WEB_URL??'http://localhost:8092')+url});await wait(1600)};
-try{await cdp('Page.enable');await cdp('Runtime.enable');await cdp('Emulation.setDeviceMetricsOverride',{width:393,height:852,deviceScaleFactor:1,mobile:false});
+try{await cdp('Page.enable').then(()=>cdp('Page.addScriptToEvaluateOnNewDocument',{source:'globalThis.__BLOCK_DEMO__=1'}));await cdp('Runtime.enable');await cdp('Emulation.setDeviceMetricsOverride',{width:393,height:852,deviceScaleFactor:1,mobile:false});
 const results=[];
 for (const [route,id] of [['/session?mode=scheduled',55],['/session',73]]) {
  await nav(route);await click('Разблокировки');await wait(900);await shot(String(id));

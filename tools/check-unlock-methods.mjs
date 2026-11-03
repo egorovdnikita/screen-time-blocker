@@ -8,7 +8,7 @@ const tap = async(x,y)=>{await cdp('Input.dispatchMouseEvent',{type:'mousePresse
 const check = (ok,message) => {if(!ok)throw Error(message)};
 const checked = async(label)=>ev(`document.querySelector('[aria-label="'+${JSON.stringify(label)}+'"]').getAttribute('aria-checked')==='true'`);
 try {
- await cdp('Page.enable');await cdp('Runtime.enable');await cdp('Network.enable');await cdp('Network.setCacheDisabled',{cacheDisabled:true});await cdp('Emulation.setDeviceMetricsOverride',{width:393,height:852,deviceScaleFactor:3,mobile:false});
+ await cdp('Page.enable').then(()=>cdp('Page.addScriptToEvaluateOnNewDocument',{source:'globalThis.__BLOCK_DEMO__=1'}));await cdp('Runtime.enable');await cdp('Network.enable');await cdp('Network.setCacheDisabled',{cacheDisabled:true});await cdp('Emulation.setDeviceMetricsOverride',{width:393,height:852,deviceScaleFactor:3,mobile:false});
  await cdp('Page.navigate',{url:'http://localhost:8081'});for(let i=0;i<80;i++){if(await ev("document.body.innerText.includes('Начать блокировку')"))break;await wait(500)}
  await click('Начать блокировку');await click('Прямо сейчас');await click('Разблокировки');await click('Разблокировки: Да');await click('Способ перед входом');await shot('00-wait-automatic-080');check(await checked('Автоматическая пауза'),'Не выбран автоматический режим');
  await click('Автоматическая пауза');await shot('01-wait-30s-081');await click('Увеличить паузу');await shot('02-wait-1m-082');

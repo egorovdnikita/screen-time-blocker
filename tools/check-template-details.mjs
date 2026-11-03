@@ -8,7 +8,7 @@ const input = async(label,text) => { await ev(`(()=>{const e=[...document.queryS
 const check = (ok,message) => {if(!ok)throw Error(message)};
 
 try {
- await cdp('Page.enable');await cdp('Runtime.enable');await cdp('Emulation.setDeviceMetricsOverride',{width:393,height:852,deviceScaleFactor:3,mobile:false});await cdp('Page.navigate',{url:process.env.EXPO_WEB_URL ?? 'http://localhost:8081'});for(let i=0;i<80;i++){if(await ev("document.body.innerText.includes('Начать блокировку')"))break;await wait(500)}
+ await cdp('Page.enable').then(()=>cdp('Page.addScriptToEvaluateOnNewDocument',{source:'globalThis.__BLOCK_DEMO__=1'}));await cdp('Runtime.enable');await cdp('Emulation.setDeviceMetricsOverride',{width:393,height:852,deviceScaleFactor:3,mobile:false});await cdp('Page.navigate',{url:process.env.EXPO_WEB_URL ?? 'http://localhost:8081'});for(let i=0;i<80;i++){if(await ev("document.body.innerText.includes('Начать блокировку')"))break;await wait(500)}
  await click('Начать блокировку');await click('Прямо сейчасНапример, на 30 минут');await wait(600);await click('Новый шаблон');await wait(700);
  await click('Детали шаблона Сессия');await wait(1200);await shot('00-details-210');check(await ev(`document.querySelector('[aria-label="Сохранить изменения шаблона"]').getAttribute('aria-disabled')==='true'`),'Неизменённый шаблон доступен для сохранения');
  await click('Удалить сохранённый шаблон');await shot('01-alert-211');await click('Отмена удаления шаблона');check(await ev(`!!document.querySelector('[aria-label="Начать сохранённый шаблон"]')`),'Отмена закрыла шаблон');

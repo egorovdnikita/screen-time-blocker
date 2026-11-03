@@ -10,10 +10,10 @@ import { OnboardingFriction, OnboardingStory } from './OnboardingPieces';
 import { NameEntry, OnboardingQuiz, GoalIntro, GoalControls, OnboardingMath } from './OnboardingQuiz';
 import { Commit, ConnectScreenTime, Preferences, OnboardingPicker, OnboardingUnlocks, OnboardingMethod, OnboardingSchedule } from './OnboardingSetup';
 
-export function OnboardingScreen({ initialStep = 0 }: { initialStep?: number }) {
+export function OnboardingScreen({ initialStep }: { initialStep?: number }) {
   const app = useAppState(); const { height } = useWindowDimensions();
   const { startOnboarding, patchOnboarding: patch } = app;
-  useEffect(() => startOnboarding(initialStep), [initialStep,startOnboarding]);
+  useEffect(() => { if (initialStep !== undefined) startOnboarding(initialStep); }, [initialStep,startOnboarding]);
   const draft = app.onboardingDraft, step = draft.step;
   const go = (next: number) => patch({ step: next });
   useEffect(() => { if (step !== 11) return; const timer = setTimeout(() => patch({step:12}),1800); return () => clearTimeout(timer); }, [step,patch]);
@@ -26,6 +26,7 @@ export function OnboardingScreen({ initialStep = 0 }: { initialStep?: number }) 
     app.setScenario('firstRun'); app.setRulesVariant('onboarding'); app.setDailyGoalMinutes(draft.goal);
     if (draft.name.trim()) app.setProfileName(draft.name.trim());
     if (schedule) app.addSession({...sessionRule(session),appIds:['messages','xchat','bereal','facetime'].filter(id=>draft.apps.includes(id))});
+    app.completeOnboarding();
     router.replace('/(tabs)/rules');
   };
   let content;
@@ -44,7 +45,7 @@ export function OnboardingScreen({ initialStep = 0 }: { initialStep?: number }) 
     case 13: content=<OnboardingStory kind="years" onNext={()=>go(14)}/>;break;
     case 14: content=<OnboardingStory kind="started" onNext={()=>go(15)}/>;break;
     case 15: content=<Commit onNext={()=>go(17)}/>;break;
-    case 17: content=<ConnectScreenTime/>;break;
+    case 17: content=<ConnectScreenTime onNext={()=>go(18)}/>;break;
     case 18: content=<Preferences onBack={()=>go(17)} onSelect={preference=>patch({preference,step:19})}/>;break;
     case 19: case 20: case 21: content=<OnboardingPicker value={draft.apps} expanded={step!==19} onChange={apps=>patch({apps,step:apps.length?21:20})} onExpand={()=>go(step===19?draft.apps.length?21:20:19)} onBack={()=>go(18)} onNext={()=>go(draft.unlocks===3?23:22)}/>;break;
     case 22: case 23: content=<OnboardingUnlocks draft={draft} patch={patch} onBack={()=>go(21)} onNext={()=>go(24)}/>;break;

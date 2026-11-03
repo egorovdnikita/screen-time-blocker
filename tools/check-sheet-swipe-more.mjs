@@ -17,7 +17,7 @@ const drag = async(distance, expectClose) => {
 const results=[];
 const go=async route=>{await cdp('Page.navigate',{url:(process.env.EXPO_WEB_URL??'http://localhost:8082')+route});await wait(1800)};
 try {
- await cdp('Page.enable');await cdp('Runtime.enable');await cdp('Emulation.setTouchEmulationEnabled',{enabled:true,maxTouchPoints:1});await cdp('Emulation.setDeviceMetricsOverride',{width:393,height:852,deviceScaleFactor:3,mobile:false});await go('/session');
+ await cdp('Page.enable').then(()=>cdp('Page.addScriptToEvaluateOnNewDocument',{source:'globalThis.__BLOCK_DEMO__=1'}));await cdp('Runtime.enable');await cdp('Emulation.setTouchEmulationEnabled',{enabled:true,maxTouchPoints:1});await cdp('Emulation.setDeviceMetricsOverride',{width:393,height:852,deviceScaleFactor:3,mobile:false});await go('/session');
  await click('Изменить иконку сессии');await drag(120,true);await click('Настройки строгого режима');await drag(120,true);await click('Разблокировки');await click('Разблокировки: Да');await click('Длительность разблокировки');await drag(120,true);await click('Способ перед входом');await drag(120,true);await click('Приложения');await click('Дополнительные параметры и сайты');await drag(120,true);await drag(120,true);
  await go('/limit');await click('Блокировать');await drag(120,true);check(await ev(`document.querySelector('[aria-label="Блокировать"]').textContent.includes('Выбрать')`),'Отмена применила приложения');
  await go('/lock');await click('Приложение для лимита запусков');await drag(120,true);

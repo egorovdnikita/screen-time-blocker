@@ -17,7 +17,7 @@ const opening = async(label,name) => {
  const settled=frames.at(-1);check(Math.abs(settled.contentY)<.1&&settled.opacity===1,'Лист не остановился '+name);results.push({name,movingFrames:moving.length,settled,frames});
 };
 try {
- await cdp('Page.enable');await cdp('Runtime.enable');await cdp('Emulation.setDeviceMetricsOverride',{width:393,height:852,deviceScaleFactor:3,mobile:false});await cdp('Page.navigate',{url:process.env.EXPO_WEB_URL ?? 'http://localhost:8081'});for(let i=0;i<80;i++){if(await ev("document.body.innerText.includes('Начать блокировку')"))break;await wait(500)}
+ await cdp('Page.enable').then(()=>cdp('Page.addScriptToEvaluateOnNewDocument',{source:'globalThis.__BLOCK_DEMO__=1'}));await cdp('Runtime.enable');await cdp('Emulation.setDeviceMetricsOverride',{width:393,height:852,deviceScaleFactor:3,mobile:false});await cdp('Page.navigate',{url:process.env.EXPO_WEB_URL ?? 'http://localhost:8081'});for(let i=0;i<80;i++){if(await ev("document.body.innerText.includes('Начать блокировку')"))break;await wait(500)}
  await opening('Начать блокировку','00-menu');await opening('Прямо сейчас','01-editor');
  await opening('Изменить иконку сессии','02-icon');await tap(5,25);
  await opening('Настройки строгого режима','03-strict');await tap(5,25);

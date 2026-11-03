@@ -1,0 +1,13 @@
+{
+  "base": "http://localhost:8082",
+  "checks": {
+    "firstLaunchOnboarding": true,
+    "resumeStep": true,
+    "rulesSurviveRestart": {
+      "sessions": 1,
+      "tab": "Правила, активных: 0"
+    },
+    "storedVersion": 1,
+    "corruptBackup": true
+  }
+}
