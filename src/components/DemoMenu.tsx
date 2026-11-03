@@ -15,6 +15,7 @@ const SCENARIOS: { id: Scenario; title: string; hint: string }[] = [
 ];
 
 const RULES: { id: RulesVariant; title: string }[] = [
+  { id: 'strict', title: 'Строгое правило Apple Music' },
   { id: 'full', title: 'Все правила' },
   { id: 'reason', title: 'Открытие: указать причину' },
   { id: 'first', title: 'Первое правило' },

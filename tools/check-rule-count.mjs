@@ -13,4 +13,9 @@ const state={...empty,createdSessions:[{id:'new',status:{kind:'blocking'}}],crea
 assert.equal(activeRuleCount(rulesVariants.full,state),7);
 assert.equal(activeRuleCount(rulesVariants.full,{...state,pausedSessions:{new:'next'}}),6);
 assert.equal(activeRuleCount(rulesVariants.full,{...empty,pausedSessions:{missing:'manual'}}),3);
+assert.equal(activeRuleCount(rulesVariants.full,{...empty,deletedRuleIds:['music']}),2);
+assert.equal(activeRuleCount(rulesVariants.full,{...empty,deletedRuleIds:['work']}),3);
+assert.equal(activeRuleCount(rulesVariants.full,{...empty,deletedRuleIds:['music','music','missing']}),2);
+assert.equal(activeRuleCount(rulesVariants.full,{...state,deletedRuleIds:['new']}),6);
+assert.equal(activeRuleCount(rulesVariants.full,{...state,deletedRuleIds:['new'],pausedSessions:{new:'manual'}}),6);
 console.log('Active rule count OK');

@@ -1,0 +1,11 @@
+{
+  "results": {
+    "cancelLength": true,
+    "copyValidation": true,
+    "pinMismatch": true,
+    "emptyRules": true,
+    "disableStrict": true,
+    "interface": true
+  },
+  "errors": []
+}

@@ -1,3 +1,4 @@
+import { initialEmergencySettings, type EmergencySettings } from '@/data/emergency';
 import type { CustomBlockScreen } from '@/data/blockScreens';
 import { cloneNamedGroup, type NamedAppGroup } from '@/data/namedGroups';
 import { initialReminders, type ReminderSettings } from '@/data/reminders';
@@ -12,13 +13,19 @@ import { dayActive, dayFirst, dayJune24, dayToday, dayTodayRefreshed, dayYesterd
 
 // Сценарии показывают все состояния из макетов. Переключаются в демо-меню (долгое нажатие на «⋯»).
 export type Scenario = 'regular' | 'active' | 'firstRun';
-export type RulesVariant = 'full' | 'sessions' | 'locks' | 'limits' | 'limitProgress' | 'first' | 'reason';
+export type RulesVariant = 'strict' | 'full' | 'sessions' | 'locks' | 'limits' | 'limitProgress' | 'first' | 'reason';
 export type PeriodId = 'today' | 'yesterday' | 'june-24';
 export type OnboardingStep = 'tip-first-rule' | 'tip-add-more' | 'done';
 
 const LOADING_MS = 1400;
 
 type AppState = {
+  emergencySettings: EmergencySettings;
+  saveEmergencySettings: (value: EmergencySettings) => void;
+  interfaceSettings: { streak: boolean; special: boolean };
+  setInterfaceSettings: (value: { streak: boolean; special: boolean }) => void;
+  deletedRuleIds: string[];
+  deleteRule: (id: string) => void;
   legacyLimits: boolean;
   setLegacyLimits: (value: boolean) => void;
   troubleshooting: { hideIcons: boolean; realTime: boolean };
@@ -105,6 +112,9 @@ type AppState = {
 const Ctx = createContext<AppState | null>(null);
 
 export function AppStateProvider({ children }: { children: ReactNode }) {
+  const [emergencySettings, saveEmergencySettings] = useState(initialEmergencySettings);
+  const [interfaceSettings, setInterfaceSettings] = useState({ streak: true, special: false });
+  const [deletedRuleIds, setDeletedRuleIds] = useState<string[]>([]);
   const [legacyLimits, setLegacyLimits] = useState(false);
   const [troubleshooting, setTroubleshooting] = useState({ hideIcons: false, realTime: true });
   const [ruleChanges, setRuleChanges] = useState<Record<string, RuleDetailChanges>>({});
@@ -176,6 +186,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     setSavedTemplates([]);
     setNamedGroups([]);
     setLegacyLimits(false);
+    saveEmergencySettings(initialEmergencySettings()); setInterfaceSettings({ streak: true, special: false }); setDeletedRuleIds([]);
     setTroubleshooting({ hideIcons: false, realTime: true });
     setExpertScreens(false); setAlternativeScreens(false); setCustomBlockScreens([]);
     setScenarioRaw(s);
@@ -211,6 +222,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
 
   const ruleNotice = () => { if (noticeTimer.current) clearTimeout(noticeTimer.current); setSessionNotice('Изменения сохранены'); noticeTimer.current = setTimeout(() => setSessionNotice(null), 2800); };
   const value: AppState = {
+    emergencySettings, saveEmergencySettings, interfaceSettings, setInterfaceSettings, deletedRuleIds,
+    deleteRule: id => setDeletedRuleIds(xs => xs.includes(id) ? xs : [...xs, id]),
     showRuleRefreshDemo: () => { if (noticeTimer.current) clearTimeout(noticeTimer.current); setSessionNotice('Обновляем данные. Это может занять\nнесколько минут.'); noticeTimer.current = setTimeout(() => setSessionNotice(null), 4000); },
     ruleChanges, saveRuleDetails: (id, changes) => { setRuleChanges(xs => ({ ...xs, [id]: { ...changes, strictSettings: { ...changes.strictSettings } } })); ruleNotice(); },
     pausedSessions, pauseSession: (id, mode) => { setPausedSessions(xs => ({ ...xs, [id]: mode })); ruleNotice(); },

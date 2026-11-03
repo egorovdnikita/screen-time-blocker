@@ -52,7 +52,7 @@ export function RulesScreen() {
   const top = Math.max(insets.top, 20);
   const app = useAppState();
   const base = rulesVariants[app.rulesVariant];
-  const data = { ...base, locks: [...app.createdLocks, ...base.locks], limits: [...app.createdLimits, ...base.limits], routines: [...app.createdRoutines, ...base.routines], sessions: [...app.createdSessions, ...base.sessions], active: activeRuleCount(base, app) };
+  const data = { ...base, locks: [...app.createdLocks, ...base.locks].filter(x => !app.deletedRuleIds.includes(x.id)), limits: [...app.createdLimits, ...base.limits].filter(x => !app.deletedRuleIds.includes(x.id)), routines: [...app.createdRoutines, ...base.routines].filter(x => !app.deletedRuleIds.includes(x.id)), sessions: [...app.createdSessions, ...base.sessions].filter(x => !app.deletedRuleIds.includes(x.id)), active: activeRuleCount(base, app) };
   const [helpOpen, setHelpOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [demoOpen, setDemoOpen] = useState(false);

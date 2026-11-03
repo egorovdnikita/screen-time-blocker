@@ -86,6 +86,7 @@ const limitAllDay: LimitRule = {
 const routine: RoutineRule = { id: 'routine', title: 'Рутина' };
 
 export const rulesVariants: Record<RulesVariant, RulesData> = {
+  strict: { active: 3, locks: [{ id: 'music', app: 'apple-music', name: 'Apple Music', unlocks: '(3/3)', strict: true, strictSettings: { strictScope: 'session', strictDays: 1 } }], sessions: [workHours], limits: [limitAllDay], routines: [routine], templates: 'classic' },
   reason: { active: 3, locks: [{ id: 'music', app: 'apple-music', name: 'Apple Music', unlocks: '(3/3)', unlockSettings: { unlockMethod: 'reason', waitAutomatic: true, waitSeconds: 3, copyText: '', scanType: 'qr' } }], sessions: [workHours], limits: [limitAllDay], routines: [routine], templates: 'classic' },
   // 37-rules__01
   full: {
@@ -191,8 +192,10 @@ export const activeLabel = (n: number) => {
 };
 
 // Один счётчик для заголовка Правил и таббара, включая приостановленные сессии.
-export function activeRuleCount(base: RulesData, state: { createdRoutines: readonly RoutineRule[]; createdLimits: readonly LimitRule[]; createdLocks: readonly LockRule[]; createdSessions: readonly SessionRule[]; pausedSessions: Readonly<Record<string, 'next' | 'manual'>> }) {
-  const pausedBase = base.sessions.filter(rule => rule.status.kind === 'blocking' && state.pausedSessions[rule.id]).length;
-  const activeSessions = state.createdSessions.filter(rule => rule.status.kind === 'blocking' && !state.pausedSessions[rule.id]).length;
-  return Math.max(0, base.active - pausedBase) + state.createdRoutines.length + state.createdLimits.length + state.createdLocks.length + activeSessions;
+export function activeRuleCount(base: RulesData, state: { createdRoutines: readonly RoutineRule[]; createdLimits: readonly LimitRule[]; createdLocks: readonly LockRule[]; createdSessions: readonly SessionRule[]; pausedSessions: Readonly<Record<string, 'next' | 'manual'>>; deletedRuleIds?: readonly string[] }) {
+  const deleted = new Set(state.deletedRuleIds);
+  const removedBase = [...base.locks, ...base.limits, ...base.routines].filter(x => deleted.has(x.id)).length + base.sessions.filter(x => x.status.kind === 'blocking' && deleted.has(x.id)).length;
+  const pausedBase = base.sessions.filter(rule => !deleted.has(rule.id) && rule.status.kind === 'blocking' && state.pausedSessions[rule.id]).length;
+  const activeSessions = state.createdSessions.filter(rule => !deleted.has(rule.id) && rule.status.kind === 'blocking' && !state.pausedSessions[rule.id]).length;
+  return Math.max(0, base.active - pausedBase - removedBase) + [...state.createdRoutines, ...state.createdLimits, ...state.createdLocks].filter(x => !deleted.has(x.id)).length + activeSessions;
 }

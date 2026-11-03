@@ -1,3 +1,4 @@
+import { useAppState } from '@/state/app';
 import type { ReactNode } from 'react';
 import { Pressable, View, type StyleProp, type ViewStyle } from 'react-native';
 import Svg, { Circle } from 'react-native-svg';
@@ -24,8 +25,10 @@ export function SectionHeader({ title, right }: { title: string; right?: ReactNo
 }
 
 export function Streak({ count }: { count: number }) {
+  const app = useAppState();
+  if (!app.interfaceSettings.streak) return <View style={{ height: 23.333 }} />;
   return (
-    <View
+    <View accessibilityLabel={`Серия: ${count}`}
       style={{
         flexDirection: 'row',
         alignItems: 'center',

@@ -358,3 +358,19 @@ export const homeSkyTheme = { top: '#0878ff', fade: ['#f4f6f800', '#f4f6f8'] as 
 
 // Общий зазор между прокруткой редакторов и закреплёнными действиями.
 export const ruleEditorSpacing = { footerTop: 20, scrollBottom: 32 } as const;
+
+// HTML287–302, styles/state-components.css и settings-reference.css.
+export const emergencyTheme = {
+  surface: '#f7f8fa', ink: '#111111', muted: '#858b96', dot: '#e9eef1',
+  key: '#fbfcfd', keyShadow: '0px 5px 18px #152a480b',
+  info: '#e8f0ff', infoInk: '#74a2ed', segment: '#e6e7eb', disabled: '#b7b7b9',
+  codeDim: '#ffffff77', input: '#e5ebf2', inputText: '#adb4bf', blue: ['#348bff', '#005df1'] as const,
+  codeShadow: '0px 12px 22px #1172e633', success: '#1ac979', successShadow: '0px 14px 25px #00c16e44',
+  successCheck: '#ffffff44', border: '#ffffff30', actionBlue: '#d9e1ef', actionBlueInk: '#4d80db',
+  actionSurface: '#f4f4f5', ruleToast: '#57c779', actionOrange: '#f1d4c6', actionOrangeInk: '#e76b39', actionCancel: '#e9e9eb', toast: '#20c778',
+};
+export const interfaceTheme = {
+  alertSurface: 'rgba(249,249,249,.78)', alertCancel: '#d0d2d2', alertConfirm: '#0085ff', alertInk: '#66666b',
+  surface: '#f5f8fa', section: '#929aa8', icon: '#969eaa', value: '#7f899a',
+  line: '#eff0f2', chevron: '#c1c6ce', iconGradient: ['#72c1ff', '#1971e8'] as const,
+};
