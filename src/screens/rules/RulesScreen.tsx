@@ -307,7 +307,7 @@ function LimitCard({ rule }: { rule: LimitRule }) {
         <Lock />
         <AppsCount count={rule.appCount ?? 1} />
         {rule.linkedApps && <Image source={art.limitLinkedApps} style={{ width: 29, height: 23, marginLeft: 4 }} />}
-        <T size={17} style={{ marginLeft: 'auto' }}>
+        <T size={17} style={{ marginLeft: 'auto', marginRight: -15.5 }}>
           {rule.value}
         </T>
       </View>
@@ -653,14 +653,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: 18.5,
     paddingLeft: 8,
-    paddingRight: 7,
+    paddingRight: 2.17, // HTML 186: ширина плашки 91.33pt
     borderRadius: radii.pill,
     backgroundColor: colors.white,
     boxShadow: insetBorder(colors.pillBorder, 1.167),
     marginLeft: -0.5,
   },
   metaSepTall: { width: 1.333, height: 10, borderRadius: 1, backgroundColor: colors.metaSep, marginLeft: 6.8, marginRight: 11 },
-  bullet: { width: 2.667, height: 2.667, borderRadius: 1.4, backgroundColor: colors.bullet, marginHorizontal: 7.3 },
+  bullet: { width: 2.667, height: 2.667, borderRadius: 1.4, backgroundColor: colors.bullet, marginLeft: 4.59, marginRight: 7 },
   bottomRow: { flexDirection: 'row', alignItems: 'center' },
   sessionApps: {
     width: 50.5,
