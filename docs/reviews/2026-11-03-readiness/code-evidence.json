@@ -1,0 +1,860 @@
+[
+  {
+    "path": "src/state/app.tsx",
+    "evidence": [
+      {
+        "line": 11,
+        "excerpt": "import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';"
+      },
+      {
+        "line": 16,
+        "excerpt": "// Сценарии показывают все состояния из макетов. Переключаются в демо-меню (долгое нажатие на «⋯»)."
+      },
+      {
+        "line": 32,
+        "excerpt": "appIcon: AppIconId;"
+      },
+      {
+        "line": 60,
+        "excerpt": "grantAppUnlock: (ruleId: string, minutes: number, reason: string, showNotice: boolean) => void;"
+      },
+      {
+        "line": 126,
+        "excerpt": "const [onboardingDraft, setOnboardingDraft] = useState(() => initialOnboarding());"
+      },
+      {
+        "line": 127,
+        "excerpt": "const [profileName, setProfileName] = useState('Саша');"
+      },
+      {
+        "line": 130,
+        "excerpt": "const [emergencySettings, saveEmergencySettings] = useState(initialEmergencySettings);"
+      },
+      {
+        "line": 131,
+        "excerpt": "const [appIcon, setAppIcon] = useState<AppIconId>('original');"
+      },
+      {
+        "line": 132,
+        "excerpt": "const [notifications, setNotifications] = useState(initialNotifications);"
+      },
+      {
+        "line": 133,
+        "excerpt": "const [interfaceSettings, setInterfaceSettings] = useState({ streak: true, special: false });"
+      },
+      {
+        "line": 134,
+        "excerpt": "const [deletedRuleIds, setDeletedRuleIds] = useState<string[]>([]);"
+      },
+      {
+        "line": 135,
+        "excerpt": "const [legacyLimits, setLegacyLimits] = useState(false);"
+      },
+      {
+        "line": 136,
+        "excerpt": "const [troubleshooting, setTroubleshooting] = useState({ hideIcons: false, realTime: true });"
+      },
+      {
+        "line": 137,
+        "excerpt": "const [ruleChanges, setRuleChanges] = useState<Record<string, RuleDetailChanges>>({});"
+      },
+      {
+        "line": 138,
+        "excerpt": "const [pausedSessions, setPausedSessions] = useState<Record<string, 'next' | 'manual'>>({});"
+      },
+      {
+        "line": 139,
+        "excerpt": "const [appUnlocks, setAppUnlocks] = useState<Record<string, { until: number; used: number; reason: string }>>({});"
+      },
+      {
+        "line": 140,
+        "excerpt": "const [shareGuideSeen, setShareGuideSeen] = useState(false);"
+      },
+      {
+        "line": 141,
+        "excerpt": "const [estimatedMinutes, setEstimatedMinutes] = useState(125);"
+      },
+      {
+        "line": 142,
+        "excerpt": "const [estimatedAccuracy, setEstimatedAccuracy] = useState(false);"
+      },
+      {
+        "line": 143,
+        "excerpt": "const [reminders, setReminders] = useState(initialReminders);"
+      },
+      {
+        "line": 144,
+        "excerpt": "const [remindersAcknowledged, setRemindersAcknowledged] = useState(false);"
+      },
+      {
+        "line": 145,
+        "excerpt": "const [customActivities, setCustomActivities] = useState<ActivityDefinition[]>([]);"
+      },
+      {
+        "line": 146,
+        "excerpt": "const [dailyGoals, setDailyGoals] = useState<number[] | null>(null);"
+      },
+      {
+        "line": 147,
+        "excerpt": "const [dailyGoalEnabled, setDailyGoalEnabled] = useState(true);"
+      },
+      {
+        "line": 148,
+        "excerpt": "const [dailyGoalMinutes, setDailyGoalMinutes] = useState<number | null>(null);"
+      },
+      {
+        "line": 149,
+        "excerpt": "const [reflectionTouchedDays, setReflectionTouchedDays] = useState<string[]>([]);"
+      },
+      {
+        "line": 151,
+        "excerpt": "const [reflections, setReflections] = useState<Record<string, Reflection>>({});"
+      },
+      {
+        "line": 152,
+        "excerpt": "const [reflectionDefaults, setReflectionDefaults] = useState<Record<string, Reflection>>({});"
+      },
+      {
+        "line": 153,
+        "excerpt": "const [reflectionExcluded, setReflectionExcludedRaw] = useState<string[]>([]);"
+      },
+      {
+        "line": 154,
+        "excerpt": "const [customHabits, setCustomHabits] = useState<Habit[]>([]);"
+      },
+      {
+        "line": 155,
+        "excerpt": "const [sessionNotice, setSessionNotice] = useState<string | null>(null);"
+      },
+      {
+        "line": 158,
+        "excerpt": "const [createdRoutines, setCreatedRoutines] = useState<RoutineRule[]>([]);"
+      },
+      {
+        "line": 159,
+        "excerpt": "const [savedRoutineTemplates, setSavedRoutineTemplates] = useState<RoutineRule[]>([]);"
+      },
+      {
+        "line": 160,
+        "excerpt": "const [savedLimitTemplates, setSavedLimitTemplates] = useState<LimitRule[]>([]);"
+      },
+      {
+        "line": 161,
+        "excerpt": "const [createdLimits, setCreatedLimits] = useState<LimitRule[]>([]);"
+      },
+      {
+        "line": 162,
+        "excerpt": "const [createdLocks, setCreatedLocks] = useState<LockRule[]>([]);"
+      },
+      {
+        "line": 163,
+        "excerpt": "const [createdSessions, setCreatedSessions] = useState<SessionRule[]>([]);"
+      },
+      {
+        "line": 164,
+        "excerpt": "const [expertScreens, setExpertScreens] = useState(false);"
+      },
+      {
+        "line": 165,
+        "excerpt": "const [alternativeScreens, setAlternativeScreens] = useState(false);"
+      },
+      {
+        "line": 166,
+        "excerpt": "const [customBlockScreens, setCustomBlockScreens] = useState<CustomBlockScreen[]>([]);"
+      },
+      {
+        "line": 167,
+        "excerpt": "const [namedGroups, setNamedGroups] = useState<NamedAppGroup[]>([]);"
+      },
+      {
+        "line": 168,
+        "excerpt": "const [savedTemplates, setSavedTemplates] = useState<SessionRule[]>([]);"
+      },
+      {
+        "line": 169,
+        "excerpt": "const [scenario, setScenarioRaw] = useState<Scenario>('regular');"
+      },
+      {
+        "line": 170,
+        "excerpt": "const [rulesVariant, setRulesVariant] = useState<RulesVariant>('full');"
+      },
+      {
+        "line": 171,
+        "excerpt": "const [period, setPeriod] = useState<PeriodId>('today');"
+      },
+      {
+        "line": 172,
+        "excerpt": "const [refreshed, setRefreshed] = useState(false);"
+      },
+      {
+        "line": 173,
+        "excerpt": "const [loading, setLoading] = useState(false);"
+      },
+      {
+        "line": 174,
+        "excerpt": "const [mostUsedMode, setMostUsedMode] = useState<'apps' | 'activities'>('apps');"
+      },
+      {
+        "line": 175,
+        "excerpt": "const [excluded, setExcluded] = useState<string[]>([]);"
+      },
+      {
+        "line": 176,
+        "excerpt": "const [productive, setProductive] = useState<string[]>([]);"
+      },
+      {
+        "line": 177,
+        "excerpt": "const [newStartVisible, setNewStartVisible] = useState(false);"
+      },
+      {
+        "line": 178,
+        "excerpt": "const [onboarding, setOnboarding] = useState<OnboardingStep>('done');"
+      },
+      {
+        "line": 230,
+        "excerpt": "const baseDay = useMemo<Day>(() => {"
+      },
+      {
+        "line": 239,
+        "excerpt": "const day = useMemo(() => reflectedDay(selectedGoal === null && dailyGoalEnabled ? baseDay : { ...baseDay, goal: { ...baseDay.goal, enabled: dailyGoalEnabled, text: `${baseDay.goal.kind === 'check' ? 'В пределах' : 'Не больше'} ${goalTimeLabel(selectedGoal ?? 260)}` } }, reflections, reflectionExcluded, excluded, reflectionTouchedDays.includes(reflectionKey(baseDay.id, '')), activityCatalog(custom"
+      },
+      {
+        "line": 244,
+        "excerpt": "appIcon, setAppIcon, notifications, setNotifications, emergencySettings, saveEmergencySettings, interfaceSettings, setInterfaceSettings, deletedRuleIds,"
+      },
+      {
+        "line": 250,
+        "excerpt": "appUnlocks, grantAppUnlock: (id, minutes, reason, showNotice) => {"
+      }
+    ]
+  },
+  {
+    "path": "src/screens/overview/OverviewScreen.tsx",
+    "evidence": [
+      {
+        "line": 10,
+        "excerpt": "// Макета «Обзора» нет — заглушка в стилистике остальных экранов."
+      },
+      {
+        "line": 22,
+        "excerpt": "Скоро здесь будет обзор"
+      }
+    ]
+  },
+  {
+    "path": "src/screens/onboarding/OnboardingScreen.tsx",
+    "evidence": [
+      {
+        "line": 11,
+        "excerpt": "import { Commit, ConnectScreenTime, Preferences, OnboardingPicker, OnboardingUnlocks, OnboardingMethod, OnboardingSchedule } from './OnboardingSetup';"
+      },
+      {
+        "line": 47,
+        "excerpt": "case 17: content=<ConnectScreenTime/>;break;"
+      }
+    ]
+  },
+  {
+    "path": "src/screens/onboarding/OnboardingSetup.tsx",
+    "evidence": [
+      {
+        "line": 1,
+        "excerpt": "import { useState } from 'react';"
+      },
+      {
+        "line": 18,
+        "excerpt": "return <><View style={{marginTop:151,flexDirection:'row',alignItems:'center',justifyContent:'center',gap:5}}><Icon name=\"onboarding-rating-laurel\" width={14} height={29} color={c.award}/><T size={25} color={c.award} ls={0} style={{lineHeight:30}}>Выбор App Store</T><Icon name=\"onboarding-rating-laurel\" width={14} height={29} color={c.award} style={{transform:[{scaleX:-1}]}}/></View><T size={12} we"
+      },
+      {
+        "line": 20,
+        "excerpt": "export function ConnectScreenTime() {"
+      },
+      {
+        "line": 21,
+        "excerpt": "return <><OnboardingTitle top={114} size={28}>{'Подключите Block\\nк экранному времени'}</OnboardingTitle><View style={{position:'absolute',top:231,alignSelf:'center',flexDirection:'row',alignItems:'center',gap:15}}><Image source={art.originalIcon} contentFit=\"contain\" style={{width:64,height:64}}/><Icon name=\"onboarding-arrows-left-right\" width={28} height={30} color={c.muted}/><View style={{width"
+      },
+      {
+        "line": 24,
+        "excerpt": "return <><OnboardingNav onBack={onBack} progress={.375} backLeft={34}/><OnboardingTitle>Что вы предпочитаете?</OnboardingTitle><View style={{marginTop:32,marginHorizontal:20,gap:9}}>{onboardingPreferences.map(row=><PressScale key={row.id} accessibilityRole=\"button\" accessibilityLabel={row.title} onPress={()=>onSelect(row.id)} style={styles.preference}><Icon name={row.icon} width={22} height={25} c"
+      },
+      {
+        "line": 27,
+        "excerpt": "const [search,setSearch]=useState('');"
+      },
+      {
+        "line": 31,
+        "excerpt": "return <><OnboardingNav onBack={onBack} progress={.625}/><OnboardingTitle top={164} size={25}>До 3 приложений</OnboardingTitle><T size={17} center ls={0} style={{marginTop:4,lineHeight:21}}>Которые отвлекают сильнее</T><View style={styles.appList}><ScrollView accessibilityLabel=\"Приложения знакомства\" showsVerticalScrollIndicator={false} contentContainerStyle={{paddingBottom:20}}>{!search&&<><Pick"
+      },
+      {
+        "line": 34,
+        "excerpt": "function PickerCategory({title,image,onPress,expanded=false,count=0}:{title:string;image:number;onPress:()=>void;expanded?:boolean;count?:number}){return <PressScale accessibilityRole=\"button\" accessibilityLabel={`Категория знакомства: ${title}`} disabled={title!=='Социальные сети'} accessibilityState={{disabled:title!=='Социальные сети'}} onPress={onPress} style={styles.pickerRow}><View pointerEv"
+      },
+      {
+        "line": 36,
+        "excerpt": "const [duration,setDuration]=useState(false);const selected=['messages','xchat','bereal','facetime'].filter(id=>draft.apps.includes(id));"
+      },
+      {
+        "line": 38,
+        "excerpt": "return <><OnboardingNav onBack={onBack} progress={.75}/><OnboardingTitle top={160} size={28} side={35}>{'Во время блокировки,\\nсколько разблокировок\\nразрешить для'}</OnboardingTitle><View style={{position:'absolute',top:265,left:0,right:0,height:44,flexDirection:'row',justifyContent:'center',alignItems:'center',gap:8}}><SessionApps appIds={selected} reverse={false} size=\"large\"/><T size={28} ls={"
+      },
+      {
+        "line": 40,
+        "excerpt": "export function OnboardingMethod({onBack,onNext}:{onBack:()=>void;onNext:()=>void}){return <><OnboardingNav onBack={onBack} progress={.875}/><OnboardingTitle>{'Что вы хотите сделать\\nперед разблокировкой\\nприложений?'}</OnboardingTitle><T size={24} ls={0} center style={{position:'absolute',top:323,left:28,right:28,lineHeight:30}}>Немного подождать</T><T size={15} weight={400} variant=\"display\" ls="
+      },
+      {
+        "line": 43,
+        "excerpt": "return <><OnboardingNav onBack={onBack}/><PressScale accessibilityRole=\"button\" accessibilityLabel=\"Пропустить расписание знакомства\" onPress={()=>onFinish(false)} style={{position:'absolute',top:85,right:20}}><T size={16} color={c.muted} ls={0}>Пропустить</T></PressScale><OnboardingTitle size={28}>Добавим это расписание?</OnboardingTitle><Image source={sharedArt.emojiBriefcase} contentFit=\"contai"
+      }
+    ]
+  },
+  {
+    "path": "src/screens/rules/RulesScreen.tsx",
+    "evidence": [
+      {
+        "line": 11,
+        "excerpt": "import { useEffect, useRef, useState, type ComponentRef } from 'react';"
+      },
+      {
+        "line": 58,
+        "excerpt": "const [helpOpen, setHelpOpen] = useState(false);"
+      },
+      {
+        "line": 59,
+        "excerpt": "const [settingsOpen, setSettingsOpen] = useState(false);"
+      },
+      {
+        "line": 60,
+        "excerpt": "const [demoOpen, setDemoOpen] = useState(false);"
+      },
+      {
+        "line": 83,
+        "excerpt": "const [firstCardBottom, setFirstCardBottom] = useState<number | null>(null);"
+      },
+      {
+        "line": 165,
+        "excerpt": "<RoundButton variant=\"white\" icon=\"questionmark\" iconWidth={15} iconHeight={20} accessibilityLabel=\"Справка\" onPress={() => setHelpOpen(true)} />"
+      },
+      {
+        "line": 172,
+        "excerpt": "onPress={() => setSettingsOpen(true)}"
+      },
+      {
+        "line": 193,
+        "excerpt": "const [open, setOpen] = useState(false);"
+      },
+      {
+        "line": 194,
+        "excerpt": "const [now, setNow] = useState(Date.now);"
+      },
+      {
+        "line": 199,
+        "excerpt": "const supported = !rule.unlockSettings || ['wait', 'reason', 'none'].includes(rule.unlockSettings.unlockMethod);"
+      },
+      {
+        "line": 216,
+        "excerpt": "<PressScale accessibilityRole=\"button\" accessibilityLabel={`Открыть ${rule.name}`} disabled={remaining > 0 || !available || !supported} accessibilityState={{ disabled: remaining > 0 || !available || !supported }} onPress={() => setOpen(true)} style={styles.unlock}>"
+      },
+      {
+        "line": 220,
+        "excerpt": "{open && <AppUnlockSheet rule={rule} onCancel={() => setOpen(false)} onConfirm={(minutes, reason) => { setNow(Date.now()); app.grantAppUnlock(rule.id, minutes, reason, rule.unlockSettings?.unlockMethod === 'reason'); setOpen(false); }} />}"
+      },
+      {
+        "line": 227,
+        "excerpt": "<PressScale accessibilityRole=\"button\" accessibilityLabel=\"Добавить лимит запусков из правил\" onPress={() => router.push('/lock')} style={{ marginTop: -0.5 }}>"
+      },
+      {
+        "line": 251,
+        "excerpt": "const [details, setDetails] = useState(false);"
+      },
+      {
+        "line": 256,
+        "excerpt": "<RuleHeader emoji={rule.iconId ? <SessionIcon id={rule.iconId} width={23} height={25} /> : sessionEmoji[rule.emoji]} title={title} streak={1} onPress={() => setDetails(true)} />"
+      },
+      {
+        "line": 282,
+        "excerpt": "const [details, setDetails] = useState(false);"
+      },
+      {
+        "line": 295,
+        "excerpt": "onPress={() => setDetails(true)}"
+      },
+      {
+        "line": 318,
+        "excerpt": "const [v] = useState(() => new Animated.Value(0));"
+      },
+      {
+        "line": 319,
+        "excerpt": "const [w, setW] = useState(0);"
+      },
+      {
+        "line": 343,
+        "excerpt": "const [checked, setChecked] = useState(false);"
+      },
+      {
+        "line": 351,
+        "excerpt": "{tasks.map(task => <Pressable key={task.id} style={styles.task} disabled={!!config || demoEarned} onPress={() => setChecked(value => !value)} accessibilityLabel={`Проверить с ИИ: ${task.title}`} accessibilityHint={config ? 'Проверка по фото пока недоступна' : undefined} accessibilityRole=\"checkbox\" accessibilityState={{ checked: done, disabled: !!config || demoEarned }} aria-checked={done}>"
+      },
+      {
+        "line": 354,
+        "excerpt": "<DashedLine dash=\"5 5\" style={{ marginTop: 17 }} /><View style={[styles.bottomRow, { marginTop: 25.3 }]}><Lock /><AppsCount count={appCount || 1} />{demoEarned && <Pressable accessibilityRole=\"button\" accessibilityLabel=\"Демо: забрать время\" onPress={() => router.setParams({earned:'0'})} style={{marginLeft:'auto',marginRight:8,width:114,height:33,borderRadius:24,backgroundColor:colors.white,boxSha"
+      },
+      {
+        "line": 441,
+        "excerpt": "const [gallery, setGallery] = useState(false);"
+      },
+      {
+        "line": 447,
+        "excerpt": "<PressScale accessibilityRole=\"button\" accessibilityLabel=\"Открыть галерею шаблонов\" onPress={() => setGallery(true)} style={styles.seeMore}>"
+      },
+      {
+        "line": 522,
+        "excerpt": "<PressScale accessibilityRole={onStart ? \"button\" : undefined} accessibilityLabel={onStart ? `Начать шаблон ${title}` : undefined} onPress={onStart} scaleTo={0.97} style={[styles.tplCard, { borderRadius: 25.5, overflow: 'hidden' }]}>"
+      },
+      {
+        "line": 598,
+        "excerpt": "<PressScale onPress={onNext} style={styles.tutorialNext} accessibilityLabel=\"Далее\">"
+      },
+      {
+        "line": 612,
+        "excerpt": "<PressScale onPress={onNext} style={styles.tutorialNext} accessibilityLabel=\"Понятно\">"
+      }
+    ]
+  },
+  {
+    "path": "src/screens/rules/SessionDetails.tsx",
+    "evidence": [
+      {
+        "line": 12,
+        "excerpt": "import { useState } from 'react';"
+      },
+      {
+        "line": 36,
+        "excerpt": "const [title, setTitle] = useState(previous?.title ?? rule.title);"
+      },
+      {
+        "line": 37,
+        "excerpt": "const [strict, setStrict] = useState(previous?.strict ?? rule.strict ?? (rule.status.kind === 'blocking' && !!rule.status.strict));"
+      },
+      {
+        "line": 40,
+        "excerpt": "const [settings, setSettings] = useState(baselineSettings);"
+      },
+      {
+        "line": 41,
+        "excerpt": "const [nameFocused, setNameFocused] = useState(false);"
+      },
+      {
+        "line": 42,
+        "excerpt": "const [strictOpen, setStrictOpen] = useState(false);"
+      },
+      {
+        "line": 43,
+        "excerpt": "const [menu, setMenu] = useState(false);"
+      },
+      {
+        "line": 44,
+        "excerpt": "const [deleteAlert, setDeleteAlert] = useState(false);"
+      },
+      {
+        "line": 45,
+        "excerpt": "const [refreshAlert, setRefreshAlert] = useState(false);"
+      },
+      {
+        "line": 53,
+        "excerpt": "return <SheetModal animateClose={!menu} nativeOffset={Math.max(59, insets.top)} swipeEnabled={!menu} onClose={() => menu ? setMenu(false) : onClose()} backdrop={close => <Pressable accessibilityLabel={limit ? \"Закрыть детали лимита\" : \"Закрыть детали сессии\"} onPress={() => close()} style={[StyleSheet.absoluteFill, { backgroundColor: c.backdrop }]} />}>{close => <>"
+      },
+      {
+        "line": 55,
+        "excerpt": "<View style={[styles.header, template ? { height: 278 } : limit && { height: 257 }]}><PressScale accessibilityRole=\"button\" accessibilityLabel={template ? \"Удалить сохранённый шаблон\" : limit ? \"Отменить изменения лимита\" : \"Отменить изменения сессии\"} onPress={() => template ? setDeleteAlert(true) : close()} style={[styles.round, { left: 20, backgroundColor: c.close, boxShadow: c.closeShadow }]}>"
+      },
+      {
+        "line": 57,
+        "excerpt": "{nameFocused ? <TextInput accessibilityLabel={limit ? \"Название существующего лимита\" : \"Название существующей сессии\"} autoFocus value={title} onChangeText={setTitle} onBlur={() => setNameFocused(false)} returnKeyType=\"done\" onSubmitEditing={() => setNameFocused(false)} maxLength={80} style={[styles.nameInput, limit && { top: 178 }]} /> : <PressScale accessibilityRole=\"button\" accessibilityLabel="
+      },
+      {
+        "line": 66,
+        "excerpt": "] : [{ title: 'Блокировать', value: rule.appIds ? <SessionApps appIds={rule.appIds} reverse={false}/> : rule.appGroup ? <AppGroupSummary group={rule.appGroup} /> : <SessionApps selected={rule.selectedApps} style={{ width: 55, height: 31 }} /> }, { title: 'Активно', value: rule.meta.kind === 'schedule' ? `${rule.meta.time.replaceAll(' ', '')}  |  ${rule.meta.days ?? 'Каждый день'}` : template ? rul"
+      },
+      {
+        "line": 67,
+        "excerpt": "<StrictModeRow disabled={locked} value={strict} description=\"Без изменения и удаления\" onOpen={() => setStrictOpen(true)} onChange={value => value ? setStrictOpen(true) : setStrict(false)} style={{ position: 'absolute', left: 25, right: 22, bottom: Math.max(template ? 122 : 103, insets.bottom + (template ? 88 : 69)), height: 33 }} />"
+      },
+      {
+        "line": 68,
+        "excerpt": "{template ? <PressScale accessibilityRole=\"button\" accessibilityLabel=\"Начать сохранённый шаблон\" disabled={!title.trim()} onPress={() => { app.addSession({ ...rule, id: `session-${Date.now()}`, title: title.trim(), strict, strictSettings: { ...settings } }); onClose(); }} style={{ position: 'absolute', left: 20, right: 20, bottom: Math.max(37, insets.bottom + 3), height: 60, borderRadius: 32, ali"
+      },
+      {
+        "line": 70,
+        "excerpt": "{menu && <><Pressable accessibilityLabel=\"Закрыть меню приостановки\" onPress={() => setMenu(false)} style={StyleSheet.absoluteFill} /><FadeIn from={0} style={[styles.menu, { bottom: Math.max(37, insets.bottom + 3) }]}><MaterialBlur pointerEvents=\"none\" blurPx={12} nativeIntensity={16} tint=\"default\" style={StyleSheet.absoluteFill} /><LinearGradient colors={[c.menuTop, c.menuBottom]} style={StyleSh"
+      }
+    ]
+  },
+  {
+    "path": "src/screens/previews/HabitPhoto.tsx",
+    "evidence": [
+      {
+        "line": 2,
+        "excerpt": "import { useState } from 'react';"
+      },
+      {
+        "line": 12,
+        "excerpt": "export function HabitPhoto({initial='photo',onClose,onEarn}:{initial?:HabitPhotoState;onClose:()=>void;onEarn:()=>void}) {"
+      },
+      {
+        "line": 13,
+        "excerpt": "const [state,setState]=useState(initial),good=state==='good';"
+      },
+      {
+        "line": 18,
+        "excerpt": "// Результат не вычисляется и не начисляет минуты в AppState: только демо из макетов."
+      },
+      {
+        "line": 22,
+        "excerpt": "<PressScale accessibilityRole=\"button\" accessibilityLabel={good?'Демо: получить 5 минут':state==='analyzing'?'Демо: показать результат фото':'Демо: сделать фото'} accessibilityHint=\"Предпросмотр макета. Камера и ИИ не подключены\" onPress={good?onEarn:()=>setState(state==='analyzing'?'good':'analyzing')} style={styles.action}>{good&&<Icon name=\"plus\" width={14} height={15} color={colors.white}/>}<T"
+      }
+    ]
+  },
+  {
+    "path": "src/screens/settings/HelpFeedback.tsx",
+    "evidence": [
+      {
+        "line": 3,
+        "excerpt": "import { useState } from 'react';"
+      },
+      {
+        "line": 13,
+        "excerpt": "const topics = ['Ошибки и проблемы', 'Первые шаги в Block', 'Дополнительные возможности', 'Строгий режим', 'Команды, фокус и виджеты', 'Удалить Block'];"
+      },
+      {
+        "line": 16,
+        "excerpt": "const [troubleshoot, setTroubleshoot] = useState(false);"
+      },
+      {
+        "line": 17,
+        "excerpt": "const [emergency, setEmergency] = useState(false);"
+      },
+      {
+        "line": 18,
+        "excerpt": "return <SettingsStack onClose={onClose} surface={c.surface} radius={44}><T size={20} color={c.ink} center ls={0} style={{ position: 'absolute', left: 20, right: 20, top: 44, lineHeight: 26 }}>Помощь и отзывы</T><ScrollView accessibilityLabel=\"Содержание справки\" showsVerticalScrollIndicator={false} style={{ position: 'absolute', top: 90, left: 0, right: 0, bottom: 0 }} contentContainerStyle={{ hei"
+      },
+      {
+        "line": 20,
+        "excerpt": "function HelpRow({ title, icon, description, onPress }: { title: string; icon: IconName; description?: string; onPress?: () => void }) {"
+      },
+      {
+        "line": 21,
+        "excerpt": "return <PressScale accessibilityRole=\"button\" accessibilityLabel={title} onPress={onPress} disabled={!onPress} accessibilityState={{ disabled: !onPress }} style={{ height: description ? 84 : 52.667, paddingLeft: 15, paddingRight: 16, flexDirection: 'row', alignItems: 'center', gap: 11, borderBottomWidth: description ? 0 : 1, borderBottomColor: c.separator }}><Icon name={icon} width={22} height={23"
+      }
+    ]
+  },
+  {
+    "path": "src/screens/settings/MainSettings.tsx",
+    "evidence": [
+      {
+        "line": 6,
+        "excerpt": "import { useState } from 'react';"
+      },
+      {
+        "line": 18,
+        "excerpt": "const [child, setChild] = useState<'time' | 'rules' | 'help' | 'interface' | 'notifications' | 'language' | null>(null);"
+      },
+      {
+        "line": 19,
+        "excerpt": "const rows: { title: string; icon: IconName; height: number; onPress?: () => void }[] = ["
+      },
+      {
+        "line": 20,
+        "excerpt": "{ title: 'Экранное время', icon: 'settings-phone', height: 53.333, onPress: () => setChild('time') },"
+      },
+      {
+        "line": 21,
+        "excerpt": "{ title: 'Правила', icon: 'lock-keyhole', height: 53.333, onPress: () => setChild('rules') },"
+      },
+      {
+        "line": 22,
+        "excerpt": "{ title: 'Интерфейс', icon: 'settings-palette', height: 54.667, onPress: () => setChild('interface') },"
+      },
+      {
+        "line": 23,
+        "excerpt": "{ title: 'Уведомления', icon: 'settings-bell', height: 53.333, onPress: () => setChild('notifications') },"
+      },
+      {
+        "line": 24,
+        "excerpt": "{ title: 'Язык', icon: 'settings-globe', height: 57.333, onPress: () => setChild('language') },"
+      },
+      {
+        "line": 27,
+        "excerpt": "<View style={styles.plan}><T size={13} color={c.section} ls={0} style={{ position: 'absolute', left: 20, top: 18 }}>Текущий план</T><T size={20} color={c.planName} ls={.1} style={{ position: 'absolute', left: 20, top: 39 }}>Годовой план</T><View style={{ position: 'absolute', left: 20, top: 68, width: 16, height: 16, borderRadius: 8, backgroundColor: c.money, justifyContent: 'center', alignItems: "
+      },
+      {
+        "line": 28,
+        "excerpt": "<PressScale accessibilityRole=\"button\" accessibilityLabel=\"Помощь и отзывы\" onPress={() => setChild('help')} style={styles.help}><Icon name=\"settings-help\" width={19} height={19} color={colors.white} style={{ position: 'absolute', left: 18, top: 24 }} /><T size={16} color={colors.white} ls={0} style={{ position: 'absolute', left: 52, top: 14, lineHeight: 21 }}>Помощь и отзывы</T><T size={13} weigh"
+      },
+      {
+        "line": 29,
+        "excerpt": "<T size={20} color={c.section} ls={0} style={{ position: 'absolute', left: 20, top: 425.333, lineHeight: 26 }}>Основные</T><View style={styles.rows}>{rows.map((row, index) => <PressScale key={row.title} accessibilityRole=\"button\" accessibilityLabel={`Общие настройки: ${row.title}`} disabled={!row.onPress} accessibilityState={{ disabled: !row.onPress }} onPress={row.onPress} style={{ height: row.he"
+      }
+    ]
+  },
+  {
+    "path": "src/screens/settings/EmergencyMode.tsx",
+    "evidence": [
+      {
+        "line": 2,
+        "excerpt": "import { useEffect, useState } from 'react';"
+      },
+      {
+        "line": 21,
+        "excerpt": "const [child, setChild] = useState<'settings' | 'passcode' | 'random' | 'rules' | null>(null);"
+      },
+      {
+        "line": 22,
+        "excerpt": "const [challenge, setChallenge] = useState('');"
+      },
+      {
+        "line": 23,
+        "excerpt": "const continueToRules = () => { if (app.emergencySettings.method === 'passcode') setChild('passcode'); else { setChallenge(emergencyChallenge(app.emergencySettings.length, app.interfaceSettings.special)); setChild('random'); } };"
+      },
+      {
+        "line": 25,
+        "excerpt": "<PressScale accessibilityRole=\"button\" accessibilityLabel=\"Настройки экстренного режима\" onPress={() => setChild('settings')} style={styles.settingsButton}><Icon name=\"emergency-settings\" width={24} height={24} color={c.ink} /></PressScale>"
+      },
+      {
+        "line": 27,
+        "excerpt": "<BottomButton label=\"Продолжить в экстренный режим\" onPress={continueToRules}>Продолжить</BottomButton>"
+      },
+      {
+        "line": 29,
+        "excerpt": "{child === 'passcode' && <PasscodeScreen title={'Код-пароль для разблокировки\\nэкстренного режима'} confirm={app.emergencySettings.passcode ?? undefined} onCancel={() => setChild(null)} onComplete={() => setChild('rules')} />}"
+      },
+      {
+        "line": 34,
+        "excerpt": "function BottomButton({ label, children, onPress, disabled = false }: { label: string; children: string; onPress: () => void; disabled?: boolean }) {"
+      },
+      {
+        "line": 36,
+        "excerpt": "return <PressScale accessibilityRole=\"button\" accessibilityLabel={label} disabled={disabled} accessibilityState={{ disabled }} onPress={onPress} style={[styles.bottomButton, { bottom: Math.max(39, insets.bottom + 5), backgroundColor: disabled ? c.disabled : c.ink }]}>{!disabled && <DarkButtonSurface />}<T size={17} ls={0} color={colors.white}>{children}</T></PressScale>;"
+      },
+      {
+        "line": 42,
+        "excerpt": "const [length, setLength] = useState(settings.length), [child, setChild] = useState<'challenge' | 'create' | 'confirm' | null>(null);"
+      },
+      {
+        "line": 43,
+        "excerpt": "const [code, setCode] = useState(''), [pin, setPin] = useState(''), [toast, setToast] = useState(false);"
+      },
+      {
+        "line": 48,
+        "excerpt": "<View style={styles.back}><EmergencyRoundButton label=\"Назад из настроек экстренного режима\" back onPress={() => close()} /></View>"
+      },
+      {
+        "line": 49,
+        "excerpt": "<View style={styles.segment}>{(['random', 'passcode'] as const).map(method => <PressScale key={method} accessibilityRole=\"radio\" accessibilityLabel={method === 'random' ? 'Экстренный режим: случайный код' : 'Экстренный режим: код-пароль'} accessibilityState={{ checked: settings.method === method }} onPress={() => { if (settings.method === method) return; if (method === 'passcode') requestPasscode("
+      },
+      {
+        "line": 50,
+        "excerpt": "<View style={styles.setting}>{settings.method === 'random' ? <><T size={16} weight={400} ls={0}>Длина кода</T><View style={{ marginLeft: 'auto', flexDirection: 'row', alignItems: 'center', gap: 16 }}><T size={16} color={c.muted} ls={0}>{length}</T><PressScale accessibilityRole=\"button\" hitSlop={6} accessibilityLabel=\"Увеличить длину случайного кода\" disabled={length >= 200} onPress={() => setLengt"
+      },
+      {
+        "line": 52,
+        "excerpt": "<BottomButton label=\"Сохранить настройки экстренного режима\" disabled={length === settings.length} onPress={() => close(() => app.saveEmergencySettings({ ...settings, length }))}>Сохранить</BottomButton>"
+      },
+      {
+        "line": 54,
+        "excerpt": "{child === 'challenge' && <CopyCodeScreen code={code} onCancel={() => setChild(null)} onComplete={() => { if (settings.method === 'passcode') { app.saveEmergencySettings({ method: 'random', length, passcode: null }); setChild(null); } else setChild('create'); }} />}"
+      },
+      {
+        "line": 56,
+        "excerpt": "{child === 'confirm' && <PasscodeScreen title=\"Подтвердите код-пароль\" subtitle=\"Надёжный человек сможет задать код за вас.\" confirm={pin} onBack={() => setChild('create')} onCancel={() => setChild(null)} onComplete={() => { app.saveEmergencySettings({ method: 'passcode', length, passcode: pin }); setChild(null); setToast(true); }} />}"
+      },
+      {
+        "line": 61,
+        "excerpt": "const [selected, setSelected] = useState<StrictRule | null>(null), [toast, setToast] = useState('');"
+      },
+      {
+        "line": 66,
+        "excerpt": "<View style={styles.ruleHeader}><EmergencyRoundButton label=\"Назад из строгих правил\" back onPress={() => close()} /><T size={18} ls={0}>{selected || toast ? 'Правила строгого режима' : 'Правила со строгим режимом'}</T></View>"
+      },
+      {
+        "line": 68,
+        "excerpt": "<SheetScrollView accessibilityLabel=\"Строгие правила\" style={{ marginTop: 211 }} contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 40, gap: 12 }}>{strict.map(x => <View key={x.id} style={styles.rule}><T size={16} ls={0}>🔒</T><T size={16} weight={400} ls={0} style={{ flex: 1 }}>{app.ruleChanges[x.id]?.title ?? x.title}</T><FlowSwitch label={`Строгий режим: ${x.title}`} value={app.ruleC"
+      },
+      {
+        "line": 70,
+        "excerpt": "{selected && <SheetModal animateClose onClose={() => setSelected(null)} backdrop={dismiss => <Pressable accessibilityLabel=\"Отменить действие со строгим правилом\" onPress={() => dismiss()} style={[StyleSheet.absoluteFill, { backgroundColor: modalTheme.dim }]} />}>{dismiss => <View style={styles.actions}><T size={16} weight={400} ls={0} center style={{ lineHeight: 24, marginBottom: 12 }}>Что вы хот"
+      }
+    ]
+  },
+  {
+    "path": "src/screens/session/QrPass.tsx",
+    "evidence": [
+      {
+        "line": 19,
+        "excerpt": "else if(uri) await Share.share({url:uri,message:'Демонстрационный QR-пропуск Block'});"
+      },
+      {
+        "line": 21,
+        "excerpt": "return <PlainSettingsSheet title=\"Ваш QR-пропуск\" top={top} inset={8} bottom={8} onClose={onClose}><SheetScrollView style={{flex:1,marginTop:100,marginBottom:108}} contentContainerStyle={{flexGrow:1,minHeight:390,paddingHorizontal:20}}><View style={{marginTop:38,alignSelf:'center',width:210,height:296,borderWidth:2,borderStyle:'dashed',borderColor:colors.dash}}><View style={{position:'absolute',to"
+      }
+    ]
+  },
+  {
+    "path": "src/screens/previews/SystemPreviews.tsx",
+    "evidence": [
+      {
+        "line": 15,
+        "excerpt": "return <View accessibilityLabel={`Системное демо ${id}`} style={{flex:1,backgroundColor:c.system}}>"
+      },
+      {
+        "line": 32,
+        "excerpt": "function Widgets({time}:{time:boolean}) {return <View accessibilityLabel={`Системное демо ${time?344:343}`} style={{flex:1,backgroundColor:c.system}}>{time?<><TimeWidget/><TimeWidget small/><LinearGradient colors={c.limitGradient} style={[styles.widget,{left:206,top:263,width:162,height:162}]}><T size={13} ls={0} style={{position:'absolute',top:42,left:12}}>⌛ Лимит времени</T><T size={12} ls={0} s"
+      }
+    ]
+  },
+  {
+    "path": "src/screens/settings/Troubleshoot.tsx",
+    "evidence": [
+      {
+        "line": 2,
+        "excerpt": "import { useRef, useState, type ComponentRef } from 'react';"
+      },
+      {
+        "line": 29,
+        "excerpt": "const [step, setStep] = useState(0);"
+      },
+      {
+        "line": 30,
+        "excerpt": "const [options, setOptions] = useState(false);"
+      },
+      {
+        "line": 41,
+        "excerpt": "<View style={styles.tabs}><ScrollView ref={tabs} horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 4, minWidth: 394 }}>{troubleshootSteps.map((_, index) => <PressScale accessibilityRole=\"button\" accessibilityLabel={`Решение проблем: шаг ${index + 1}`} accessibilityState={{ selected: step === index }} onPress={() => choose(index)} key={index} style={[styles.tab, { widt"
+      },
+      {
+        "line": 50,
+        "excerpt": "<View style={{ position: 'absolute', left: 20, right: 20, top: issuesTop - 100, gap: 8 }}>{issues.map(([image, title], index) => <View key={title} accessibilityState={{ disabled: true }} style={[styles.issue, { height: index === 7 ? 68 : 56 }]}><Image source={image} contentFit=\"contain\" style={{ width: 22, height: 22 }} /><T variant=\"text\" weight={400} size={14.25} ls={0} style={{ flex: 1, lineHei"
+      },
+      {
+        "line": 53,
+        "excerpt": "<View accessibilityState={{ disabled: true }} style={[styles.contact, { top: extraTop + 448 }]}><Icon name=\"help-contact\" width={12} height={12} /><T size={14} ls={0}>Написать нам</T></View>"
+      },
+      {
+        "line": 59,
+        "excerpt": "return <View accessibilityLabel={title} accessibilityState={{ disabled: true }} accessibilityHint=\"Системное действие пока не подключено\" style={[styles.action, { top, backgroundColor: muted ? c.disabled : c.ink }]}>{!muted && <DarkButtonSurface radius={24} />}<Icon name={icon} width={14} height={17} color={muted ? c.disabledText : colors.white} /><T size={14.25} color={muted ? c.disabledText : co"
+      }
+    ]
+  },
+  {
+    "path": "src/data/appGroup.ts",
+    "evidence": [
+      {
+        "line": 24,
+        "excerpt": "export const initialAppGroup = (): AppGroupDraft => ({ mode: 'only', selectedApps: [true, true, true], categories: [], adultContent: false, purchases: false, installation: false, websites: [] });"
+      }
+    ]
+  },
+  {
+    "path": "src/screens/settings/InterfaceSettings.tsx",
+    "evidence": [
+      {
+        "line": 2,
+        "excerpt": "import { appIcons } from '@/data/preferences';"
+      },
+      {
+        "line": 4,
+        "excerpt": "import { useState } from 'react';"
+      },
+      {
+        "line": 18,
+        "excerpt": "const app = useAppState(); const [warning, setWarning] = useState(false), [screens, setScreens] = useState(false);"
+      },
+      {
+        "line": 19,
+        "excerpt": "const [picker, setPicker] = useState(false);"
+      },
+      {
+        "line": 24,
+        "excerpt": "<View accessibilityState={{ disabled: true }} style={[styles.basic, { borderBottomWidth: 1, borderColor: c.line }]}><Icon name=\"interface-theme\" width={19} height={21} color={c.icon} /><T size={14.25} weight={400} variant=\"text\" ls={0}>Тема</T><T size={17} color={c.value} ls={0} style={{ marginLeft: 'auto' }}>Система</T><Icon name=\"updown\" width={16} height={18} color={c.chevron} /></View>"
+      },
+      {
+        "line": 25,
+        "excerpt": "<PressScale accessibilityRole=\"button\" accessibilityLabel=\"Иконка приложения\" onPress={() => setPicker(true)} style={[styles.basic, { height: 56.333 }]}><Icon name=\"interface-app\" width={19} height={21} color={c.icon} /><T size={14.25} weight={400} variant=\"text\" ls={0}>Иконка приложения</T><Image source={appIcons.find(item=>item.id===app.appIcon)!.image} style={{width:24,height:24,borderRadius:6,"
+      },
+      {
+        "line": 32,
+        "excerpt": "<PressScale accessibilityRole=\"button\" accessibilityLabel=\"Интерфейс: экраны блокировки\" onPress={() => setScreens(true)} style={[styles.group, styles.feature, { marginTop: 11.333, height: 84 }]}><Icon name=\"shield-check\" width={19} height={21} color={c.icon} /><View style={{ flex: 1 }}><T size={14.25} weight={400} variant=\"text\" ls={0}>Экраны блокировки</T><T size={13} weight={400} variant=\"text\""
+      }
+    ]
+  },
+  {
+    "path": "src/screens/settings/LanguageMenu.tsx",
+    "evidence": [
+      {
+        "line": 5,
+        "excerpt": "import { languages } from '@/data/preferences';"
+      },
+      {
+        "line": 10,
+        "excerpt": "return <SheetModal animateClose motion=\"dialog\" swipeEnabled={false} onClose={onClose} backdrop={close=><Pressable accessibilityLabel=\"Закрыть языки\" onPress={()=>close()} style={StyleSheet.absoluteFill}/>}>{close=><View accessibilityRole=\"menu\" style={{position:'absolute',right:36,top:Math.max(70,Math.min(336,height-456)),width:250,height:440,borderRadius:34,borderWidth:1,borderColor:c.menuBorder"
+      }
+    ]
+  },
+  {
+    "path": "src/theme/typography.tsx",
+    "evidence": [
+      {
+        "line": 52,
+        "excerpt": "allowFontScaling={false}"
+      }
+    ]
+  },
+  {
+    "path": "src/screens/session/UnlockMethodSheet.tsx",
+    "evidence": [
+      {
+        "line": 4,
+        "excerpt": "import { useEffect, useRef, useState, type ComponentRef } from 'react';"
+      },
+      {
+        "line": 19,
+        "excerpt": "const [draft, setDraft] = useState<UnlockSettings>(() => ({ unlockMethod: value.unlockMethod, waitAutomatic: value.waitAutomatic, waitSeconds: value.waitSeconds, copyText: value.copyText, scanType: value.scanType }));"
+      },
+      {
+        "line": 21,
+        "excerpt": "const [scrolled, setScrolled] = useState(false);"
+      },
+      {
+        "line": 22,
+        "excerpt": "const [editingText, setEditingText] = useState(false);"
+      },
+      {
+        "line": 29,
+        "excerpt": "const valid = (!isText || !!draft.copyText.trim()) && !scanNfc;"
+      },
+      {
+        "line": 36,
+        "excerpt": "return <SheetModal animateClose nativeOffset={Math.max(69, insets.top + 10)} onClose={onCancel} backdrop={close => <Pressable accessibilityLabel=\"Отменить способ открытия\" onPress={() => close()} style={[StyleSheet.absoluteFill, { backgroundColor: m.backdrop }]} />}>{close => <>"
+      },
+      {
+        "line": 47,
+        "excerpt": "<PressScale accessibilityRole=\"radio\" accessibilityLabel={option.label} accessibilityState={{ checked: selected, disabled: !option.method }} disabled={!option.method} onPress={() => { if (option.method) patch({ unlockMethod: option.method }); }} style={styles.option}>"
+      },
+      {
+        "line": 57,
+        "excerpt": "<PressScale accessibilityRole=\"button\" accessibilityLabel=\"Идея текста\" onPress={() => patch({ copyText: draft.copyText === copyTextIdeas[1] ? copyTextIdeas[0] : copyTextIdeas[1] })} style={styles.inspire}><Icon name=\"session-wand\" width={20} height={20} color={m.copyAction} /><T size={15} color={m.copyAction} ls={0}>Идея текста</T></PressScale>"
+      },
+      {
+        "line": 63,
+        "excerpt": "<PressScale accessibilityRole=\"button\" accessibilityLabel=\"Уменьшить паузу\" accessibilityState={{ disabled: draft.waitSeconds <= 30 }} disabled={draft.waitSeconds <= 30} onPress={() => patch({ waitSeconds: Math.max(30, draft.waitSeconds - 30) })} style={[styles.step, draft.waitSeconds <= 30 && { opacity: .35 }]}><T size={23} weight={400} ls={0}>−</T></PressScale><View style={styles.stepperLine} />"
+      },
+      {
+        "line": 64,
+        "excerpt": "<PressScale accessibilityRole=\"button\" accessibilityLabel=\"Увеличить паузу\" accessibilityState={{ disabled: draft.waitSeconds >= 300 }} disabled={draft.waitSeconds >= 300} onPress={() => patch({ waitSeconds: Math.min(300, draft.waitSeconds + 30) })} style={[styles.step, draft.waitSeconds >= 300 && { opacity: .35 }]}><Icon name=\"plus\" width={16} height={16} color={c.ink} /></PressScale>"
+      },
+      {
+        "line": 76,
+        "excerpt": "<View style={[styles.footer, { paddingBottom: Math.max(39, insets.bottom + 5) }]}><PressScale accessibilityRole=\"button\" disabled={!valid} accessibilityState={{ disabled: !valid }} onPress={() => close(() => onSave({ ...draft, copyText: draft.copyText.trim() }))} style={[styles.save, !valid && (scanNfc ? { backgroundColor: m.scanDisabled } : { opacity: .4 })]}><T size={17} color={scanNfc ? m.scanD"
+      }
+    ]
+  }
+]
