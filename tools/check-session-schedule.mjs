@@ -10,7 +10,7 @@ assert.equal(nextStartLabel(work,at(1,8)),'Сегодня в 9:00');assert.equal
 const night={kind:'weekly',start:1260,end:360,days:[4]}; // пт 21:00 – сб 6:00
 assert.equal(weeklyRemaining(night,at(4,22)),480);assert.equal(weeklyRemaining(night,at(5,5)),60);assert.equal(weeklyRemaining(night,at(5,7)),null);assert.equal(weeklyRemaining(night,at(3,23)),null);
 const allDay={kind:'weekly',start:0,end:0,days:[6]};assert.equal(weeklyRemaining(allDay,at(6,12)),720);assert.equal(nextStartLabel(allDay,at(4,12)),'вс');
-assert.equal(remainingLabel(90),'1 ч 30 мин');assert.equal(remainingLabel(0.2),'1 мин');
+assert.equal(remainingLabel(90),'1 ч 30 мин');assert.equal(remainingLabel(1605),'1 д 2 ч 45 мин','Дни как в редакторе');assert.equal(remainingLabel(1440),'1 д');assert.equal(remainingLabel(0.2),'1 мин');
 const base={id:'s',emoji:'zap',title:'С',apps:'first-rule',strict:true,status:{kind:'upcoming'},meta:{kind:'schedule',time:'9:00 – 17:00'}};
 const t0=at(1,10).getTime();const now={...base,schedule:{kind:'now',startedAt:t0,minutes:30}};
 let live=liveSession(now,new Date(t0+10*60000));assert.deepEqual(live.status,{kind:'blocking',strict:true});assert.equal(live.meta.text,'Осталось 20 мин');

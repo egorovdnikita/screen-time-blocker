@@ -13,9 +13,10 @@ const short = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'];
 const clock = (m: number) => `${Math.floor(m / 60) % 24}:${String(m % 60).padStart(2, '0')}`;
 
 export function remainingLabel(total: number) {
+  // Формат как durationLabel в редакторе: «1 д 2 ч 45 мин».
   const m = Math.max(1, Math.ceil(total));
-  const h = Math.floor(m / 60), rest = m % 60;
-  return [h ? `${h} ч` : '', rest ? `${rest} мин` : ''].filter(Boolean).join(' ');
+  const d = Math.floor(m / 1440), h = Math.floor(m / 60) % 24, rest = m % 60;
+  return [d ? `${d} д` : '', h ? `${h} ч` : '', rest ? `${rest} мин` : ''].filter(Boolean).join(' ');
 }
 
 /** Сколько минут осталось до конца активного окна; null — окно сейчас не активно. */
