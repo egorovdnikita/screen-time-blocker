@@ -3,6 +3,7 @@ import type { TimeLimitDraft } from './timeLimit';
 import type { AppGroupDraft } from './appGroup';
 import type { StrictSettings, UnlockSettings } from './session';
 import type { SessionIconId } from './sessionIcons';
+import type { SessionSchedule } from './sessionSchedule';
 import type { RulesVariant } from '@/state/app';
 
 // Варианты экрана «Правила» из макетов (03-creating-an-account, 17/19/20-creating-a-rule, 37-rules).
@@ -36,6 +37,11 @@ export type SessionRule = {
   meta: Meta;
   apps: 'session' | 'first-rule';
   unlock?: string;
+  /** Исходное расписание созданной сессии; по нему считается живой статус (sessionSchedule.ts). */
+  schedule?: SessionSchedule;
+  /** Вычисляемые поля живого статуса: остаток активного окна и ближайший запуск. */
+  remaining?: string | null;
+  nextStart?: string | null;
 };
 
 export type LimitRule = {

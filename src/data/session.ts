@@ -17,5 +17,8 @@ export const durationLabel = (total: number) => [Math.floor(total / 1440) ? `${M
 export function sessionRule(draft: SessionDraft): SessionRule {
   return { strict: draft.strict, appGroup: cloneAppGroup(draft.appGroup), selectedApps: [...draft.appGroup.selectedApps], strictSettings: { strictScope: draft.strictScope, strictDays: draft.strictDays }, unlockSettings: { unlockMethod: draft.unlockMethod, waitAutomatic: draft.waitAutomatic, waitSeconds: draft.waitSeconds, copyText: draft.copyText, scanType: draft.scanType }, iconId: draft.iconId, unlockMinutes: draft.unlockMinutes, id: `session-${Date.now()}`, emoji: 'zap', title: draft.title.trim() || 'Сессия', status: draft.scheduled ? { kind: 'upcoming' } : { kind: 'blocking', strict: draft.strict },
     meta: draft.scheduled ? { kind: 'schedule', time: draft.allDay ? 'Весь день' : `${hourLabel(draft.start, draft.startMinute)} – ${hourLabel(draft.end, draft.endMinute)}`, days: draft.days.length === 7 ? 'Каждый день' : draft.days.map(d => ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'][d]).join(', ') } : { kind: 'ring', text: `Осталось ${durationLabel(draft.minutes)}`, progress: 0, tone: 'blocking' },
-    apps: 'first-rule', unlock: draft.unlocks ? `(${draft.unlocks}/${draft.unlocks})` : undefined };
+    apps: 'first-rule', unlock: draft.unlocks ? `(${draft.unlocks}/${draft.unlocks})` : undefined,
+    schedule: draft.scheduled
+      ? { kind: 'weekly', start: draft.allDay ? 0 : draft.start * 60 + draft.startMinute, end: draft.allDay ? 0 : draft.end * 60 + draft.endMinute, days: [...draft.days] }
+      : { kind: 'now', startedAt: Date.now(), minutes: draft.minutes } };
 }

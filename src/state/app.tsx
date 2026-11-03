@@ -8,6 +8,7 @@ import { currentGoalDay, goalTimeLabel, boundedGoal } from '@/data/dailyGoal';
 import { reflectedDay } from '@/data/reflectionSummary';
 import { activityCatalog, reflectionKey, type ActivityDefinition, type Reflection } from '@/data/reflection';
 import type { Habit } from '@/data/routine';
+import { liveSession } from '@/data/sessionSchedule';
 import { clearSnapshot, encodeSnapshot, loadSnapshot, saveSnapshot } from '@/state/persist';
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 
@@ -210,6 +211,11 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     mostUsedMode: [mostUsedMode, setMostUsedMode], excluded: [excluded, setExcluded], productive: [productive, setProductive],
     newStartVisible: [newStartVisible, setNewStartVisible], onboarding: [onboarding, setOnboarding], onboardingCompleted: [onboardingCompleted, setOnboardingCompleted],
   };
+  // APP-06: живой статус созданных сессий; тикаем, только если есть сессии с расписанием.
+  const [now, setNow] = useState(() => new Date());
+  const hasSchedules = createdSessions.some(x => x.schedule);
+  useEffect(() => { if (!hasSchedules) return; setNow(new Date()); const id = setInterval(() => setNow(new Date()), 15000); return () => clearInterval(id); }, [hasSchedules]);
+  const liveSessions = useMemo(() => createdSessions.map(x => liveSession(x, now)), [createdSessions, now]);
   const [storage, setStorage] = useState({ loaded: memoryOnly, readError: false, writeError: false, restoredBackup: false });
   const persistedRef = useRef(persisted);
   persistedRef.current = persisted;
@@ -346,7 +352,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     saveBlockScreen: screen => setCustomBlockScreens(xs => xs.some(x => x.id === screen.id) ? xs.map(x => x.id === screen.id ? { ...screen } : x) : [...xs, { ...screen }]),
     deleteBlockScreen: id => setCustomBlockScreens(xs => xs.filter(x => x.id !== id)),
     namedGroups, saveNamedGroup: group => setNamedGroups(xs => xs.some(x => x.id === group.id) ? xs.map(x => x.id === group.id ? cloneNamedGroup(group) : x) : [...xs, cloneNamedGroup(group)]),
-    sessionNotice, createdSessions, savedTemplates, createdLocks, createdLimits, savedLimitTemplates, createdRoutines, savedRoutineTemplates,
+    sessionNotice, createdSessions: liveSessions, savedTemplates, createdLocks, createdLimits, savedLimitTemplates, createdRoutines, savedRoutineTemplates,
     updateSessionTemplate: (id, changes) => { setSavedTemplates(xs => xs.map(x => x.id === id ? { ...x, title: changes.title, strict: changes.strict, strictSettings: { ...changes.strictSettings } } : x)); },
     deleteSessionTemplate: id => { setSavedTemplates(xs => xs.filter(x => x.id !== id)); if (noticeTimer.current) clearTimeout(noticeTimer.current); setSessionNotice('Шаблон удалён!'); noticeTimer.current = setTimeout(() => setSessionNotice(null), 2800); },
     addRoutine: (rule, template = false) => {
@@ -374,7 +380,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       setSessionNotice(template ? 'Шаблон создан!' : session.status.kind === 'upcoming' ? 'Расписание добавлено!' : 'Сессия началась!');
       noticeTimer.current = setTimeout(() => setSessionNotice(null), 2800);
       if (template) setSavedTemplates(xs => [session, ...xs]);
-      else setCreatedSessions(xs => [session, ...xs]);
+      // Сессия «сейчас» из шаблона начинается в момент запуска, а не в момент сохранения шаблона.
+      else setCreatedSessions(xs => [session.schedule?.kind === 'now' ? { ...session, schedule: { ...session.schedule, startedAt: Date.now() } } : session, ...xs]);
     },
     scenario,
     setScenario,
