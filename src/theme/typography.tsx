@@ -20,7 +20,7 @@ const text = Platform.select({ ios: 'System', web: '"Block Text", -apple-system,
 // Как `-apple-system` в HTML (системные строки списков и запросов): на вебе без подмены начертания.
 const system = Platform.select({ ios: 'System', web: '-apple-system, system-ui, sans-serif', default: undefined });
 
-type Weight = 400 | 500 | 600 | 700 | 800;
+type Weight = 400 | 500 | 600 | 700 | 800 | 900;
 
 export type TProps = TextProps & {
   size?: number;

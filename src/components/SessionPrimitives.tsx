@@ -21,12 +21,12 @@ export function EditorRow({ title, value, expanded, onPress, children, emphasize
   return <View style={[styles.card, emphasized && { borderRadius: p.activityRadius, boxShadow: 'none' }]}>
     <PressScale accessibilityRole="button" accessibilityLabel={title} accessibilityState={{ expanded: !!expanded }} onPress={onPress} style={[styles.row, { minHeight: headerHeight }, emphasized && { paddingTop: 8 }]}>
       <Icon name="chevron-down-section" width={12} height={8} color={colors.chevronCompact} style={expanded ? { transform: [{ rotate: '180deg' }] } : undefined} />
-      <T size={emphasized ? 21 : 14} weight={emphasized ? 700 : 600} color={emphasized ? c.ink : c.secondary} style={emphasized ? { lineHeight: 26 } : undefined}>{title}</T><View style={{ marginLeft: 'auto' }}>{typeof value === 'string' ? <T size={14} weight={400}>{value}</T> : value}</View>
+      <T size={emphasized ? 21 : 14} weight={emphasized ? 700 : 600} color={emphasized ? c.ink : c.secondary} ls={0} style={emphasized ? { lineHeight: 26 } : undefined}>{title}</T><View style={{ marginLeft: 'auto' }}>{typeof value === 'string' ? <T size={14} weight={400} ls={0}>{value}</T> : value}</View>
     </PressScale>{expanded && children}
   </View>;
 }
 export function SessionAction({ children, onPress, primary, disabled }: { children: ReactNode; onPress: () => void; primary?: boolean; disabled?: boolean }) {
-  return <PressScale onPress={onPress} accessibilityRole="button" disabled={disabled} accessibilityState={{ disabled: !!disabled }} style={[styles.action, primary && styles.primary, disabled && (primary ? { backgroundColor: c.buttonDisabled, boxShadow: 'none' } : { opacity: .65 })]}>{primary && !disabled && <DarkButtonSurface />}<T size={17} color={disabled ? primary ? c.buttonDisabledInk : c.buttonDisabledSecondary : primary ? colors.white : c.ink} center>{children}</T></PressScale>;
+  return <PressScale onPress={onPress} accessibilityRole="button" disabled={disabled} accessibilityState={{ disabled: !!disabled }} style={[styles.action, primary && styles.primary, disabled && (primary ? { backgroundColor: c.buttonDisabled, boxShadow: 'none' } : { opacity: .65 })]}>{primary && !disabled && <DarkButtonSurface />}<T size={17} color={disabled ? primary ? c.buttonDisabledInk : c.buttonDisabledSecondary : primary ? colors.white : c.ink} center ls={0}>{children}</T></PressScale>;
 }
 const styles = StyleSheet.create({
   apps: { width: 51, height: 27, borderRadius: 16, backgroundColor: c.badge, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' },
