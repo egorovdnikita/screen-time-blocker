@@ -4,7 +4,7 @@ import { TemplateGallery } from './TemplateGallery';
 import { SessionDetails, LimitDetails } from './SessionDetails';
 import { AppUnlockSheet } from '../unlocking/AppUnlockSheet';
 import { routineHabits } from '@/data/routine';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { lockApp } from '@/data/lockRule';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -46,12 +46,16 @@ import { T, TRACK_SMALL, type TProps } from '@/theme/typography';
 import { colors, insetBorder, radii, shadows } from '@/theme/tokens';
 
 export function RulesScreen() {
+  const { earned } = useLocalSearchParams<{earned?:string}>();
+  const demoEarned = earned === '1';
   const insets = useSafeAreaInsets();
   useDarkStatusBar();
   const bottomSpace = useBottomSpace(true);
   const top = Math.max(insets.top, 20);
   const app = useAppState();
-  const base = rulesVariants[app.rulesVariant];
+  const regularBase = rulesVariants[app.rulesVariant];
+  const earnedBase = rulesVariants.limitProgress;
+  const base = demoEarned ? {...earnedBase,active:2,locks:[],sessions:[],limits:earnedBase.limits.map(rule=>({...rule,value:'2ч15',progress:null,linkedApps:false}))} : regularBase;
   const data = { ...base, locks: [...app.createdLocks, ...base.locks].filter(x => !app.deletedRuleIds.includes(x.id)), limits: [...app.createdLimits, ...base.limits].filter(x => !app.deletedRuleIds.includes(x.id)), routines: [...app.createdRoutines, ...base.routines].filter(x => !app.deletedRuleIds.includes(x.id)), sessions: [...app.createdSessions, ...base.sessions].filter(x => !app.deletedRuleIds.includes(x.id)), active: activeRuleCount(base, app) };
   const [helpOpen, setHelpOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
@@ -135,7 +139,7 @@ export function RulesScreen() {
         {data.routines.length > 0 && (
           <View onLayout={event => { routinesTop.current = event.nativeEvent.layout.y; }}><FadeIn delay={120} style={styles.section}>
             <SectionHeader title="Рутины" />
-            {data.routines.map(rule => <RoutineCard key={rule.id} rule={rule} />)}
+            {data.routines.map(rule => <RoutineCard key={rule.id} demoEarned={demoEarned} rule={rule} />)}
             <HintPill text="Напр., «Открыть после 5000 шагов»" />
           </FadeIn></View>
         )}
@@ -337,18 +341,19 @@ function Progress({ value }: { value: number }) {
   );
 }
 
-function RoutineCard({ rule }: { rule: RoutineRule }) {
-  const [done, setDone] = useState(false);
+function RoutineCard({ rule, demoEarned = false }: { rule: RoutineRule; demoEarned?: boolean }) {
+  const [checked, setChecked] = useState(false);
+  const done = demoEarned || checked;
   const config = rule.configuration;
   const tasks = config ? routineHabits(config) : [{ id: 'demo', title: 'Убрать в комнате', minutes: 5 }];
   const appCount = config ? config.appGroup.selectedApps.filter(Boolean).length + config.appGroup.categories.length : 1;
   return <RuleCard style={[styles.wideCard, { marginTop: 10, paddingBottom: 8 }]}>
     <RuleHeader emoji={<Image source={art.emojiPlant} style={{ width: 21, height: 31 }} />} title={rule.title} streak={1} />
     <View style={[styles.metaRow, { marginTop: 11.3 }]}><StatusPill status={{ kind: 'blocking' }} blockingText={config ? 'Закрыто' : undefined} /><MetaSep /><AllDay /></View>
-    {tasks.map(task => <Pressable key={task.id} style={styles.task} disabled={!!config} onPress={() => setDone(d => !d)} accessibilityLabel={`Проверить с ИИ: ${task.title}`} accessibilityHint={config ? 'Проверка по фото пока недоступна' : undefined} accessibilityRole="checkbox" accessibilityState={{ checked: done, disabled: !!config }} aria-checked={done}>
+    {tasks.map(task => <Pressable key={task.id} style={styles.task} disabled={!!config || demoEarned} onPress={() => setChecked(value => !value)} accessibilityLabel={`Проверить с ИИ: ${task.title}`} accessibilityHint={config ? 'Проверка по фото пока недоступна' : undefined} accessibilityRole="checkbox" accessibilityState={{ checked: done, disabled: !!config || demoEarned }} aria-checked={done}>
       <View style={[styles.taskRing, done && { backgroundColor: colors.limitProgress, boxShadow: undefined }]}>{done && <Icon name="tip-check" width={14} height={12} color={colors.white} />}</View><View style={{ flex: 1, marginLeft: 6.7 }}><T size={15.25}>{task.title}</T><T size={11.75} weight={500} ls={TRACK_SMALL} color={colors.taskSub} style={{ marginTop: 1 }}>{config ? 'Проверить с ИИ' : 'Нажмите, чтобы проверить с ИИ'}</T></View><View style={styles.plusTime}><Icon name="plus" width={12} height={12} color={colors.taskSub} style={{ marginRight: 3.8 }} /><T size={11.75} ls={TRACK_SMALL} color={colors.taskSub}>{task.minutes} мин</T></View>
     </Pressable>)}
-    <DashedLine dash="5 5" style={{ marginTop: 17 }} /><View style={[styles.bottomRow, { marginTop: 25.3 }]}><Lock /><AppsCount count={appCount || 1} /><T size={24} style={{ marginLeft: 'auto' }}>0с</T></View>
+    <DashedLine dash="5 5" style={{ marginTop: 17 }} /><View style={[styles.bottomRow, { marginTop: 25.3 }]}><Lock /><AppsCount count={appCount || 1} />{demoEarned && <Pressable accessibilityRole="button" accessibilityLabel="Демо: забрать время" onPress={() => router.setParams({earned:'0'})} style={{marginLeft:'auto',marginRight:8}}><T size={12}>Забрать время</T></Pressable>}<T size={24} style={{ marginLeft: demoEarned ? 0 : 'auto' }}>{demoEarned?'5мин':'0с'}</T></View>
   </RuleCard>;
 }
 

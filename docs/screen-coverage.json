@@ -1,0 +1,2166 @@
+{
+  "date": "2026-11-03",
+  "baseCommit": "58b9464",
+  "definition": "layout_present означает наличие вёрстки состояния; не является полной приёмкой 1:1 или интеграцией с ОС.",
+  "screens": [
+    {
+      "id": 0,
+      "name": "welcome",
+      "source": "/dist/00-onboarding__01-welcome/index.html",
+      "status": "layout_present",
+      "component": "src/screens/onboarding/OnboardingScreen.tsx",
+      "evidence": "docs/reviews/2026-11-03-onboarding/README.md"
+    },
+    {
+      "id": 1,
+      "name": "intro-friction",
+      "source": "/dist/00-onboarding__02-intro-friction/index.html",
+      "status": "layout_present",
+      "component": "src/screens/onboarding/OnboardingScreen.tsx",
+      "evidence": "docs/reviews/2026-11-03-onboarding/README.md"
+    },
+    {
+      "id": 2,
+      "name": "intro-social-proof",
+      "source": "/dist/00-onboarding__03-intro-social-proof/index.html",
+      "status": "layout_present",
+      "component": "src/screens/onboarding/OnboardingScreen.tsx",
+      "evidence": "docs/reviews/2026-11-03-onboarding/README.md"
+    },
+    {
+      "id": 3,
+      "name": "intro-personalize",
+      "source": "/dist/00-onboarding__04-intro-personalize/index.html",
+      "status": "layout_present",
+      "component": "src/screens/onboarding/OnboardingScreen.tsx",
+      "evidence": "docs/reviews/2026-11-03-onboarding/README.md"
+    },
+    {
+      "id": 4,
+      "name": "name-empty",
+      "source": "/dist/00-onboarding__05-name-empty/index.html",
+      "status": "layout_present",
+      "component": "src/screens/onboarding/OnboardingScreen.tsx",
+      "evidence": "docs/reviews/2026-11-03-onboarding/README.md"
+    },
+    {
+      "id": 5,
+      "name": "name-filled",
+      "source": "/dist/00-onboarding__06-name-filled/index.html",
+      "status": "layout_present",
+      "component": "src/screens/onboarding/OnboardingScreen.tsx",
+      "evidence": "docs/reviews/2026-11-03-onboarding/README.md"
+    },
+    {
+      "id": 6,
+      "name": "quiz-whats-wrong",
+      "source": "/dist/00-onboarding__07-quiz-whats-wrong/index.html",
+      "status": "layout_present",
+      "component": "src/screens/onboarding/OnboardingScreen.tsx",
+      "evidence": "docs/reviews/2026-11-03-onboarding/README.md"
+    },
+    {
+      "id": 7,
+      "name": "quiz-time-spent",
+      "source": "/dist/00-onboarding__08-quiz-time-spent/index.html",
+      "status": "layout_present",
+      "component": "src/screens/onboarding/OnboardingScreen.tsx",
+      "evidence": "docs/reviews/2026-11-03-onboarding/README.md"
+    },
+    {
+      "id": 8,
+      "name": "goal-intro",
+      "source": "/dist/00-onboarding__09-goal-intro/index.html",
+      "status": "layout_present",
+      "component": "src/screens/onboarding/OnboardingScreen.tsx",
+      "evidence": "docs/reviews/2026-11-03-onboarding/README.md"
+    },
+    {
+      "id": 9,
+      "name": "goal-5h",
+      "source": "/dist/00-onboarding__10-goal-5h/index.html",
+      "status": "layout_present",
+      "component": "src/screens/onboarding/OnboardingScreen.tsx",
+      "evidence": "docs/reviews/2026-11-03-onboarding/README.md"
+    },
+    {
+      "id": 10,
+      "name": "goal-4h20",
+      "source": "/dist/00-onboarding__11-goal-4h20/index.html",
+      "status": "layout_present",
+      "component": "src/screens/onboarding/OnboardingScreen.tsx",
+      "evidence": "docs/reviews/2026-11-03-onboarding/README.md"
+    },
+    {
+      "id": 11,
+      "name": "math-100",
+      "source": "/dist/00-onboarding__12-math-100/index.html",
+      "status": "layout_present",
+      "component": "src/screens/onboarding/OnboardingScreen.tsx",
+      "evidence": "docs/reviews/2026-11-03-onboarding/README.md"
+    },
+    {
+      "id": 12,
+      "name": "honest-news",
+      "source": "/dist/00-onboarding__13-honest-news/index.html",
+      "status": "layout_present",
+      "component": "src/screens/onboarding/OnboardingScreen.tsx",
+      "evidence": "docs/reviews/2026-11-03-onboarding/README.md"
+    },
+    {
+      "id": 13,
+      "name": "years-28",
+      "source": "/dist/00-onboarding__14-years-28/index.html",
+      "status": "layout_present",
+      "component": "src/screens/onboarding/OnboardingScreen.tsx",
+      "evidence": "docs/reviews/2026-11-03-onboarding/README.md"
+    },
+    {
+      "id": 14,
+      "name": "started-2022",
+      "source": "/dist/00-onboarding__15-started-2022/index.html",
+      "status": "layout_present",
+      "component": "src/screens/onboarding/OnboardingScreen.tsx",
+      "evidence": "docs/reviews/2026-11-03-onboarding/README.md"
+    },
+    {
+      "id": 15,
+      "name": "commit",
+      "source": "/dist/01-completing-app-set-up__01-commit/index.html",
+      "status": "layout_present",
+      "component": "src/screens/onboarding/OnboardingScreen.tsx",
+      "evidence": "docs/reviews/2026-11-03-onboarding/README.md"
+    },
+    {
+      "id": 17,
+      "name": "connect-screen-time",
+      "source": "/dist/01-completing-app-set-up__03-connect-screen-time/index.html",
+      "status": "layout_present",
+      "component": "src/screens/onboarding/OnboardingScreen.tsx",
+      "evidence": "docs/reviews/2026-11-03-onboarding/README.md"
+    },
+    {
+      "id": 18,
+      "name": "prefer-to",
+      "source": "/dist/01-completing-app-set-up__04-prefer-to/index.html",
+      "status": "layout_present",
+      "component": "src/screens/onboarding/OnboardingScreen.tsx",
+      "evidence": "docs/reviews/2026-11-03-onboarding/README.md"
+    },
+    {
+      "id": 19,
+      "name": "pick-apps",
+      "source": "/dist/01-completing-app-set-up__05-pick-apps/index.html",
+      "status": "layout_present",
+      "component": "src/screens/onboarding/OnboardingScreen.tsx",
+      "evidence": "docs/reviews/2026-11-03-onboarding/README.md"
+    },
+    {
+      "id": 20,
+      "name": "pick-apps-social-open",
+      "source": "/dist/01-completing-app-set-up__06-pick-apps-social-open/index.html",
+      "status": "layout_present",
+      "component": "src/screens/onboarding/OnboardingScreen.tsx",
+      "evidence": "docs/reviews/2026-11-03-onboarding/README.md"
+    },
+    {
+      "id": 21,
+      "name": "pick-apps-selected",
+      "source": "/dist/01-completing-app-set-up__07-pick-apps-selected/index.html",
+      "status": "layout_present",
+      "component": "src/screens/onboarding/OnboardingScreen.tsx",
+      "evidence": "docs/reviews/2026-11-03-onboarding/README.md"
+    },
+    {
+      "id": 22,
+      "name": "unlocks-2",
+      "source": "/dist/01-completing-app-set-up__08-unlocks-2/index.html",
+      "status": "layout_present",
+      "component": "src/screens/onboarding/OnboardingScreen.tsx",
+      "evidence": "docs/reviews/2026-11-03-onboarding/README.md"
+    },
+    {
+      "id": 23,
+      "name": "unlocks-3",
+      "source": "/dist/01-completing-app-set-up__09-unlocks-3/index.html",
+      "status": "layout_present",
+      "component": "src/screens/onboarding/OnboardingScreen.tsx",
+      "evidence": "docs/reviews/2026-11-03-onboarding/README.md"
+    },
+    {
+      "id": 24,
+      "name": "unlock-method",
+      "source": "/dist/01-completing-app-set-up__10-unlock-method/index.html",
+      "status": "layout_present",
+      "component": "src/screens/onboarding/OnboardingScreen.tsx",
+      "evidence": "docs/reviews/2026-11-03-onboarding/README.md"
+    },
+    {
+      "id": 25,
+      "name": "schedule-add",
+      "source": "/dist/01-completing-app-set-up__11-schedule-add/index.html",
+      "status": "layout_present",
+      "component": "src/screens/onboarding/OnboardingScreen.tsx",
+      "evidence": "docs/reviews/2026-11-03-onboarding/README.md"
+    },
+    {
+      "id": 40,
+      "name": "rules-tip-first-rule",
+      "source": "/dist/03-creating-an-account__06-rules-tip-first-rule/index.html",
+      "status": "layout_present",
+      "component": "src/screens/rules/RulesScreen.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 41,
+      "name": "rules-tip-add-more",
+      "source": "/dist/03-creating-an-account__07-rules-tip-add-more/index.html",
+      "status": "layout_present",
+      "component": "src/screens/rules/RulesScreen.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 42,
+      "name": "rules-first",
+      "source": "/dist/03-creating-an-account__08-rules-first/index.html",
+      "status": "layout_present",
+      "component": "src/screens/rules/RulesScreen.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 43,
+      "name": "home-brand-new-start",
+      "source": "/dist/03-creating-an-account__09-home-brand-new-start/index.html",
+      "status": "layout_present",
+      "component": "src/screens/rules/RulesScreen.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 44,
+      "name": "home",
+      "source": "/dist/24-home__01-home/index.html",
+      "status": "layout_present",
+      "component": "src/screens/home/HomeScreen.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 45,
+      "name": "start-blocking-sheet",
+      "source": "/dist/04-creating-a-template__01-start-blocking-sheet/index.html",
+      "status": "layout_present",
+      "component": "src/screens/session/SessionEditor.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 46,
+      "name": "session-tip-template",
+      "source": "/dist/04-creating-a-template__02-session-tip-template/index.html",
+      "status": "layout_present",
+      "component": "src/screens/session/SessionEditor.tsx",
+      "evidence": "docs/reviews/2026-11-03-remaining/README.md",
+      "acceptance": "pending_1to1"
+    },
+    {
+      "id": 47,
+      "name": "session",
+      "source": "/dist/04-creating-a-template__03-session/index.html",
+      "status": "layout_present",
+      "component": "src/screens/session/SessionEditor.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 48,
+      "name": "session-active-immediate",
+      "source": "/dist/04-creating-a-template__04-session-active-immediate/index.html",
+      "status": "layout_present",
+      "component": "src/screens/session/SessionEditor.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 49,
+      "name": "session-scheduled",
+      "source": "/dist/04-creating-a-template__05-session-scheduled/index.html",
+      "status": "layout_present",
+      "component": "src/screens/session/SessionEditor.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 50,
+      "name": "session-time-picker-8am",
+      "source": "/dist/04-creating-a-template__06-session-time-picker-8am/index.html",
+      "status": "layout_present",
+      "component": "src/screens/session/SessionEditor.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 51,
+      "name": "session-time-picker-9am",
+      "source": "/dist/04-creating-a-template__07-session-time-picker-9am/index.html",
+      "status": "layout_present",
+      "component": "src/screens/session/SessionEditor.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 52,
+      "name": "session-scheduled-9-6",
+      "source": "/dist/04-creating-a-template__08-session-scheduled-9-6/index.html",
+      "status": "layout_present",
+      "component": "src/screens/session/SessionEditor.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 53,
+      "name": "session-days-all",
+      "source": "/dist/04-creating-a-template__09-session-days-all/index.html",
+      "status": "layout_present",
+      "component": "src/screens/session/SessionEditor.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 54,
+      "name": "session-work-hours",
+      "source": "/dist/04-creating-a-template__10-session-work-hours/index.html",
+      "status": "layout_present",
+      "component": "src/screens/session/SessionEditor.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 55,
+      "name": "session-unlocks-no-schedule",
+      "source": "/dist/04-creating-a-template__11-session-unlocks-no-schedule/index.html",
+      "status": "layout_present",
+      "component": "src/screens/session/SessionEditor.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 56,
+      "name": "session-unlocks-2-schedule",
+      "source": "/dist/04-creating-a-template__12-session-unlocks-2-schedule/index.html",
+      "status": "layout_present",
+      "component": "src/screens/session/SessionEditor.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 57,
+      "name": "template-created",
+      "source": "/dist/04-creating-a-template__13-template-created/index.html",
+      "status": "layout_present",
+      "component": "src/screens/session/SessionEditor.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 58,
+      "name": "rules-templates",
+      "source": "/dist/04-creating-a-template__14-rules-templates/index.html",
+      "status": "layout_present",
+      "component": "src/screens/session/SessionEditor.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 59,
+      "name": "icon-picker",
+      "source": "/dist/05-changing-an-icon__01-icon-picker/index.html",
+      "status": "layout_present",
+      "component": "src/screens/session/SessionEditor.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 60,
+      "name": "icon-search-brain",
+      "source": "/dist/05-changing-an-icon__02-icon-search-brain/index.html",
+      "status": "layout_present",
+      "component": "src/screens/session/SessionEditor.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 61,
+      "name": "session-brain",
+      "source": "/dist/05-changing-an-icon__03-session-brain/index.html",
+      "status": "layout_present",
+      "component": "src/screens/session/SessionEditor.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 62,
+      "name": "focus-mode-renamed",
+      "source": "/dist/06-changing-a-rule-name__01-focus-mode-renamed/index.html",
+      "status": "layout_present",
+      "component": "src/screens/session/SessionEditor.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 63,
+      "name": "app-group-create",
+      "source": "/dist/07-adding-apps-to-be-blocked__01-app-group-create/index.html",
+      "status": "layout_present",
+      "component": "src/screens/session/SessionEditor.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 64,
+      "name": "additional-options",
+      "source": "/dist/07-adding-apps-to-be-blocked__02-additional-options/index.html",
+      "status": "layout_present",
+      "component": "src/screens/session/SessionEditor.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 65,
+      "name": "additional-options-checked",
+      "source": "/dist/07-adding-apps-to-be-blocked__03-additional-options-checked/index.html",
+      "status": "layout_present",
+      "component": "src/screens/session/SessionEditor.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 66,
+      "name": "websites-input",
+      "source": "/dist/07-adding-apps-to-be-blocked__04-websites-input/index.html",
+      "status": "layout_present",
+      "component": "src/screens/session/SessionEditor.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 67,
+      "name": "websites-added",
+      "source": "/dist/07-adding-apps-to-be-blocked__05-websites-added/index.html",
+      "status": "layout_present",
+      "component": "src/screens/session/SessionEditor.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 68,
+      "name": "app-group-summary",
+      "source": "/dist/07-adding-apps-to-be-blocked__06-app-group-summary/index.html",
+      "status": "layout_present",
+      "component": "src/screens/session/SessionEditor.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 69,
+      "name": "session-apps-selected",
+      "source": "/dist/07-adding-apps-to-be-blocked__07-session-apps-selected/index.html",
+      "status": "layout_present",
+      "component": "src/screens/session/SessionEditor.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 70,
+      "name": "active-30min-picker",
+      "source": "/dist/08-changing-duration__01-active-30min-picker/index.html",
+      "status": "layout_present",
+      "component": "src/screens/session/SessionEditor.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 71,
+      "name": "active-1h30-picker",
+      "source": "/dist/08-changing-duration__02-active-1h30-picker/index.html",
+      "status": "layout_present",
+      "component": "src/screens/session/SessionEditor.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 72,
+      "name": "session-1h30",
+      "source": "/dist/08-changing-duration__03-session-1h30/index.html",
+      "status": "layout_present",
+      "component": "src/screens/session/SessionEditor.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 73,
+      "name": "session-unlocks-no",
+      "source": "/dist/09-setting-up-an-unlock-method__01-session-unlocks-no/index.html",
+      "status": "layout_present",
+      "component": "src/screens/session/SessionEditor.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 74,
+      "name": "session-unlocks-2-times",
+      "source": "/dist/09-setting-up-an-unlock-method__02-session-unlocks-2-times/index.html",
+      "status": "layout_present",
+      "component": "src/screens/session/SessionEditor.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 75,
+      "name": "session-unlocks-1-time",
+      "source": "/dist/09-setting-up-an-unlock-method__03-session-unlocks-1-time/index.html",
+      "status": "layout_present",
+      "component": "src/screens/session/SessionEditor.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 76,
+      "name": "duration-sheet-15",
+      "source": "/dist/09-setting-up-an-unlock-method__04-duration-sheet-15/index.html",
+      "status": "layout_present",
+      "component": "src/screens/session/SessionEditor.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 77,
+      "name": "duration-sheet-10",
+      "source": "/dist/09-setting-up-an-unlock-method__05-duration-sheet-10/index.html",
+      "status": "layout_present",
+      "component": "src/screens/session/SessionEditor.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 78,
+      "name": "unlocks-1-time-10min",
+      "source": "/dist/09-setting-up-an-unlock-method__06-unlocks-1-time-10min/index.html",
+      "status": "layout_present",
+      "component": "src/screens/session/SessionEditor.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 79,
+      "name": "session-1-unlock",
+      "source": "/dist/09-setting-up-an-unlock-method__07-session-1-unlock/index.html",
+      "status": "layout_present",
+      "component": "src/screens/session/SessionEditor.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 80,
+      "name": "unlock-wait-automatic",
+      "source": "/dist/10-updating-an-unlock-method-settings__01-unlock-wait-automatic/index.html",
+      "status": "layout_present",
+      "component": "src/screens/session/SessionEditor.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 81,
+      "name": "unlock-wait-fixed-30s",
+      "source": "/dist/10-updating-an-unlock-method-settings__02-unlock-wait-fixed-30s/index.html",
+      "status": "layout_present",
+      "component": "src/screens/session/SessionEditor.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 82,
+      "name": "unlock-wait-fixed-1m",
+      "source": "/dist/10-updating-an-unlock-method-settings__03-unlock-wait-fixed-1m/index.html",
+      "status": "layout_present",
+      "component": "src/screens/session/SessionEditor.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 83,
+      "name": "unlock-methods-list",
+      "source": "/dist/11-changing-an-unlock-method-give-a-good-reason__01-unlock-methods-list/index.html",
+      "status": "layout_present",
+      "component": "src/screens/session/SessionEditor.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 84,
+      "name": "unlock-reason",
+      "source": "/dist/11-changing-an-unlock-method-give-a-good-reason__02-unlock-reason/index.html",
+      "status": "layout_present",
+      "component": "src/screens/session/SessionEditor.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 85,
+      "name": "session-unlocks-reason",
+      "source": "/dist/11-changing-an-unlock-method-give-a-good-reason__03-session-unlocks-reason/index.html",
+      "status": "layout_present",
+      "component": "src/screens/session/SessionEditor.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 86,
+      "name": "unlock-painful-text",
+      "source": "/dist/12-changing-an-unlock-method-recopy-a-painful-text__01-unlock-painful-text/index.html",
+      "status": "layout_present",
+      "component": "src/screens/session/SessionEditor.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 87,
+      "name": "session-unlocks-text",
+      "source": "/dist/12-changing-an-unlock-method-recopy-a-painful-text__02-session-unlocks-text/index.html",
+      "status": "layout_present",
+      "component": "src/screens/session/SessionEditor.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 89,
+      "name": "painful-text-edited",
+      "source": "/dist/13-changing-text__02-painful-text-edited/index.html",
+      "status": "layout_present",
+      "component": "src/screens/session/SessionEditor.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 90,
+      "name": "unlock-scan-qr",
+      "source": "/dist/14-changing-an-unlock-method-scan__01-unlock-scan-qr/index.html",
+      "status": "layout_present",
+      "component": "src/screens/session/SessionEditor.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 91,
+      "name": "session-unlocks-scan",
+      "source": "/dist/14-changing-an-unlock-method-scan__02-session-unlocks-scan/index.html",
+      "status": "layout_present",
+      "component": "src/screens/session/SessionEditor.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 92,
+      "name": "scan-menu",
+      "source": "/dist/15-changing-scanning-method__01-scan-menu/index.html",
+      "status": "layout_present",
+      "component": "src/screens/session/SessionEditor.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 93,
+      "name": "scan-nfc",
+      "source": "/dist/15-changing-scanning-method__02-scan-nfc/index.html",
+      "status": "layout_present",
+      "component": "src/screens/session/SessionEditor.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 94,
+      "name": "qr-pass",
+      "source": "/dist/16-qr-pass__01-qr-pass/index.html",
+      "status": "layout_present",
+      "component": "src/screens/session/QrPass.tsx",
+      "evidence": "docs/reviews/2026-11-03-remaining/README.md",
+      "acceptance": "pending_1to1"
+    },
+    {
+      "id": 95,
+      "name": "strict-during-session",
+      "source": "/dist/17-creating-a-rule-session__01-strict-during-session/index.html",
+      "status": "layout_present",
+      "component": "src/screens/session/SessionEditor.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 96,
+      "name": "session-strict-on",
+      "source": "/dist/17-creating-a-rule-session__02-session-strict-on/index.html",
+      "status": "layout_present",
+      "component": "src/screens/session/SessionEditor.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 97,
+      "name": "strict-confirm-alert",
+      "source": "/dist/17-creating-a-rule-session__03-strict-confirm-alert/index.html",
+      "status": "layout_present",
+      "component": "src/screens/session/SessionEditor.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 98,
+      "name": "rule-added-toast",
+      "source": "/dist/17-creating-a-rule-session__04-rule-added-toast/index.html",
+      "status": "layout_present",
+      "component": "src/screens/session/SessionEditor.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 99,
+      "name": "rules-sessions",
+      "source": "/dist/17-creating-a-rule-session__05-rules-sessions/index.html",
+      "status": "layout_present",
+      "component": "src/screens/session/SessionEditor.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 100,
+      "name": "strict-1-day",
+      "source": "/dist/18-changing-active-time__01-strict-1-day/index.html",
+      "status": "layout_present",
+      "component": "src/screens/session/SessionEditor.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 101,
+      "name": "strict-2-days",
+      "source": "/dist/18-changing-active-time__02-strict-2-days/index.html",
+      "status": "layout_present",
+      "component": "src/screens/session/SessionEditor.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 102,
+      "name": "start-blocking-dim",
+      "source": "/dist/19-creating-a-rule-locks__01-start-blocking-dim/index.html",
+      "status": "layout_present",
+      "component": "src/screens/locks/LockEditor.tsx",
+      "evidence": "docs/reviews/2026-11-02-lock-rule/README.md"
+    },
+    {
+      "id": 103,
+      "name": "lock-app-empty",
+      "source": "/dist/19-creating-a-rule-locks__02-lock-app-empty/index.html",
+      "status": "layout_present",
+      "component": "src/screens/locks/LockEditor.tsx",
+      "evidence": "docs/reviews/2026-11-02-lock-rule/README.md"
+    },
+    {
+      "id": 104,
+      "name": "select-1-app",
+      "source": "/dist/19-creating-a-rule-locks__03-select-1-app/index.html",
+      "status": "layout_present",
+      "component": "src/screens/locks/LockEditor.tsx",
+      "evidence": "docs/reviews/2026-11-02-lock-rule/README.md"
+    },
+    {
+      "id": 105,
+      "name": "select-app-social-open",
+      "source": "/dist/19-creating-a-rule-locks__04-select-app-social-open/index.html",
+      "status": "layout_present",
+      "component": "src/screens/locks/LockEditor.tsx",
+      "evidence": "docs/reviews/2026-11-02-lock-rule/README.md"
+    },
+    {
+      "id": 106,
+      "name": "select-app-bereal",
+      "source": "/dist/19-creating-a-rule-locks__05-select-app-bereal/index.html",
+      "status": "layout_present",
+      "component": "src/screens/locks/LockEditor.tsx",
+      "evidence": "docs/reviews/2026-11-02-lock-rule/README.md"
+    },
+    {
+      "id": 107,
+      "name": "setting-up",
+      "source": "/dist/19-creating-a-rule-locks__06-setting-up/index.html",
+      "status": "layout_present",
+      "component": "src/screens/previews/SetupPreview.tsx",
+      "evidence": "docs/reviews/2026-11-03-remaining/README.md",
+      "acceptance": "pending_1to1"
+    },
+    {
+      "id": 108,
+      "name": "which-app-empty",
+      "source": "/dist/19-creating-a-rule-locks__07-which-app-empty/index.html",
+      "status": "layout_present",
+      "component": "src/screens/locks/LockEditor.tsx",
+      "evidence": "docs/reviews/2026-11-02-lock-rule/README.md"
+    },
+    {
+      "id": 109,
+      "name": "which-app-search",
+      "source": "/dist/19-creating-a-rule-locks__08-which-app-search/index.html",
+      "status": "layout_present",
+      "component": "src/screens/locks/LockEditor.tsx",
+      "evidence": "docs/reviews/2026-11-02-lock-rule/README.md"
+    },
+    {
+      "id": 110,
+      "name": "which-app-selected",
+      "source": "/dist/19-creating-a-rule-locks__09-which-app-selected/index.html",
+      "status": "layout_present",
+      "component": "src/screens/locks/LockEditor.tsx",
+      "evidence": "docs/reviews/2026-11-02-lock-rule/README.md"
+    },
+    {
+      "id": 111,
+      "name": "lock-bereal-3-times",
+      "source": "/dist/19-creating-a-rule-locks__10-lock-bereal-3-times/index.html",
+      "status": "layout_present",
+      "component": "src/screens/locks/LockEditor.tsx",
+      "evidence": "docs/reviews/2026-11-02-lock-rule/README.md"
+    },
+    {
+      "id": 112,
+      "name": "lock-added-toast",
+      "source": "/dist/19-creating-a-rule-locks__11-lock-added-toast/index.html",
+      "status": "layout_present",
+      "component": "src/screens/locks/LockEditor.tsx",
+      "evidence": "docs/reviews/2026-11-02-lock-rule/README.md"
+    },
+    {
+      "id": 113,
+      "name": "rules-locks",
+      "source": "/dist/19-creating-a-rule-locks__12-rules-locks/index.html",
+      "status": "layout_present",
+      "component": "src/screens/locks/LockEditor.tsx",
+      "evidence": "docs/reviews/2026-11-02-lock-rule/README.md"
+    },
+    {
+      "id": 114,
+      "name": "time-limit-empty",
+      "source": "/dist/20-creating-a-rule-limits__01-time-limit-empty/index.html",
+      "status": "layout_present",
+      "component": "src/screens/limits/TimeLimitEditor.tsx",
+      "evidence": "docs/reviews/2026-11-02-time-limit/README.md"
+    },
+    {
+      "id": 115,
+      "name": "limit-apps-empty",
+      "source": "/dist/20-creating-a-rule-limits__02-limit-apps-empty/index.html",
+      "status": "layout_present",
+      "component": "src/screens/limits/TimeLimitEditor.tsx",
+      "evidence": "docs/reviews/2026-11-02-time-limit/README.md"
+    },
+    {
+      "id": 116,
+      "name": "limit-apps-social",
+      "source": "/dist/20-creating-a-rule-limits__03-limit-apps-social/index.html",
+      "status": "layout_present",
+      "component": "src/screens/limits/TimeLimitEditor.tsx",
+      "evidence": "docs/reviews/2026-11-02-time-limit/README.md"
+    },
+    {
+      "id": 117,
+      "name": "time-limit",
+      "source": "/dist/20-creating-a-rule-limits__04-time-limit/index.html",
+      "status": "layout_present",
+      "component": "src/screens/limits/TimeLimitEditor.tsx",
+      "evidence": "docs/reviews/2026-11-02-time-limit/README.md"
+    },
+    {
+      "id": 118,
+      "name": "limit-after",
+      "source": "/dist/20-creating-a-rule-limits__05-limit-after/index.html",
+      "status": "layout_present",
+      "component": "src/screens/limits/TimeLimitEditor.tsx",
+      "evidence": "docs/reviews/2026-11-02-time-limit/README.md"
+    },
+    {
+      "id": 119,
+      "name": "limit-duration-15",
+      "source": "/dist/20-creating-a-rule-limits__06-limit-duration-15/index.html",
+      "status": "layout_present",
+      "component": "src/screens/limits/TimeLimitEditor.tsx",
+      "evidence": "docs/reviews/2026-11-02-time-limit/README.md"
+    },
+    {
+      "id": 120,
+      "name": "limit-duration-2h15",
+      "source": "/dist/20-creating-a-rule-limits__07-limit-duration-2h15/index.html",
+      "status": "layout_present",
+      "component": "src/screens/limits/TimeLimitEditor.tsx",
+      "evidence": "docs/reviews/2026-11-02-time-limit/README.md"
+    },
+    {
+      "id": 121,
+      "name": "limit-after-2h15",
+      "source": "/dist/20-creating-a-rule-limits__08-limit-after-2h15/index.html",
+      "status": "layout_present",
+      "component": "src/screens/limits/TimeLimitEditor.tsx",
+      "evidence": "docs/reviews/2026-11-02-time-limit/README.md"
+    },
+    {
+      "id": 122,
+      "name": "limit-active-days-all",
+      "source": "/dist/20-creating-a-rule-limits__09-limit-active-days-all/index.html",
+      "status": "layout_present",
+      "component": "src/screens/limits/TimeLimitEditor.tsx",
+      "evidence": "docs/reviews/2026-11-02-time-limit/README.md"
+    },
+    {
+      "id": 123,
+      "name": "limit-active-days-custom",
+      "source": "/dist/20-creating-a-rule-limits__10-limit-active-days-custom/index.html",
+      "status": "layout_present",
+      "component": "src/screens/limits/TimeLimitEditor.tsx",
+      "evidence": "docs/reviews/2026-11-02-time-limit/README.md"
+    },
+    {
+      "id": 124,
+      "name": "limit-extra-unlocks-no",
+      "source": "/dist/20-creating-a-rule-limits__11-limit-extra-unlocks-no/index.html",
+      "status": "layout_present",
+      "component": "src/screens/limits/TimeLimitEditor.tsx",
+      "evidence": "docs/reviews/2026-11-02-time-limit/README.md"
+    },
+    {
+      "id": 125,
+      "name": "limit-extra-unlocks-2",
+      "source": "/dist/20-creating-a-rule-limits__12-limit-extra-unlocks-2/index.html",
+      "status": "layout_present",
+      "component": "src/screens/limits/TimeLimitEditor.tsx",
+      "evidence": "docs/reviews/2026-11-02-time-limit/README.md"
+    },
+    {
+      "id": 126,
+      "name": "limit-notify-empty",
+      "source": "/dist/20-creating-a-rule-limits__13-limit-notify-empty/index.html",
+      "status": "layout_present",
+      "component": "src/screens/limits/TimeLimitEditor.tsx",
+      "evidence": "docs/reviews/2026-11-02-time-limit/README.md"
+    },
+    {
+      "id": 127,
+      "name": "limit-notify-10min",
+      "source": "/dist/20-creating-a-rule-limits__14-limit-notify-10min/index.html",
+      "status": "layout_present",
+      "component": "src/screens/limits/TimeLimitEditor.tsx",
+      "evidence": "docs/reviews/2026-11-02-time-limit/README.md"
+    },
+    {
+      "id": 128,
+      "name": "limit-added-toast",
+      "source": "/dist/20-creating-a-rule-limits__15-limit-added-toast/index.html",
+      "status": "layout_present",
+      "component": "src/screens/limits/TimeLimitEditor.tsx",
+      "evidence": "docs/reviews/2026-11-02-time-limit/README.md"
+    },
+    {
+      "id": 129,
+      "name": "share-across-devices",
+      "source": "/dist/20-creating-a-rule-limits__16-share-across-devices/index.html",
+      "status": "layout_present",
+      "component": "src/screens/limits/TimeLimitEditor.tsx",
+      "evidence": "docs/reviews/2026-11-02-time-limit/README.md"
+    },
+    {
+      "id": 130,
+      "name": "rules-limits",
+      "source": "/dist/20-creating-a-rule-limits__17-rules-limits/index.html",
+      "status": "layout_present",
+      "component": "src/screens/limits/TimeLimitEditor.tsx",
+      "evidence": "docs/reviews/2026-11-02-time-limit/README.md"
+    },
+    {
+      "id": 131,
+      "name": "routine-empty",
+      "source": "/dist/21-creating-a-rule-routines__01-routine-empty/index.html",
+      "status": "layout_present",
+      "component": "src/screens/routines/RoutineEditor.tsx",
+      "evidence": "docs/reviews/2026-11-02-routine/README.md"
+    },
+    {
+      "id": 132,
+      "name": "link-app-group-empty",
+      "source": "/dist/21-creating-a-rule-routines__02-link-app-group-empty/index.html",
+      "status": "layout_present",
+      "component": "src/screens/routines/RoutineEditor.tsx",
+      "evidence": "docs/reviews/2026-11-02-routine/README.md"
+    },
+    {
+      "id": 133,
+      "name": "link-app-group-social",
+      "source": "/dist/21-creating-a-rule-routines__03-link-app-group-social/index.html",
+      "status": "layout_present",
+      "component": "src/screens/routines/RoutineEditor.tsx",
+      "evidence": "docs/reviews/2026-11-02-routine/README.md"
+    },
+    {
+      "id": 134,
+      "name": "routine",
+      "source": "/dist/21-creating-a-rule-routines__04-routine/index.html",
+      "status": "layout_present",
+      "component": "src/screens/routines/RoutineEditor.tsx",
+      "evidence": "docs/reviews/2026-11-02-routine/README.md"
+    },
+    {
+      "id": 135,
+      "name": "routine-after",
+      "source": "/dist/21-creating-a-rule-routines__05-routine-after/index.html",
+      "status": "layout_present",
+      "component": "src/screens/routines/RoutineEditor.tsx",
+      "evidence": "docs/reviews/2026-11-02-routine/README.md"
+    },
+    {
+      "id": 136,
+      "name": "habits-empty",
+      "source": "/dist/21-creating-a-rule-routines__06-habits-empty/index.html",
+      "status": "layout_present",
+      "component": "src/screens/routines/RoutineEditor.tsx",
+      "evidence": "docs/reviews/2026-11-02-routine/README.md"
+    },
+    {
+      "id": 137,
+      "name": "habits-selected",
+      "source": "/dist/21-creating-a-rule-routines__07-habits-selected/index.html",
+      "status": "layout_present",
+      "component": "src/screens/routines/RoutineEditor.tsx",
+      "evidence": "docs/reviews/2026-11-02-routine/README.md"
+    },
+    {
+      "id": 138,
+      "name": "routine-habit-added",
+      "source": "/dist/21-creating-a-rule-routines__08-routine-habit-added/index.html",
+      "status": "layout_present",
+      "component": "src/screens/routines/RoutineEditor.tsx",
+      "evidence": "docs/reviews/2026-11-02-routine/README.md"
+    },
+    {
+      "id": 139,
+      "name": "routine-active",
+      "source": "/dist/21-creating-a-rule-routines__09-routine-active/index.html",
+      "status": "layout_present",
+      "component": "src/screens/routines/RoutineEditor.tsx",
+      "evidence": "docs/reviews/2026-11-02-routine/README.md"
+    },
+    {
+      "id": 140,
+      "name": "routine-added-toast",
+      "source": "/dist/21-creating-a-rule-routines__10-routine-added-toast/index.html",
+      "status": "layout_present",
+      "component": "src/screens/routines/RoutineEditor.tsx",
+      "evidence": "docs/reviews/2026-11-02-routine/README.md"
+    },
+    {
+      "id": 141,
+      "name": "rules-routines",
+      "source": "/dist/21-creating-a-rule-routines__11-rules-routines/index.html",
+      "status": "layout_present",
+      "component": "src/screens/routines/RoutineEditor.tsx",
+      "evidence": "docs/reviews/2026-11-02-routine/README.md"
+    },
+    {
+      "id": 142,
+      "name": "habits-list",
+      "source": "/dist/22-creating-a-habit__01-habits-list/index.html",
+      "status": "layout_present",
+      "component": "src/screens/routines/RoutineEditor.tsx",
+      "evidence": "docs/reviews/2026-11-02-routine/README.md"
+    },
+    {
+      "id": 143,
+      "name": "habit-name-keyboard",
+      "source": "/dist/22-creating-a-habit__02-habit-name-keyboard/index.html",
+      "status": "layout_present",
+      "component": "src/screens/routines/RoutineEditor.tsx",
+      "evidence": "docs/reviews/2026-11-02-routine/README.md"
+    },
+    {
+      "id": 144,
+      "name": "habit-watering-plants",
+      "source": "/dist/22-creating-a-habit__03-habit-watering-plants/index.html",
+      "status": "layout_present",
+      "component": "src/screens/routines/RoutineEditor.tsx",
+      "evidence": "docs/reviews/2026-11-02-routine/README.md"
+    },
+    {
+      "id": 145,
+      "name": "habit-watering-plants-filled",
+      "source": "/dist/22-creating-a-habit__04-habit-watering-plants-filled/index.html",
+      "status": "layout_present",
+      "component": "src/screens/routines/RoutineEditor.tsx",
+      "evidence": "docs/reviews/2026-11-02-routine/README.md"
+    },
+    {
+      "id": 146,
+      "name": "habits-watering-selected",
+      "source": "/dist/22-creating-a-habit__05-habits-watering-selected/index.html",
+      "status": "layout_present",
+      "component": "src/screens/routines/RoutineEditor.tsx",
+      "evidence": "docs/reviews/2026-11-02-routine/README.md"
+    },
+    {
+      "id": 147,
+      "name": "routine-completing",
+      "source": "/dist/23-changing-an-unblock-rule__01-routine-completing/index.html",
+      "status": "layout_present",
+      "component": "src/screens/routines/RoutineEditor.tsx",
+      "evidence": "docs/reviews/2026-11-02-routine/README.md"
+    },
+    {
+      "id": 148,
+      "name": "home-quality-neutral",
+      "source": "/dist/24-home__02-home-quality-neutral/index.html",
+      "status": "layout_present",
+      "component": "src/screens/home/HomeScreen.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 149,
+      "name": "home-quality-productive",
+      "source": "/dist/24-home__03-home-quality-productive/index.html",
+      "status": "layout_present",
+      "component": "src/screens/home/HomeScreen.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 150,
+      "name": "home-most-used",
+      "source": "/dist/24-home__04-home-most-used/index.html",
+      "status": "layout_present",
+      "component": "src/screens/home/HomeScreen.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 151,
+      "name": "home-glued-info",
+      "source": "/dist/25-information__01-home-glued-info/index.html",
+      "status": "layout_present",
+      "component": "src/screens/home/HomeScreen.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 152,
+      "name": "home-offline-info",
+      "source": "/dist/25-information__02-home-offline-info/index.html",
+      "status": "layout_present",
+      "component": "src/screens/home/HomeScreen.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 153,
+      "name": "most-used-menu",
+      "source": "/dist/26-switching-to-activities__01-most-used-menu/index.html",
+      "status": "layout_present",
+      "component": "src/screens/home/HomeScreen.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 154,
+      "name": "home-activities-empty",
+      "source": "/dist/26-switching-to-activities__02-home-activities-empty/index.html",
+      "status": "layout_present",
+      "component": "src/screens/home/HomeScreen.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 155,
+      "name": "home-activities",
+      "source": "/dist/26-switching-to-activities__03-home-activities/index.html",
+      "status": "layout_present",
+      "component": "src/screens/home/HomeScreen.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 156,
+      "name": "reflection-pick-activity",
+      "source": "/dist/27-logging-a-session-reflection__01-reflection-pick-activity/index.html",
+      "status": "layout_present",
+      "component": "src/screens/home/HomeScreen.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 157,
+      "name": "reflection-activities-menu",
+      "source": "/dist/27-logging-a-session-reflection__02-reflection-activities-menu/index.html",
+      "status": "layout_present",
+      "component": "src/screens/home/HomeScreen.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 158,
+      "name": "reflection-neutral",
+      "source": "/dist/27-logging-a-session-reflection__03-reflection-neutral/index.html",
+      "status": "layout_present",
+      "component": "src/screens/home/HomeScreen.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 159,
+      "name": "reflection-feel-menu",
+      "source": "/dist/27-logging-a-session-reflection__04-reflection-feel-menu/index.html",
+      "status": "layout_present",
+      "component": "src/screens/home/HomeScreen.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 160,
+      "name": "reflection-very-productive",
+      "source": "/dist/27-logging-a-session-reflection__05-reflection-very-productive/index.html",
+      "status": "layout_present",
+      "component": "src/screens/home/HomeScreen.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 161,
+      "name": "reflection-always-apply",
+      "source": "/dist/27-logging-a-session-reflection__06-reflection-always-apply/index.html",
+      "status": "layout_present",
+      "component": "src/screens/home/HomeScreen.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 162,
+      "name": "home-most-used-productive",
+      "source": "/dist/27-logging-a-session-reflection__07-home-most-used-productive/index.html",
+      "status": "layout_present",
+      "component": "src/screens/home/HomeScreen.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 163,
+      "name": "home-most-used-excluded",
+      "source": "/dist/28-excluding-an-app-from-screen-time__01-home-most-used-excluded/index.html",
+      "status": "layout_present",
+      "component": "src/screens/home/HomeScreen.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 164,
+      "name": "reflection-delete",
+      "source": "/dist/29-deleting-a-reflection__01-reflection-delete/index.html",
+      "status": "layout_present",
+      "component": "src/screens/home/HomeScreen.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 165,
+      "name": "period-menu",
+      "source": "/dist/30-changing-period__01-period-menu/index.html",
+      "status": "layout_present",
+      "component": "src/screens/home/HomeScreen.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 166,
+      "name": "home-yesterday",
+      "source": "/dist/30-changing-period__02-home-yesterday/index.html",
+      "status": "layout_present",
+      "component": "src/screens/home/HomeScreen.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 167,
+      "name": "home-loading",
+      "source": "/dist/31-refreshing-a-screen-time-home__01-home-loading/index.html",
+      "status": "layout_present",
+      "component": "src/screens/home/HomeScreen.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 168,
+      "name": "home-13min",
+      "source": "/dist/31-refreshing-a-screen-time-home__02-home-13min/index.html",
+      "status": "layout_present",
+      "component": "src/screens/home/HomeScreen.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 169,
+      "name": "screen-time-settings",
+      "source": "/dist/32-screen-time-settings__01-screen-time-settings/index.html",
+      "status": "layout_present",
+      "component": "src/screens/settings/ScreenTimeSettings.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 170,
+      "name": "daily-goal",
+      "source": "/dist/33-changing-a-daily-goal__01-daily-goal/index.html",
+      "status": "layout_present",
+      "component": "src/screens/settings/ScreenTimeSettings.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 171,
+      "name": "daily-goal-picker",
+      "source": "/dist/33-changing-a-daily-goal__02-daily-goal-picker/index.html",
+      "status": "layout_present",
+      "component": "src/screens/settings/ScreenTimeSettings.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 172,
+      "name": "daily-goal-saturday-4h",
+      "source": "/dist/33-changing-a-daily-goal__03-daily-goal-saturday-4h/index.html",
+      "status": "layout_present",
+      "component": "src/screens/settings/ScreenTimeSettings.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 173,
+      "name": "changes-saved-toast",
+      "source": "/dist/33-changing-a-daily-goal__04-changes-saved-toast/index.html",
+      "status": "layout_present",
+      "component": "src/screens/settings/ScreenTimeSettings.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 174,
+      "name": "reminders-sheet",
+      "source": "/dist/34-enabling-reminders__01-reminders-sheet/index.html",
+      "status": "layout_present",
+      "component": "src/screens/settings/ScreenTimeSettings.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 175,
+      "name": "reminders-20min",
+      "source": "/dist/34-enabling-reminders__02-reminders-20min/index.html",
+      "status": "layout_present",
+      "component": "src/screens/settings/ScreenTimeSettings.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 176,
+      "name": "reminders-beta-alert",
+      "source": "/dist/34-enabling-reminders__03-reminders-beta-alert/index.html",
+      "status": "layout_present",
+      "component": "src/screens/settings/ScreenTimeSettings.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 177,
+      "name": "reminders-enabled-toast",
+      "source": "/dist/34-enabling-reminders__04-reminders-enabled-toast/index.html",
+      "status": "layout_present",
+      "component": "src/screens/settings/ScreenTimeSettings.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 178,
+      "name": "activities",
+      "source": "/dist/35-creating-an-activity__01-activities/index.html",
+      "status": "layout_present",
+      "component": "src/screens/settings/ScreenTimeSettings.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 179,
+      "name": "activity-add-empty",
+      "source": "/dist/35-creating-an-activity__02-activity-add-empty/index.html",
+      "status": "layout_present",
+      "component": "src/screens/settings/ScreenTimeSettings.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 180,
+      "name": "activity-add-filled",
+      "source": "/dist/35-creating-an-activity__03-activity-add-filled/index.html",
+      "status": "layout_present",
+      "component": "src/screens/settings/ScreenTimeSettings.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 181,
+      "name": "activities-added",
+      "source": "/dist/35-creating-an-activity__04-activities-added/index.html",
+      "status": "layout_present",
+      "component": "src/screens/settings/ScreenTimeSettings.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 182,
+      "name": "estimated-screen-time",
+      "source": "/dist/36-refreshing-an-estimated-screen-time__01-estimated-screen-time/index.html",
+      "status": "layout_present",
+      "component": "src/screens/settings/ScreenTimeSettings.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 183,
+      "name": "estimated-learn-more",
+      "source": "/dist/36-refreshing-an-estimated-screen-time__02-estimated-learn-more/index.html",
+      "status": "layout_present",
+      "component": "src/screens/settings/ScreenTimeSettings.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 184,
+      "name": "estimate-refresh-toast",
+      "source": "/dist/36-refreshing-an-estimated-screen-time__03-estimate-refresh-toast/index.html",
+      "status": "layout_present",
+      "component": "src/screens/settings/ScreenTimeSettings.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 185,
+      "name": "estimated-2h05",
+      "source": "/dist/36-refreshing-an-estimated-screen-time__04-estimated-2h05/index.html",
+      "status": "layout_present",
+      "component": "src/screens/settings/ScreenTimeSettings.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 186,
+      "name": "rules-locks-sessions",
+      "source": "/dist/37-rules__01-rules-locks-sessions/index.html",
+      "status": "layout_present",
+      "component": "src/screens/rules/RulesScreen.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 188,
+      "name": "rules-limit-progress",
+      "source": "/dist/37-rules__03-rules-limit-progress/index.html",
+      "status": "layout_present",
+      "component": "src/screens/rules/RulesScreen.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 190,
+      "name": "unlock-take-moment",
+      "source": "/dist/38-unlocking-an-app-time__01-unlock-take-moment/index.html",
+      "status": "layout_present",
+      "component": "src/screens/unlocking/AppUnlockSheet.tsx",
+      "evidence": "docs/reviews/2026-11-02-app-unlock/README.md"
+    },
+    {
+      "id": 191,
+      "name": "unlock-choose-time",
+      "source": "/dist/38-unlocking-an-app-time__02-unlock-choose-time/index.html",
+      "status": "layout_present",
+      "component": "src/screens/unlocking/AppUnlockSheet.tsx",
+      "evidence": "docs/reviews/2026-11-02-app-unlock/README.md"
+    },
+    {
+      "id": 192,
+      "name": "rules-lock-countdown",
+      "source": "/dist/38-unlocking-an-app-time__03-rules-lock-countdown/index.html",
+      "status": "layout_present",
+      "component": "src/screens/unlocking/AppUnlockSheet.tsx",
+      "evidence": "docs/reviews/2026-11-02-app-unlock/README.md"
+    },
+    {
+      "id": 193,
+      "name": "unlock-reason-input",
+      "source": "/dist/39-unlocking-an-app-give-a-reason__01-unlock-reason-input/index.html",
+      "status": "layout_present",
+      "component": "src/screens/unlocking/AppUnlockSheet.tsx",
+      "evidence": "docs/reviews/2026-11-02-app-unlock/README.md"
+    },
+    {
+      "id": 194,
+      "name": "unlock-reason-5min",
+      "source": "/dist/39-unlocking-an-app-give-a-reason__02-unlock-reason-5min/index.html",
+      "status": "layout_present",
+      "component": "src/screens/unlocking/AppUnlockSheet.tsx",
+      "evidence": "docs/reviews/2026-11-02-app-unlock/README.md"
+    },
+    {
+      "id": 195,
+      "name": "unlock-reason-2min",
+      "source": "/dist/39-unlocking-an-app-give-a-reason__03-unlock-reason-2min/index.html",
+      "status": "layout_present",
+      "component": "src/screens/unlocking/AppUnlockSheet.tsx",
+      "evidence": "docs/reviews/2026-11-02-app-unlock/README.md"
+    },
+    {
+      "id": 196,
+      "name": "apps-unlocked-toast",
+      "source": "/dist/39-unlocking-an-app-give-a-reason__04-apps-unlocked-toast/index.html",
+      "status": "layout_present",
+      "component": "src/screens/unlocking/AppUnlockSheet.tsx",
+      "evidence": "docs/reviews/2026-11-02-app-unlock/README.md"
+    },
+    {
+      "id": 197,
+      "name": "rule-detail-work-hours",
+      "source": "/dist/40-disabling-a-rule__01-rule-detail-work-hours/index.html",
+      "status": "layout_present",
+      "component": "src/screens/rules/SessionDetails.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 198,
+      "name": "rule-disable-menu",
+      "source": "/dist/40-disabling-a-rule__02-rule-disable-menu/index.html",
+      "status": "layout_present",
+      "component": "src/screens/rules/SessionDetails.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 199,
+      "name": "rule-snoozed-toast",
+      "source": "/dist/40-disabling-a-rule__03-rule-snoozed-toast/index.html",
+      "status": "layout_present",
+      "component": "src/screens/rules/SessionDetails.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 200,
+      "name": "rule-detail-time-limit",
+      "source": "/dist/41-refreshing-a-screen-time-rules__01-rule-detail-time-limit/index.html",
+      "status": "layout_present",
+      "component": "src/screens/rules/SessionDetails.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 201,
+      "name": "refresh-important-alert",
+      "source": "/dist/41-refreshing-a-screen-time-rules__02-refresh-important-alert/index.html",
+      "status": "layout_present",
+      "component": "src/screens/rules/SessionDetails.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 202,
+      "name": "refresh-progress-toast",
+      "source": "/dist/41-refreshing-a-screen-time-rules__03-refresh-progress-toast/index.html",
+      "status": "layout_present",
+      "component": "src/screens/rules/SessionDetails.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 203,
+      "name": "habit-photo",
+      "source": "/dist/42-completing-a-task__01-habit-photo/index.html",
+      "status": "layout_present",
+      "component": "src/screens/previews/HabitPhoto.tsx",
+      "evidence": "docs/reviews/2026-11-03-remaining/README.md",
+      "acceptance": "pending_1to1"
+    },
+    {
+      "id": 204,
+      "name": "photo-analyzing",
+      "source": "/dist/42-completing-a-task__02-photo-analyzing/index.html",
+      "status": "layout_present",
+      "component": "src/screens/previews/HabitPhoto.tsx",
+      "evidence": "docs/reviews/2026-11-03-remaining/README.md",
+      "acceptance": "pending_1to1"
+    },
+    {
+      "id": 205,
+      "name": "photo-error",
+      "source": "/dist/42-completing-a-task__03-photo-error/index.html",
+      "status": "layout_present",
+      "component": "src/screens/previews/HabitPhoto.tsx",
+      "evidence": "docs/reviews/2026-11-03-remaining/README.md",
+      "acceptance": "pending_1to1"
+    },
+    {
+      "id": 206,
+      "name": "photo-good-job",
+      "source": "/dist/42-completing-a-task__04-photo-good-job/index.html",
+      "status": "layout_present",
+      "component": "src/screens/previews/HabitPhoto.tsx",
+      "evidence": "docs/reviews/2026-11-03-remaining/README.md",
+      "acceptance": "pending_1to1"
+    },
+    {
+      "id": 207,
+      "name": "rules-earned",
+      "source": "/dist/42-completing-a-task__05-rules-earned/index.html",
+      "status": "layout_present",
+      "component": "src/screens/rules/RulesScreen.tsx",
+      "evidence": "docs/reviews/2026-11-03-remaining/README.md",
+      "acceptance": "pending_1to1"
+    },
+    {
+      "id": 208,
+      "name": "gallery",
+      "source": "/dist/43-gallery__01-gallery/index.html",
+      "status": "layout_present",
+      "component": "src/screens/rules/TemplateGallery.tsx",
+      "evidence": "docs/reviews/2026-11-03-gallery/README.md"
+    },
+    {
+      "id": 209,
+      "name": "gallery-all",
+      "source": "/dist/43-gallery__02-gallery-all/index.html",
+      "status": "layout_present",
+      "component": "src/screens/rules/TemplateGallery.tsx",
+      "evidence": "docs/reviews/2026-11-03-gallery/README.md"
+    },
+    {
+      "id": 210,
+      "name": "template-detail",
+      "source": "/dist/44-deleting-a-template__01-template-detail/index.html",
+      "status": "layout_present",
+      "component": "src/screens/rules/SessionDetails.tsx",
+      "evidence": "docs/reviews/2026-11-03-template-details/README.md"
+    },
+    {
+      "id": 211,
+      "name": "template-delete-alert",
+      "source": "/dist/44-deleting-a-template__02-template-delete-alert/index.html",
+      "status": "layout_present",
+      "component": "src/screens/rules/SessionDetails.tsx",
+      "evidence": "docs/reviews/2026-11-03-template-details/README.md"
+    },
+    {
+      "id": 212,
+      "name": "template-deleted-toast",
+      "source": "/dist/44-deleting-a-template__03-template-deleted-toast/index.html",
+      "status": "layout_present",
+      "component": "src/screens/rules/SessionDetails.tsx",
+      "evidence": "docs/reviews/2026-11-03-template-details/README.md"
+    },
+    {
+      "id": 213,
+      "name": "troubleshoot-step1",
+      "source": "/dist/45-troubleshoot__01-troubleshoot-step1/index.html",
+      "status": "layout_present",
+      "component": "src/screens/settings/Troubleshoot.tsx",
+      "evidence": "docs/reviews/2026-11-03-troubleshoot/README.md"
+    },
+    {
+      "id": 214,
+      "name": "troubleshoot-step2",
+      "source": "/dist/45-troubleshoot__02-troubleshoot-step2/index.html",
+      "status": "layout_present",
+      "component": "src/screens/settings/Troubleshoot.tsx",
+      "evidence": "docs/reviews/2026-11-03-troubleshoot/README.md"
+    },
+    {
+      "id": 215,
+      "name": "troubleshoot-step3",
+      "source": "/dist/45-troubleshoot__03-troubleshoot-step3/index.html",
+      "status": "layout_present",
+      "component": "src/screens/settings/Troubleshoot.tsx",
+      "evidence": "docs/reviews/2026-11-03-troubleshoot/README.md"
+    },
+    {
+      "id": 216,
+      "name": "troubleshoot-step4",
+      "source": "/dist/45-troubleshoot__04-troubleshoot-step4/index.html",
+      "status": "layout_present",
+      "component": "src/screens/settings/Troubleshoot.tsx",
+      "evidence": "docs/reviews/2026-11-03-troubleshoot/README.md"
+    },
+    {
+      "id": 217,
+      "name": "troubleshoot-options",
+      "source": "/dist/45-troubleshoot__05-troubleshoot-options/index.html",
+      "status": "layout_present",
+      "component": "src/screens/settings/Troubleshoot.tsx",
+      "evidence": "docs/reviews/2026-11-03-troubleshoot/README.md"
+    },
+    {
+      "id": 218,
+      "name": "troubleshoot-hide-icons",
+      "source": "/dist/46-hiding-app-icons__01-troubleshoot-hide-icons/index.html",
+      "status": "layout_present",
+      "component": "src/screens/settings/Troubleshoot.tsx",
+      "evidence": "docs/reviews/2026-11-03-troubleshoot/README.md"
+    },
+    {
+      "id": 219,
+      "name": "rule-settings",
+      "source": "/dist/47-rule-settings__01-rule-settings/index.html",
+      "status": "layout_present",
+      "component": "src/screens/rules/RuleSettings.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 220,
+      "name": "rule-settings-advanced",
+      "source": "/dist/47-rule-settings__02-rule-settings-advanced/index.html",
+      "status": "layout_present",
+      "component": "src/screens/rules/RuleSettings.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 221,
+      "name": "app-groups-empty",
+      "source": "/dist/48-creating-an-app-group__01-app-groups-empty/index.html",
+      "status": "layout_present",
+      "component": "src/screens/rules/RuleSettings.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 222,
+      "name": "app-group-new",
+      "source": "/dist/48-creating-an-app-group__02-app-group-new/index.html",
+      "status": "layout_present",
+      "component": "src/screens/rules/RuleSettings.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 223,
+      "name": "app-group-categories",
+      "source": "/dist/48-creating-an-app-group__03-app-group-categories/index.html",
+      "status": "layout_present",
+      "component": "src/screens/rules/RuleSettings.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 224,
+      "name": "rename-group-keyboard",
+      "source": "/dist/48-creating-an-app-group__04-rename-group-keyboard/index.html",
+      "status": "layout_present",
+      "component": "src/screens/rules/RuleSettings.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 225,
+      "name": "rename-group-blocked",
+      "source": "/dist/48-creating-an-app-group__05-rename-group-blocked/index.html",
+      "status": "layout_present",
+      "component": "src/screens/rules/RuleSettings.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 226,
+      "name": "app-group-blocked",
+      "source": "/dist/48-creating-an-app-group__06-app-group-blocked/index.html",
+      "status": "layout_present",
+      "component": "src/screens/rules/RuleSettings.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 227,
+      "name": "app-group-added-toast",
+      "source": "/dist/48-creating-an-app-group__07-app-group-added-toast/index.html",
+      "status": "layout_present",
+      "component": "src/screens/rules/RuleSettings.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 228,
+      "name": "app-groups",
+      "source": "/dist/48-creating-an-app-group__08-app-groups/index.html",
+      "status": "layout_present",
+      "component": "src/screens/rules/RuleSettings.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 229,
+      "name": "block-screens",
+      "source": "/dist/49-turning-on-jomo-01-block-screens/index.html",
+      "status": "layout_present",
+      "component": "src/screens/rules/BlockScreens.tsx",
+      "evidence": "docs/reviews/2026-11-03-block-screens/README.md"
+    },
+    {
+      "id": 230,
+      "name": "block-screens-on",
+      "source": "/dist/49-turning-on-jomo-02-block-screens-on/index.html",
+      "status": "layout_present",
+      "component": "src/screens/rules/BlockScreens.tsx",
+      "evidence": "docs/reviews/2026-11-03-block-screens/README.md"
+    },
+    {
+      "id": 231,
+      "name": "block-screen-preview-tips",
+      "source": "/dist/49-turning-on-jomo-03-block-screen-preview-tips/index.html",
+      "status": "layout_present",
+      "component": "src/screens/rules/BlockScreens.tsx",
+      "evidence": "docs/reviews/2026-11-03-block-screens/README.md"
+    },
+    {
+      "id": 232,
+      "name": "create-screen-menu",
+      "source": "/dist/50-creating-a-screen-app__01-create-screen-menu/index.html",
+      "status": "layout_present",
+      "component": "src/screens/rules/BlockScreens.tsx",
+      "evidence": "docs/reviews/2026-11-03-block-screens/README.md"
+    },
+    {
+      "id": 233,
+      "name": "search-app-empty",
+      "source": "/dist/50-creating-a-screen-app__02-search-app-empty/index.html",
+      "status": "layout_present",
+      "component": "src/screens/rules/BlockScreens.tsx",
+      "evidence": "docs/reviews/2026-11-03-block-screens/README.md"
+    },
+    {
+      "id": 234,
+      "name": "search-app-substack",
+      "source": "/dist/50-creating-a-screen-app__03-search-app-substack/index.html",
+      "status": "layout_present",
+      "component": "src/screens/rules/BlockScreens.tsx",
+      "evidence": "docs/reviews/2026-11-03-block-screens/README.md"
+    },
+    {
+      "id": 235,
+      "name": "block-screens-substack",
+      "source": "/dist/50-creating-a-screen-app__04-block-screens-substack/index.html",
+      "status": "layout_present",
+      "component": "src/screens/rules/BlockScreens.tsx",
+      "evidence": "docs/reviews/2026-11-03-block-screens/README.md"
+    },
+    {
+      "id": 236,
+      "name": "block-screen-substack-preview",
+      "source": "/dist/50-creating-a-screen-app__05-block-screen-substack-preview/index.html",
+      "status": "layout_present",
+      "component": "src/screens/rules/BlockScreens.tsx",
+      "evidence": "docs/reviews/2026-11-03-block-screens/README.md"
+    },
+    {
+      "id": 237,
+      "name": "message-screen-empty",
+      "source": "/dist/51-creating-a-screen-message__01-message-screen-empty/index.html",
+      "status": "layout_present",
+      "component": "src/screens/rules/BlockScreens.tsx",
+      "evidence": "docs/reviews/2026-11-03-block-screens/README.md"
+    },
+    {
+      "id": 238,
+      "name": "message-screen-filled",
+      "source": "/dist/51-creating-a-screen-message__02-message-screen-filled/index.html",
+      "status": "layout_present",
+      "component": "src/screens/rules/BlockScreens.tsx",
+      "evidence": "docs/reviews/2026-11-03-block-screens/README.md"
+    },
+    {
+      "id": 239,
+      "name": "message-screen-tips",
+      "source": "/dist/51-creating-a-screen-message__03-message-screen-tips/index.html",
+      "status": "layout_present",
+      "component": "src/screens/rules/BlockScreens.tsx",
+      "evidence": "docs/reviews/2026-11-03-block-screens/README.md"
+    },
+    {
+      "id": 240,
+      "name": "block-screens-message",
+      "source": "/dist/51-creating-a-screen-message__04-block-screens-message/index.html",
+      "status": "layout_present",
+      "component": "src/screens/rules/BlockScreens.tsx",
+      "evidence": "docs/reviews/2026-11-03-block-screens/README.md"
+    },
+    {
+      "id": 241,
+      "name": "block-screen-message-preview",
+      "source": "/dist/51-creating-a-screen-message__05-block-screen-message-preview/index.html",
+      "status": "layout_present",
+      "component": "src/screens/rules/BlockScreens.tsx",
+      "evidence": "docs/reviews/2026-11-03-block-screens/README.md"
+    },
+    {
+      "id": 242,
+      "name": "message-screen-edit",
+      "source": "/dist/52-deleting-a-screen__01-message-screen-edit/index.html",
+      "status": "layout_present",
+      "component": "src/screens/rules/BlockScreens.tsx",
+      "evidence": "docs/reviews/2026-11-03-block-screens/README.md"
+    },
+    {
+      "id": 243,
+      "name": "delete-screen-alert",
+      "source": "/dist/52-deleting-a-screen__02-delete-screen-alert/index.html",
+      "status": "layout_present",
+      "component": "src/screens/rules/BlockScreens.tsx",
+      "evidence": "docs/reviews/2026-11-03-block-screens/README.md"
+    },
+    {
+      "id": 244,
+      "name": "screen-deleted-toast",
+      "source": "/dist/52-deleting-a-screen__03-screen-deleted-toast/index.html",
+      "status": "layout_present",
+      "component": "src/screens/rules/BlockScreens.tsx",
+      "evidence": "docs/reviews/2026-11-03-block-screens/README.md"
+    },
+    {
+      "id": 245,
+      "name": "legacy-limits-alert",
+      "source": "/dist/53-turning-on-legacy-open-limits__01-legacy-limits-alert/index.html",
+      "status": "layout_present",
+      "component": "src/screens/rules/RuleSettings.tsx",
+      "evidence": "docs/reviews/2026-11-03-legacy-limits/README.md"
+    },
+    {
+      "id": 246,
+      "name": "legacy-limits-on",
+      "source": "/dist/53-turning-on-legacy-open-limits__02-legacy-limits-on/index.html",
+      "status": "layout_present",
+      "component": "src/screens/rules/RuleSettings.tsx",
+      "evidence": "docs/reviews/2026-11-03-legacy-limits/README.md"
+    },
+    {
+      "id": 265,
+      "name": "profile-recap",
+      "source": "/dist/60-profile__01-profile-recap/index.html",
+      "status": "layout_present",
+      "component": "src/screens/profile/ProfileScreen.tsx",
+      "evidence": "docs/reviews/2026-11-03-remaining/README.md",
+      "acceptance": "pending_1to1"
+    },
+    {
+      "id": 266,
+      "name": "profile",
+      "source": "/dist/60-profile__02-profile/index.html",
+      "status": "layout_present",
+      "component": "src/screens/profile/ProfileScreen.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 276,
+      "name": "settings",
+      "source": "/dist/64-settings__01-settings/index.html",
+      "status": "layout_present",
+      "component": "src/screens/settings/MainSettings.tsx",
+      "evidence": "docs/reviews/2026-11-03-main-settings/README.md"
+    },
+    {
+      "id": 285,
+      "name": "help",
+      "source": "/dist/67-help-feedback__01-help/index.html",
+      "status": "layout_present",
+      "component": "src/screens/settings/HelpFeedback.tsx",
+      "evidence": "docs/reviews/2026-11-03-main-settings/README.md"
+    },
+    {
+      "id": 286,
+      "name": "help-more",
+      "source": "/dist/67-help-feedback__02-help-more/index.html",
+      "status": "layout_present",
+      "component": "src/screens/settings/HelpFeedback.tsx",
+      "evidence": "docs/reviews/2026-11-03-main-settings/README.md"
+    },
+    {
+      "id": 287,
+      "name": "emergency-mode",
+      "source": "/dist/68-unlocking-an-emergency-mode__01-emergency-mode/index.html",
+      "status": "layout_present",
+      "component": "src/screens/settings/EmergencyMode.tsx",
+      "evidence": "docs/reviews/2026-11-03-emergency-interface/README.md"
+    },
+    {
+      "id": 288,
+      "name": "passcode-empty",
+      "source": "/dist/68-unlocking-an-emergency-mode__02-passcode-empty/index.html",
+      "status": "layout_present",
+      "component": "src/screens/settings/EmergencyMode.tsx",
+      "evidence": "docs/reviews/2026-11-03-emergency-interface/README.md"
+    },
+    {
+      "id": 289,
+      "name": "passcode-filled",
+      "source": "/dist/68-unlocking-an-emergency-mode__03-passcode-filled/index.html",
+      "status": "layout_present",
+      "component": "src/screens/settings/EmergencyMode.tsx",
+      "evidence": "docs/reviews/2026-11-03-emergency-interface/README.md"
+    },
+    {
+      "id": 290,
+      "name": "strict-rules-empty",
+      "source": "/dist/68-unlocking-an-emergency-mode__04-strict-rules-empty/index.html",
+      "status": "layout_present",
+      "component": "src/screens/settings/EmergencyMode.tsx",
+      "evidence": "docs/reviews/2026-11-03-emergency-interface/README.md"
+    },
+    {
+      "id": 291,
+      "name": "strict-rules",
+      "source": "/dist/68-unlocking-an-emergency-mode__05-strict-rules/index.html",
+      "status": "layout_present",
+      "component": "src/screens/settings/EmergencyMode.tsx",
+      "evidence": "docs/reviews/2026-11-03-emergency-interface/README.md"
+    },
+    {
+      "id": 292,
+      "name": "emergency-settings-random",
+      "source": "/dist/69-switching-to-passcode__01-emergency-settings-random/index.html",
+      "status": "layout_present",
+      "component": "src/screens/settings/EmergencyMode.tsx",
+      "evidence": "docs/reviews/2026-11-03-emergency-interface/README.md"
+    },
+    {
+      "id": 293,
+      "name": "random-code-empty",
+      "source": "/dist/69-switching-to-passcode__02-random-code-empty/index.html",
+      "status": "layout_present",
+      "component": "src/screens/settings/EmergencyMode.tsx",
+      "evidence": "docs/reviews/2026-11-03-emergency-interface/README.md"
+    },
+    {
+      "id": 294,
+      "name": "random-code-typing",
+      "source": "/dist/69-switching-to-passcode__03-random-code-typing/index.html",
+      "status": "layout_present",
+      "component": "src/screens/settings/EmergencyMode.tsx",
+      "evidence": "docs/reviews/2026-11-03-emergency-interface/README.md"
+    },
+    {
+      "id": 295,
+      "name": "random-code-done",
+      "source": "/dist/69-switching-to-passcode__04-random-code-done/index.html",
+      "status": "layout_present",
+      "component": "src/screens/settings/EmergencyMode.tsx",
+      "evidence": "docs/reviews/2026-11-03-emergency-interface/README.md"
+    },
+    {
+      "id": 296,
+      "name": "create-passcode",
+      "source": "/dist/69-switching-to-passcode__05-create-passcode/index.html",
+      "status": "layout_present",
+      "component": "src/screens/settings/EmergencyMode.tsx",
+      "evidence": "docs/reviews/2026-11-03-emergency-interface/README.md"
+    },
+    {
+      "id": 297,
+      "name": "confirm-passcode",
+      "source": "/dist/69-switching-to-passcode__06-confirm-passcode/index.html",
+      "status": "layout_present",
+      "component": "src/screens/settings/EmergencyMode.tsx",
+      "evidence": "docs/reviews/2026-11-03-emergency-interface/README.md"
+    },
+    {
+      "id": 298,
+      "name": "passcode-toast",
+      "source": "/dist/69-switching-to-passcode__07-passcode-toast/index.html",
+      "status": "layout_present",
+      "component": "src/screens/settings/EmergencyMode.tsx",
+      "evidence": "docs/reviews/2026-11-03-emergency-interface/README.md"
+    },
+    {
+      "id": 299,
+      "name": "emergency-settings-passcode",
+      "source": "/dist/69-switching-to-passcode__08-emergency-settings-passcode/index.html",
+      "status": "layout_present",
+      "component": "src/screens/settings/EmergencyMode.tsx",
+      "evidence": "docs/reviews/2026-11-03-emergency-interface/README.md"
+    },
+    {
+      "id": 300,
+      "name": "strict-rule-actions",
+      "source": "/dist/70-disabling-strict-mode__01-strict-rule-actions/index.html",
+      "status": "layout_present",
+      "component": "src/screens/settings/EmergencyMode.tsx",
+      "evidence": "docs/reviews/2026-11-03-emergency-interface/README.md"
+    },
+    {
+      "id": 301,
+      "name": "strict-disabled-toast",
+      "source": "/dist/70-disabling-strict-mode__02-strict-disabled-toast/index.html",
+      "status": "layout_present",
+      "component": "src/screens/settings/EmergencyMode.tsx",
+      "evidence": "docs/reviews/2026-11-03-emergency-interface/README.md"
+    },
+    {
+      "id": 302,
+      "name": "interface",
+      "source": "/dist/71-updating-interface-settings__01-interface/index.html",
+      "status": "layout_present",
+      "component": "src/screens/settings/InterfaceSettings.tsx",
+      "evidence": "docs/reviews/2026-11-03-emergency-interface/README.md"
+    },
+    {
+      "id": 310,
+      "name": "app-icon-sheet",
+      "source": "/dist/73-changing-app-icon__01-app-icon-sheet/index.html",
+      "status": "layout_present",
+      "component": "src/screens/settings/AppIconPicker.tsx",
+      "evidence": "docs/reviews/2026-11-03-remaining/README.md",
+      "acceptance": "pending_1to1"
+    },
+    {
+      "id": 311,
+      "name": "app-icon-alert",
+      "source": "/dist/73-changing-app-icon__02-app-icon-alert/index.html",
+      "status": "layout_present",
+      "component": "src/screens/settings/AppIconPicker.tsx",
+      "evidence": "docs/reviews/2026-11-03-remaining/README.md",
+      "acceptance": "pending_1to1"
+    },
+    {
+      "id": 312,
+      "name": "app-icon-spooky",
+      "source": "/dist/73-changing-app-icon__03-app-icon-spooky/index.html",
+      "status": "layout_present",
+      "component": "src/screens/settings/AppIconPicker.tsx",
+      "evidence": "docs/reviews/2026-11-03-remaining/README.md",
+      "acceptance": "pending_1to1"
+    },
+    {
+      "id": 313,
+      "name": "special-chars-alert",
+      "source": "/dist/74-enabling-special-characters__01-special-chars-alert/index.html",
+      "status": "layout_present",
+      "component": "src/screens/settings/InterfaceSettings.tsx",
+      "evidence": "docs/reviews/2026-11-03-emergency-interface/README.md"
+    },
+    {
+      "id": 314,
+      "name": "special-chars-on",
+      "source": "/dist/74-enabling-special-characters__02-special-chars-on/index.html",
+      "status": "layout_present",
+      "component": "src/screens/settings/InterfaceSettings.tsx",
+      "evidence": "docs/reviews/2026-11-03-emergency-interface/README.md"
+    },
+    {
+      "id": 316,
+      "name": "notifications",
+      "source": "/dist/75-enabling-notifications__02-notifications/index.html",
+      "status": "layout_present",
+      "component": "src/screens/settings/NotificationSettings.tsx",
+      "evidence": "docs/reviews/2026-11-03-remaining/README.md",
+      "acceptance": "pending_1to1"
+    },
+    {
+      "id": 317,
+      "name": "notifications-on",
+      "source": "/dist/76-turning-on-notifications__01-notifications-on/index.html",
+      "status": "layout_present",
+      "component": "src/screens/settings/NotificationSettings.tsx",
+      "evidence": "docs/reviews/2026-11-03-remaining/README.md",
+      "acceptance": "pending_1to1"
+    },
+    {
+      "id": 318,
+      "name": "language-menu",
+      "source": "/dist/77-changing-language__01-language-menu/index.html",
+      "status": "layout_present",
+      "component": "src/screens/settings/LanguageMenu.tsx",
+      "evidence": "docs/reviews/2026-11-03-remaining/README.md",
+      "acceptance": "pending_1to1"
+    },
+    {
+      "id": 336,
+      "name": "home-loading-login",
+      "source": "/dist/81-logging-in__08-home-loading-login/index.html",
+      "status": "layout_present",
+      "component": "src/screens/home/HomeScreen.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 337,
+      "name": "home-8min",
+      "source": "/dist/81-logging-in__09-home-8min/index.html",
+      "status": "layout_present",
+      "component": "src/screens/home/HomeScreen.tsx",
+      "evidence": "docs/HANDOFF.md"
+    },
+    {
+      "id": 338,
+      "name": "live-activity-session",
+      "source": "/dist/82-live-activities__01-live-activity-session/index.html",
+      "status": "layout_present",
+      "component": "src/screens/previews/SystemPreviews.tsx",
+      "evidence": "docs/reviews/2026-11-03-remaining/README.md",
+      "acceptance": "pending_1to1"
+    },
+    {
+      "id": 339,
+      "name": "live-activity-unlock",
+      "source": "/dist/82-live-activities__02-live-activity-unlock/index.html",
+      "status": "layout_present",
+      "component": "src/screens/previews/SystemPreviews.tsx",
+      "evidence": "docs/reviews/2026-11-03-remaining/README.md",
+      "acceptance": "pending_1to1"
+    },
+    {
+      "id": 340,
+      "name": "dynamic-island-compact",
+      "source": "/dist/83-dynamic-island__01-dynamic-island-compact/index.html",
+      "status": "layout_present",
+      "component": "src/screens/previews/SystemPreviews.tsx",
+      "evidence": "docs/reviews/2026-11-03-remaining/README.md",
+      "acceptance": "pending_1to1"
+    },
+    {
+      "id": 341,
+      "name": "dynamic-island-expanded",
+      "source": "/dist/83-dynamic-island__02-dynamic-island-expanded/index.html",
+      "status": "layout_present",
+      "component": "src/screens/previews/SystemPreviews.tsx",
+      "evidence": "docs/reviews/2026-11-03-remaining/README.md",
+      "acceptance": "pending_1to1"
+    },
+    {
+      "id": 342,
+      "name": "dynamic-island-unlock",
+      "source": "/dist/83-dynamic-island__03-dynamic-island-unlock/index.html",
+      "status": "layout_present",
+      "component": "src/screens/previews/SystemPreviews.tsx",
+      "evidence": "docs/reviews/2026-11-03-remaining/README.md",
+      "acceptance": "pending_1to1"
+    },
+    {
+      "id": 343,
+      "name": "widgets-rules",
+      "source": "/dist/84-widgets__01-widgets-rules/index.html",
+      "status": "layout_present",
+      "component": "src/screens/previews/SystemPreviews.tsx",
+      "evidence": "docs/reviews/2026-11-03-remaining/README.md",
+      "acceptance": "pending_1to1"
+    },
+    {
+      "id": 344,
+      "name": "widgets-screen-time",
+      "source": "/dist/84-widgets__02-widgets-screen-time/index.html",
+      "status": "layout_present",
+      "component": "src/screens/previews/SystemPreviews.tsx",
+      "evidence": "docs/reviews/2026-11-03-remaining/README.md",
+      "acceptance": "pending_1to1"
+    }
+  ],
+  "currentPackage": "2026-11-03-remaining"
+}

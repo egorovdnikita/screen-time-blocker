@@ -34,6 +34,7 @@ export function DemoMenu({ visible, onClose }: { visible: boolean; onClose: () =
     {close => <View style={[styles.sheet, { paddingBottom: insets.bottom + 16 }]}>
         <View style={styles.grabber} />
         <ScrollView showsVerticalScrollIndicator={false}>
+          <Row title="Последние 22 экрана" hint="046, 094, 107, 203–207, 265, 310–318, 338–344" selected={false} onPress={() => close(() => { onClose(); router.push('/remaining'); })} />
           <Row title="Знакомство с Block" hint="Экраны 000–017" selected={false} onPress={() => close(() => { onClose(); router.push('/onboarding'); })} />
           <Row title="Настройка первой блокировки" hint="Экраны 018–025" selected={false} onPress={() => close(() => { onClose(); router.push('/onboarding?step=18'); })} />
           <T size={12} ls={TRACK_SMALL} color={colors.section} style={styles.caption}>

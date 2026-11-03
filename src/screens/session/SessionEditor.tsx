@@ -25,13 +25,14 @@ import { art } from '@/data/art';
 import { durationLabel, initialSession, sessionRule } from '@/data/session';
 import { useAppState } from '@/state/app';
 import { T, rounded } from '@/theme/typography';
-import { ruleEditorSpacing, colors, sessionTheme as c } from '@/theme/tokens';
+import { ruleEditorSpacing, colors, remainingTheme, sessionTheme as c } from '@/theme/tokens';
 
 export function SessionEditor() {
   const [swipeClosing, setSwipeClosing] = useState(false);
   const [afterClose, setAfterClose] = useState<(() => void) | null>(null);
   useDarkStatusBar();
-  const { mode, preset } = useLocalSearchParams<{ mode?: string; preset?: string }>();
+  const { mode, preset, tip } = useLocalSearchParams<{ mode?: string; preset?: string; tip?: string }>();
+  const [templateTip, setTemplateTip] = useState(tip === 'template');
   const insets = useSafeAreaInsets();
   const app = useAppState();
   const [draft, setDraft] = useState(() => gallerySession(preset) ?? initialSession(mode === 'scheduled'));
@@ -92,6 +93,7 @@ export function SessionEditor() {
         <View style={styles.actions}><SessionAction disabled={!hasGroupSelection(draft.appGroup)} onPress={() => finish(true)}>Новый шаблон</SessionAction><SessionAction primary disabled={!hasGroupSelection(draft.appGroup)} onPress={() => draft.strict ? setStrictConfirm(true) : finish(false)}>{draft.scheduled ? 'Расписание' : 'Начать'}</SessionAction></View>
       </View>
     </View>
+    {templateTip && <View style={StyleSheet.absoluteFill}><Pressable accessibilityLabel="Закрыть подсказку шаблона" onPress={() => setTemplateTip(false)} style={[StyleSheet.absoluteFill,{backgroundColor:remainingTheme.tipDim}]} /><View style={{position:'absolute',left:10,right:10,bottom:112,height:112,borderRadius:29,paddingHorizontal:20,paddingTop:19,backgroundColor:remainingTheme.tip}}><View style={{position:'absolute',left:88,bottom:-10,width:24,height:24,borderRadius:3,backgroundColor:remainingTheme.tip,transform:[{rotate:'45deg'}]}}/><T size={15.25} color={colors.white} style={{lineHeight:19}}>Новый шаблон</T><PressScale accessibilityRole="button" accessibilityLabel="Понятно о шаблоне" onPress={() => setTemplateTip(false)} style={{position:'absolute',right:20,top:20,width:46,height:26,borderRadius:20,backgroundColor:colors.white,alignItems:'center',justifyContent:'center'}}><Icon name="chevron-right" width={20} height={16} color={colors.black}/></PressScale><T size={15} weight={400} color={colors.white} ls={0} style={{marginTop:16,lineHeight:19}}>Сохраните правило как шаблон. Меняйте его на вкладке «Правила».</T></View></View>}
     {appsOpen && <AppGroupSheet value={draft.appGroup} onCancel={() => setAppsOpen(false)} onConfirm={appGroup => { patch({ appGroup }); setAppsOpen(false); }} />}
     {strictOpen && <StrictSettingsSheet value={draft} onCancel={() => setStrictOpen(false)} onActivate={settings => { patch({ ...settings, strict: true }); setStrictOpen(false); }} />}
     {strictConfirm && <StrictConfirmation onCancel={() => setStrictConfirm(false)} onContinue={() => { setStrictConfirm(false); finish(false); }} />}

@@ -1,3 +1,4 @@
+import { initialNotifications, type NotificationPreferences, type AppIconId } from '@/data/preferences';
 import { initialOnboarding, type OnboardingDraft } from '@/data/onboarding';
 import { initialEmergencySettings, type EmergencySettings } from '@/data/emergency';
 import type { CustomBlockScreen } from '@/data/blockScreens';
@@ -28,6 +29,10 @@ type AppState = {
   setProfileName: (name: string) => void;
   emergencySettings: EmergencySettings;
   saveEmergencySettings: (value: EmergencySettings) => void;
+  appIcon: AppIconId;
+  setAppIcon: (value: AppIconId) => void;
+  notifications: NotificationPreferences;
+  setNotifications: (value: NotificationPreferences) => void;
   interfaceSettings: { streak: boolean; special: boolean };
   setInterfaceSettings: (value: { streak: boolean; special: boolean }) => void;
   deletedRuleIds: string[];
@@ -123,6 +128,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const startOnboarding = useCallback((step = 0) => setOnboardingDraft(previous => step === 18 ? { ...previous, step } : initialOnboarding(step)), []);
   const patchOnboarding = useCallback((patch: Partial<OnboardingDraft>) => setOnboardingDraft(value => ({ ...value, ...patch })), []);
   const [emergencySettings, saveEmergencySettings] = useState(initialEmergencySettings);
+  const [appIcon, setAppIcon] = useState<AppIconId>('original');
+  const [notifications, setNotifications] = useState(initialNotifications);
   const [interfaceSettings, setInterfaceSettings] = useState({ streak: true, special: false });
   const [deletedRuleIds, setDeletedRuleIds] = useState<string[]>([]);
   const [legacyLimits, setLegacyLimits] = useState(false);
@@ -197,7 +204,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     setNamedGroups([]);
     setLegacyLimits(false);
     setOnboardingDraft(initialOnboarding()); setProfileName('Саша');
-    saveEmergencySettings(initialEmergencySettings()); setInterfaceSettings({ streak: true, special: false }); setDeletedRuleIds([]);
+    setAppIcon('original'); setNotifications(initialNotifications()); saveEmergencySettings(initialEmergencySettings()); setInterfaceSettings({ streak: true, special: false }); setDeletedRuleIds([]);
     setTroubleshooting({ hideIcons: false, realTime: true });
     setExpertScreens(false); setAlternativeScreens(false); setCustomBlockScreens([]);
     setScenarioRaw(s);
@@ -234,7 +241,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const ruleNotice = () => { if (noticeTimer.current) clearTimeout(noticeTimer.current); setSessionNotice('Изменения сохранены'); noticeTimer.current = setTimeout(() => setSessionNotice(null), 2800); };
   const value: AppState = {
     onboardingDraft, startOnboarding, patchOnboarding, profileName, setProfileName,
-    emergencySettings, saveEmergencySettings, interfaceSettings, setInterfaceSettings, deletedRuleIds,
+    appIcon, setAppIcon, notifications, setNotifications, emergencySettings, saveEmergencySettings, interfaceSettings, setInterfaceSettings, deletedRuleIds,
     deleteRule: id => setDeletedRuleIds(xs => xs.includes(id) ? xs : [...xs, id]),
     showRuleRefreshDemo: () => { if (noticeTimer.current) clearTimeout(noticeTimer.current); setSessionNotice('Обновляем данные. Это может занять\nнесколько минут.'); noticeTimer.current = setTimeout(() => setSessionNotice(null), 4000); },
     ruleChanges, saveRuleDetails: (id, changes) => { setRuleChanges(xs => ({ ...xs, [id]: { ...changes, strictSettings: { ...changes.strictSettings } } })); ruleNotice(); },

@@ -393,3 +393,19 @@ export const onboardingTheme = {
   glassBorder: 'rgba(255,255,255,.3)', glassFill: 'rgba(255,255,255,.05)',
   codeBlue: ['#348bff','#005df1'] as const, prompt: ['#fafbfce8','#f7f8fbe8'] as const,
 };
+
+// Последние состояния HTML: локальные настройки и системные демо.
+export const remainingTheme = {
+  surface: '#f5f8fa', line: '#eff0f2', section: '#929aa8', icon: '#969eaa', value: '#7f899a',
+  selection: '#3484fb', handle: '#dcdee0', dim: '#00000020', alertDim: '#0003',
+  alert: '#f9f9f9c7', alertButton: '#cfd1d1c9', menu: '#f7f9fddd', menuBorder: '#ffffffd1',
+  menuSelected: '#d7e8fc75', menuShadow: '0 10px 28px #23324b21',
+  dark: '#17191a', photoSurface: '#f8fafb', scan: '#00d979', error: '#ff600c',
+  proof: '#54bd5c60', setup: '#f4f3fa', setupInk: '#85878e',
+  recap: '#169cff', recapDate: '#69b6ff', recapGradient: ['#a6dcff', '#e9f6ff', '#ffffff'] as const,
+  lockGradient: ['#c7c7c7','#cbcbcb','#bfbfbf','#c0c0c0','#c5c5c5'] as const,
+  system: '#d5d5d5', live: '#171717', liveMeta: '#7d8187', liveTrack: '#242424',
+  control: '#ededed', widgetInk: '#111111', widgetMeta: '#8b9099', widgetTrack: '#e9e7e8',
+  widgetProgress: '#dcd8da', limitGradient: ['#ffffff','#ffffff','#f7d7c8'] as const,
+  tip: '#050505', tipDim: 'rgba(20,22,27,.13)',
+};

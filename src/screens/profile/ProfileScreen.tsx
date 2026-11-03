@@ -1,3 +1,5 @@
+import { useLocalSearchParams } from 'expo-router';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useAppState } from '@/state/app';
 import { useState } from 'react';
 import { MainSettings } from '../settings/MainSettings';
@@ -13,11 +15,13 @@ import { useSkyStatusBar } from '@/components/useStatusBar';
 import { art } from '@/data/art';
 import { profile } from '@/data/mock';
 import { T, TRACK_SMALL } from '@/theme/typography';
-import { colors, insetBorder, radii, shadows } from '@/theme/tokens';
+import { colors, insetBorder, radii, shadows, remainingTheme } from '@/theme/tokens';
 
 const SKY_RATIO = 2556 / 1179;
 
-export function ProfileScreen() {
+export function ProfileScreen({ recap: recapProp = false }: { recap?: boolean }) {
+  const params = useLocalSearchParams<{recap?:string}>();
+  const recap = recapProp || params.recap === '1';
   const app = useAppState();
   const [settings, setSettings] = useState(false);
   const insets = useSafeAreaInsets();
@@ -59,7 +63,7 @@ export function ProfileScreen() {
         </View>
 
         <View style={styles.card}>
-          <View style={styles.tiles}>
+          {recap ? <View accessibilityLabel="Отчёт о прогрессе: доступно через 2 дня" style={{height:213,marginHorizontal:-20,marginTop:-22.5,overflow:'hidden',borderTopLeftRadius:40,borderTopRightRadius:40}}><LinearGradient colors={remainingTheme.recapGradient} style={StyleSheet.absoluteFill}/><T size={20} center color={remainingTheme.recap} ls={0} style={{marginTop:82,lineHeight:24}}>{'Что покажет о прогрессе\nваш отчёт?'}</T><T size={14} center color={remainingTheme.recapDate} ls={0} style={{marginTop:8,lineHeight:18}}>Доступно через 2 дня</T></View> : <><View style={styles.tiles}>
             <View style={[styles.tile, { backgroundColor: colors.nowBg, boxShadow: insetBorder(colors.nowBorder) }]}>
               <View style={[styles.tpill, { backgroundColor: colors.nowPill }]}>
                 <T size={17} color={colors.now}>
@@ -100,7 +104,7 @@ export function ProfileScreen() {
             </T>
           </View>
 
-          <DashedLine style={{ marginTop: 24.6 }} />
+          </>}<DashedLine style={{ marginTop: 24.6 }} />
 
           <View style={styles.gtiles}>
             <View style={styles.gtile}>
@@ -111,7 +115,7 @@ export function ProfileScreen() {
                 </T>
               </View>
               <T size={20} style={styles.gval}>
-                {profile.daysWithBlock}
+                {recap ? '1 день' : profile.daysWithBlock}
               </T>
             </View>
             <View style={styles.gtile}>
@@ -122,7 +126,7 @@ export function ProfileScreen() {
                 </T>
               </View>
               <T size={20} ls={0} style={styles.gval}>
-                {profile.bestStreak}
+                {recap ? '1' : profile.bestStreak}
               </T>
             </View>
           </View>

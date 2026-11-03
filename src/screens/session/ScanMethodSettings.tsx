@@ -1,3 +1,4 @@
+import { QrPass } from './QrPass';
 import { Image } from 'expo-image';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { BlurView } from 'expo-blur';
@@ -10,6 +11,7 @@ import { colors, unlockMethodTheme as m } from '@/theme/tokens';
 import { T } from '@/theme/typography';
 
 export function ScanMethodSettings({ type, onChange }: { type: UnlockSettings['scanType']; onChange: (type: UnlockSettings['scanType']) => void }) {
+  const [pass, setPass] = useState(false);
   const [menu, setMenu] = useState(false);
   const nfc = type === 'nfc';
   return <>
@@ -21,11 +23,12 @@ export function ScanMethodSettings({ type, onChange }: { type: UnlockSettings['s
       <PressScale accessibilityRole="button" accessibilityLabel="Тип сканирования" accessibilityState={{ expanded: menu }} onPress={() => setMenu(v => !v)} style={[styles.option, styles.first]}>
         <T size={15} weight={400} ls={0}>Сканирование</T><T size={15} color={m.scanValue} ls={0} style={{ marginLeft: 'auto' }}>{nfc ? 'NFC-метка' : 'QR-код'}</T><Icon name="session-up-down" width={12} height={16} color={m.scanChevron} />
       </PressScale>
-      <View accessibilityLabel={nfc ? 'Сканирование NFC недоступно в Expo Go' : 'Экспорт QR-кода пока недоступен'} accessibilityState={{ disabled: true }} style={styles.option}>
+      <PressScale accessibilityRole="button" onPress={() => setPass(true)} disabled={nfc} accessibilityLabel={nfc ? 'Сканирование NFC недоступно в Expo Go' : 'Экспорт QR-кода'} accessibilityState={{ disabled: nfc }} style={styles.option}>
         <T size={15} weight={400} ls={0}>{nfc ? 'Метка' : 'Экспорт QR-кода'}</T>
         {nfc ? <View style={styles.pill}><T size={12} color={m.scanWarning} ls={0}>❕ Сканировать</T></View> : <Icon name="chevron-right" width={10} height={15} color={m.scanChevron} style={{ marginLeft: 'auto' }} />}
-      </View>
+      </PressScale>
     </View>
+    {pass && <QrPass onClose={() => setPass(false)} />}
     {nfc && <T size={12} color={m.scanNote} ls={0} style={styles.note}>Где найти NFC-метку? ↗</T>}
     {menu && <>
       <Pressable accessibilityRole="button" accessibilityLabel="Закрыть типы сканирования" onPress={() => setMenu(false)} style={StyleSheet.absoluteFill} />
