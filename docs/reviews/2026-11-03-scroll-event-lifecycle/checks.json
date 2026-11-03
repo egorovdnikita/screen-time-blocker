@@ -1,0 +1,17 @@
+{
+  "nativeLogic": {
+    "touchCancelBeforeDrag": true,
+    "touchCancelDuringDrag": true,
+    "touchEndBeforeDrag": true,
+    "touchEndDuringDrag": true,
+    "cancelWithoutDrag": true,
+    "repeatedBegin": true,
+    "horizontalRail": true
+  },
+  "lifecycle": true,
+  "typecheck": true,
+  "lint": true,
+  "webExport": true,
+  "iosJsBundle": true,
+  "physicalIphoneSwipe": "not verified; no Expo inspector target"
+}

@@ -33,7 +33,7 @@ class NativeScrollGate {
   constructor(private listener: (atTop: boolean) => void) {}
   canDismiss() { return this.allowed; }
   private notify(atTop: boolean) { this.allowed = atTop; this.listener(atTop); }
-  begin(atTop: boolean) { clearTimeout(this.delay); this.active = true; this.atTop = atTop; this.notify(atTop); }
+  begin(atTop: boolean) { clearTimeout(this.delay); this.atTop = atTop; this.notify(this.active ? this.allowed && atTop : atTop); this.active = true; }
   update(atTop: boolean) { this.atTop = atTop; if (!atTop || !this.active) this.notify(atTop); }
   end(atTop: boolean) { this.active = false; this.atTop = atTop; clearTimeout(this.delay); this.delay = setTimeout(() => this.notify(this.atTop), 250); }
   dispose() { clearTimeout(this.delay); }
@@ -128,12 +128,22 @@ export function SheetGrabber({ style }: { style: StyleProp<ViewStyle> }) {
 }
 
 // Отслеживаем прокрутку именно того списка, с которого начался жест.
-export function SheetScrollView({ onScroll, onTouchStart, onTouchEnd, scrollEventThrottle = 16, bounces = false, alwaysBounceVertical = false, overScrollMode = 'never', ...props }: ComponentProps<typeof ScrollView>) {
+export function SheetScrollView({ onScroll, onTouchStart, onTouchEnd, onTouchCancel, onScrollBeginDrag, onScrollEndDrag, scrollEventThrottle = 16, bounces = false, alwaysBounceVertical = false, overScrollMode = 'never', ...props }: ComponentProps<typeof ScrollView>) {
   const context = useContext(SheetDragContext);
   const native = useContext(NativeSheetScrollContext);
   const offset = useRef(props.contentOffset?.y ?? 0);
+  const dragging = useRef(false);
   const [source] = useState(() => ({}));
-  return <ScrollView {...props} bounces={bounces} alwaysBounceVertical={alwaysBounceVertical} overScrollMode={overScrollMode} scrollEventThrottle={scrollEventThrottle} onTouchStart={event => { if (!props.horizontal) native?.begin(offset.current <= .5); if (context && !props.horizontal) { context.scroll.begin(); context.scroll.claim(source, offset.current); } onTouchStart?.(event); }} onTouchEnd={event => { if (!props.horizontal) native?.end(offset.current <= .5); onTouchEnd?.(event); }} onScroll={event => { offset.current = event.nativeEvent.contentOffset.y; if (!props.horizontal) native?.update(offset.current <= .5); if (context && !props.horizontal) context.scroll.update(source, offset.current); onScroll?.(event); }} />;
+  // UIKit может отменить касание при захвате прокрутки. Запрет закрытия
+  // сохраняется до конца scroll drag, независимо от порядка touch-событий.
+  const endTouch = () => { if (!props.horizontal && !dragging.current) native?.end(offset.current <= .5); };
+  return <ScrollView {...props} bounces={bounces} alwaysBounceVertical={alwaysBounceVertical} overScrollMode={overScrollMode} scrollEventThrottle={scrollEventThrottle}
+    onTouchStart={event => { if (!props.horizontal) native?.begin(offset.current <= .5); if (context && !props.horizontal) { context.scroll.begin(); context.scroll.claim(source, offset.current); } onTouchStart?.(event); }}
+    onTouchEnd={event => { endTouch(); onTouchEnd?.(event); }}
+    onTouchCancel={event => { endTouch(); onTouchCancel?.(event); }}
+    onScrollBeginDrag={event => { if (!props.horizontal) { dragging.current = true; offset.current = event.nativeEvent.contentOffset.y; native?.begin(offset.current <= .5); } onScrollBeginDrag?.(event); }}
+    onScrollEndDrag={event => { if (!props.horizontal) { dragging.current = false; offset.current = event.nativeEvent.contentOffset.y; native?.end(offset.current <= .5); } onScrollEndDrag?.(event); }}
+    onScroll={event => { offset.current = event.nativeEvent.contentOffset.y; if (!props.horizontal) native?.update(offset.current <= .5); if (context && !props.horizontal) context.scroll.update(source, offset.current); onScroll?.(event); }} />;
 }
 export function useSheetGestureBlocker() {
   const context = useContext(SheetDragContext);
