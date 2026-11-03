@@ -39,7 +39,7 @@ export function SessionNotice({ message, top, tone = 'default' }: { message: str
 }
 
 export function FlowSwitch({ label, value, onChange, width = 63, thumbWidth = 36, height = 28, trackColor = { true: p.switchOn, false: p.switchOff }, disabled = false }: { label: string; value: boolean; onChange: (value: boolean) => void; width?: number; thumbWidth?: number; height?: number; trackColor?: { true: string; false: string }; disabled?: boolean }) {
-  if (Platform.OS !== 'web') return <Switch accessibilityLabel={label} disabled={disabled} value={value} onValueChange={onChange} trackColor={trackColor} thumbColor={Platform.OS === 'ios' ? undefined : colors.white} />;
+  if (Platform.OS !== 'web') return <Switch style={{ alignSelf: 'center' }} accessibilityLabel={label} disabled={disabled} value={value} onValueChange={onChange} trackColor={trackColor} thumbColor={Platform.OS === 'ios' ? undefined : colors.white} />;
   return <WebFlowSwitch label={label} value={value} onChange={onChange} width={width} thumbWidth={thumbWidth} height={height} trackColor={trackColor} disabled={disabled} />;
 }
 

@@ -355,3 +355,6 @@ export const troubleshootTheme = { surface: '#f3f5f7', options: '#f6f8fa', secti
 export const legacyLimitsTheme = { text: '#666666', surface: 'rgba(249,249,249,.78)', cancel: '#d0d0d0', confirm: '#0085ff', switchOn: '#3784f7', switchOff: '#c5c4c7' } as const;
 
 export const homeSkyTheme = { top: '#0878ff', fade: ['#f4f6f800', '#f4f6f8'] as const } as const;
+
+// Общий зазор между прокруткой редакторов и закреплёнными действиями.
+export const ruleEditorSpacing = { footerTop: 20, scrollBottom: 32 } as const;

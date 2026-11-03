@@ -1,0 +1,152 @@
+{
+  "results": [
+    {
+      "distance": 300,
+      "expectClose": false,
+      "before": {
+        "x": 196.5,
+        "y": 170,
+        "count": 1,
+        "height": 40
+      },
+      "middle": {
+        "sheet": 0,
+        "parent": 0,
+        "backdrop": 0,
+        "transform": "none"
+      },
+      "after": {
+        "count": 1,
+        "y": 0
+      }
+    },
+    {
+      "name": "strict-position",
+      "off": {
+        "x": 310,
+        "y": 699,
+        "w": 63,
+        "topGap": 21
+      },
+      "on": {
+        "x": 310,
+        "y": 699,
+        "w": 63,
+        "topGap": 21
+      }
+    },
+    {
+      "name": "session-clearance",
+      "gap": 32
+    },
+    {
+      "distance": 120,
+      "expectClose": true,
+      "before": {
+        "x": 196.5,
+        "y": 170,
+        "count": 1,
+        "height": 40
+      },
+      "middle": {
+        "sheet": 90,
+        "parent": 0,
+        "backdrop": 0,
+        "transform": "none"
+      },
+      "after": {
+        "count": 0,
+        "y": 0
+      }
+    },
+    {
+      "distance": 300,
+      "expectClose": false,
+      "before": {
+        "x": 196.5,
+        "y": 169,
+        "count": 1,
+        "height": 40
+      },
+      "middle": {
+        "sheet": 0,
+        "parent": 0,
+        "backdrop": 0,
+        "transform": "none"
+      },
+      "after": {
+        "count": 1,
+        "y": 0
+      }
+    },
+    {
+      "name": "limit-clearance",
+      "gap": 104
+    },
+    {
+      "distance": 120,
+      "expectClose": true,
+      "before": {
+        "x": 196.5,
+        "y": 169,
+        "count": 1,
+        "height": 40
+      },
+      "middle": {
+        "sheet": 90,
+        "parent": 0,
+        "backdrop": 0,
+        "transform": "none"
+      },
+      "after": {
+        "count": 0,
+        "y": 0
+      }
+    },
+    {
+      "distance": 300,
+      "expectClose": false,
+      "before": {
+        "x": 196.5,
+        "y": 169,
+        "count": 1,
+        "height": 40
+      },
+      "middle": {
+        "sheet": 0,
+        "parent": 0,
+        "backdrop": 0,
+        "transform": "none"
+      },
+      "after": {
+        "count": 1,
+        "y": 0
+      }
+    },
+    {
+      "name": "routine-clearance",
+      "gap": 32
+    },
+    {
+      "distance": 120,
+      "expectClose": true,
+      "before": {
+        "x": 196.5,
+        "y": 169,
+        "count": 1,
+        "height": 40
+      },
+      "middle": {
+        "sheet": 90,
+        "parent": 0,
+        "backdrop": 0,
+        "transform": "none"
+      },
+      "after": {
+        "count": 0,
+        "y": 0
+      }
+    }
+  ],
+  "errors": []
+}

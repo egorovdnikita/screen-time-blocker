@@ -13,7 +13,7 @@ import { art } from '@/data/art';
 import { createLock, initialLock, lockApp, type LockDraft } from '@/data/lockRule';
 import { durationLabel, unlockMethodLabel } from '@/data/session';
 import { useAppState } from '@/state/app';
-import { colors, sessionTheme, lockTheme as c } from '@/theme/tokens';
+import { ruleEditorSpacing, colors, sessionTheme, lockTheme as c } from '@/theme/tokens';
 import { T } from '@/theme/typography';
 import { UnlockDuration, unlockCountLabel } from '../session/SessionUnlocks';
 import { UnlockMethodSheet } from '../session/UnlockMethodSheet';
@@ -68,5 +68,5 @@ const styles = StyleSheet.create({
   max: { position: 'absolute', top: 153, left: 0, right: 0, lineHeight: 29 }, inline: { flexDirection: 'row', alignItems: 'center', gap: 6 },
   duration: { position: 'absolute', left: 10, right: 10, top: 212, height: 20, flexDirection: 'row', gap: 6, alignItems: 'center', justifyContent: 'center' }, method: { position: 'absolute', left: 10, right: 10, top: 244, height: 20, flexDirection: 'row', gap: 6, alignItems: 'center', justifyContent: 'center' },
   sum: { position: 'absolute', top: 296, alignSelf: 'center', paddingVertical: 3, paddingHorizontal: 10, borderRadius: 20, backgroundColor: c.sumFill },
-  extra: { marginTop: 23, height: 20, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 12 }, footer: { paddingHorizontal: 20, backgroundColor: c.surface }, add: { height: 60, marginTop: 25, borderRadius: c.buttonRadius, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6 },
+  extra: { marginTop: 23, height: 20, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 12 }, footer: { paddingHorizontal: 20, paddingTop: ruleEditorSpacing.footerTop, backgroundColor: c.surface }, add: { height: 60, marginTop: 25, borderRadius: c.buttonRadius, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6 },
 });

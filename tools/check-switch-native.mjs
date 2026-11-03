@@ -19,7 +19,8 @@ function component(os) {
 for (const os of ['ios', 'android']) {
   const element = component(os)({ label: 'Строгий режим', value: true, onChange() {}, width: 61, height: 27, thumbWidth: 34 });
   assert.equal(element.type, 'SystemSwitch'); assert.equal(element.props.value, true);
-  for (const name of ['style', 'width', 'height', 'thumbWidth', 'transform']) assert.equal(element.props[name], undefined);
+  for (const name of ['width', 'height', 'thumbWidth', 'transform']) assert.equal(element.props[name], undefined);
+  assert.deepEqual(element.props.style, { alignSelf: 'center' });
   if (os === 'ios') assert.equal(element.props.thumbColor, undefined);
   const disabled = component(os)({ label: 'Недоступный', value: false, disabled: true, onChange() {} }); assert.equal(disabled.props.disabled, true);
 }

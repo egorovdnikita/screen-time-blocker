@@ -17,3 +17,8 @@ export function RuleSuggestions({ items, style }: { items: EditorSuggestion[]; s
 const styles = StyleSheet.create({
   header: { height: 234, alignItems: 'center', backgroundColor: colors.white }, title: { marginTop: 18, height: 33, flexDirection: 'row', alignItems: 'center', gap: 3, maxWidth: '90%' }, titleInput: { marginTop: 18, height: 33, width: '90%', textAlign: 'center', fontSize: 27, fontWeight: '700', fontFamily: rounded, color: c.ink }, subtitle: { marginTop: 9, marginHorizontal: 24, lineHeight: 18 }, suggestions: { paddingHorizontal: 20, gap: 8 }, suggestion: { width: 160, height: 80, borderRadius: 20, overflow: 'hidden' },
 });
+
+// Неподвижная область ручки: содержимое остаётся частью настоящего списка под ней.
+export function RuleEditorScrollCap({ active }: { active: boolean }) {
+  return active ? <View pointerEvents="none" style={{ position: 'absolute', left: 0, right: 0, top: 0, height: 64, backgroundColor: colors.white }} /> : null;
+}
