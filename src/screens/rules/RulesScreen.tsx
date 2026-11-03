@@ -2,6 +2,7 @@ import { Troubleshoot } from '../settings/Troubleshoot';
 import { RuleSettings } from './RuleSettings';
 import { TemplateGallery } from './TemplateGallery';
 import { SessionDetails, LimitDetails } from './SessionDetails';
+import { RemoveRuleDialog } from './RemoveRuleDialog';
 import { AppUnlockSheet } from '../unlocking/AppUnlockSheet';
 import { routineHabits } from '@/data/routine';
 import { router, useLocalSearchParams } from 'expo-router';
@@ -191,6 +192,7 @@ export function RulesScreen() {
 function LockCard({ rule }: { rule: LockRule }) {
   const app = useAppState();
   const [open, setOpen] = useState(false);
+  const [remove, setRemove] = useState(false);
   const [now, setNow] = useState(Date.now);
   const entry = app.appUnlocks[rule.id];
   useEffect(() => { if (!entry || entry.until <= Date.now()) return; const timer = setInterval(() => { const time = Date.now(); setNow(time); if (time >= entry.until) clearInterval(timer); }, 500); return () => clearInterval(timer); }, [entry]);
@@ -199,10 +201,10 @@ function LockCard({ rule }: { rule: LockRule }) {
   const supported = !rule.unlockSettings || ['wait', 'reason', 'none'].includes(rule.unlockSettings.unlockMethod);
   return (
     <RuleCard style={styles.blockCard}>
-      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+      <PressScale accessibilityRole="button" accessibilityLabel={`Действия с правилом ${rule.name}`} onPress={() => setRemove(true)} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
         <Streak count={1} />
         <Icon name="chevron-right" width={8} height={11} color={colors.chevron} style={{ marginRight: 1 }} />
-      </View>
+      </PressScale>
       <Image
         source={rule.app === 'bereal' ? art.appBereal : lockApp(rule.app)?.image ?? art.appAppleMusic}
         style={{ width: 52, height: 58, marginLeft: -5.2, marginTop: 10.3 }}
@@ -217,6 +219,7 @@ function LockCard({ rule }: { rule: LockRule }) {
         <T size={14.25}>{remaining ? `${String(Math.floor(remaining / 60)).padStart(2, '0')}:${String(remaining % 60).padStart(2, '0')}` : 'Открыть'}</T>
         {!remaining && <T size={10} weight={500} color={colors.unlockCount} style={{ marginLeft: 5, marginTop: 2 }}>({available}/{count})</T>}
       </PressScale>
+      {remove && <RemoveRuleDialog id={rule.id} title={rule.name} strict={!!(app.ruleChanges[rule.id]?.strict ?? rule.strict)} onClose={() => setRemove(false)} />}
       {open && <AppUnlockSheet rule={rule} onCancel={() => setOpen(false)} onConfirm={(minutes, reason) => { setNow(Date.now()); app.grantAppUnlock(rule.id, minutes, reason, rule.unlockSettings?.unlockMethod === 'reason'); setOpen(false); }} />}
     </RuleCard>
   );
@@ -341,17 +344,19 @@ function Progress({ value }: { value: number }) {
 
 function RoutineCard({ rule, demoEarned = false }: { rule: RoutineRule; demoEarned?: boolean }) {
   const [checked, setChecked] = useState(false);
+  const [remove, setRemove] = useState(false);
   const done = demoEarned || checked;
   const config = rule.configuration;
   const tasks = config ? routineHabits(config) : [{ id: 'demo', title: demoEarned ? 'Убрать комнату' : 'Убрать в комнате', minutes: 5 }];
   const appCount = config ? config.appGroup.selectedApps.filter(Boolean).length + config.appGroup.categories.length : 1;
   return <RuleCard style={[styles.wideCard, { marginTop: 10, paddingBottom: 8 }]}>
-    <RuleHeader emoji={<Image source={art.emojiPlant} style={{ width: 21, height: 31 }} />} title={rule.title} streak={1} />
+    <RuleHeader emoji={<Image source={art.emojiPlant} style={{ width: 21, height: 31 }} />} title={rule.title} streak={1} onPress={() => setRemove(true)} accessibilityLabel={`Действия с правилом ${rule.title}`} />
     <View style={[styles.metaRow, { marginTop: 11.3 }]}><StatusPill status={{ kind: 'blocking' }} blockingText={config || done ? 'Закрыто' : undefined} /><MetaSep /><AllDay /></View>
     {tasks.map(task => <Pressable key={task.id} style={styles.task} disabled={!!config || demoEarned} onPress={() => setChecked(value => !value)} accessibilityLabel={`Проверить с ИИ: ${task.title}`} accessibilityHint={config ? 'Проверка по фото пока недоступна' : undefined} accessibilityRole="checkbox" accessibilityState={{ checked: done, disabled: !!config || demoEarned }} aria-checked={done}>
       <View style={[styles.taskRing, done && { backgroundColor: 'transparent' }]}>{done && <Icon name="goal-check" width={13} height={13} color={colors.ruleCompleted} />}</View><View style={{ flex: 1, marginLeft: 6.7 }}><T size={15.25} color={done ? colors.ruleCompleted : colors.text}>{task.title}</T>{!done && <T size={11.75} weight={500} ls={TRACK_SMALL} color={colors.taskSub} style={{ marginTop: 1 }}>{config ? 'Проверить с ИИ' : 'Нажмите, чтобы проверить с ИИ'}</T>}</View><View style={[styles.plusTime, done && {backgroundColor: colors.ruleRewardBg, boxShadow: undefined}]}><Icon name="plus" width={12} height={12} color={done ? colors.limitProgress : colors.taskSub} style={{ marginRight: 3.8 }} /><T size={11.75} ls={TRACK_SMALL} color={done ? colors.limitProgress : colors.taskSub}>{task.minutes}{done ? 'мин' : ' мин'}</T></View>
     </Pressable>)}
     <DashedLine dash="5 5" style={{ marginTop: 17 }} /><View style={[styles.bottomRow, { marginTop: 25.3 }]}><Lock /><AppsCount count={appCount || 1} />{demoEarned && <Pressable accessibilityRole="button" accessibilityLabel="Демо: забрать время" onPress={() => router.setParams({earned:'0'})} style={{marginLeft:'auto',marginRight:8,width:114,height:33,borderRadius:24,backgroundColor:colors.white,boxShadow:shadows.pillSoft,alignItems:'center',justifyContent:'center'}}><T size={13} ls={0}>Забрать время</T></Pressable>}<T size={24} style={{ marginLeft: demoEarned ? 0 : 'auto' }}>{demoEarned?'5мин':'0с'}</T></View>
+    {remove && <RemoveRuleDialog id={rule.id} title={rule.title} strict={!!rule.configuration?.strict} onClose={() => setRemove(false)} />}
   </RuleCard>;
 }
 

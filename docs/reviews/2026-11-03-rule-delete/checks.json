@@ -1,0 +1,21 @@
+{
+  "base": "http://localhost:8082",
+  "checks": {
+    "before": {
+      "sessions": [
+        "Подробности сессии Рабочее время"
+      ],
+      "locks": [],
+      "tab": "Правила, активных: 0"
+    },
+    "sessionDeletedAndPersisted": "Подробности сессии Рабочее время",
+    "demoActions": [
+      "Действия с правилом Apple Music",
+      "Действия с правилом Рутина"
+    ],
+    "lockDeleted": "Действия с правилом Apple Music",
+    "limits": [
+      "Подробности лимита Лимит времени"
+    ]
+  }
+}

@@ -306,7 +306,15 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     },
     onboardingDraft, startOnboarding, patchOnboarding, profileName, setProfileName,
     appIcon, setAppIcon, notifications, setNotifications, emergencySettings, saveEmergencySettings, interfaceSettings, setInterfaceSettings, deletedRuleIds,
-    deleteRule: id => setDeletedRuleIds(xs => xs.includes(id) ? xs : [...xs, id]),
+    deleteRule: id => {
+      // Созданные правила удаляются из хранилища целиком, демо-правила скрываются по id.
+      setDeletedRuleIds(xs => xs.includes(id) ? xs : [...xs, id]);
+      setCreatedSessions(xs => xs.filter(x => x.id !== id)); setCreatedLimits(xs => xs.filter(x => x.id !== id));
+      setCreatedLocks(xs => xs.filter(x => x.id !== id)); setCreatedRoutines(xs => xs.filter(x => x.id !== id));
+      const without = <V,>(xs: Record<string, V>) => { if (!(id in xs)) return xs; const next = { ...xs }; delete next[id]; return next; };
+      setRuleChanges(without); setPausedSessions(without); setAppUnlocks(without);
+      if (noticeTimer.current) clearTimeout(noticeTimer.current); setSessionNotice('Правило удалено'); noticeTimer.current = setTimeout(() => setSessionNotice(null), 2800);
+    },
     showRuleRefreshDemo: () => { if (noticeTimer.current) clearTimeout(noticeTimer.current); setSessionNotice('Обновляем данные. Это может занять\nнесколько минут.'); noticeTimer.current = setTimeout(() => setSessionNotice(null), 4000); },
     ruleChanges, saveRuleDetails: (id, changes) => { setRuleChanges(xs => ({ ...xs, [id]: { ...changes, strictSettings: { ...changes.strictSettings } } })); ruleNotice(); },
     pausedSessions, pauseSession: (id, mode) => { setPausedSessions(xs => ({ ...xs, [id]: mode })); ruleNotice(); },
