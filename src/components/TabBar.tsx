@@ -1,9 +1,10 @@
+import { useGlobalSearchParams } from 'expo-router';
 import { BlurView } from 'expo-blur';
 import type { BottomTabBarProps } from 'expo-router/js-tabs';
 import { useEffect, useState } from 'react';
 import { Platform, Animated, Pressable, StyleSheet, View } from 'react-native';
 
-import { activeRuleCount, rulesVariants } from '@/data/rules';
+import { activeRuleCount, rulesForPresentation } from '@/data/rules';
 import { useAppState } from '@/state/app';
 import { T, TRACK_SMALL } from '@/theme/typography';
 import { colors, shadows } from '@/theme/tokens';
@@ -37,7 +38,9 @@ const LOCK_IDLE: Record<number, IconName> = { 0: 'tab-lock', 1: 'tab-lock', 2: '
 
 export function TabBar({ state, emitter, navigateToTab, insets }: BottomTabBarProps) {
   const app = useAppState();
-  const activeCount = activeRuleCount(rulesVariants[app.rulesVariant], app);
+  const { earned } = useGlobalSearchParams<{earned?: string}>();
+  const demoEarned = state.routes[state.index]?.name === 'rules' && earned === '1';
+  const activeCount = activeRuleCount(rulesForPresentation(app.rulesVariant, demoEarned), app);
   const active = Math.min(3, activeCount);
   const [width, setWidth] = useState(0);
   const count = state.routes.length;

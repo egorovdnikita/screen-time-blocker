@@ -1,0 +1,104 @@
+{
+  "url": "http://localhost:8091/onboarding?step=1",
+  "width": 393,
+  "height": 852,
+  "texts": [
+    {
+      "text": "🇺🇸",
+      "x": 340,
+      "y": 80.5,
+      "w": 22,
+      "h": 24,
+      "font": "20px",
+      "weight": "700",
+      "line": "normal",
+      "color": "rgb(0, 0, 0)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Block усложняет доступ\nк отвлечениям…",
+      "x": 54.546875,
+      "y": 159,
+      "w": 283.90625,
+      "h": 61,
+      "font": "25px",
+      "weight": "700",
+      "line": "31px",
+      "color": "rgb(0, 0, 0)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Вы не заходили в Instagram\n67 ч 15 мин",
+      "x": 91.9375,
+      "y": 494,
+      "w": 209.125,
+      "h": 41,
+      "font": "16px",
+      "weight": "700",
+      "line": "22px",
+      "color": "rgb(255, 255, 255)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Я справлюсь",
+      "x": 144.125,
+      "y": 601,
+      "w": 104.734375,
+      "h": 20,
+      "font": "17px",
+      "weight": "700",
+      "line": "normal",
+      "color": "rgb(255, 255, 255)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Разблокировать (4/6)",
+      "x": 125.1875,
+      "y": 658,
+      "w": 142.609375,
+      "h": 16,
+      "font": "14px",
+      "weight": "600",
+      "line": "39px",
+      "color": "rgb(255, 255, 255)",
+      "bg": "rgba(255, 255, 255, 0.05)"
+    },
+    {
+      "text": "Продолжить",
+      "x": 144.484375,
+      "y": 773,
+      "w": 104.015625,
+      "h": 20,
+      "font": "17px",
+      "weight": "700",
+      "line": "22px",
+      "color": "rgb(255, 255, 255)",
+      "bg": "rgba(0, 0, 0, 0)"
+    }
+  ],
+  "controls": [
+    {
+      "label": "Назад в знакомстве",
+      "role": "button",
+      "disabled": null,
+      "checked": null,
+      "selected": null,
+      "x": 20,
+      "y": 70,
+      "w": 44,
+      "h": 44
+    },
+    {
+      "label": "Продолжить",
+      "role": "button",
+      "disabled": null,
+      "checked": null,
+      "selected": null,
+      "x": 20,
+      "y": 753,
+      "w": 353,
+      "h": 60
+    }
+  ],
+  "scrollWidth": 393
+}

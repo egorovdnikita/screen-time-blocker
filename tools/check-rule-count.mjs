@@ -19,3 +19,10 @@ assert.equal(activeRuleCount(rulesVariants.full,{...empty,deletedRuleIds:['music
 assert.equal(activeRuleCount(rulesVariants.full,{...state,deletedRuleIds:['new']}),6);
 assert.equal(activeRuleCount(rulesVariants.full,{...state,deletedRuleIds:['new'],pausedSessions:{new:'manual'}}),6);
 console.log('Active rule count OK');
+// Демо207 использует ту же базу в заголовке и таббаре, не мутирует обычный вариант.
+const earned=exports.rulesForPresentation('full',true);
+assert.equal(activeRuleCount(earned,empty),2);
+assert.equal(activeRuleCount(earned,{...empty,createdRoutines:[{id:'own'}]}),3);
+assert.equal(exports.rulesForPresentation('full'),rulesVariants.full);
+assert.equal(rulesVariants.limitProgress.active,3);
+assert.equal(earned.sessions.length,0);

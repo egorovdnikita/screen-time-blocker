@@ -54,6 +54,8 @@ export const colors = {
   progressTrack: '#eaeff0',
   blockingPill: '#3a82f7',
   taskRing: '#e4e5e6',
+  ruleCompleted: '#c5cbd3',
+  ruleRewardBg: '#eaf9ef',
   taskSub: '#777b82',
   seeMore: '#171717',
   hdrBlur: '#f9f9f9',

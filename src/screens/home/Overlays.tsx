@@ -1,3 +1,4 @@
+import { MaterialBlur } from '@/components/MaterialBlur';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Animated, Modal, Pressable, StyleSheet, View, useWindowDimensions } from 'react-native';
@@ -128,6 +129,8 @@ export function MostUsedMenu({
           },
         ]}
       >
+        <MaterialBlur pointerEvents="none" blurPx={12} nativeIntensity={14} tint="light" style={StyleSheet.absoluteFill}/>
+        <View pointerEvents="none" style={[StyleSheet.absoluteFill,{backgroundColor:colors.contextMenu}]}/>
         {(['apps', 'activities'] as const).map((m) => (
           <Pressable accessibilityRole="button" key={m} onPress={() => onSelect(m)} style={styles.menuRow}>
             {({ pressed }) => (
@@ -280,7 +283,7 @@ const styles = StyleSheet.create({
   menu: {
     position: 'absolute',
     borderRadius: 34,
-    backgroundColor: colors.contextMenu,
+    backgroundColor: 'transparent',
     boxShadow: shadows.contextMenu,
     paddingVertical: 9,
     overflow: 'hidden',

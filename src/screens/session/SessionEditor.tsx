@@ -55,7 +55,7 @@ export function SessionEditor() {
     <View pointerEvents="box-none" style={styles.overlay}>
     <View style={[styles.sheet, { marginTop: Math.max(60, insets.top + 1) }]}>
       <SheetGrabber style={styles.handle} />
-      <RuleEditorScrollView focus={open ? `${open}-${draft.scheduled}-${draft.unlocks > 0}` : null} accessibilityLabel="Содержимое редактора сессии" showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: ruleEditorSpacing.scrollBottom }}>
+      <RuleEditorScrollView focusOffset={unlockExpanded && draft.unlocks === 0 ? 23.333 : 0} focus={open ? `${open}-${draft.scheduled}-${draft.unlocks > 0}` : null} accessibilityLabel="Содержимое редактора сессии" showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: ruleEditorSpacing.scrollBottom }}>
         <View style={styles.header}>
           <PressScale accessibilityRole="button" accessibilityLabel="Изменить иконку сессии" onPress={() => setIconOpen(true)} style={styles.iconButton}>
             <SessionIcon id={draft.iconId} width={draft.iconId === 'brain' ? 55 : 41} height={draft.iconId === 'brain' ? 50 : 56} header />

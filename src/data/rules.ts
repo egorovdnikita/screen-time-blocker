@@ -201,3 +201,10 @@ export function activeRuleCount(base: RulesData, state: { createdRoutines: reado
   const activeSessions = state.createdSessions.filter(rule => !deleted.has(rule.id) && rule.status.kind === 'blocking' && !state.pausedSessions[rule.id]).length;
   return Math.max(0, base.active - pausedBase - removedBase) + [...state.createdRoutines, ...state.createdLimits, ...state.createdLocks].filter(x => !deleted.has(x.id)).length + activeSessions;
 }
+
+// Одна презентационная база для заголовка и таббара демо207; реальные правила не меняются.
+export function rulesForPresentation(variant: RulesVariant, earned = false): RulesData {
+  if (!earned) return rulesVariants[variant];
+  const base = rulesVariants.limitProgress;
+  return {...base, active: 2, locks: [], sessions: [], limits: base.limits.map(rule => ({...rule, value: '2ч15', status: {kind: 'upcoming'}, meta: {kind: 'schedule', time: 'Весь день', days: 'пн, ср, пт, вс'}, progress: null, linkedApps: false}))};
+}
