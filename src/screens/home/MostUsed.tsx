@@ -129,7 +129,7 @@ function AppItem({ app, assessment, onMark, onToggleExclude }: { app: AppRow; as
       </View>
       <View style={{ flex: 1 }}>
         <View style={styles.rowTop}>
-          <T size={15.25}>{app.name}</T>
+          <T size={15}>{app.name}</T>
           {!excluded && (
             <T size={14.25} weight={400}>
               {app.time}

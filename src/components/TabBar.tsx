@@ -107,7 +107,7 @@ export function TabBar({ state, emitter, navigateToTab, insets }: BottomTabBarPr
                   />
                   {route.name === 'rules' && activeCount > 3 && <View pointerEvents="none" style={{ position: 'absolute', left: 4.5, top: 10, width: 12, height: 12, borderRadius: 2, backgroundColor: colors.tabInk, justifyContent: 'center' }}><T size={9} color={colors.white} ls={0} center style={{ lineHeight: 12 }}>{activeCount > 99 ? '99+' : activeCount}</T></View>}
                 </View>
-                <T size={10.25} weight={focused ? 600 : 500} ls={TRACK_SMALL} color={colors.tabInk}>
+                <T size={route.name === 'overview' || (route.name === 'rules' && focused) ? 10 : 10.25} weight={focused ? 600 : 500} ls={TRACK_SMALL} color={colors.tabInk}>{/* HTML 044/186: «Обзор» и активные «Правила» — 10 */}
                   {spec.label}
                 </T>
               </Pressable>

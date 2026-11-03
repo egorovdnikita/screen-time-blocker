@@ -285,17 +285,17 @@ function Stats({
     <View style={styles.stats} pointerEvents="none">
       <Stat label={first.label} value={first.value} decrease={first.decrease} />
       <View style={styles.sep} />
-      <Stat label="Поднятия" value={pickups} />
+      {/* HTML 044: у «Поднятия» 11.75/19.75, у «Уведомления» 12.25/600 */}<Stat label="Поднятия" value={pickups} labelSize={11.75} valueSize={19.75} />
       <View style={styles.sep} />
-      <Stat label="Уведомления" value={notifications} />
+      <Stat label="Уведомления" value={notifications} labelSize={12.25} labelWeight={600} />
     </View>
   );
 }
 
-function Stat({ label, value, decrease }: { label: string; value: string; decrease?: boolean }) {
+function Stat({ label, value, decrease, labelSize = 12, labelWeight = 700, valueSize = 20 }: { label: string; value: string; decrease?: boolean; labelSize?: number; labelWeight?: 600 | 700; valueSize?: number }) {
   return (
     <View style={styles.stat}>
-      <T size={12} ls={TRACK_SMALL} color={colors.textSecondary}>
+      <T size={labelSize} weight={labelWeight} ls={TRACK_SMALL} color={colors.textSecondary}>
         {label}
       </T>
       <View style={styles.statValue}>
@@ -304,7 +304,7 @@ function Stat({ label, value, decrease }: { label: string; value: string; decrea
             <Path fill={colors.decrease} d="M1.6 0H7.9C9.1 0 9.8 1.3 9.2 2.3L6.1 7.2C5.5 8.2 4 8.2 3.4 7.2L.3 2.3C-.3 1.3.4 0 1.6 0Z" />
           </Svg>
         )}
-        <T size={20} ls={decrease ? 0.3 : 0}>
+        <T size={valueSize} ls={decrease ? 0.3 : 0}>
           {value}
         </T>
       </View>
