@@ -1,0 +1,33 @@
+{
+  "url": "http://localhost:8088/onboarding?step=11",
+  "width": 393,
+  "height": 852,
+  "texts": [
+    {
+      "text": "100%",
+      "x": 159.03125,
+      "y": 391.5,
+      "w": 74.921875,
+      "h": 34,
+      "font": "28px",
+      "weight": "700",
+      "line": "normal",
+      "color": "rgb(169, 80, 246)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Давайте посчитаем",
+      "x": 84.265625,
+      "y": 514,
+      "w": 224.453125,
+      "h": 29,
+      "font": "24px",
+      "weight": "700",
+      "line": "30px",
+      "color": "rgb(0, 0, 0)",
+      "bg": "rgba(0, 0, 0, 0)"
+    }
+  ],
+  "controls": [],
+  "scrollWidth": 393
+}

@@ -1,0 +1,107 @@
+{
+  "id": 298,
+  "name": "passcode-toast",
+  "source": "/dist/69-switching-to-passcode__07-passcode-toast/index.html",
+  "status": "layout_present",
+  "component": "src/screens/settings/EmergencyMode.tsx",
+  "evidence": "docs/reviews/2026-11-03-emergency-interface/README.md",
+  "title": "Код доступа — Block",
+  "texts": [
+    {
+      "text": "✓　Экстренный режим теперь открывается по коду-паролю.",
+      "x": 30,
+      "y": 86.5,
+      "w": 330.578125,
+      "h": 37,
+      "font": "15px",
+      "weight": "600",
+      "line": "19px",
+      "color": "rgb(255, 255, 255)",
+      "bg": "rgb(32, 199, 120)"
+    },
+    {
+      "text": "‹　Настройки",
+      "x": 129.625,
+      "y": 116,
+      "w": 133.75,
+      "h": 24,
+      "font": "20px",
+      "weight": "700",
+      "line": "24px",
+      "color": "rgb(0, 0, 0)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Случайный код",
+      "x": 58.921875,
+      "y": 187,
+      "w": 101.640625,
+      "h": 18,
+      "font": "15px",
+      "weight": "400",
+      "line": "normal",
+      "color": "rgb(0, 0, 0)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Код-пароль",
+      "x": 240.46875,
+      "y": 187,
+      "w": 85.5625,
+      "h": 18,
+      "font": "15px",
+      "weight": "700",
+      "line": "normal",
+      "color": "rgb(0, 0, 0)",
+      "bg": "rgb(255, 255, 255)"
+    },
+    {
+      "text": "Код-пароль",
+      "x": 36,
+      "y": 258.5,
+      "w": 83.90625,
+      "h": 19,
+      "font": "16px",
+      "weight": "400",
+      "line": "normal",
+      "color": "rgb(0, 0, 0)",
+      "bg": "rgb(255, 255, 255)"
+    },
+    {
+      "text": "••••　›",
+      "x": 305.328125,
+      "y": 259,
+      "w": 51.671875,
+      "h": 19,
+      "font": "16px",
+      "weight": "700",
+      "line": "normal",
+      "color": "rgb(129, 136, 148)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Введите пароль, чтобы получить доступ к экстренному режиму.",
+      "x": 20,
+      "y": 311,
+      "w": 341.125,
+      "h": 34,
+      "font": "14px",
+      "weight": "400",
+      "line": "18px",
+      "color": "rgb(133, 139, 150)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Сохранить",
+      "x": 152.34375,
+      "y": 774,
+      "w": 88.296875,
+      "h": 20,
+      "font": "17px",
+      "weight": "700",
+      "line": "normal",
+      "color": "rgb(248, 248, 248)",
+      "bg": "rgb(183, 183, 185)"
+    }
+  ]
+}

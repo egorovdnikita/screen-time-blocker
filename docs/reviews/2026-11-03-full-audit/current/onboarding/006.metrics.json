@@ -1,0 +1,194 @@
+{
+  "url": "http://localhost:8088/onboarding?step=6",
+  "width": 393,
+  "height": 852,
+  "texts": [
+    {
+      "text": "Что не так с вашим\nтелефоном?",
+      "x": 75.140625,
+      "y": 151,
+      "w": 242.71875,
+      "h": 67,
+      "font": "27px",
+      "weight": "700",
+      "line": "34px",
+      "color": "rgb(0, 0, 0)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Плохо сплю",
+      "x": 78,
+      "y": 297,
+      "w": 88.765625,
+      "h": 19,
+      "font": "16px",
+      "weight": "600",
+      "line": "20px",
+      "color": "rgb(0, 0, 0)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Не могу выбрать главное",
+      "x": 78,
+      "y": 379,
+      "w": 187.953125,
+      "h": 19,
+      "font": "16px",
+      "weight": "600",
+      "line": "20px",
+      "color": "rgb(0, 0, 0)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Слишком много скроллю",
+      "x": 78,
+      "y": 461,
+      "w": 188.578125,
+      "h": 19,
+      "font": "16px",
+      "weight": "600",
+      "line": "20px",
+      "color": "rgb(0, 0, 0)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Меня отвлекает телефон",
+      "x": 78,
+      "y": 543,
+      "w": 185.734375,
+      "h": 19,
+      "font": "16px",
+      "weight": "600",
+      "line": "20px",
+      "color": "rgb(0, 0, 0)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Сижу в телефоне часами",
+      "x": 78,
+      "y": 625,
+      "w": 187.484375,
+      "h": 19,
+      "font": "16px",
+      "weight": "600",
+      "line": "20px",
+      "color": "rgb(0, 0, 0)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Зависимость от контента 18+",
+      "x": 78,
+      "y": 707,
+      "w": 220.3125,
+      "h": 19,
+      "font": "16px",
+      "weight": "600",
+      "line": "20px",
+      "color": "rgb(0, 0, 0)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Всё в порядке…",
+      "x": 78,
+      "y": 789,
+      "w": 117.546875,
+      "h": 19,
+      "font": "16px",
+      "weight": "600",
+      "line": "20px",
+      "color": "rgb(0, 0, 0)",
+      "bg": "rgba(0, 0, 0, 0)"
+    }
+  ],
+  "controls": [
+    {
+      "label": "Назад в знакомстве",
+      "role": "button",
+      "disabled": null,
+      "checked": null,
+      "selected": null,
+      "x": 20,
+      "y": 70,
+      "w": 44,
+      "h": 44
+    },
+    {
+      "label": "Плохо сплю",
+      "role": "button",
+      "disabled": null,
+      "checked": null,
+      "selected": null,
+      "x": 20,
+      "y": 270,
+      "w": 353,
+      "h": 74
+    },
+    {
+      "label": "Не могу выбрать главное",
+      "role": "button",
+      "disabled": null,
+      "checked": null,
+      "selected": null,
+      "x": 20,
+      "y": 352,
+      "w": 353,
+      "h": 74
+    },
+    {
+      "label": "Слишком много скроллю",
+      "role": "button",
+      "disabled": null,
+      "checked": null,
+      "selected": null,
+      "x": 20,
+      "y": 434,
+      "w": 353,
+      "h": 74
+    },
+    {
+      "label": "Меня отвлекает телефон",
+      "role": "button",
+      "disabled": null,
+      "checked": null,
+      "selected": null,
+      "x": 20,
+      "y": 516,
+      "w": 353,
+      "h": 74
+    },
+    {
+      "label": "Сижу в телефоне часами",
+      "role": "button",
+      "disabled": null,
+      "checked": null,
+      "selected": null,
+      "x": 20,
+      "y": 598,
+      "w": 353,
+      "h": 74
+    },
+    {
+      "label": "Зависимость от контента 18+",
+      "role": "button",
+      "disabled": null,
+      "checked": null,
+      "selected": null,
+      "x": 20,
+      "y": 680,
+      "w": 353,
+      "h": 74
+    },
+    {
+      "label": "Всё в порядке…",
+      "role": "button",
+      "disabled": null,
+      "checked": null,
+      "selected": null,
+      "x": 20,
+      "y": 762,
+      "w": 353,
+      "h": 74
+    }
+  ],
+  "scrollWidth": 393
+}

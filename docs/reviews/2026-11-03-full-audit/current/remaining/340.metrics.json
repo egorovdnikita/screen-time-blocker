@@ -1,0 +1,21 @@
+{
+  "url": "http://localhost:8088/remaining?id=340",
+  "width": 393,
+  "height": 852,
+  "texts": [
+    {
+      "text": "28:23",
+      "x": 261.421875,
+      "y": 20.984375,
+      "w": 38.078125,
+      "h": 18,
+      "font": "15px",
+      "weight": "400",
+      "line": "normal",
+      "color": "rgb(255, 255, 255)",
+      "bg": "rgba(0, 0, 0, 0)"
+    }
+  ],
+  "controls": [],
+  "scrollWidth": 393
+}

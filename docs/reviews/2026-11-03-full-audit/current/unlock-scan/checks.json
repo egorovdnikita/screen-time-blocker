@@ -1,0 +1,22 @@
+{
+  "allMethods": true,
+  "geometry": {
+    "scan": {
+      "x": 20,
+      "y": 255,
+      "width": 353,
+      "height": 60
+    },
+    "type": {
+      "x": 36,
+      "y": 535,
+      "width": 321,
+      "height": 51
+    }
+  },
+  "cancel": true,
+  "saved": true,
+  "nfcDisabled": true,
+  "templateApplied": true,
+  "errors": []
+}

@@ -1,0 +1,96 @@
+{
+  "id": 338,
+  "name": "live-activity-session",
+  "source": "/dist/82-live-activities__01-live-activity-session/index.html",
+  "status": "layout_present",
+  "component": "src/screens/previews/SystemPreviews.tsx",
+  "evidence": "docs/reviews/2026-11-03-remaining/README.md",
+  "acceptance": "pending_1to1",
+  "title": "Live Activity — Block",
+  "texts": [
+    {
+      "text": "Вт, 9 янв.",
+      "x": 150.125,
+      "y": 80,
+      "w": 92.75,
+      "h": 26,
+      "font": "22px",
+      "weight": "600",
+      "line": "27px",
+      "color": "rgb(255, 255, 255)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "9:41",
+      "x": 86.9375,
+      "y": 86.328125,
+      "w": 219.125,
+      "h": 143,
+      "font": "120px",
+      "weight": "600",
+      "line": "140px",
+      "color": "rgb(255, 255, 255)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Block",
+      "x": 54,
+      "y": 606,
+      "w": 30.234375,
+      "h": 15,
+      "font": "13px",
+      "weight": "400",
+      "line": "17px",
+      "color": "rgb(125, 129, 135)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "23:11 – 23:41",
+      "x": 289.984375,
+      "y": 606,
+      "w": 68.015625,
+      "h": 14,
+      "font": "12px",
+      "weight": "400",
+      "line": "17px",
+      "color": "rgb(125, 129, 135)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "⚡",
+      "x": 35,
+      "y": 642,
+      "w": 24,
+      "h": 28,
+      "font": "23px",
+      "weight": "400",
+      "line": "25px",
+      "color": "rgb(255, 255, 255)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Сессия",
+      "x": 67,
+      "y": 644,
+      "w": 65.234375,
+      "h": 24,
+      "font": "20px",
+      "weight": "400",
+      "line": "25px",
+      "color": "rgb(255, 255, 255)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "28:08",
+      "x": 258.203125,
+      "y": 634.5,
+      "w": 99.796875,
+      "h": 43,
+      "font": "36px",
+      "weight": "700",
+      "line": "40px",
+      "color": "rgb(255, 255, 255)",
+      "bg": "rgba(0, 0, 0, 0)"
+    }
+  ]
+}

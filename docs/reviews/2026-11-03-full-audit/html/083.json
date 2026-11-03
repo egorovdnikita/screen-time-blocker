@@ -1,0 +1,119 @@
+{
+  "id": 83,
+  "name": "unlock-methods-list",
+  "source": "/dist/11-changing-an-unlock-method-give-a-good-reason__01-unlock-methods-list/index.html",
+  "status": "layout_present",
+  "component": "src/screens/session/SessionEditor.tsx",
+  "evidence": "docs/HANDOFF.md",
+  "title": "Способ открытия — Block",
+  "texts": [
+    {
+      "text": "Перед открытием…",
+      "x": 101.828125,
+      "y": 113,
+      "w": 189.328125,
+      "h": 24,
+      "font": "20px",
+      "weight": "700",
+      "line": "24px",
+      "color": "rgb(17, 17, 17)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Указать причину",
+      "x": 70,
+      "y": 204,
+      "w": 110.359375,
+      "h": 18,
+      "font": "15px",
+      "weight": "400",
+      "line": "20px",
+      "color": "rgb(17, 17, 17)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Перепечатать текст",
+      "x": 70,
+      "y": 276,
+      "w": 131.96875,
+      "h": 18,
+      "font": "15px",
+      "weight": "400",
+      "line": "20px",
+      "color": "rgb(17, 17, 17)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Ввести случайный код",
+      "x": 70,
+      "y": 348,
+      "w": 148.90625,
+      "h": 18,
+      "font": "15px",
+      "weight": "400",
+      "line": "20px",
+      "color": "rgb(17, 17, 17)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Подтвердить фото",
+      "x": 70,
+      "y": 420,
+      "w": 123.1875,
+      "h": 18,
+      "font": "15px",
+      "weight": "400",
+      "line": "20px",
+      "color": "rgb(17, 17, 17)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Ввести пароль",
+      "x": 70,
+      "y": 492,
+      "w": 96.609375,
+      "h": 18,
+      "font": "15px",
+      "weight": "400",
+      "line": "20px",
+      "color": "rgb(17, 17, 17)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Сканировать",
+      "x": 70,
+      "y": 564,
+      "w": 86.484375,
+      "h": 18,
+      "font": "15px",
+      "weight": "400",
+      "line": "20px",
+      "color": "rgb(17, 17, 17)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Посмотреть на себя",
+      "x": 70,
+      "y": 636,
+      "w": 133.484375,
+      "h": 18,
+      "font": "15px",
+      "weight": "400",
+      "line": "20px",
+      "color": "rgb(17, 17, 17)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Сохранить",
+      "x": 152.34375,
+      "y": 773,
+      "w": 88.296875,
+      "h": 20,
+      "font": "17px",
+      "weight": "700",
+      "line": "22px",
+      "color": "rgb(255, 255, 255)",
+      "bg": "rgba(0, 0, 0, 0)"
+    }
+  ]
+}

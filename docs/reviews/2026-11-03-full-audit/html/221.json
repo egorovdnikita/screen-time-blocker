@@ -1,0 +1,71 @@
+{
+  "id": 221,
+  "name": "app-groups-empty",
+  "source": "/dist/48-creating-an-app-group__01-app-groups-empty/index.html",
+  "status": "layout_present",
+  "component": "src/screens/rules/RuleSettings.tsx",
+  "evidence": "docs/HANDOFF.md",
+  "title": "Создать группу приложений — Block",
+  "texts": [
+    {
+      "text": "Группы приложений",
+      "x": 98.453125,
+      "y": 113,
+      "w": 196.078125,
+      "h": 24,
+      "font": "20px",
+      "weight": "700",
+      "line": "25px",
+      "color": "rgb(0, 0, 0)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Пока пусто",
+      "x": 143.078125,
+      "y": 498,
+      "w": 106.828125,
+      "h": 24,
+      "font": "20px",
+      "weight": "700",
+      "line": "25px",
+      "color": "rgb(149, 158, 171)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Нажмите «Добавить», чтобы собрать приложения",
+      "x": 60.484375,
+      "y": 526,
+      "w": 272.015625,
+      "h": 14,
+      "font": "11.75px",
+      "weight": "500",
+      "line": "14px",
+      "color": "rgb(125, 135, 151)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "и сайты в список блокировки.",
+      "x": 116.8125,
+      "y": 540,
+      "w": 159.359375,
+      "h": 14,
+      "font": "11.75px",
+      "weight": "500",
+      "line": "14px",
+      "color": "rgb(125, 135, 151)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Добавить",
+      "x": 166.921875,
+      "y": 775,
+      "w": 79.15625,
+      "h": 20,
+      "font": "17px",
+      "weight": "700",
+      "line": "22px",
+      "color": "rgb(255, 255, 255)",
+      "bg": "rgba(0, 0, 0, 0)"
+    }
+  ]
+}

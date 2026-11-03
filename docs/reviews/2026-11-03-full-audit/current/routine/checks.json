@@ -1,0 +1,17 @@
+{
+  "geometry": {
+    "x": 35,
+    "y": 460,
+    "width": 323,
+    "height": 24
+  },
+  "cancel": true,
+  "group": true,
+  "habit": true,
+  "days": true,
+  "switch": true,
+  "created": true,
+  "aiDisabled": true,
+  "template": true,
+  "errors": []
+}

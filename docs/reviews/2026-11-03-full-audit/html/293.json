@@ -1,0 +1,107 @@
+{
+  "id": 293,
+  "name": "random-code-empty",
+  "source": "/dist/69-switching-to-passcode__02-random-code-empty/index.html",
+  "status": "layout_present",
+  "component": "src/screens/settings/EmergencyMode.tsx",
+  "evidence": "docs/reviews/2026-11-03-emergency-interface/README.md",
+  "title": "Код доступа — Block",
+  "texts": [
+    {
+      "text": "×",
+      "x": 342.53125,
+      "y": 84,
+      "w": 16.9375,
+      "h": 34,
+      "font": "28px",
+      "weight": "400",
+      "line": "normal",
+      "color": "rgb(17, 17, 17)",
+      "bg": "rgb(255, 255, 255)"
+    },
+    {
+      "text": "Перепишите текст для смены кода",
+      "x": 20,
+      "y": 160,
+      "w": 335.453125,
+      "h": 24,
+      "font": "20px",
+      "weight": "700",
+      "line": "24px",
+      "color": "rgb(0, 0, 0)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Вы или близкий человек сможете задать 4-значный код для экстренного режима.",
+      "x": 20,
+      "y": 191,
+      "w": 345.15625,
+      "h": 32,
+      "font": "13px",
+      "weight": "400",
+      "line": "17px",
+      "color": "rgb(0, 0, 0)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "b7QmK2vN9sR4tW8cX5aP",
+      "x": 57.453125,
+      "y": 348,
+      "w": 278.078125,
+      "h": 26,
+      "font": "22px",
+      "weight": "700",
+      "line": "26px",
+      "color": "rgba(255, 255, 255, 0.467)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "h6DkY3uF0eL1iG7oJ4zB",
+      "x": 70.28125,
+      "y": 374,
+      "w": 252.421875,
+      "h": 26,
+      "font": "22px",
+      "weight": "700",
+      "line": "26px",
+      "color": "rgba(255, 255, 255, 0.467)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "n9TqC5wS2rA8vM6xE3pH",
+      "x": 60.046875,
+      "y": 400,
+      "w": 272.875,
+      "h": 26,
+      "font": "22px",
+      "weight": "700",
+      "line": "26px",
+      "color": "rgba(255, 255, 255, 0.467)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "d1ZfU7yK0gA5rBV6pR2s",
+      "x": 67.75,
+      "y": 426,
+      "w": 257.46875,
+      "h": 26,
+      "font": "22px",
+      "weight": "700",
+      "line": "26px",
+      "color": "rgba(255, 255, 255, 0.467)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Введите текст заново…",
+      "x": 84.21875,
+      "y": 591,
+      "w": 224.5625,
+      "h": 24,
+      "font": "20px",
+      "weight": "700",
+      "line": "normal",
+      "color": "rgb(173, 180, 191)",
+      "bg": "rgb(228, 234, 242)"
+    }
+  ]
+}

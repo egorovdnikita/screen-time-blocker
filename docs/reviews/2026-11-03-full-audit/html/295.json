@@ -1,0 +1,59 @@
+{
+  "id": 295,
+  "name": "random-code-done",
+  "source": "/dist/69-switching-to-passcode__04-random-code-done/index.html",
+  "status": "layout_present",
+  "component": "src/screens/settings/EmergencyMode.tsx",
+  "evidence": "docs/reviews/2026-11-03-emergency-interface/README.md",
+  "title": "Код доступа — Block",
+  "texts": [
+    {
+      "text": "×",
+      "x": 342.53125,
+      "y": 84,
+      "w": 16.9375,
+      "h": 34,
+      "font": "28px",
+      "weight": "400",
+      "line": "normal",
+      "color": "rgb(17, 17, 17)",
+      "bg": "rgb(255, 255, 255)"
+    },
+    {
+      "text": "Перепишите текст для смены кода",
+      "x": 20,
+      "y": 160,
+      "w": 335.453125,
+      "h": 24,
+      "font": "20px",
+      "weight": "700",
+      "line": "24px",
+      "color": "rgb(0, 0, 0)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Вы или близкий человек сможете задать 4-значный код для экстренного режима.",
+      "x": 20,
+      "y": 191,
+      "w": 345.15625,
+      "h": 32,
+      "font": "13px",
+      "weight": "400",
+      "line": "17px",
+      "color": "rgb(0, 0, 0)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "✓",
+      "x": 181.765625,
+      "y": 479,
+      "w": 29.453125,
+      "h": 40,
+      "font": "34px",
+      "weight": "400",
+      "line": "normal",
+      "color": "rgb(255, 255, 255)",
+      "bg": "rgba(255, 255, 255, 0.267)"
+    }
+  ]
+}

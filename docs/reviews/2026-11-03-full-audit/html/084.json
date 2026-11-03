@@ -1,0 +1,119 @@
+{
+  "id": 84,
+  "name": "unlock-reason",
+  "source": "/dist/11-changing-an-unlock-method-give-a-good-reason__02-unlock-reason/index.html",
+  "status": "layout_present",
+  "component": "src/screens/session/SessionEditor.tsx",
+  "evidence": "docs/HANDOFF.md",
+  "title": "Способ открытия — Block",
+  "texts": [
+    {
+      "text": "Перед открытием…",
+      "x": 101.828125,
+      "y": 113,
+      "w": 189.328125,
+      "h": 24,
+      "font": "20px",
+      "weight": "700",
+      "line": "24px",
+      "color": "rgb(17, 17, 17)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Ничего не делать",
+      "x": 70,
+      "y": 186.5,
+      "w": 115.703125,
+      "h": 18,
+      "font": "15px",
+      "weight": "400",
+      "line": "20px",
+      "color": "rgb(17, 17, 17)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Немного подождать",
+      "x": 70,
+      "y": 253,
+      "w": 135.46875,
+      "h": 18,
+      "font": "15px",
+      "weight": "400",
+      "line": "20px",
+      "color": "rgb(17, 17, 17)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Указать причину",
+      "x": 70,
+      "y": 322,
+      "w": 161.96875,
+      "h": 24,
+      "font": "20px",
+      "weight": "700",
+      "line": "27px",
+      "color": "rgb(17, 17, 17)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Время подумать",
+      "x": 142.421875,
+      "y": 396,
+      "w": 108.140625,
+      "h": 16,
+      "font": "14px",
+      "weight": "600",
+      "line": "18px",
+      "color": "rgb(148, 148, 148)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Введите причину",
+      "x": 163.03125,
+      "y": 472,
+      "w": 66.9375,
+      "h": 10,
+      "font": "8.5px",
+      "weight": "500",
+      "line": "12px",
+      "color": "rgb(148, 191, 246)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Перепечатать текст",
+      "x": 70,
+      "y": 635,
+      "w": 131.96875,
+      "h": 18,
+      "font": "15px",
+      "weight": "400",
+      "line": "20px",
+      "color": "rgb(17, 17, 17)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Ввести случайный код",
+      "x": 70,
+      "y": 707,
+      "w": 148.90625,
+      "h": 18,
+      "font": "15px",
+      "weight": "400",
+      "line": "20px",
+      "color": "rgb(17, 17, 17)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Сохранить",
+      "x": 152.34375,
+      "y": 773,
+      "w": 88.296875,
+      "h": 20,
+      "font": "17px",
+      "weight": "700",
+      "line": "22px",
+      "color": "rgb(255, 255, 255)",
+      "bg": "rgba(0, 0, 0, 0)"
+    }
+  ]
+}

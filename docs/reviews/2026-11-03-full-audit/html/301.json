@@ -1,0 +1,47 @@
+{
+  "id": 301,
+  "name": "strict-disabled-toast",
+  "source": "/dist/70-disabling-strict-mode__02-strict-disabled-toast/index.html",
+  "status": "layout_present",
+  "component": "src/screens/settings/EmergencyMode.tsx",
+  "evidence": "docs/reviews/2026-11-03-emergency-interface/README.md",
+  "title": "Строгий режим — Block",
+  "texts": [
+    {
+      "text": "Правила строгого режима",
+      "x": 89.59375,
+      "y": 115,
+      "w": 253.796875,
+      "h": 24,
+      "font": "20px",
+      "weight": "700",
+      "line": "24px",
+      "color": "rgb(0, 0, 0)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Для этих правил можно отключить строгий режим или удалить их.",
+      "x": 20,
+      "y": 198,
+      "w": 339.15625,
+      "h": 34,
+      "font": "14px",
+      "weight": "400",
+      "line": "18px",
+      "color": "rgb(86, 130, 203)",
+      "bg": "rgb(208, 220, 239)"
+    },
+    {
+      "text": "✓　Строгий режим Apple Music выключен",
+      "x": 32,
+      "y": 89,
+      "w": 285.96875,
+      "h": 16,
+      "font": "14px",
+      "weight": "700",
+      "line": "normal",
+      "color": "rgb(255, 255, 255)",
+      "bg": "rgb(87, 199, 121)"
+    }
+  ]
+}

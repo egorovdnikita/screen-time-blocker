@@ -1,0 +1,59 @@
+{
+  "id": 3,
+  "name": "intro-personalize",
+  "source": "/dist/00-onboarding__04-intro-personalize/index.html",
+  "status": "layout_present",
+  "component": "src/screens/onboarding/OnboardingScreen.tsx",
+  "evidence": "docs/reviews/2026-11-03-onboarding/README.md",
+  "title": "Знакомство — Block",
+  "texts": [
+    {
+      "text": "Теперь ваша очередь",
+      "x": 131.75,
+      "y": 453,
+      "w": 169.5,
+      "h": 20,
+      "font": "17px",
+      "weight": "600",
+      "line": "20px",
+      "color": "rgb(17, 17, 17)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Давайте настроим Block",
+      "x": 58.484375,
+      "y": 481,
+      "w": 316.03125,
+      "h": 33,
+      "font": "27px",
+      "weight": "700",
+      "line": "33px",
+      "color": "rgb(0, 0, 0)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "под вас",
+      "x": 167.328125,
+      "y": 514,
+      "w": 98.328125,
+      "h": 33,
+      "font": "27px",
+      "weight": "700",
+      "line": "33px",
+      "color": "rgb(0, 0, 0)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Продолжить",
+      "x": 144.484375,
+      "y": 773,
+      "w": 104.015625,
+      "h": 20,
+      "font": "17px",
+      "weight": "700",
+      "line": "22px",
+      "color": "rgb(255, 255, 255)",
+      "bg": "rgba(0, 0, 0, 0)"
+    }
+  ]
+}

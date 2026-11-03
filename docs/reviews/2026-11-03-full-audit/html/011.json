@@ -1,0 +1,35 @@
+{
+  "id": 11,
+  "name": "math-100",
+  "source": "/dist/00-onboarding__12-math-100/index.html",
+  "status": "layout_present",
+  "component": "src/screens/onboarding/OnboardingScreen.tsx",
+  "evidence": "docs/reviews/2026-11-03-onboarding/README.md",
+  "title": "Знакомство — Block",
+  "texts": [
+    {
+      "text": "100%",
+      "x": 159.03125,
+      "y": 391.5,
+      "w": 74.921875,
+      "h": 34,
+      "font": "28px",
+      "weight": "700",
+      "line": "normal",
+      "color": "rgb(149, 98, 233)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Давайте посчитаем",
+      "x": 82.5625,
+      "y": 514,
+      "w": 227.859375,
+      "h": 29,
+      "font": "24px",
+      "weight": "700",
+      "line": "30px",
+      "color": "rgb(0, 0, 0)",
+      "bg": "rgba(0, 0, 0, 0)"
+    }
+  ]
+}

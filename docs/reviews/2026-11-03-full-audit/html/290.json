@@ -1,0 +1,35 @@
+{
+  "id": 290,
+  "name": "strict-rules-empty",
+  "source": "/dist/68-unlocking-an-emergency-mode__04-strict-rules-empty/index.html",
+  "status": "layout_present",
+  "component": "src/screens/settings/EmergencyMode.tsx",
+  "evidence": "docs/reviews/2026-11-03-emergency-interface/README.md",
+  "title": "Экстренный режим — Block",
+  "texts": [
+    {
+      "text": "Правила со строгим режимом",
+      "x": 80,
+      "y": 114,
+      "w": 261.734375,
+      "h": 21,
+      "font": "18px",
+      "weight": "700",
+      "line": "22px",
+      "color": "rgb(0, 0, 0)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Вы можете отключить строгий режим для этого правила или удалить его.",
+      "x": 20,
+      "y": 198,
+      "w": 350.390625,
+      "h": 34,
+      "font": "14px",
+      "weight": "400",
+      "line": "18px",
+      "color": "rgb(116, 162, 237)",
+      "bg": "rgb(232, 240, 255)"
+    }
+  ]
+}

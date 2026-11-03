@@ -1,0 +1,143 @@
+{
+  "id": 234,
+  "name": "search-app-substack",
+  "source": "/dist/50-creating-a-screen-app__03-search-app-substack/index.html",
+  "status": "layout_present",
+  "component": "src/screens/rules/BlockScreens.tsx",
+  "evidence": "docs/reviews/2026-11-03-block-screens/README.md",
+  "title": "Поиск приложения — Block",
+  "texts": [
+    {
+      "text": "Поиск приложения",
+      "x": 104.390625,
+      "y": 113,
+      "w": 184.203125,
+      "h": 24,
+      "font": "20px",
+      "weight": "700",
+      "line": "25px",
+      "color": "rgb(0, 0, 0)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Substack",
+      "x": 72,
+      "y": 188,
+      "w": 58.625,
+      "h": 16,
+      "font": "14.25px",
+      "weight": "400",
+      "line": "20px",
+      "color": "rgb(17, 17, 17)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Substack",
+      "x": 72,
+      "y": 265.828125,
+      "w": 58.625,
+      "h": 16,
+      "font": "14.25px",
+      "weight": "400",
+      "line": "20px",
+      "color": "rgb(0, 0, 0)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Medium",
+      "x": 72,
+      "y": 322.484375,
+      "w": 50.6875,
+      "h": 16,
+      "font": "14.25px",
+      "weight": "400",
+      "line": "20px",
+      "color": "rgb(0, 0, 0)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "The Economist",
+      "x": 72,
+      "y": 379.140625,
+      "w": 95.046875,
+      "h": 16,
+      "font": "14.25px",
+      "weight": "400",
+      "line": "20px",
+      "color": "rgb(0, 0, 0)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "TED Talks",
+      "x": 72,
+      "y": 435.796875,
+      "w": 64.6875,
+      "h": 16,
+      "font": "14.25px",
+      "weight": "400",
+      "line": "20px",
+      "color": "rgb(0, 0, 0)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "YouTube",
+      "x": 72,
+      "y": 492.453125,
+      "w": 56.015625,
+      "h": 16,
+      "font": "14.25px",
+      "weight": "400",
+      "line": "20px",
+      "color": "rgb(0, 0, 0)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Deepstash",
+      "x": 72,
+      "y": 549.109375,
+      "w": 68.140625,
+      "h": 16,
+      "font": "14.25px",
+      "weight": "400",
+      "line": "20px",
+      "color": "rgb(0, 0, 0)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "BBC",
+      "x": 72,
+      "y": 605.765625,
+      "w": 29.3125,
+      "h": 16,
+      "font": "14.25px",
+      "weight": "400",
+      "line": "20px",
+      "color": "rgb(0, 0, 0)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Ground News",
+      "x": 72,
+      "y": 662.421875,
+      "w": 87.125,
+      "h": 16,
+      "font": "14.25px",
+      "weight": "400",
+      "line": "20px",
+      "color": "rgb(0, 0, 0)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Nerdish",
+      "x": 72,
+      "y": 719.578125,
+      "w": 49.109375,
+      "h": 16,
+      "font": "14.25px",
+      "weight": "400",
+      "line": "20px",
+      "color": "rgb(0, 0, 0)",
+      "bg": "rgba(0, 0, 0, 0)"
+    }
+  ]
+}

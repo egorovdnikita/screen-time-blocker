@@ -1,0 +1,71 @@
+{
+  "id": 190,
+  "name": "unlock-take-moment",
+  "source": "/dist/38-unlocking-an-app-time__01-unlock-take-moment/index.html",
+  "status": "layout_present",
+  "component": "src/screens/unlocking/AppUnlockSheet.tsx",
+  "evidence": "docs/reviews/2026-11-02-app-unlock/README.md",
+  "title": "Открыть приложение — Block",
+  "texts": [
+    {
+      "text": "от «Apple Music»",
+      "x": 161.59375,
+      "y": 107.5,
+      "w": 116.8125,
+      "h": 17,
+      "font": "14.25px",
+      "weight": "700",
+      "line": "20px",
+      "color": "rgb(17, 17, 17)",
+      "bg": "rgba(255, 255, 255, 0.75)"
+    },
+    {
+      "text": "Точно хотите разблокировать?",
+      "x": 90.53125,
+      "y": 275,
+      "w": 211.9375,
+      "h": 17,
+      "font": "14.25px",
+      "weight": "700",
+      "line": "18px",
+      "color": "rgb(17, 17, 17)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Сделайте паузу",
+      "x": 91.890625,
+      "y": 294,
+      "w": 209.21875,
+      "h": 34,
+      "font": "28px",
+      "weight": "700",
+      "line": "34px",
+      "color": "rgb(17, 17, 17)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "0:03",
+      "x": 134.515625,
+      "y": 441.65625,
+      "w": 124.28125,
+      "h": 67,
+      "font": "56px",
+      "weight": "700",
+      "line": "68px",
+      "color": "rgb(255, 255, 255)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Не сейчас",
+      "x": 154.984375,
+      "y": 770.34375,
+      "w": 83.015625,
+      "h": 20,
+      "font": "17px",
+      "weight": "700",
+      "line": "22px",
+      "color": "rgb(17, 17, 17)",
+      "bg": "rgba(255, 255, 255, 0.85)"
+    }
+  ]
+}

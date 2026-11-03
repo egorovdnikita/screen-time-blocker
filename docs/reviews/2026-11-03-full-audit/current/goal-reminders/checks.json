@@ -1,0 +1,12 @@
+{
+  "goalCancel": true,
+  "goalSave": true,
+  "disable": true,
+  "reEnable": true,
+  "sunday": true,
+  "reminderCancel": true,
+  "betaCancel": true,
+  "reminderEnable": true,
+  "reminderDisable": true,
+  "errors": []
+}

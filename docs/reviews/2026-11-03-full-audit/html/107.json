@@ -1,0 +1,48 @@
+{
+  "id": 107,
+  "name": "setting-up",
+  "source": "/dist/19-creating-a-rule-locks__06-setting-up/index.html",
+  "status": "layout_present",
+  "component": "src/screens/previews/SetupPreview.tsx",
+  "evidence": "docs/reviews/2026-11-03-remaining/README.md",
+  "acceptance": "pending_1to1",
+  "title": "Выбор приложения — Block",
+  "texts": [
+    {
+      "text": "1 приложение",
+      "x": 129.484375,
+      "y": 113,
+      "w": 134.015625,
+      "h": 24,
+      "font": "20px",
+      "weight": "700",
+      "line": "24px",
+      "color": "rgb(17, 17, 17)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Отлично! Всё настраиваем…",
+      "x": 116.234375,
+      "y": 433,
+      "w": 160.515625,
+      "h": 14,
+      "font": "12px",
+      "weight": "600",
+      "line": "16px",
+      "color": "rgb(133, 135, 142)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Продолжить",
+      "x": 144.484375,
+      "y": 773,
+      "w": 104.015625,
+      "h": 20,
+      "font": "17px",
+      "weight": "700",
+      "line": "22px",
+      "color": "rgb(205, 206, 210)",
+      "bg": "rgb(179, 180, 184)"
+    }
+  ]
+}

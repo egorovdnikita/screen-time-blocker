@@ -1,0 +1,17 @@
+{
+  "lower": true,
+  "cancel": true,
+  "aborted": true,
+  "started": true,
+  "geometry": {
+    "x": 37,
+    "y": 342.765625,
+    "width": 319,
+    "height": 192,
+    "top": 342.765625,
+    "right": 356,
+    "bottom": 534.765625,
+    "left": 37
+  },
+  "errors": []
+}

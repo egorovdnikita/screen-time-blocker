@@ -1,0 +1,67 @@
+{
+  "url": "http://localhost:8088/onboarding?step=5",
+  "width": 393,
+  "height": 852,
+  "texts": [
+    {
+      "text": "Как к вам обращаться?",
+      "x": 42.609375,
+      "y": 217,
+      "w": 307.765625,
+      "h": 34,
+      "font": "28px",
+      "weight": "700",
+      "line": "34px",
+      "color": "rgb(0, 0, 0)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Продолжить",
+      "x": 144.484375,
+      "y": 500,
+      "w": 104.015625,
+      "h": 20,
+      "font": "17px",
+      "weight": "700",
+      "line": "22px",
+      "color": "rgb(255, 255, 255)",
+      "bg": "rgba(0, 0, 0, 0)"
+    }
+  ],
+  "controls": [
+    {
+      "label": "Ваше имя",
+      "role": null,
+      "disabled": null,
+      "checked": null,
+      "selected": null,
+      "x": 39,
+      "y": 282,
+      "w": 293,
+      "h": 51
+    },
+    {
+      "label": "Очистить имя",
+      "role": "button",
+      "disabled": null,
+      "checked": null,
+      "selected": null,
+      "x": 332,
+      "y": 282,
+      "w": 40,
+      "h": 51
+    },
+    {
+      "label": "Продолжить",
+      "role": "button",
+      "disabled": null,
+      "checked": null,
+      "selected": null,
+      "x": 20,
+      "y": 480,
+      "w": 353,
+      "h": 60
+    }
+  ],
+  "scrollWidth": 393
+}

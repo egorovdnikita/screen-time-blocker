@@ -1,0 +1,108 @@
+{
+  "id": 339,
+  "name": "live-activity-unlock",
+  "source": "/dist/82-live-activities__02-live-activity-unlock/index.html",
+  "status": "layout_present",
+  "component": "src/screens/previews/SystemPreviews.tsx",
+  "evidence": "docs/reviews/2026-11-03-remaining/README.md",
+  "acceptance": "pending_1to1",
+  "title": "Live Activity — Block",
+  "texts": [
+    {
+      "text": "Вт, 9 янв.",
+      "x": 150.125,
+      "y": 80,
+      "w": 92.75,
+      "h": 26,
+      "font": "22px",
+      "weight": "600",
+      "line": "27px",
+      "color": "rgb(255, 255, 255)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "9:41",
+      "x": 86.9375,
+      "y": 86.328125,
+      "w": 219.125,
+      "h": 143,
+      "font": "120px",
+      "weight": "600",
+      "line": "140px",
+      "color": "rgb(255, 255, 255)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Block",
+      "x": 54,
+      "y": 597,
+      "w": 30.234375,
+      "h": 15,
+      "font": "13px",
+      "weight": "400",
+      "line": "17px",
+      "color": "rgb(125, 129, 135)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Разблокировка №1",
+      "x": 256.015625,
+      "y": 597,
+      "w": 101.984375,
+      "h": 14,
+      "font": "12px",
+      "weight": "400",
+      "line": "17px",
+      "color": "rgb(125, 129, 135)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "🔒",
+      "x": 35,
+      "y": 636,
+      "w": 24,
+      "h": 28,
+      "font": "23px",
+      "weight": "400",
+      "line": "25px",
+      "color": "rgb(255, 255, 255)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "«Apple Music» разблокировано",
+      "x": 67,
+      "y": 638,
+      "w": 279.984375,
+      "h": 24,
+      "font": "20px",
+      "weight": "400",
+      "line": "25px",
+      "color": "rgb(255, 255, 255)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "4:42",
+      "x": 286.015625,
+      "y": 630.5,
+      "w": 71.984375,
+      "h": 40,
+      "font": "34px",
+      "weight": "700",
+      "line": "40px",
+      "color": "rgb(255, 255, 255)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Хорошего отдыха!",
+      "x": 139.875,
+      "y": 689,
+      "w": 113.25,
+      "h": 16,
+      "font": "14px",
+      "weight": "400",
+      "line": "18px",
+      "color": "rgb(255, 255, 255)",
+      "bg": "rgba(0, 0, 0, 0)"
+    }
+  ]
+}

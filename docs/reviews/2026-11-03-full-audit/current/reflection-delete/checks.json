@@ -1,0 +1,20 @@
+{
+  "geometry": {
+    "x": 36,
+    "y": 191.3125,
+    "width": 44,
+    "height": 44,
+    "top": 191.3125,
+    "right": 80,
+    "bottom": 235.3125,
+    "left": 36
+  },
+  "cancelEdit": true,
+  "delete": true,
+  "otherAppPreserved": true,
+  "otherDayPreserved": true,
+  "newEntryNoTrash": true,
+  "refreshPreserves": true,
+  "deleteAfterRefresh": true,
+  "errors": []
+}

@@ -1,0 +1,57 @@
+{
+  "url": "http://localhost:8088/onboarding?step=3",
+  "width": 393,
+  "height": 852,
+  "texts": [
+    {
+      "text": "Теперь ваша очередь",
+      "x": 131.75,
+      "y": 453,
+      "w": 169.5,
+      "h": 20,
+      "font": "17px",
+      "weight": "600",
+      "line": "21px",
+      "color": "rgb(0, 0, 0)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Давайте настроим Block\nпод вас",
+      "x": 58.484375,
+      "y": 482,
+      "w": 316.03125,
+      "h": 66,
+      "font": "27px",
+      "weight": "700",
+      "line": "33px",
+      "color": "rgb(0, 0, 0)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Продолжить",
+      "x": 144.484375,
+      "y": 773,
+      "w": 104.015625,
+      "h": 20,
+      "font": "17px",
+      "weight": "700",
+      "line": "22px",
+      "color": "rgb(255, 255, 255)",
+      "bg": "rgba(0, 0, 0, 0)"
+    }
+  ],
+  "controls": [
+    {
+      "label": "Продолжить",
+      "role": "button",
+      "disabled": null,
+      "checked": null,
+      "selected": null,
+      "x": 20,
+      "y": 753,
+      "w": 353,
+      "h": 60
+    }
+  ],
+  "scrollWidth": 393
+}

@@ -1,0 +1,8 @@
+{
+  "merge": true,
+  "quality": true,
+  "splitByMood": true,
+  "exclude": true,
+  "delete": true,
+  "errors": []
+}

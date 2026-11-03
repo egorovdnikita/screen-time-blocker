@@ -1,0 +1,107 @@
+{
+  "id": 300,
+  "name": "strict-rule-actions",
+  "source": "/dist/70-disabling-strict-mode__01-strict-rule-actions/index.html",
+  "status": "layout_present",
+  "component": "src/screens/settings/EmergencyMode.tsx",
+  "evidence": "docs/reviews/2026-11-03-emergency-interface/README.md",
+  "title": "Строгий режим — Block",
+  "texts": [
+    {
+      "text": "Правила строгого режима",
+      "x": 89.59375,
+      "y": 115,
+      "w": 253.796875,
+      "h": 24,
+      "font": "20px",
+      "weight": "700",
+      "line": "24px",
+      "color": "rgb(0, 0, 0)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Для этих правил можно отключить строгий режим или удалить их.",
+      "x": 20,
+      "y": 198,
+      "w": 339.15625,
+      "h": 34,
+      "font": "14px",
+      "weight": "400",
+      "line": "18px",
+      "color": "rgb(86, 130, 203)",
+      "bg": "rgb(208, 220, 239)"
+    },
+    {
+      "text": "🔒",
+      "x": 38,
+      "y": 288,
+      "w": 23,
+      "h": 25,
+      "font": "21px",
+      "weight": "400",
+      "line": "normal",
+      "color": "rgb(0, 0, 0)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Apple Music",
+      "x": 73,
+      "y": 290.5,
+      "w": 82.875,
+      "h": 19,
+      "font": "16px",
+      "weight": "400",
+      "line": "normal",
+      "color": "rgb(0, 0, 0)",
+      "bg": "rgb(226, 226, 228)"
+    },
+    {
+      "text": "Что вы хотите сделать?",
+      "x": 113.671875,
+      "y": 585,
+      "w": 165.65625,
+      "h": 19,
+      "font": "16px",
+      "weight": "400",
+      "line": "24px",
+      "color": "rgb(0, 0, 0)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Отключить строгий режим",
+      "x": 92.96875,
+      "y": 638,
+      "w": 207.0625,
+      "h": 19,
+      "font": "16px",
+      "weight": "700",
+      "line": "normal",
+      "color": "rgb(77, 128, 219)",
+      "bg": "rgb(217, 225, 239)"
+    },
+    {
+      "text": "Удалить правило",
+      "x": 130.75,
+      "y": 705,
+      "w": 131.484375,
+      "h": 19,
+      "font": "16px",
+      "weight": "700",
+      "line": "normal",
+      "color": "rgb(231, 107, 57)",
+      "bg": "rgb(241, 212, 198)"
+    },
+    {
+      "text": "Отмена",
+      "x": 166.78125,
+      "y": 772,
+      "w": 59.4375,
+      "h": 19,
+      "font": "16px",
+      "weight": "700",
+      "line": "normal",
+      "color": "rgb(17, 17, 17)",
+      "bg": "rgb(233, 233, 235)"
+    }
+  ]
+}

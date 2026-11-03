@@ -1,0 +1,15 @@
+{
+  "target": {
+    "x": 280.50846354166663,
+    "y": 523.796875,
+    "opacity": [
+      "0"
+    ],
+    "hitLabel": "График по часам"
+  },
+  "hour": 20,
+  "visibleData": "dayToday.chart: only h14",
+  "invisibleData": "qualityNeutral.chart: h20=.135",
+  "openedGlued": false,
+  "openedOffline": true
+}

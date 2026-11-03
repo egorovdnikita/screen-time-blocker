@@ -1,0 +1,83 @@
+{
+  "id": 13,
+  "name": "years-28",
+  "source": "/dist/00-onboarding__14-years-28/index.html",
+  "status": "layout_present",
+  "component": "src/screens/onboarding/OnboardingScreen.tsx",
+  "evidence": "docs/reviews/2026-11-03-onboarding/README.md",
+  "title": "Знакомство — Block",
+  "texts": [
+    {
+      "text": "При таком темпе",
+      "x": 126.984375,
+      "y": 384,
+      "w": 139.03125,
+      "h": 20,
+      "font": "17px",
+      "weight": "700",
+      "line": "21px",
+      "color": "rgb(0, 0, 0)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Вы проведёте",
+      "x": 102.8125,
+      "y": 411,
+      "w": 187.359375,
+      "h": 34,
+      "font": "28px",
+      "weight": "700",
+      "line": "34px",
+      "color": "rgb(0, 0, 0)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "28 лет",
+      "x": 118.046875,
+      "y": 466,
+      "w": 156.890625,
+      "h": 61,
+      "font": "51px",
+      "weight": "700",
+      "line": "68px",
+      "color": "rgba(0, 0, 0, 0)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "своей жизни",
+      "x": 110.375,
+      "y": 556,
+      "w": 172.234375,
+      "h": 34,
+      "font": "28px",
+      "weight": "700",
+      "line": "34px",
+      "color": "rgb(0, 0, 0)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "в телефоне",
+      "x": 120.53125,
+      "y": 590,
+      "w": 151.921875,
+      "h": 34,
+      "font": "28px",
+      "weight": "700",
+      "line": "34px",
+      "color": "rgb(0, 0, 0)",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "text": "Продолжить",
+      "x": 144.484375,
+      "y": 773,
+      "w": 104.015625,
+      "h": 20,
+      "font": "17px",
+      "weight": "700",
+      "line": "22px",
+      "color": "rgb(255, 255, 255)",
+      "bg": "rgba(0, 0, 0, 0)"
+    }
+  ]
+}

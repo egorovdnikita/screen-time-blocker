@@ -1,0 +1,19 @@
+{
+  "geometry": {
+    "x": 37,
+    "y": 293,
+    "width": 319,
+    "height": 293,
+    "top": 293,
+    "right": 356,
+    "bottom": 586,
+    "left": 37
+  },
+  "alertCancel": true,
+  "demoRefresh": true,
+  "noReset": true,
+  "cancelRename": true,
+  "rename": true,
+  "sessionUnchanged": true,
+  "errors": []
+}
