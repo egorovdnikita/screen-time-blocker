@@ -1,3 +1,4 @@
+import { useAppState } from '@/state/app';
 import { useState } from 'react';
 import { MainSettings } from '../settings/MainSettings';
 import { Image, type ImageSource } from 'expo-image';
@@ -17,6 +18,7 @@ import { colors, insetBorder, radii, shadows } from '@/theme/tokens';
 const SKY_RATIO = 2556 / 1179;
 
 export function ProfileScreen() {
+  const app = useAppState();
   const [settings, setSettings] = useState(false);
   const insets = useSafeAreaInsets();
   const { width } = useWindowDimensions();
@@ -45,12 +47,12 @@ export function ProfileScreen() {
         <View style={styles.identity}>
           <View style={styles.avatar}>
             <T size={32} weight={800} ls={0} color={colors.avatarInk}>
-              {profile.initials}
+              {app.profileName.slice(0,2).toUpperCase()}
             </T>
           </View>
           <Pressable style={styles.nameRow} accessibilityRole="button" accessibilityLabel="Изменить имя">
             <T size={24} color={colors.white} onSky>
-              {profile.name}
+              {app.profileName}
             </T>
             <Icon name="pencil" width={16.5} color={colors.pencil} style={{ marginLeft: 6, marginTop: 2 }} />
           </Pressable>

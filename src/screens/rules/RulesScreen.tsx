@@ -259,7 +259,7 @@ function SessionCard({ rule }: { rule: SessionRule }) {
       <View style={[styles.bottomRow, { marginTop: 17 }]}>
         <Lock />
         <View style={[styles.sessionApps, rule.appGroup && { width: 'auto', flexShrink: 1 }]}>
-          {rule.appGroup ? <AppGroupSummary group={rule.appGroup} /> : rule.selectedApps ? <SessionApps selected={rule.selectedApps} /> : <Image source={rule.apps === 'first-rule' ? art.appsFirstRule : art.appsSession} style={{ width: 45, height: 21 }} />}
+          {rule.appIds ? <SessionApps appIds={rule.appIds} reverse={false}/> : rule.appGroup ? <AppGroupSummary group={rule.appGroup} /> : rule.selectedApps ? <SessionApps selected={rule.selectedApps} /> : <Image source={rule.apps === 'first-rule' ? art.appsFirstRule : art.appsSession} style={{ width: 45, height: 21 }} />}
         </View>
         {rule.unlock && (
           <PressScale style={styles.firstUnlock}>

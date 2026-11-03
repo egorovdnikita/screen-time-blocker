@@ -21,6 +21,7 @@ export type LockRule = { id: string; app: string; name: string; unlocks: string;
 
 export type RuleDetailChanges = { title: string; strict: boolean; strictSettings: StrictSettings };
 export type SessionRule = {
+  appIds?: string[];
   strict?: boolean;
   selectedApps?: boolean[];
   appGroup?: AppGroupDraft;
@@ -86,6 +87,7 @@ const limitAllDay: LimitRule = {
 const routine: RoutineRule = { id: 'routine', title: 'Рутина' };
 
 export const rulesVariants: Record<RulesVariant, RulesData> = {
+  onboarding: { active:0,locks:[],sessions:[],limits:[],routines:[],templates:'classic' },
   strict: { active: 3, locks: [{ id: 'music', app: 'apple-music', name: 'Apple Music', unlocks: '(3/3)', strict: true, strictSettings: { strictScope: 'session', strictDays: 1 } }], sessions: [workHours], limits: [limitAllDay], routines: [routine], templates: 'classic' },
   reason: { active: 3, locks: [{ id: 'music', app: 'apple-music', name: 'Apple Music', unlocks: '(3/3)', unlockSettings: { unlockMethod: 'reason', waitAutomatic: true, waitSeconds: 3, copyText: '', scanType: 'qr' } }], sessions: [workHours], limits: [limitAllDay], routines: [routine], templates: 'classic' },
   // 37-rules__01

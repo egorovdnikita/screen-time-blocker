@@ -1,3 +1,4 @@
+import { initialOnboarding, type OnboardingDraft } from '@/data/onboarding';
 import { initialEmergencySettings, type EmergencySettings } from '@/data/emergency';
 import type { CustomBlockScreen } from '@/data/blockScreens';
 import { cloneNamedGroup, type NamedAppGroup } from '@/data/namedGroups';
@@ -13,13 +14,18 @@ import { dayActive, dayFirst, dayJune24, dayToday, dayTodayRefreshed, dayYesterd
 
 // Сценарии показывают все состояния из макетов. Переключаются в демо-меню (долгое нажатие на «⋯»).
 export type Scenario = 'regular' | 'active' | 'firstRun';
-export type RulesVariant = 'strict' | 'full' | 'sessions' | 'locks' | 'limits' | 'limitProgress' | 'first' | 'reason';
+export type RulesVariant = 'onboarding' | 'strict' | 'full' | 'sessions' | 'locks' | 'limits' | 'limitProgress' | 'first' | 'reason';
 export type PeriodId = 'today' | 'yesterday' | 'june-24';
 export type OnboardingStep = 'tip-first-rule' | 'tip-add-more' | 'done';
 
 const LOADING_MS = 1400;
 
 type AppState = {
+  onboardingDraft: OnboardingDraft;
+  startOnboarding: (step?: number) => void;
+  patchOnboarding: (patch: Partial<OnboardingDraft>) => void;
+  profileName: string;
+  setProfileName: (name: string) => void;
   emergencySettings: EmergencySettings;
   saveEmergencySettings: (value: EmergencySettings) => void;
   interfaceSettings: { streak: boolean; special: boolean };
@@ -112,6 +118,10 @@ type AppState = {
 const Ctx = createContext<AppState | null>(null);
 
 export function AppStateProvider({ children }: { children: ReactNode }) {
+  const [onboardingDraft, setOnboardingDraft] = useState(() => initialOnboarding());
+  const [profileName, setProfileName] = useState('Саша');
+  const startOnboarding = useCallback((step = 0) => setOnboardingDraft(previous => step === 18 ? { ...previous, step } : initialOnboarding(step)), []);
+  const patchOnboarding = useCallback((patch: Partial<OnboardingDraft>) => setOnboardingDraft(value => ({ ...value, ...patch })), []);
   const [emergencySettings, saveEmergencySettings] = useState(initialEmergencySettings);
   const [interfaceSettings, setInterfaceSettings] = useState({ streak: true, special: false });
   const [deletedRuleIds, setDeletedRuleIds] = useState<string[]>([]);
@@ -186,6 +196,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     setSavedTemplates([]);
     setNamedGroups([]);
     setLegacyLimits(false);
+    setOnboardingDraft(initialOnboarding()); setProfileName('Саша');
     saveEmergencySettings(initialEmergencySettings()); setInterfaceSettings({ streak: true, special: false }); setDeletedRuleIds([]);
     setTroubleshooting({ hideIcons: false, realTime: true });
     setExpertScreens(false); setAlternativeScreens(false); setCustomBlockScreens([]);
@@ -222,6 +233,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
 
   const ruleNotice = () => { if (noticeTimer.current) clearTimeout(noticeTimer.current); setSessionNotice('Изменения сохранены'); noticeTimer.current = setTimeout(() => setSessionNotice(null), 2800); };
   const value: AppState = {
+    onboardingDraft, startOnboarding, patchOnboarding, profileName, setProfileName,
     emergencySettings, saveEmergencySettings, interfaceSettings, setInterfaceSettings, deletedRuleIds,
     deleteRule: id => setDeletedRuleIds(xs => xs.includes(id) ? xs : [...xs, id]),
     showRuleRefreshDemo: () => { if (noticeTimer.current) clearTimeout(noticeTimer.current); setSessionNotice('Обновляем данные. Это может занять\nнесколько минут.'); noticeTimer.current = setTimeout(() => setSessionNotice(null), 4000); },

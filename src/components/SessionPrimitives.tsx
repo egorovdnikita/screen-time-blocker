@@ -1,3 +1,4 @@
+import { lockApps } from '@/data/lockRule';
 import { DarkButtonSurface } from './DarkButtonSurface';
 import { Image } from 'expo-image';
 import { useEffect, useState, type ReactNode } from 'react';
@@ -8,11 +9,12 @@ import { colors, softNoticeTheme, sessionPickerTheme as p, sessionTheme as c } f
 import { Icon } from './Icon';
 import { FadeIn, PressScale, spring } from './motion';
 
-export function SessionApps({ selected = [true, true, true], reverse = true, bare = false, style }: { selected?: boolean[]; reverse?: boolean; bare?: boolean; style?: StyleProp<ViewStyle> }) {
-  const items = [art.sessionXchat, art.sessionMessages, art.sessionBereal].map((source, i) => ({ source, selected: selected[i] })).filter(item => item.selected);
+export function SessionApps({ selected = [true, true, true], reverse = true, bare = false, appIds, size = 'compact', style }: { selected?: boolean[]; reverse?: boolean; bare?: boolean; appIds?: readonly string[]; size?: 'compact' | 'large' | 'setup'; style?: StyleProp<ViewStyle> }) {
+  const items = appIds ? appIds.map(id => lockApps.find(x=>x.id===id)).filter((x): x is typeof lockApps[number] => !!x).map(x=>({source:x.id==='xchat'?art.sessionXchat:x.id==='messages'?art.sessionMessages:x.id==='bereal'?art.sessionBereal:x.image,name:x.name})) : [art.sessionXchat,art.sessionMessages,art.sessionBereal].map((source,i)=>({source,name:['XChat','Сообщения','BeReal'][i],selected:selected[i]})).filter(x=>x.selected);
   if (reverse) items.reverse();
-  return <View style={[styles.apps, bare && { width: 45, height: 21, backgroundColor: p.whiteFade }, style]} accessibilityLabel={['XChat', 'Сообщения', 'BeReal'].filter((_, i) => selected[i]).join(', ')}>
-    {items.map((item, i) => <Image key={i} source={item.source} style={{ width: 16, height: 16, borderRadius: 4, marginLeft: i ? -4 : 0 }} />)}
+  const large = size === 'large'; const setup = size === 'setup';
+  return <View style={[styles.apps, bare && { width:45,height:21,backgroundColor:p.whiteFade },large&&{width:100,height:44,backgroundColor:p.whiteFade},setup&&{width:54,height:26,backgroundColor:p.whiteFade},style]} accessibilityLabel={appIds?items.map(x=>x.name).join(', '):['XChat','Сообщения','BeReal'].filter((_,i)=>selected[i]).join(', ')}>
+    {items.map((item,i)=><Image key={item.name} source={item.source} style={large||setup?{position:'absolute',left:large?4+i*28:2.16+i*15.12,top:large?2.5:1.5,width:large?37.5:20.25,height:large?37.5:22.1,borderRadius:large?9:5}:{width:16,height:16,borderRadius:4,marginLeft:i?-4:0}}/>)}
   </View>;
 }
 export function EditorRow({ title, value, expanded, onPress, children, emphasized, headerHeight = 59 }: { title: string; value?: ReactNode; expanded?: boolean; onPress?: () => void; children?: ReactNode; emphasized?: boolean; headerHeight?: number }) {

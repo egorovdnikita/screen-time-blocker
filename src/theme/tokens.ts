@@ -374,3 +374,22 @@ export const interfaceTheme = {
   surface: '#f5f8fa', section: '#929aa8', icon: '#969eaa', value: '#7f899a',
   line: '#eff0f2', chevron: '#c1c6ce', iconGradient: ['#72c1ff', '#1971e8'] as const,
 };
+
+// HTML000–025: измерения сохранены в отчёте онбординга.
+export const onboardingTheme = {
+  white: '#ffffff', ink: '#111111', surface: '#f7f7f8', picker: '#f4f3fa',
+  pickerRadio: '#d1d1d6', pickerBlue: '#0095f5', pickerChild: '#f9f9fc', pickerLine: '#ededee',
+  muted: '#9299a4', note: '#818894', line: '#e0e3e9', rowLine: '#eff0f2',
+  blue: '#3985ed', progress: '#f0f3fb', purple: ['#a950f6','#6265f2'] as const,
+  gold: '#d8b66b', award: '#bd9855', avatar: '#e7edf7', avatarInk: '#66738c',
+  star: '#e8ad2d', dimBlue: '#99ccf4', quoteName: '#d5ecff', before: '#e36a4c', after: '#4c86e4',
+  badge: '#edf4ff', disabled: '#b7b7b9', range: '#f0f1f2', cap: '#6093b9',
+  promptBlue: '#00b5eb', promptButton: '#ebeced',
+  promptInk: '#818185', screenTime: '#5c51d8', skyFade: 'rgba(255,255,255,0)',
+  fadeHalf: 'rgba(255,255,255,.42)', frictionBlue: ['#88c5ff','#32aafa'] as const,
+  circleShadow: '0px 6px 24px #152a480b', navShadow: '0px 6px 24px #11111111',
+  cardShadow: '0px 8px 24px #141a230a', secondaryShadow: '0px 6px 18px #00000017',
+  rangeShadow: '0px 5px 17px #4b9fe71f', rangeFillShadow: '0px 3px 13px #318fe941',
+  glassBorder: 'rgba(255,255,255,.3)', glassFill: 'rgba(255,255,255,.05)',
+  codeBlue: ['#348bff','#005df1'] as const, prompt: ['#fafbfce8','#f7f8fbe8'] as const,
+};
