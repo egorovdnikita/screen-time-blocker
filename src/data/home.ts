@@ -66,7 +66,7 @@ const range = (from: number, to: number) => Array.from({ length: to - from + 1 }
 const ALL_DAY = range(0, 23);
 
 const qualityNeutral: Quality = {
-  word: 'Нейтрально',
+  word: 'Норма',
   pct: [0, 100, 0],
   stats: { screenTime: '20 мин', pickups: '5', notifications: '9' },
   chart: {
@@ -81,7 +81,7 @@ const qualityNeutral: Quality = {
 };
 
 const qualityProductive: Quality = {
-  word: 'Продуктивно',
+  word: 'С пользой',
   pct: [90, 5, 5],
   stats: { screenTime: '2ч18', pickups: '40', notifications: '24' },
   chart: {
@@ -243,11 +243,11 @@ export const dayActive: Day = {
 // Подсказки по тапу на график (25-information)
 export const insights = {
   glued: {
-    title: '12 минут подряд\nу экрана…',
+    title: '12 минут без отрыва\nот экрана в Block…',
     hint: 'Как часто вас отвлекали? Почему тянет проверить телефон? Это действительно важно?',
   },
   offline: {
-    title: '8 часов вне сети',
+    title: '8 ч офлайн',
     hint: 'Что вы успели за это время? Как вы себя чувствуете?',
   },
 };

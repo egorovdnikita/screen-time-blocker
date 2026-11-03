@@ -1,6 +1,7 @@
+import { chartHourFromPress } from '@/data/chartInteraction';
 import { Image } from 'expo-image';
 import { useEffect, useMemo, useState } from 'react';
-import { Animated, Pressable, StyleSheet, View, type GestureResponderEvent } from 'react-native';
+import { Animated, Platform, Pressable, StyleSheet, View, type GestureResponderEvent } from 'react-native';
 
 import { Icon } from '@/components/Icon';
 import { PopIn, spring } from '@/components/motion';
@@ -11,6 +12,7 @@ import { colors } from '@/theme/tokens';
 
 type Props = {
   data: ChartData;
+  interactive?: boolean;
   /** Тап по часу: есть активность — glued, пусто — offline. */
   onInsight?: (kind: 'glued' | 'offline') => void;
 };
@@ -34,7 +36,7 @@ const barColor: Record<BarTone, string> = {
 
 const hh = (h: number) => `${String(h).padStart(2, '0')}:00`;
 
-export function UsageChart({ data, onInsight }: Props) {
+export function UsageChart({ data, onInsight, interactive = true }: Props) {
   const [w, setW] = useState(0);
   const gridW = Math.max(0, w - GRID_LEFT - AXIS_W);
   const slot = gridW / 24;
@@ -59,8 +61,9 @@ export function UsageChart({ data, onInsight }: Props) {
   }, [data, grow]);
 
   const onPlotPress = (e: GestureResponderEvent) => {
-    if (!onInsight || slot === 0) return;
-    const h = Math.floor((e.nativeEvent.locationX - 0) / slot);
+    if (!interactive || !onInsight || slot === 0) return;
+    const h = chartHourFromPress(e.nativeEvent as GestureResponderEvent['nativeEvent'] & { offsetX?: number }, slot, Platform.OS === 'web');
+    if (h === null) return;
     onInsight(totalAt(h) > 0 || data.bubbles?.some((b) => b.h === h) ? 'glued' : 'offline');
   };
 
@@ -125,7 +128,7 @@ export function UsageChart({ data, onInsight }: Props) {
           })}
 
           {/* Зона тапа по часам */}
-          <Pressable style={[styles.hit, { left: GRID_LEFT, width: gridW }]} onPress={onPlotPress} accessibilityLabel="График по часам" />
+          <Pressable disabled={!interactive} pointerEvents={interactive ? 'auto' : 'none'} style={[styles.hit, { left: GRID_LEFT, width: gridW }]} onPress={onPlotPress} accessibilityLabel="График по часам" />
 
           <View pointerEvents="none" style={[styles.axisY, { left: GRID_LEFT + gridW + 3.67, top: TOP - 5.67 }]}>
             <T size={10} weight={500} color={colors.chartLabel}>{data.axis[0]}</T>
@@ -147,7 +150,7 @@ export function UsageChart({ data, onInsight }: Props) {
             const top = Math.max(TOP, TOP + PLOT_H - totalAt(bb.h) * PLOT_H - BUBBLE_LIFT);
             return (
               <PopIn key={`${bb.kind}${bb.h}`} delay={180 + i * 80} style={[styles.bubble, { left: barX(bb.h) + BAR_W / 2 - 25.7, top }]}>
-                <Pressable onPress={() => onInsight?.('glued')} accessibilityLabel="Подробнее о сессии">
+                <Pressable disabled={!interactive} pointerEvents={interactive ? 'auto' : 'none'} onPress={() => onInsight?.('glued')} accessibilityLabel="Подробнее о сессии">
                   <View style={styles.tail} />
                   <View style={styles.disc}>
                     {bb.kind === 'app' ? (

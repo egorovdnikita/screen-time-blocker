@@ -1,7 +1,7 @@
 import { SheetScrollView as ScrollView, SheetGrabber, SheetModal } from '@/components/SheetModal';
 import { NamedAppGroups } from '../rules/NamedAppGroups';
 import { namedGroupSummary } from '@/data/namedGroups';
-import { BlurView } from 'expo-blur';
+import { MaterialBlur } from '@/components/MaterialBlur';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Fragment, useRef, useState, type ComponentRef } from 'react';
@@ -79,7 +79,7 @@ export function AppGroupSheet({ value, onCancel, onConfirm, purpose = 'group', n
             {!needle && <LinearGradient pointerEvents="none" colors={[c.surfaceFade, c.surface, c.surface]} locations={[0, .9, 1]} style={styles.listFade} />}
           </View>
           <View style={[styles.search, { top: searchTop }]}>
-            <BlurView intensity={14} tint="light" style={StyleSheet.absoluteFill} /><View pointerEvents="none" style={[StyleSheet.absoluteFill, { backgroundColor: c.searchFill }]} />
+            <MaterialBlur blurPx={14} nativeIntensity={14} tint="light" style={StyleSheet.absoluteFill} /><View pointerEvents="none" style={[StyleSheet.absoluteFill, { backgroundColor: c.searchFill }]} />
             <Icon name="session-search" width={22} height={22} color={colors.black} />
             <TextInput ref={search} accessibilityLabel="Поиск приложений и категорий" value={query} onChangeText={setQuery} onFocus={() => setSearchFocused(true)} onBlur={() => setSearchFocused(false)} onSubmitEditing={() => search.current?.blur()} placeholder="Поиск" placeholderTextColor={c.secondary} autoCorrect={false} autoCapitalize="none" returnKeyType="done" style={styles.input} />
             {query ? <PressScale accessibilityRole="button" accessibilityLabel="Очистить поиск приложений" onPress={() => setQuery('')} style={{ width: 20, height: 40, justifyContent: 'center' }}><Icon name="session-clear" width={14} height={14} color={c.secondary} /></PressScale> : <Icon name="group-microphone" width={20} height={23} color={colors.black} />}

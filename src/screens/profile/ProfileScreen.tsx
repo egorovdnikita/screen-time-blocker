@@ -54,7 +54,7 @@ export function ProfileScreen({ recap: recapProp = false }: { recap?: boolean })
               {app.profileName.slice(0,2).toUpperCase()}
             </T>
           </View>
-          <Pressable style={styles.nameRow} accessibilityRole="button" accessibilityLabel="Изменить имя">
+          <Pressable style={styles.nameRow} accessibilityRole="button" accessibilityLabel="Изменить имя" disabled accessibilityState={{disabled:true}}>
             <T size={24} color={colors.white} onSky>
               {app.profileName}
             </T>

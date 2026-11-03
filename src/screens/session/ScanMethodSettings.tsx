@@ -1,7 +1,7 @@
 import { QrPass } from './QrPass';
 import { Image } from 'expo-image';
 import { Pressable, StyleSheet, View } from 'react-native';
-import { BlurView } from 'expo-blur';
+import { MaterialBlur } from '@/components/MaterialBlur';
 import { useState } from 'react';
 import { Icon } from '@/components/Icon';
 import { PressScale } from '@/components/motion';
@@ -33,7 +33,7 @@ export function ScanMethodSettings({ type, onChange }: { type: UnlockSettings['s
     {menu && <>
       <Pressable accessibilityRole="button" accessibilityLabel="Закрыть типы сканирования" onPress={() => setMenu(false)} style={StyleSheet.absoluteFill} />
       <View style={styles.menu} accessibilityRole="menu">
-        <BlurView pointerEvents="none" intensity={28} tint="light" style={[StyleSheet.absoluteFill, { borderRadius: m.scanMenuRadius }]} />
+        <MaterialBlur pointerEvents="none" blurPx={12} nativeIntensity={28} tint="light" style={[StyleSheet.absoluteFill, { borderRadius: m.scanMenuRadius }]} />
         {(['qr', 'nfc'] as const).map(value => <PressScale key={value} accessibilityRole="menuitem" accessibilityLabel={value === 'qr' ? 'QR-код' : 'NFC-метка'} onPress={() => { setMenu(false); onChange(value); }} style={styles.menuRow}>
           <Icon name={value === 'qr' ? 'scan-qr' : 'scan-nfc'} width={20} height={20} color={colors.black} /><T size={17} weight={400} ls={0}>{value === 'qr' ? 'QR-код' : 'NFC-метка'}</T>
         </PressScale>)}

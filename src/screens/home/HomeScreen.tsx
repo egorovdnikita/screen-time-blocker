@@ -47,6 +47,8 @@ export function HomeScreen() {
   const [settingsOpen, setSettingsOpen] = useState(false);
 
   // Страница героя: 0 — экранное время, 1 — качество. Свайп плавно меняет содержимое карточки.
+  const [chartSelection, setChartSelection] = useState({ day: day.id, page: 0 });
+  const chartPage = chartSelection.day === day.id ? chartSelection.page : 0;
   const [pageX] = useState(() => new Animated.Value(0));
   const page = pageX.interpolate({ inputRange: [0, width], outputRange: [0, 1], extrapolate: 'clamp' });
   // Новый день или загрузка — пейджер пересоздаётся на первой странице, карточка должна совпасть.
@@ -116,7 +118,7 @@ export function HomeScreen() {
                 pagingEnabled
                 showsHorizontalScrollIndicator={false}
                 scrollEventThrottle={16}
-                onScroll={Animated.event([{ nativeEvent: { contentOffset: { x: pageX } } }], { useNativeDriver: Platform.OS !== 'web' })}
+                onScroll={Animated.event([{ nativeEvent: { contentOffset: { x: pageX } } }], { useNativeDriver: Platform.OS !== 'web', listener: (event: { nativeEvent: { contentOffset: { x: number } } }) => { const next = Math.round(event.nativeEvent.contentOffset.x / width); setChartSelection(current => current.day === day.id && current.page === next ? current : { day: day.id, page: next }); } })}
               >
                 <ScreenTimePage day={day} width={width} />
                 <QualityPage day={day} width={width} />
@@ -134,13 +136,13 @@ export function HomeScreen() {
             </FadeIn>
           ) : (
             <FadeIn key={day.id} style={StyleSheet.absoluteFill} from={4}>
-              <Animated.View style={[StyleSheet.absoluteFill, { opacity: page.interpolate({ inputRange: [0, 1], outputRange: [1, 0] }) }]}>
+              <Animated.View pointerEvents={chartPage === 0 ? 'auto' : 'none'} accessibilityElementsHidden={chartPage !== 0} importantForAccessibility={chartPage === 0 ? 'auto' : 'no-hide-descendants'} style={[StyleSheet.absoluteFill, { opacity: page.interpolate({ inputRange: [0, 1], outputRange: [1, 0] }) }]}>
                 <Stats first={{ label: 'Экономия', value: day.stats.saved, decrease: true }} pickups={day.stats.pickups} notifications={day.stats.notifications} />
-                <UsageChart data={day.chart} onInsight={setInsight} />
+                <UsageChart interactive={chartPage === 0} data={day.chart} onInsight={setInsight} />
               </Animated.View>
-              <Animated.View pointerEvents="box-none" style={[StyleSheet.absoluteFill, { opacity: page }]}>
+              <Animated.View pointerEvents={chartPage === 1 ? 'auto' : 'none'} accessibilityElementsHidden={chartPage !== 1} importantForAccessibility={chartPage === 1 ? 'auto' : 'no-hide-descendants'} style={[StyleSheet.absoluteFill, { opacity: page }]}>
                 <Stats first={{ label: 'Время экрана', value: day.quality.stats.screenTime }} pickups={day.quality.stats.pickups} notifications={day.quality.stats.notifications} />
-                <UsageChart data={day.quality.chart} onInsight={setInsight} />
+                <UsageChart interactive={chartPage === 1} data={day.quality.chart} onInsight={setInsight} />
               </Animated.View>
               <Icon name="chevron-compact-down" width={21} height={9} color={colors.chevronCompact} style={styles.cardChevron} />
             </FadeIn>

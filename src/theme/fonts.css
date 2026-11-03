@@ -1,0 +1,5 @@
+/* Локальные системные начертания из HTML, без копирования файлов шрифтов. */
+@font-face{font-family:"Block Text";font-weight:400;src:local("SFProText-Regular"),local("SF Pro Text Regular")}
+@font-face{font-family:"Block Text";font-weight:500;src:local("SFProText-Medium"),local("SF Pro Text Medium")}
+@font-face{font-family:"Block Text";font-weight:600;src:local("SFProText-Semibold"),local("SF Pro Text Semibold")}
+@font-face{font-family:"Block Text";font-weight:700;src:local("SFProText-Bold"),local("SF Pro Text Bold")}

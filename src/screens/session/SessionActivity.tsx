@@ -1,4 +1,4 @@
-import { BlurView } from 'expo-blur';
+import { MaterialBlur } from '@/components/MaterialBlur';
 import { useRef, useState, type ComponentRef } from 'react';
 import { Modal, Pressable, StyleSheet, View, useWindowDimensions } from 'react-native';
 
@@ -73,7 +73,7 @@ export function SessionActivity({ draft, patch }: Props) {
       <View style={StyleSheet.absoluteFill}>
         <Pressable style={StyleSheet.absoluteFill} accessibilityLabel="Закрыть выбор времени" onPress={() => setClock(null)} />
         {clock && <View style={[styles.popover, { left: clock.left, top: clock.top }]} accessibilityViewIsModal>
-          <BlurView intensity={18} tint="light" style={StyleSheet.absoluteFill} />
+          <MaterialBlur blurPx={12} nativeIntensity={18} tint="light" style={StyleSheet.absoluteFill} />
           <View pointerEvents="none" style={[StyleSheet.absoluteFill, { backgroundColor: p.clockFill }]} />
           <View pointerEvents="none" style={styles.clockHighlight} />
           <WheelColumn label={`Часы ${clockName}`} items={CLOCK_HOURS} value={clockHour % 12 || 12} onChange={updateHour} width={57} selectedSize={24} otherSize={19} surface={p.clockMask} fade={p.clockFade} />

@@ -17,6 +17,7 @@ export function StartButton({ variant = 'home', onPress }: Props) {
     <Pressable
       onPress={onPress}
       accessibilityRole="button"
+      accessibilityLabel="Начать блокировку"
       style={({ pressed }) => [styles.root, { transform: [{ scale: pressed ? 0.98 : 1 }] }]}
     >
       <View style={styles.clip}>
@@ -29,7 +30,7 @@ export function StartButton({ variant = 'home', onPress }: Props) {
         />
         <Icon name="plus" width={18} height={17} color={colors.white} style={{ marginRight: 3.5 }} />
         <T size={17.25} color={colors.white}>
-          Начать блокировку
+          Блокировать
         </T>
         <View pointerEvents="none" style={[StyleSheet.absoluteFill, styles.rim]} />
       </View>
