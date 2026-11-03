@@ -17,6 +17,8 @@ const display = Platform.select({
 });
 
 const text = Platform.select({ ios: 'System', web: '"Block Text", -apple-system, system-ui, sans-serif', default: undefined });
+// Как `-apple-system` в HTML (системные строки списков и запросов): на вебе без подмены начертания.
+const system = Platform.select({ ios: 'System', web: '-apple-system, system-ui, sans-serif', default: undefined });
 
 type Weight = 400 | 500 | 600 | 700 | 800;
 
@@ -25,7 +27,7 @@ export type TProps = TextProps & {
   weight?: Weight;
   color?: string;
   ls?: number;
-  variant?: 'rounded' | 'display' | 'text';
+  variant?: 'rounded' | 'display' | 'text' | 'system';
   center?: boolean;
   onSky?: boolean;
 };
@@ -53,7 +55,7 @@ export function T({
       {...rest}
       style={[
         {
-          fontFamily: variant === 'display' ? display : variant === 'text' ? text : rounded,
+          fontFamily: variant === 'display' ? display : variant === 'text' ? text : variant === 'system' ? system : rounded,
           fontSize: size,
           fontWeight: String(weight) as TextStyle['fontWeight'],
           color,
