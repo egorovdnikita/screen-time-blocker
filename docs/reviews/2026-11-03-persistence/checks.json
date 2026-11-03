@@ -8,6 +8,7 @@
       "tab": "Правила, активных: 0"
     },
     "storedVersion": 1,
+    "resetFromSettings": true,
     "corruptBackup": true
   }
 }

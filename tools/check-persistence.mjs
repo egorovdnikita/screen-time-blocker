@@ -15,7 +15,12 @@ try{
   assert.equal(await b.ev(`document.querySelector('[role="tab"][aria-label^="Правила"]')?.getAttribute('aria-label')`),tabBefore,'Счётчик правил изменился после перезапуска');
   await b.shot(out+'/02-rules-after-restart.png');checks.rulesSurviveRestart={sessions:1,tab:tabBefore};
   const stored=await b.ev(`JSON.parse(localStorage.getItem('block.state'))`);assert.equal(stored.version,1);assert.equal(stored.data.onboardingCompleted,true);checks.storedVersion=stored.version;
-  await b.ev(`localStorage.setItem('block.state','{повреждено')`);await b.reload();
+  await b.nav('/profile');await b.click('Настройки профиля');await wait(700);await b.click('Общие настройки: Данные на устройстве');await wait(800);
+  assert.ok(await b.has('Созданные правила: 1'),'Экран данных не показывает созданное правило');await b.shot(out+'/03-data-settings.png');
+  await b.click('Удалить все данные');await wait(600);await b.shot(out+'/04-reset-confirm.png');await b.click('Удалить');await wait(1500);
+  assert.ok(await b.has('Знакомство: экран 000'),'После сброса не открылось знакомство');
+  await b.nav('/onboarding?step=25');assert.equal(await b.ev(`localStorage.getItem('block.state')&&JSON.parse(localStorage.getItem('block.state')).data.createdSessions.length`),0,'Сброс оставил созданные правила');checks.resetFromSettings=true;
+  await b.ev(`localStorage.setItem('block.state','{повреждено')`);await b.nav('/');
   assert.ok(await b.has('Знакомство: экран 000'),'Повреждённая запись не привела к чистому старту');
   const backups=await b.ev(`Object.keys(localStorage).filter(k=>k.startsWith('block.state.backup-')).map(k=>localStorage.getItem(k))`);assert.deepEqual(backups,['{повреждено'],'Повреждённая запись удалена без резервной копии');checks.corruptBackup=true;
   assert.deepEqual(b.errors,[],'Ошибки в консоли: '+JSON.stringify(b.errors));
