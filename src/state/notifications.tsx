@@ -7,8 +7,9 @@ import { plannedNotifications, type PlannedNotification } from '@/data/notificat
 import { rulesVariants } from '@/data/rules';
 import { memoryOnly, useAppState } from '@/state/app';
 
-// APP-21: локальные уведомления (работают в Expo Go). На вебе и в проверочных скриптах — выключено.
-const supported = Platform.OS !== 'web' && !memoryOnly;
+// APP-21: локальные уведомления (работают в Expo Go). Пока только iOS: в Expo Go на Android модуль
+// предупреждает об отсутствии push, а Android — отдельная работа. На вебе и в проверочных скриптах — выключено.
+const supported = Platform.OS === 'ios' && !memoryOnly;
 const PREFIX = 'block-';
 // На вебе модуль не импортируем вовсе: он пишет предупреждения уже при загрузке.
 // eslint-disable-next-line @typescript-eslint/no-require-imports
