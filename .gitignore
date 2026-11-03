@@ -39,3 +39,11 @@ yarn-error.*
 # generated native folders
 /ios
 /android
+
+# общий стандарт репозиториев
+.env*
+!.env.example
+build/
+.playwright-mcp/
+.vercel/
+.wrangler/
