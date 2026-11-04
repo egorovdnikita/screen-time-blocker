@@ -35,6 +35,8 @@ type AppState = {
   /** Первый вход пройден: иначе вкладки открывают знакомство 000 (APP-02). */
   onboardingCompleted: boolean;
   completeOnboarding: () => void;
+  /** Начало использования: null в демо-режиме проверок и до завершения знакомства. */
+  startedAt: number | null;
   onboardingDraft: OnboardingDraft;
   startOnboarding: (step?: number) => void;
   patchOnboarding: (patch: Partial<OnboardingDraft>) => void;
@@ -143,6 +145,7 @@ const Ctx = createContext<AppState | null>(null);
 export function AppStateProvider({ children }: { children: ReactNode }) {
   const [onboardingDraft, setOnboardingDraft] = useState(() => initialOnboarding());
   const [profileName, setProfileName] = useState('Саша');
+  const [startedAt, setStartedAt] = useState<number | null>(null);
   const startOnboarding = useCallback((step = 0) => setOnboardingDraft(previous => step === 18 ? { ...previous, step } : initialOnboarding(step)), []);
   const patchOnboarding = useCallback((patch: Partial<OnboardingDraft>) => setOnboardingDraft(value => ({ ...value, ...patch })), []);
   const [emergencySettings, saveEmergencySettings] = useState(initialEmergencySettings);
@@ -203,7 +206,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   // Постоянное хранение (APP-01): всё, что пользователь создал и настроил. Временные
   // значения (загрузка, тосты, выбранный период) не сохраняются.
   const persisted: Record<string, [unknown, (value: never) => void]> = {
-    onboardingDraft: [onboardingDraft, setOnboardingDraft], profileName: [profileName, setProfileName],
+    onboardingDraft: [onboardingDraft, setOnboardingDraft], profileName: [profileName, setProfileName], startedAt: [startedAt, setStartedAt],
     emergencySettings: [emergencySettings, saveEmergencySettings], appIcon: [appIcon, setAppIcon], notifications: [notifications, setNotifications],
     interfaceSettings: [interfaceSettings, setInterfaceSettings], deletedRuleIds: [deletedRuleIds, setDeletedRuleIds], legacyLimits: [legacyLimits, setLegacyLimits],
     troubleshooting: [troubleshooting, setTroubleshooting], ruleChanges: [ruleChanges, setRuleChanges], pausedSessions: [pausedSessions, setPausedSessions],
@@ -240,6 +243,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     });
     return () => { alive = false; };
   }, []);
+  // Завершившие знакомство до появления этого поля начинают отсчёт с первого запуска новой версии.
+  useEffect(() => { if (!memoryOnly && storage.loaded && onboardingCompleted && startedAt === null) setStartedAt(Date.now()); }, [storage.loaded, onboardingCompleted, startedAt]);
   const encoded = !memoryOnly && storage.loaded && !storage.readError ? encodeSnapshot(Object.fromEntries(Object.entries(persisted).map(([key, [value]]) => [key, value]))) : null;
   const lastSaved = useRef<string | null>(null);
   useEffect(() => {
@@ -315,7 +320,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
 
   const ruleNotice = () => { hapticResult('success'); if (noticeTimer.current) clearTimeout(noticeTimer.current); setSessionNotice('Изменения сохранены'); noticeTimer.current = setTimeout(() => setSessionNotice(null), 2800); };
   const value: AppState = {
-    storage, onboardingCompleted, completeOnboarding: () => setOnboardingCompleted(true),
+    storage, onboardingCompleted, startedAt, completeOnboarding: () => setOnboardingCompleted(true),
     resetLocalData: async () => {
       const ok = await clearSnapshot();
       if (ok) { lastSaved.current = null; setScenario('firstRun'); startOnboarding(0); setOnboardingCompleted(memoryOnly); setStorage(s => ({ ...s, readError: false, writeError: false, restoredBackup: false })); }
