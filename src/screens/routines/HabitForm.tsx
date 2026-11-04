@@ -9,10 +9,14 @@ import { art } from '@/data/art';
 import { newHabit, type Habit } from '@/data/routine';
 import { durationLabel } from '@/data/session';
 import { colors, lockTheme as l, habitFormTheme as c } from '@/theme/tokens';
-import { T, rounded } from '@/theme/typography';
+import { T, TextInk, rounded } from '@/theme/typography';
 import { UnlockDuration } from '../session/SessionUnlocks';
 
-export function HabitForm({ value, onCancel, onSave }: { value?: Habit; onCancel: () => void; onSave: (habit: Habit) => void }) {
+export function HabitForm(props: Parameters<typeof HabitFormBody>[0]) {
+  return <TextInk.Provider value={colors.black}><HabitFormBody {...props} /></TextInk.Provider>;
+}
+
+function HabitFormBody({ value, onCancel, onSave }: { value?: Habit; onCancel: () => void; onSave: (habit: Habit) => void }) {
   const [draft, setDraft] = useState<Habit>(() => value ? { ...value } : newHabit());
   const [nameFocused, setNameFocused] = useState(!value);
   const [duration, setDuration] = useState(false);

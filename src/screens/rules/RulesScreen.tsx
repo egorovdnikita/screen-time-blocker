@@ -406,6 +406,8 @@ function StatusPill({ status, blockingText = 'Активно' }: { status: Statu
 }
 
 function MetaView({ meta }: { meta: Meta }) {
+  const { rulesVariant } = useAppState();
+  const first = rulesVariant === 'first', locks = rulesVariant === 'locks' || rulesVariant === 'strict';
   if (meta.kind === 'ring') {
     const color = meta.tone === 'blocking' ? colors.blockingPill : colors.accentText;
     const r = 6.4;
@@ -427,7 +429,7 @@ function MetaView({ meta }: { meta: Meta }) {
             transform="rotate(-100 8 8)"
           />
         </Svg>
-        <T size={12.5} weight={600} ls={TRACK_SMALL} color={colors.ringText} style={{ marginLeft: 6.5 }} numberOfLines={1}>
+        <T size={first ? 12.5 : 12} weight={first ? 600 : 500} ls={TRACK_SMALL} color={first ? colors.ringText : color} style={{ marginLeft: 6.5 }} numberOfLines={1}>
           {meta.text}
         </T>
       </>
@@ -442,7 +444,7 @@ function MetaView({ meta }: { meta: Meta }) {
       {meta.days && (
         <>
           <View style={styles.bullet} />
-          <T size={11.75} weight={500} ls={TRACK_SMALL} color={colors.meta} numberOfLines={1} style={{ flexShrink: 1 }}>
+          <T size={locks ? 12 : 11.75} weight={500} ls={TRACK_SMALL} color={colors.meta} numberOfLines={1} style={{ flexShrink: 1 }}>
             {meta.days}
           </T>
         </>
@@ -474,7 +476,7 @@ function TemplatesShell({ children }: { children: React.ReactNode }) {
         {app.savedLimitTemplates.map(template => <SavedTemplateCard key={template.id} template={template} onAdd={() => app.addLimit({ ...template, id: `limit-${Date.now()}` })} />)}
         {app.savedTemplates.map(template => <SavedTemplateCard key={template.id} template={template} onAdd={() => app.addSession({ ...template, id: `session-${Date.now()}` })} />)}
         {app.savedTemplates.length ? <>
-          <ImageTemplate image={art.savedDeepWork} duration="30 мин" title="Глубокий фокус" desc={'Полчаса на главную\nзадачу дня.'} withStart onStart={() => app.addSession({ id: `session-${Date.now()}`, title: 'Глубокий фокус', emoji: 'zap', status: { kind: 'blocking' }, meta: { kind: 'ring', text: 'Осталось 30 мин', progress: 0, tone: 'blocking' }, apps: 'first-rule', selectedApps: [true, true, true] })} />
+          <ImageTemplate image={art.savedDeepWork} duration="30 мин" title="Глубокий фокус" desc={'Полчаса на главную\nзадачу дня.'} saved withStart onStart={() => app.addSession({ id: `session-${Date.now()}`, title: 'Глубокий фокус', emoji: 'zap', status: { kind: 'blocking' }, meta: { kind: 'ring', text: 'Осталось 30 мин', progress: 0, tone: 'blocking' }, apps: 'first-rule', selectedApps: [true, true, true] })} />
           <Image source={art.templateMeTime} style={{ width: 170.667, height: 221, borderRadius: 25.5 }} />
         </> : children}
       </ScrollView>
@@ -527,7 +529,9 @@ function ImageTemplate({
   desc,
   withStart,
   onStart,
+  saved,
 }: {
+  saved?: boolean;
   image: number;
   duration: string;
   title: string;
@@ -542,11 +546,11 @@ function ImageTemplate({
       <Image source={image} style={StyleSheet.absoluteFill} contentFit="cover" />
       <Glass tone="template" radius={radii.pill} style={[styles.tplPill, { top: 14, left: 13.7, height: 21 }]}>
         <Icon name="lock-fill" width={13} height={15} color={colors.white} style={styles.tplPillIcon} />
-        <T size={first ? 11.5 : 12} weight={600} color={colors.white}>
+        <T size={first ? 11.5 : 12} weight={saved ? 400 : 600} color={colors.white}>
           {duration}
         </T>
       </Glass>
-      <TemplateText title={title} desc={desc} color={colors.white} top={withStart ? 112.7 : 127.7 - (lines - 2) * 14.33} />
+      <TemplateText saved={saved} title={title} desc={desc} color={colors.white} top={withStart ? 112.7 : 127.7 - (lines - 2) * 14.33} />
       {withStart && (
         <Glass tone="template" radius={radii.pill} style={[styles.tplStart, { top: 177.3, left: 13.7, width: 144.3 }]}>
           <Icon name="play-fill" width={11} height={12} color={colors.white} style={{ marginRight: 4 }} />
@@ -559,14 +563,14 @@ function ImageTemplate({
   );
 }
 
-function TemplateText({ title, desc, color, top }: { title: string; desc: string; color: string; top: number }) {
+function TemplateText({ saved, title, desc, color, top }: { saved?: boolean; title: string; desc: string; color: string; top: number }) {
   return (
     <View style={{ position: 'absolute', left: 12.7, right: 8, top }}>
-      <T size={17} color={color}>
+      <T size={saved ? 16 : 17} color={color}>
         {title}
       </T>
       <View style={{ marginTop: 1.3 }}>
-        <Lines lines={desc.split('\n')} size={12.5} weight={500} color={color} />
+        <Lines lines={desc.split('\n')} size={12.5} weight={saved ? 400 : 500} color={color} />
       </View>
     </View>
   );

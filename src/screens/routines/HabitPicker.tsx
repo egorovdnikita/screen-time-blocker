@@ -10,9 +10,13 @@ import { PressScale } from '@/components/motion';
 import { art } from '@/data/art';
 import { countLabel } from '@/data/appGroup';
 import { habitCatalog, type Habit, type HabitId } from '@/data/routine';
-import { T } from '@/theme/typography';
+import { T, TextInk } from '@/theme/typography';
 import { colors, settingsTheme, routineTheme as c, lockTheme as l, habitFormTheme as f } from '@/theme/tokens';
-export function HabitPicker({ value, onCancel, onSave, library = false }: { library?: boolean; value: HabitId[]; onCancel: () => void; onSave: (ids: HabitId[], definitions: Habit[]) => void }) {
+export function HabitPicker(props: Parameters<typeof HabitPickerBody>[0]) {
+  return <TextInk.Provider value={colors.black}><HabitPickerBody {...props} /></TextInk.Provider>;
+}
+
+function HabitPickerBody({ value, onCancel, onSave, library = false }: { library?: boolean; value: HabitId[]; onCancel: () => void; onSave: (ids: HabitId[], definitions: Habit[]) => void }) {
   const app = useAppState();
   const catalog = habitCatalog(app.customHabits);
   const scroll = useRef<ComponentRef<typeof ScrollView>>(null);

@@ -12,7 +12,7 @@ import { Icon } from '@/components/Icon';
 import { animateLayout, PressScale } from '@/components/motion';
 import { cloneAppGroup, groupApps, groupCategories, groupSummary, hasGroupExtras, hasGroupSelection, countLabel, type AppGroupDraft, type AppCategoryId } from '@/data/appGroup';
 import { art } from '@/data/art';
-import { colors, modalTheme, appGroupTheme as c, lockTheme, routineTheme, namedGroupTheme } from '@/theme/tokens';
+import { settingsTheme, colors, modalTheme, appGroupTheme as c, lockTheme, routineTheme, namedGroupTheme } from '@/theme/tokens';
 import { T, TextInk } from '@/theme/typography';
 import { AppGroupCheck } from './AppGroupCheck';
 import { AppGroupOptions } from './AppGroupOptions';
@@ -59,7 +59,7 @@ function AppGroupSheetBody({ value, onCancel, onConfirm, purpose = 'group', name
           <SheetGrabber style={[styles.handle, named && { width: 63, top: 12 }]} />
           <View style={[styles.header, compact && { marginTop: 20 }]}>
             <PressScale accessibilityRole="button" accessibilityLabel="Отменить группу приложений" onPress={() => close()} style={styles.close}><Icon name="session-clear" width={19} height={19} color={colors.black} /></PressScale>
-            <PressScale accessibilityRole="button" accessibilityLabel={named ? "Переименовать группу" : "Выбрать сохранённую группу"} onPress={() => named ? onRename?.() : setCatalogOpen(true)} style={[styles.title, named && { paddingTop: 2 }]}>{named ? <Image source={art.namedGroupForbidden} style={{ width: 22, height: 22 }} /> : <Icon name={routine ? "lock-up-down" : "plus"} width={routine ? 12 : 17} height={routine ? 16 : 17} color={routine ? lockTheme.note : c.title} />}<T size={20} color={named ? colors.black : routine ? lockTheme.note : c.title} ls={0} numberOfLines={1} style={{ lineHeight: 28 }}>{named ? name : routine ? 'Связать группу' : 'Группа приложений'}</T>{named && <Icon name="pencil" width={16} height={18} style={{ opacity: .22 }} />}</PressScale>
+            <PressScale accessibilityRole="button" accessibilityLabel={named ? "Переименовать группу" : "Выбрать сохранённую группу"} onPress={() => named ? onRename?.() : setCatalogOpen(true)} style={[styles.title, named && { paddingTop: 2 }]}>{named ? <Image source={art.namedGroupForbidden} style={{ width: 22, height: 22 }} /> : <Icon name={routine ? "lock-up-down" : "plus"} width={routine ? 12 : 17} height={routine ? 16 : 17} color={routine ? lockTheme.note : c.title} />}<T size={20} color={named ? settingsTheme.title : routine ? lockTheme.note : c.title} ls={0} numberOfLines={1} style={{ lineHeight: 28 }}>{named ? name : routine ? 'Связать группу' : 'Группа приложений'}</T>{named && <Icon name="pencil" width={16} height={18} style={{ opacity: .22 }} />}</PressScale>
             <PressScale accessibilityRole="button" accessibilityLabel="Сохранить группу приложений" disabled={(routine || named) && !hasGroupSelection(draft)} accessibilityState={{ disabled: (routine || named) && !hasGroupSelection(draft) }} onPress={() => close(() => onConfirm(cloneAppGroup(draft)))} style={[styles.confirm, routine && !hasGroupSelection(draft) && { opacity: .5 }, named && !hasGroupSelection(draft) && { backgroundColor: namedGroupTheme.disabled }]}><Icon name="group-check" width={named ? 21 : 26} height={named ? 23 : 26} color={colors.white} /></PressScale>
           </View>
           {!compact && <>

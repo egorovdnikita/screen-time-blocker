@@ -82,7 +82,7 @@ export function SessionEditor() {
             <SessionActivity draft={draft} patch={patch} />
           </EditorRow>
           </View>
-          <EditorRow title="Разблокировки" value={unlockExpanded ? undefined : draft.unlocks ? `${draft.unlocks} | ${unlockMethodLabel[draft.unlockMethod]}` : 'Нет'} emphasized={unlockExpanded} headerHeight={unlockExpanded ? draft.unlocks ? 54 : 53 : 59} expanded={unlockExpanded} onPress={() => { animateLayout(); setOpen(unlockExpanded ? null : 'unlocks'); }}>
+          <EditorRow softTitle={!draft.unlocks} title="Разблокировки" value={unlockExpanded ? undefined : draft.unlocks ? `${draft.unlocks} | ${unlockMethodLabel[draft.unlockMethod]}` : 'Нет'} emphasized={unlockExpanded} headerHeight={unlockExpanded ? draft.unlocks ? 54 : 53 : 59} expanded={unlockExpanded} onPress={() => { animateLayout(); setOpen(unlockExpanded ? null : 'unlocks'); }}>
             <SessionUnlocks draft={draft} patch={patch} />
           </EditorRow>
         </RuleEditorScrollAnchor>
