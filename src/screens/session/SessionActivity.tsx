@@ -44,9 +44,9 @@ export function SessionActivity({ draft, patch }: Props) {
     </View>
     {draft.scheduled ? <>
       <View style={styles.grid}>
-        <View style={styles.scheduleRow}><T size={15} weight={400} ls={0}>Весь день</T><FlowSwitch label="Весь день" value={draft.allDay} onChange={allDay => { patch({ allDay }); setClock(null); }} /></View>
+        <View style={styles.scheduleRow}><T size={15} weight={400} color={c.scheduleInk} ls={0}>Весь день</T><FlowSwitch label="Весь день" value={draft.allDay} onChange={allDay => { patch({ allDay }); setClock(null); }} /></View>
         {(['start', 'end'] as const).map(key => <View key={key} style={[styles.scheduleRow, styles.line, draft.allDay && { opacity: .35 }]}>
-          <T size={15} weight={400} ls={0}>{key === 'start' ? 'Начало' : 'Окончание'}</T>
+          <T size={15} weight={400} color={c.scheduleInk} ls={0}>{key === 'start' ? 'Начало' : 'Окончание'}</T>
           <View collapsable={false} ref={view => { anchors.current[key] = view ?? undefined; }}>
             <PressScale disabled={draft.allDay} accessibilityRole="button" accessibilityLabel={key === 'start' ? 'Начало' : 'Окончание'} accessibilityState={{ disabled: draft.allDay }} onPress={() => openClock(key)} style={styles.time}>
               <T size={17} weight={400} ls={0}>{hourLabel(draft[key], draft[`${key}Minute`])}</T>
@@ -61,11 +61,11 @@ export function SessionActivity({ draft, patch }: Props) {
     </> : <>
       <View style={styles.durationWheel}>
         <WheelColumn label="Дни длительности" items={DAYS} value={days} onChange={day => setDuration(day, hours, minutes)} width={48} height={p.durationHeight} center={p.durationCenter} rowHeight={p.durationRow} highlight />
-        <T size={12} weight={600} ls={0} style={styles.unit}>день</T>
+        <T size={12} color={c.ink} ls={0} style={styles.unit}>день</T>
         <WheelColumn label="Часы длительности" items={HOURS} value={hours} onChange={hour => setDuration(days, hour, minutes)} width={48} height={p.durationHeight} center={p.durationCenter} rowHeight={p.durationRow} highlight />
-        <T size={12} weight={600} ls={0} style={styles.unit}>час</T>
+        <T size={12} color={c.ink} ls={0} style={styles.unit}>час</T>
         <WheelColumn label="Минуты длительности" items={days === 0 && hours === 0 ? MINUTES.slice(1) : MINUTES} value={minutes} onChange={minute => setDuration(days, hours, minute)} width={48} height={p.durationHeight} center={p.durationCenter} rowHeight={p.durationRow} highlight />
-        <T size={12} weight={600} ls={0} style={styles.unit}>мин</T>
+        <T size={12} color={c.ink} ls={0} style={styles.unit}>мин</T>
       </View>
       <T size={13} weight={400} color={p.note} ls={0} center style={styles.durationNote}>Приложения будут заблокированы на {durationLabel(draft.minutes)}.</T>
     </>}

@@ -21,7 +21,7 @@ export function BlockingMenu({ visible, onClose }: { visible: boolean; onClose: 
   return <SheetModal animateClose visible={visible} onClose={onClose} backdrop={close => <Pressable accessibilityLabel="Закрыть меню блокировки" onPress={() => close()} style={[StyleSheet.absoluteFill, { backgroundColor: c.backdrop }]} />}>{close => <>
     <View pointerEvents="box-none" style={styles.root}>
 
-      <View style={[styles.sheet, { bottom: Math.max(8, insets.bottom - 26) }]}>
+      <View style={[styles.sheet, { bottom: Math.max(8, insets.bottom - 22.3) }]}>
         <BlurView intensity={28} tint="light" style={StyleSheet.absoluteFill} />
         <View pointerEvents="none" style={[StyleSheet.absoluteFill, { backgroundColor: c.menu }]} />
         <SheetGrabber style={styles.handle} />

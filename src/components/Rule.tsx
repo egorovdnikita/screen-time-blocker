@@ -92,9 +92,9 @@ export function PlusCircle({ tone = 'light' }: { tone?: 'light' | 'hint' }) {
 }
 
 // Пунктирная подсказка «Напр., …» под карточкой.
-export function HintPill({ text }: { text: string }) {
+export function HintPill({ text, onPress }: { text: string; onPress: () => void }) {
   return (
-    <Pressable style={{ alignSelf: 'center', marginTop: 14.5 }}>
+    <Pressable accessibilityRole="button" accessibilityLabel={text} onPress={onPress} style={{ alignSelf: 'center', marginTop: 14.5 }}>
       <DashedBox
         radius={20.75}
         color={colors.dashHint}

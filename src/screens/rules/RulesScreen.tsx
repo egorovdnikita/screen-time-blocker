@@ -94,7 +94,7 @@ export function RulesScreen() {
         key={app.rulesVariant}
         scrollEnabled={tips === 'done'}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingTop: top + 85, paddingBottom: bottomSpace }}
+        contentContainerStyle={{ paddingTop: top + 80, paddingBottom: bottomSpace }}
       >
         {data.locks.length > 0 && (
           <FadeIn>
@@ -121,7 +121,7 @@ export function RulesScreen() {
                 <SessionCard rule={s} />
               </View>
             ))}
-            <HintPill text="Напр., «Блокировать с 23 до 7»" />
+            <HintPill text="Напр., «Блокировать с 23 до 7»" onPress={() => router.push('/session')} />
           </FadeIn>
         )}
 
@@ -131,7 +131,7 @@ export function RulesScreen() {
             {data.limits.map((l) => (
               <LimitCard key={l.id} rule={l} />
             ))}
-            <HintPill text="Напр., «Блок после 15 мин в день»" />
+            <HintPill text="Напр., «Блок после 15 мин в день»" onPress={() => router.push('/limit')} />
           </FadeIn></View>
         )}
 
@@ -139,7 +139,7 @@ export function RulesScreen() {
           <View onLayout={event => { routinesTop.current = event.nativeEvent.layout.y; }}><FadeIn delay={120} style={styles.section}>
             <SectionHeader title="Рутины" />
             {data.routines.map(rule => <RoutineCard key={rule.id} demoEarned={demoEarned && !rule.configuration} rule={rule} />)}
-            <HintPill text="Напр., «Открыть после 5000 шагов»" />
+            <HintPill text="Напр., «Открыть после 5000 шагов»" onPress={() => router.push('/routine')} />
           </FadeIn></View>
         )}
 
@@ -151,9 +151,9 @@ export function RulesScreen() {
         pointerEvents="none"
         colors={[colors.hdrBlur, colors.hdrBlur, 'rgba(249, 249, 249, 0)']}
         locations={[0, 0.94, 1]}
-        style={[styles.hdrBg, { height: top + 74 }]}
+        style={[styles.hdrBg, { height: top + 69 }]}
       />
-      <View style={[styles.hdr, { top: top + 12.67 }]}>
+      <View style={[styles.hdr, { top: top + 7.67 }]}>
         <View>
           <T variant="display" size={28.5} ls={0}>
             Правила
@@ -267,7 +267,7 @@ function SessionCard({ rule }: { rule: SessionRule }) {
           {rule.appIds ? <SessionApps appIds={rule.appIds} reverse={false}/> : rule.appGroup ? <AppGroupSummary group={rule.appGroup} /> : rule.selectedApps ? <SessionApps selected={rule.selectedApps} /> : <Image source={rule.apps === 'first-rule' ? art.appsFirstRule : art.appsSession} style={{ width: 45, height: 21 }} />}
         </View>
         {rule.unlock && (
-          <PressScale style={styles.firstUnlock}>
+          <PressScale accessibilityRole="button" accessibilityLabel={`Открыть ${title}`} onPress={() => setDetails(true)} style={styles.firstUnlock}>
             <T size={14.25}>Открыть</T>
             <T size={10} weight={500} color={colors.unlockCount} style={{ marginLeft: 5, marginTop: 2 }}>
               {rule.unlock}
@@ -389,7 +389,7 @@ function StatusPill({ status, blockingText = 'Активно' }: { status: Statu
   return (
     <View style={styles.upcoming}>
       <Icon name="upcoming" width={13.5} height={11.5} color={colors.meta} style={{ marginRight: 2.7 }} />
-      <T size={12} weight={500} ls={TRACK_SMALL} color={colors.meta}>
+      <T size={upcoming === 'Скоро' ? 12.25 : 12} weight={upcoming === 'Скоро' ? 600 : 500} ls={TRACK_SMALL} color={colors.meta}>
         {status.text ?? upcoming}
       </T>
     </View>
@@ -453,7 +453,7 @@ function TemplatesShell({ children }: { children: React.ReactNode }) {
         title="Шаблоны"
         right={
           <PressScale accessibilityRole="button" accessibilityLabel="Открыть галерею шаблонов" onPress={() => setGallery(true)} style={styles.seeMore}>
-            <T size={14.25} color={colors.white}>
+            <T size={app.savedTemplates.length || app.rulesVariant === 'first' ? 13 : 14.25} color={colors.white}>
               {app.savedTemplates.length || app.rulesVariant === 'first' ? 'Смотреть' : 'Ещё'}
             </T>
             <Icon name="arrow-right-small" width={14} height={14} color={colors.white} style={{ marginLeft: 5 }} />
@@ -476,7 +476,7 @@ function TemplatesShell({ children }: { children: React.ReactNode }) {
 function ClassicTemplates() {
   return (
     <TemplatesShell>
-      <PressScale scaleTo={0.97}>
+      <PressScale scaleTo={0.97} accessibilityRole="button" accessibilityLabel="Создать сессию из шаблона" onPress={() => router.push('/session')}>
         <DashedBox radius={26} color={colors.dashTpl} style={styles.tplCard}>
           <View style={[styles.tplPill, { backgroundColor: colors.white, boxShadow: shadows.pillSoft, top: 11.8, left: 13 }]}>
             <Icon name="lock-fill" width={13} height={15} color={colors.black} style={styles.tplPillIcon} />

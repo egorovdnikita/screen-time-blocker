@@ -1,7 +1,7 @@
 import { lockApps } from '@/data/lockRule';
 import { DarkButtonSurface } from './DarkButtonSurface';
 import { Image } from 'expo-image';
-import { useEffect, useState, type ReactNode } from 'react';
+import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
 import { Animated, Platform, Pressable, StyleSheet, Switch, View, type StyleProp, type ViewStyle } from 'react-native';
 import { art } from '@/data/art';
 import { T } from '@/theme/typography';
@@ -17,11 +17,16 @@ export function SessionApps({ selected = [true, true, true], reverse = true, bar
     {items.map((item,i)=><Image key={item.name} source={item.source} style={large||setup?{position:'absolute',left:large?4+i*28:2.16+i*15.12,top:large?2.5:1.5,width:large?37.5:20.25,height:large?37.5:22.1,borderRadius:large?9:5}:{width:16,height:16,borderRadius:4,marginLeft:i?-4:0}}/>)}
   </View>;
 }
+// Редакторы лимитов, блокировок и рутин в HTML набраны другими серыми, чем редактор сессии.
+export const EditorTone = createContext({ value: c.value as string, label: c.secondary as string });
+export const ruleEditorTone = { value: c.ruleValue, label: c.ruleLabel };
+
 export function EditorRow({ title, value, expanded, onPress, children, emphasized, headerHeight = 59 }: { title: string; value?: ReactNode; expanded?: boolean; onPress?: () => void; children?: ReactNode; emphasized?: boolean; headerHeight?: number }) {
+  const tone = useContext(EditorTone);
   return <View style={[styles.card, emphasized && { borderRadius: p.activityRadius, boxShadow: 'none' }]}>
     <PressScale accessibilityRole="button" accessibilityLabel={title} accessibilityState={{ expanded: !!expanded }} onPress={onPress} style={[styles.row, { minHeight: headerHeight }, emphasized && { paddingTop: 8 }]}>
       <Icon name="chevron-down-section" width={12} height={8} color={colors.chevronCompact} style={expanded ? { transform: [{ rotate: '180deg' }] } : undefined} />
-      <T size={emphasized ? 21 : 14} weight={emphasized ? 700 : 600} color={emphasized ? c.ink : c.secondary} ls={0} style={emphasized ? { lineHeight: 26 } : undefined}>{title}</T><View style={{ marginLeft: 'auto' }}>{typeof value === 'string' ? <T size={14} weight={400} ls={0}>{value}</T> : value}</View>
+      <T size={emphasized ? 21 : 14} weight={emphasized ? 700 : 600} color={emphasized ? c.ink : tone.label} ls={0} style={emphasized ? { lineHeight: 26 } : undefined}>{title}</T><View style={{ marginLeft: 'auto' }}>{typeof value === 'string' ? <T size={14} weight={400} color={tone.value} ls={0}>{value}</T> : value}</View>
     </PressScale>{expanded && children}
   </View>;
 }

@@ -7,7 +7,7 @@ import { useDarkStatusBar } from '@/components/useStatusBar';
 import { T, TRACK_SMALL } from '@/theme/typography';
 import { colors } from '@/theme/tokens';
 
-// Макета «Обзора» нет — заглушка в стилистике остальных экранов.
+// Макета «Обзора» нет (APP-19): экран-заглушка.
 export function OverviewScreen() {
   const insets = useSafeAreaInsets();
   useDarkStatusBar();
@@ -20,9 +20,6 @@ export function OverviewScreen() {
         <Icon name="hands-clap" width={50} height={48} color={colors.section} />
         <T size={17} color={colors.section} style={{ marginTop: 12 }}>
           Скоро здесь будет обзор
-        </T>
-        <T size={12.5} weight={500} ls={TRACK_SMALL} color={colors.written} style={{ marginTop: 4 }}>
-          Макет экрана ещё не готов
         </T>
       </View>
       <BottomChrome />

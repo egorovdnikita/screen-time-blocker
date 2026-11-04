@@ -4,7 +4,7 @@ import { useAppState } from '@/state/app';
 import { useState } from 'react';
 import { MainSettings } from '../settings/MainSettings';
 import { Image, type ImageSource } from 'expo-image';
-import { Pressable, ScrollView, StyleSheet, useWindowDimensions, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, useWindowDimensions, View, Alert, Platform } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { BottomChrome, useBottomSpace } from '@/components/BottomChrome';
@@ -41,7 +41,7 @@ export function ProfileScreen({ recap: recapProp = false }: { recap?: boolean })
       >
         <Image source={art.profileSky} style={[styles.sky, { width, height: width * SKY_RATIO }]} contentFit="cover" />
 
-        <View style={[styles.header, { marginTop: top + 15 }]}>
+        <View style={[styles.header, { marginTop: top + 10 }]}>
           <T variant="display" size={29} ls={0} color={colors.white} onSky style={{ marginTop: 3 }}>
             Профиль
           </T>
@@ -54,7 +54,7 @@ export function ProfileScreen({ recap: recapProp = false }: { recap?: boolean })
               {app.profileName.slice(0,2).toUpperCase()}
             </T>
           </View>
-          <Pressable style={styles.nameRow} accessibilityRole="button" accessibilityLabel="Изменить имя" disabled accessibilityState={{disabled:true}}>
+          <Pressable style={styles.nameRow} accessibilityRole="button" accessibilityLabel="Изменить имя" disabled={Platform.OS !== 'ios'} accessibilityState={{ disabled: Platform.OS !== 'ios' }} onPress={() => Alert.prompt('Как к вам обращаться?', undefined, name => { if (name?.trim()) app.setProfileName(name.trim().slice(0, 40)); }, 'plain-text', app.profileName)}>
             <T size={24} color={colors.white} onSky>
               {app.profileName}
             </T>
@@ -131,7 +131,7 @@ export function ProfileScreen({ recap: recapProp = false }: { recap?: boolean })
             </View>
           </View>
 
-          <Pressable style={({ pressed }) => [styles.refresh, { opacity: pressed ? 0.7 : 1 }]} accessibilityRole="button">
+          <Pressable onPress={app.refresh} accessibilityLabel="Обновить отчёт" style={({ pressed }) => [styles.refresh, { opacity: pressed ? 0.7 : 1 }]} accessibilityRole="button">
             <Icon name="refresh-cycle" width={18} height={19.5} color={colors.black} style={{ marginRight: 2.833 }} />
             <T size={15.25}>Обновить</T>
           </Pressable>
@@ -159,7 +159,7 @@ export function ProfileScreen({ recap: recapProp = false }: { recap?: boolean })
 
 function Article({ image, title }: { image: ImageSource; title: string }) {
   return (
-    <Pressable style={styles.article}>
+    <View style={styles.article}>
       <Image source={image} style={StyleSheet.absoluteFill} contentFit="cover" />
       <View style={styles.artPill}>
         <Icon name="clock-fill" width={11.5} color={colors.white} style={{ position: 'absolute', left: 6.5, top: 5.5 }} />
@@ -174,7 +174,7 @@ function Article({ image, title }: { image: ImageSource; title: string }) {
           </T>
         ))}
       </View>
-    </Pressable>
+    </View>
   );
 }
 

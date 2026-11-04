@@ -6,6 +6,7 @@ import { router } from 'expo-router';
 import { useState } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { EditorTone, ruleEditorTone } from '@/components/SessionPrimitives';
 import { StrictModeRow } from '@/components/StrictModeRow';
 import { Icon } from '@/components/Icon';
 import { PressScale } from '@/components/motion';
@@ -13,7 +14,7 @@ import { art } from '@/data/art';
 import { createLock, initialLock, lockApp, type LockDraft } from '@/data/lockRule';
 import { durationLabel, unlockMethodLabel } from '@/data/session';
 import { useAppState } from '@/state/app';
-import { ruleEditorSpacing, colors, sessionTheme, lockTheme as c } from '@/theme/tokens';
+import { ruleEditorSpacing, colors, sessionTheme, strictTheme, lockTheme as c } from '@/theme/tokens';
 import { T } from '@/theme/typography';
 import { UnlockDuration, unlockCountLabel } from '../session/SessionUnlocks';
 import { UnlockMethodSheet } from '../session/UnlockMethodSheet';
@@ -21,6 +22,10 @@ import { StrictSettingsSheet, StrictConfirmation, strictDaysLabel } from '../ses
 import { SingleAppPicker } from './SingleAppPicker';
 
 export function LockEditor() {
+  return <EditorTone.Provider value={ruleEditorTone}><LockEditorBody /></EditorTone.Provider>;
+}
+
+function LockEditorBody() {
   const [swipeClosing, setSwipeClosing] = useState(false);
   const [afterClose, setAfterClose] = useState<(() => void) | null>(null);
   useDarkStatusBar();
@@ -49,7 +54,7 @@ export function LockEditor() {
       </ScrollView>
       <Image pointerEvents="none" source={art.lockMascot} style={styles.mascot} />
       <View style={[styles.footer, { paddingBottom: Math.max(39, insets.bottom + 5) }]}>
-        <StrictModeRow value={draft.strict} description={draft.strict ? draft.strictScope === 'session' ? 'Активен во время сессии' : `Активен ${strictDaysLabel(draft.strictDays)}` : 'Без изменения и удаления'} onOpen={() => setPicker('strict')} onChange={strict => strict ? setPicker('strict') : patch({ strict: false })} style={{ marginLeft: 5, marginRight: 2 }} />
+        <StrictModeRow descriptionColor={strictTheme.note} value={draft.strict} description={draft.strict ? draft.strictScope === 'session' ? 'Активен во время сессии' : `Активен ${strictDaysLabel(draft.strictDays)}` : 'Без изменения и удаления'} onOpen={() => setPicker('strict')} onChange={strict => strict ? setPicker('strict') : patch({ strict: false })} style={{ marginLeft: 5, marginRight: 2 }} />
         <PressScale accessibilityRole="button" accessibilityLabel="Добавить лимит запусков" disabled={!selected} accessibilityState={{ disabled: !selected }} onPress={() => draft.strict ? setPicker('confirm') : add()} style={[styles.add, { backgroundColor: selected ? c.dark : c.disabled, boxShadow: selected ? sessionTheme.buttonShadow : undefined, overflow: 'hidden' }]}>{selected && <LinearGradient pointerEvents="none" colors={c.buttonGradient} locations={[0, .65, 1]} start={{ x: .017, y: .37 }} end={{ x: .983, y: .63 }} style={StyleSheet.absoluteFill} />}<Icon name="plus" width={16} height={18} color={selected ? colors.white : c.disabledInk} /><T size={17} color={selected ? colors.white : c.disabledInk} ls={0}>Добавить</T></PressScale>
       </View>
     </View>

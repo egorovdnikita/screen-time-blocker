@@ -1,7 +1,7 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import { useEffect, useState } from 'react';
 import { Image } from 'expo-image';
-import { PanResponder, StyleSheet, TextInput, View } from 'react-native';
+import { Keyboard, PanResponder, StyleSheet, TextInput, View, useWindowDimensions } from 'react-native';
 import Svg, { Circle, Defs, LinearGradient as SvgGradient, Stop } from 'react-native-svg';
 import { Icon, type IconName } from '@/components/Icon';
 import { PressScale } from '@/components/motion';
@@ -13,7 +13,15 @@ import { OnboardingButton, OnboardingHint, OnboardingNav, OnboardingTitle } from
 export function NameEntry({ name, onChange, onNext }: { name: string; onChange: (value: string) => void; onNext: () => void }) {
   // Поле открывается с клавиатурой: в HTML 004/005 это уже состояние фокуса.
   const [focused, setFocused] = useState(true);
-  return <><OnboardingTitle top={217} size={28} ls={-.35}>Как к вам обращаться?</OnboardingTitle><View style={[styles.name, focused && styles.nameFocused]}><TextInput accessibilityLabel="Ваше имя" value={name} autoFocus onFocus={() => setFocused(true)} onBlur={() => setFocused(false)} maxLength={40} onChangeText={onChange} placeholder="Имя" placeholderTextColor={c.muted} autoCorrect={false} returnKeyType="next" onSubmitEditing={() => { if (name.trim()) onNext(); }} style={styles.input} /><PressScale accessibilityRole="button" accessibilityLabel="Очистить имя" disabled={!name} onPress={() => onChange('')} style={{ width: 40, height: 51, marginRight: 6.5, alignItems: 'center', justifyContent: 'center' }}><Icon name={name ? 'reflection-close' : 'pencil'} width={17} height={17} color={c.muted} /></PressScale></View><OnboardingButton onPress={onNext} disabled={!name.trim()} disabledFill={c.disabledName} disabledInk={c.disabledNameInk} style={{ top: 480, bottom: undefined }}>Продолжить</OnboardingButton></>;
+  // На высоте меньше 852 клавиатура закрыла бы кнопку: в макете между ними 6 pt.
+  const [keyboard, setKeyboard] = useState(0);
+  const { height } = useWindowDimensions();
+  useEffect(() => {
+    const show = Keyboard.addListener('keyboardWillShow', e => setKeyboard(e.endCoordinates.height));
+    const hide = Keyboard.addListener('keyboardWillHide', () => setKeyboard(0));
+    return () => { show.remove(); hide.remove(); };
+  }, []);
+  return <><OnboardingTitle top={217} size={28} ls={-.35}>Как к вам обращаться?</OnboardingTitle><View style={[styles.name, focused && styles.nameFocused]}><TextInput accessibilityLabel="Ваше имя" value={name} autoFocus onFocus={() => setFocused(true)} onBlur={() => setFocused(false)} maxLength={40} onChangeText={onChange} placeholder="Имя" placeholderTextColor={c.muted} autoCorrect={false} returnKeyType="next" onSubmitEditing={() => { if (name.trim()) onNext(); }} style={styles.input} /><PressScale accessibilityRole="button" accessibilityLabel="Очистить имя" disabled={!name} onPress={() => onChange('')} style={{ width: 40, height: 51, marginRight: 6.5, alignItems: 'center', justifyContent: 'center' }}><Icon name={name ? 'reflection-close' : 'pencil'} width={17} height={17} color={c.muted} /></PressScale></View><OnboardingButton onPress={onNext} disabled={!name.trim()} disabledFill={c.disabledName} disabledInk={c.disabledNameInk} style={{ top: keyboard ? Math.min(480, height - keyboard - 66) : 480, bottom: undefined }}>Продолжить</OnboardingButton></>;
 }
 export function OnboardingQuiz({ time = false, onBack, onSelect }: { time?: boolean; onBack: () => void; onSelect: (index: number) => void }) {
   return <><OnboardingNav onBack={onBack} /><OnboardingTitle top={time ? 162 : 151} side={time ? 35 : 46} ls={0}>{time ? 'Сколько часов в день вы\nпроводите в телефоне?' : 'Что не так с вашим\nтелефоном?'}</OnboardingTitle>{time && <T size={15} weight={400} color={c.quizNote} center ls={0} style={{ position: 'absolute', top: 226, left: 30, right: 30, lineHeight: 19 }}>В среднем за день</T>}<View style={{ marginTop: time ? 59 : 51, marginHorizontal: 20, gap: time ? 10 : 8 }}>{(time ? onboardingTimes : onboardingIssues).map((label,i) => <PressScale key={label} accessibilityRole="button" accessibilityLabel={label} onPress={() => onSelect(i)} style={[styles.option, time && styles.optionTime]}>{!time && <Icon name={`onboarding-quiz-${i+1}` as IconName} width={28} height={28} color={c.muted} />}<T size={16} weight={600} ls={0} style={{ flex: 1, lineHeight: 20 }}>{label}</T><Icon name="chevron-right" width={8} height={11} color={c.muted} /></PressScale>)}</View></>;

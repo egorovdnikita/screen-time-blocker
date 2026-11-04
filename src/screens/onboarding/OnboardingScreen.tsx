@@ -1,9 +1,11 @@
 import { useEffect } from 'react';
+import { Image } from 'expo-image';
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { router } from 'expo-router';
 import { useAppState } from '@/state/app';
 import { initialSession, sessionRule } from '@/data/session';
+import { onboardingArt } from '@/data/onboarding';
 import { onboardingTheme as c } from '@/theme/tokens';
 import { Welcome, SocialProof } from './WelcomeSocial';
 import { OnboardingFriction, OnboardingStory } from './OnboardingPieces';
@@ -11,7 +13,7 @@ import { NameEntry, OnboardingQuiz, GoalIntro, GoalControls, OnboardingMath } fr
 import { Commit, ConnectScreenTime, Preferences, OnboardingPicker, OnboardingUnlocks, OnboardingMethod, OnboardingSchedule } from './OnboardingSetup';
 
 export function OnboardingScreen({ initialStep }: { initialStep?: number }) {
-  const app = useAppState(); const { height } = useWindowDimensions();
+  const app = useAppState(); const { width, height } = useWindowDimensions();
   const { startOnboarding, patchOnboarding: patch } = app;
   useEffect(() => { if (initialStep !== undefined) startOnboarding(initialStep); }, [initialStep,startOnboarding]);
   const draft = app.onboardingDraft, step = draft.step;
@@ -52,6 +54,13 @@ export function OnboardingScreen({ initialStep }: { initialStep?: number }) {
     case 24: content=<OnboardingMethod onBack={()=>go(draft.unlocks===3?23:22)} onNext={()=>go(25)}/>;break;
     case 25: content=<OnboardingSchedule draft={draft} onBack={()=>go(24)} onFinish={finish}/>;break;
   }
-  return <KeyboardAvoidingView behavior={Platform.OS==='ios'&&(step===4||step===5)?'padding':undefined} style={{flex:1,backgroundColor:step>=19&&step<=21?c.picker:c.white}}><StatusBar style={step===0?'light':'dark'}/><ScrollView accessibilityLabel={`Знакомство: экран ${String(step).padStart(3,'0')}`} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} contentContainerStyle={{minHeight:Math.max(852,height)}}><View style={[styles.page,{minHeight:Math.max(852,height),backgroundColor:step>=19&&step<=21?c.picker:c.white}]}>{content}</View></ScrollView></KeyboardAvoidingView>;
+  // Экраны свёрстаны на 393×852. На высоте от 800 страница равна экрану, на низких экранах масштабируется целиком:
+  // абсолютные координаты макета не перестроить иначе, а главная кнопка должна быть видна без прокрутки.
+  const typing = step===4||step===5, compact = height<800&&!typing;
+  const scale = compact ? Math.min(1,height/852,width/393) : 1;
+  const surface = step>=19&&step<=21?c.picker:c.white;
+  const page = height>=800 ? height : 852;
+  if (compact) return <View accessibilityLabel={`Знакомство: экран ${String(step).padStart(3,'0')}`} style={{flex:1,alignItems:'center',justifyContent:'center',overflow:'hidden',backgroundColor:surface}}><StatusBar style={step===0?'light':'dark'}/>{step===0&&<><Image source={onboardingArt.sky} contentFit="fill" style={StyleSheet.absoluteFill}/><View style={{position:'absolute',left:0,right:0,bottom:0,height:'37%',backgroundColor:c.white}}/></>}<View style={[styles.page,{width:393,height:852,transform:[{scale}]}]}>{content}</View></View>;
+  return <KeyboardAvoidingView behavior={Platform.OS==='ios'&&typing?'padding':undefined} style={{flex:1,backgroundColor:surface}}><StatusBar style={step===0?'light':'dark'}/><ScrollView accessibilityLabel={`Знакомство: экран ${String(step).padStart(3,'0')}`} scrollEnabled={typing} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} contentContainerStyle={{minHeight:page}}><View style={[styles.page,{minHeight:page,backgroundColor:surface}]}>{content}</View></ScrollView></KeyboardAvoidingView>;
 }
 const styles=StyleSheet.create({page:{position:'relative',overflow:'hidden'}});

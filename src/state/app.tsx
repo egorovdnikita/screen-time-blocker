@@ -381,7 +381,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     },
     addSession: (session, template = false) => {
       if (noticeTimer.current) clearTimeout(noticeTimer.current);
-      setSessionNotice(template ? 'Шаблон создан!' : session.status.kind === 'upcoming' ? 'Расписание добавлено!' : 'Сессия началась!');
+      setSessionNotice(template ? 'Шаблон создан!' : session.status.kind === 'upcoming' ? 'Правило добавлено!' : 'Сессия началась!');
       noticeTimer.current = setTimeout(() => setSessionNotice(null), 2800);
       if (template) setSavedTemplates(xs => [session, ...xs]);
       // Сессия «сейчас» из шаблона начинается в момент запуска, а не в момент сохранения шаблона.

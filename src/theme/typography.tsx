@@ -1,3 +1,4 @@
+import { createContext, useContext } from 'react';
 import { Platform, Text, type TextProps, type TextStyle } from 'react-native';
 
 import { colors } from './tokens';
@@ -38,10 +39,13 @@ export const skyShadow: TextStyle = {
   textShadowOffset: { width: 0, height: 0 },
 };
 
+// Цвет текста области: в HTML настройки набраны #111, а не чистым чёрным. Явный color важнее.
+export const TextInk = createContext<string>(colors.text);
+
 export function T({
   size = 15,
   weight = 700,
-  color = colors.text,
+  color,
   ls = 0.3,
   variant = 'rounded',
   center,
@@ -49,6 +53,7 @@ export function T({
   style,
   ...rest
 }: TProps) {
+  const ink = useContext(TextInk);
   return (
     <Text
       allowFontScaling={false}
@@ -58,7 +63,7 @@ export function T({
           fontFamily: variant === 'display' ? display : variant === 'text' ? text : variant === 'system' ? system : rounded,
           fontSize: size,
           fontWeight: String(weight) as TextStyle['fontWeight'],
-          color,
+          color: color ?? ink,
           letterSpacing: ls,
         },
         center && { textAlign: 'center' },

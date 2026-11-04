@@ -77,7 +77,7 @@ export function SessionEditor() {
           <EditorRow title="Приложения" value={<AppGroupSummary group={draft.appGroup} />} onPress={() => setAppsOpen(true)} />
           </View>
           <View style={compact ? { marginBottom: activityExpanded ? draft.scheduled ? 14 : 9 : 10 } : undefined}>
-          <EditorRow title={activityExpanded || draft.scheduled ? 'Активность' : 'Длительность'} value={activityExpanded ? undefined : draft.scheduled ? `${scheduleSummary} | ${daysSummary}` : durationLabel(draft.minutes)}
+          <EditorRow title={activityExpanded || draft.scheduled || unlockExpanded ? 'Активность' : 'Длительность'} value={activityExpanded ? undefined : draft.scheduled ? `${scheduleSummary} | ${daysSummary}` : durationLabel(draft.minutes)}
             emphasized={activityExpanded} headerHeight={activityExpanded ? draft.scheduled ? 53 : 54 : 59} expanded={activityExpanded} onPress={() => { animateLayout(); setOpen(activityExpanded ? null : 'duration'); }}>
             <SessionActivity draft={draft} patch={patch} />
           </EditorRow>

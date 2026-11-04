@@ -8,7 +8,7 @@ import { useState } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { StrictModeRow } from '@/components/StrictModeRow';
-import { EditorRow, SessionAction } from '@/components/SessionPrimitives';
+import { EditorRow, SessionAction, EditorTone, ruleEditorTone } from '@/components/SessionPrimitives';
 import { Icon } from '@/components/Icon';
 import { animateLayout, PressScale } from '@/components/motion';
 import { art } from '@/data/art';
@@ -16,13 +16,17 @@ import { daysLabel, initialTimeLimit, timeLimitRule, type TimeLimitDraft } from 
 import { durationLabel, unlockMethodLabel } from '@/data/session';
 import { useAppState } from '@/state/app';
 import { T } from '@/theme/typography';
-import { ruleEditorSpacing, colors, timeLimitTheme as c } from '@/theme/tokens';
+import { ruleEditorSpacing, colors, sessionTheme, timeLimitTheme as c } from '@/theme/tokens';
 import { StrictSettingsSheet, StrictConfirmation, strictDaysLabel } from '../session/StrictSettingsSheet';
 import { SessionUnlocks, UnlockDuration } from '../session/SessionUnlocks';
 import { LimitAppPicker } from './LimitAppPicker';
 
 type Open = 'after' | 'days' | 'unlocks' | 'notifications' | null;
 export function TimeLimitEditor() {
+  return <EditorTone.Provider value={ruleEditorTone}><TimeLimitEditorBody /></EditorTone.Provider>;
+}
+
+function TimeLimitEditorBody() {
   const [swipeClosing, setSwipeClosing] = useState(false);
   const [afterClose, setAfterClose] = useState<(() => void) | null>(null);
   useDarkStatusBar();
@@ -41,7 +45,7 @@ export function TimeLimitEditor() {
   const dismiss = () => router.canGoBack() ? router.back() : router.replace('/(tabs)');
   const finish = (template = false) => { const rule = timeLimitRule(draft); if (!rule) return; setAfterClose(() => () => { app.addLimit(rule, template); router.dismissAll(); router.navigate(!template && !app.shareGuideSeen ? '/share-devices' : '/(tabs)/rules'); }); setSwipeClosing(true); };
   const selectedCount = draft.limitApps.length + draft.limitCategories.length;
-  const badge = selectedCount ? <View style={styles.badge}><Icon name="apps-grid" width={14} height={14} color={c.ink} /><T size={14} weight={400} ls={0}>{selectedCount}</T></View> : <View style={styles.warning}><T size={12} color={c.warning} ls={0}>● Выбрать</T></View>;
+  const badge = selectedCount ? <View style={styles.badge}><Icon name="apps-grid" width={14} height={14} color={c.ink} /><T size={14} weight={600} color={sessionTheme.ruleValue} ls={0}>{selectedCount}</T></View> : <View style={styles.warning}><T size={12} color={c.warning} ls={0}>● Выбрать</T></View>;
   const row = (title: string, value: string, action: () => void, margin = 14) => <View style={{ marginTop: margin }}><EditorRow title={title} value={value} onPress={action} /></View>;
   const afterValue = `${durationLabel(draft.minutes)}　│　Приложения`;
   const extraValue = draft.unlocks ? `${draft.unlocks}　│　${draft.unlockMethod === 'wait' ? 'Ожидание' : unlockMethodLabel[draft.unlockMethod]}` : 'Нет';
@@ -81,7 +85,7 @@ export function TimeLimitEditor() {
 }
 function NotifyRow({ label, value, max, onChange }: { label: string; value: number; max: number; onChange: (value: number) => void }) {
   const name = label.replace('\n', ' ');
-  return <View style={styles.notifyRow}><T size={14} weight={400} ls={0} style={{ flex: 1 }}>{label}</T><T size={15} color={c.value} ls={0} style={{ marginRight: 13 }}>{value ? `${value} мин` : 'Нет'}</T><View style={styles.stepper}><PressScale accessibilityRole="button" accessibilityLabel={`Уменьшить уведомление: ${name}`} disabled={!value} accessibilityState={{ disabled: !value }} onPress={() => onChange(Math.max(0, value - 10))} style={styles.step}><T size={23} weight={400} color={value ? c.ink : c.dayOff} ls={0}>−</T></PressScale><View style={styles.stepperLine} /><PressScale accessibilityRole="button" accessibilityLabel={`Увеличить уведомление: ${name}`} disabled={value >= max} accessibilityState={{ disabled: value >= max }} onPress={() => onChange(Math.min(max, value + 10))} style={styles.step}><T size={23} weight={400} color={value >= max ? c.dayOff : c.ink} ls={0}>＋</T></PressScale></View></View>;
+  return <View style={styles.notifyRow}><T size={14} weight={400} ls={0} style={{ flex: 1 }}>{label}</T><T size={15} weight={600} color={c.value} ls={0} style={{ marginRight: 13 }}>{value ? `${value} мин` : 'Нет'}</T><View style={styles.stepper}><PressScale accessibilityRole="button" accessibilityLabel={`Уменьшить уведомление: ${name}`} disabled={!value} accessibilityState={{ disabled: !value }} onPress={() => onChange(Math.max(0, value - 10))} style={styles.step}><T size={23} weight={400} color={value ? c.ink : c.dayOff} ls={0}>−</T></PressScale><View style={styles.stepperLine} /><PressScale accessibilityRole="button" accessibilityLabel={`Увеличить уведомление: ${name}`} disabled={value >= max} accessibilityState={{ disabled: value >= max }} onPress={() => onChange(Math.min(max, value + 10))} style={styles.step}><T size={23} weight={400} color={value >= max ? c.dayOff : c.ink} ls={0}>＋</T></PressScale></View></View>;
 }
 const styles = StyleSheet.create({
   sheet: { flex: 1, borderRadius: 40, overflow: 'hidden', backgroundColor: c.surface }, handle: { position: 'absolute', zIndex: 2, top: 12, width: 64, height: 5, borderRadius: 4, alignSelf: 'center', backgroundColor: c.handle },

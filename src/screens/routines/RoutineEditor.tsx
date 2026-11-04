@@ -9,7 +9,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { RuleEditorScrollCap, RuleEditorHeader, RuleSuggestions } from '@/components/RuleEditorPieces';
 import { WeekdayPicker } from '@/components/WeekdayPicker';
 import { StrictModeRow } from '@/components/StrictModeRow';
-import { EditorRow, FlowSwitch, SessionAction } from '@/components/SessionPrimitives';
+import { EditorRow, FlowSwitch, SessionAction, EditorTone, ruleEditorTone } from '@/components/SessionPrimitives';
 import { Icon } from '@/components/Icon';
 import { PressScale, animateLayout } from '@/components/motion';
 import { art } from '@/data/art';
@@ -25,6 +25,10 @@ import { StrictSettingsSheet, StrictConfirmation, strictDaysLabel } from '../ses
 import { HabitPicker } from './HabitPicker';
 
 export function RoutineEditor() {
+  return <EditorTone.Provider value={ruleEditorTone}><RoutineEditorBody /></EditorTone.Provider>;
+}
+
+function RoutineEditorBody() {
   const [swipeClosing, setSwipeClosing] = useState(false);
   const [afterClose, setAfterClose] = useState<(() => void) | null>(null);
   useDarkStatusBar();

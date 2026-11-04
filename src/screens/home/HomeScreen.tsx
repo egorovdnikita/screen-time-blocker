@@ -83,7 +83,7 @@ export function HomeScreen() {
       >
         <Image source={art.homeSky} style={[styles.sky, { width, height: width * SKY_RATIO }]} contentFit="cover" /><LinearGradient pointerEvents="none" colors={homeSkyTheme.fade} style={{ position: 'absolute', left: 0, right: 0, top: width * SKY_RATIO * .4, height: width * SKY_RATIO * .6 }} />
 
-        <View style={[styles.header, { marginTop: top + 15 }]}>
+        <View style={[styles.header, { marginTop: top + 10 }]}>
           <Icon name="block-wordmark" width={98.572} height={27.666} color={colors.wordmark} style={{ marginLeft: -5.8 }} />
           <View style={styles.periodWrap} pointerEvents="box-none">
             <Pressable ref={periodRef} onPress={openPeriod} style={styles.period} accessibilityRole="button" accessibilityLabel="Период">
@@ -200,8 +200,9 @@ export function HomeScreen() {
 function ScreenTimePage({ day, width }: { day: Day; width: number }) {
   return (
     <View style={{ width, alignItems: 'center' }}>
-      <T size={17.25} color={colors.white} onSky>
-        Время экрана
+      {/* HTML: «Экранное время» только в обычном дне до обновления, на вчера и после обновления — «Время экрана» 16 pt. */}
+      <T size={day.screenTime === '12 мин' ? 17.25 : 16} color={colors.white} onSky>
+        {day.screenTime === '12 мин' ? 'Экранное время' : 'Время экрана'}
       </T>
       <T size={74.25} ls={-2} color={colors.white} onSky numberOfLines={1} adjustsFontSizeToFit style={styles.num}>
         {day.screenTime}

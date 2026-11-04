@@ -13,12 +13,16 @@ import { animateLayout, PressScale } from '@/components/motion';
 import { cloneAppGroup, groupApps, groupCategories, groupSummary, hasGroupExtras, hasGroupSelection, countLabel, type AppGroupDraft, type AppCategoryId } from '@/data/appGroup';
 import { art } from '@/data/art';
 import { colors, modalTheme, appGroupTheme as c, lockTheme, routineTheme, namedGroupTheme } from '@/theme/tokens';
-import { T } from '@/theme/typography';
+import { T, TextInk } from '@/theme/typography';
 import { AppGroupCheck } from './AppGroupCheck';
 import { AppGroupOptions } from './AppGroupOptions';
 
 type Props = { purpose?: 'group' | 'routine' | 'named'; name?: string; onRename?: () => void; value: AppGroupDraft; onCancel: () => void; onConfirm: (group: AppGroupDraft) => void };
-export function AppGroupSheet({ value, onCancel, onConfirm, purpose = 'group', name, onRename }: Props) {
+export function AppGroupSheet(props: Props) {
+  return <TextInk.Provider value={c.rowInk}><AppGroupSheetBody {...props} /></TextInk.Provider>;
+}
+
+function AppGroupSheetBody({ value, onCancel, onConfirm, purpose = 'group', name, onRename }: Props) {
   const [draft, setDraft] = useState(() => cloneAppGroup(value));
   const [catalogOpen, setCatalogOpen] = useState(false);
   const [optionsOpen, setOptionsOpen] = useState(false);

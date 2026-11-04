@@ -154,9 +154,10 @@ export const GUTTER = 20;
 // Поток04: значения из session-editor.css и blocking-menu.css HTML-выгрузок.
 export const sessionTheme = {
   backdrop: 'rgba(0,0,0,.52)', surface: '#f7f7f9', menu: 'rgba(250,250,252,.68)',
-  ink: '#111114', secondary: '#7a7f88', section: '#858b95', handle: '#e5e6e8',
+  ink: '#111114', secondary: '#7a7f88', section: '#858b95', handle: '#e5e6e8', value: '#101114', strictNote: '#858a93',
+  ruleValue: '#161719', ruleLabel: '#828a95', unlockInk: '#18191b', scheduleInk: '#161719',
   orange: '#ffab13', cyan: '#22b8e8', red: '#ff5427', violet: '#bd69e8', green: '#12c67a',
-  strict: '#e1785c', blue: '#3983f0', off: '#c7c8ca', disabled: '#c5c7ca',
+  strict: '#e1785c', strictDetails: '#f08254', blue: '#3983f0', off: '#c7c8ca', disabled: '#c5c7ca',
   dark: '#191919', rim: '#929393', line: 'rgba(110,120,130,.28)', badge: '#edf0f3',
   rowShadow: '0px 1px 2px #00000010, 0px 3px 10px #16203a04',
   buttonShadow: 'inset 0px 0px 0px .833px #929393, 0px 6px 16px #1018200a',
@@ -228,6 +229,7 @@ export const strictTheme = {
 
 // Группа приложений063–069: app-groups.css и app-group-fixes.css.
 export const appGroupTheme = {
+  rowInk: '#131416',
   backdrop: 'rgba(0,0,0,.2)', summaryBackdrop: 'rgba(0,0,0,.2)', optionsBackdrop: 'rgba(0,0,0,.2)', backSheet: '#e1e2e3',
   surface: '#f2f2f8', optionsSurface: '#f7f8fa', dim: 'rgba(0,0,0,.13)',
   handle: '#d9dadd', blue: '#3983ed', checkboxBlue: '#4285ed', title: '#8a9099',
@@ -269,7 +271,7 @@ export const timeLimitTheme = {
 // Рутины131–139: routine-editor-fixes / habit-picker / routine-selected-states.
 export const routineTheme = {
   group: '#9ba2ad', border: '#e1e5e9', edit: '#cbd0d6', note: '#7d8797', placeholder: '#b7bcc4',
-  segmentBorder: '#e3e4e7', muted: '#858b95', blue: '#3983ed', warning: '#e7a91d', warningFill: '#fff8e9',
+  segmentBorder: '#e3e4e7', muted: '#858b95', blue: '#3983ed', warning: '#f5a400', warningFill: '#fff8e9',
   completionBlue: '#4c82eb', warningDot: '#ffb200', radioOn: '#0095f5', addBorder: '#d9dce1', addFill: '#e8eaee', earnedFill: '#edf4ff', earned: '#4386e2',
   line: '#eff0f2', badgeBorder: '#e5e6e9', pickerRadius: 44, cardRadius: 21,
 } as const;
@@ -372,7 +374,7 @@ export const emergencyTheme = {
   actionSurface: '#f4f4f5', ruleToast: '#57c779', actionOrange: '#f1d4c6', actionOrangeInk: '#e76b39', actionCancel: '#e9e9eb', toast: '#20c778',
 };
 export const interfaceTheme = {
-  alertSurface: 'rgba(249,249,249,.78)', alertCancel: '#d0d2d2', alertConfirm: '#0085ff', alertInk: '#66666b',
+  alertSurface: 'rgba(249,249,249,.78)', alertCancel: '#d0d2d2', alertConfirm: '#0085ff', alertInk: '#66666b', switchOn: '#0085ff',
   surface: '#f5f8fa', section: '#929aa8', icon: '#969eaa', value: '#7f899a',
   line: '#eff0f2', chevron: '#c1c6ce', iconGradient: ['#72c1ff', '#1971e8'] as const,
 };
