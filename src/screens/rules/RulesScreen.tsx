@@ -4,7 +4,7 @@ import { TemplateGallery } from './TemplateGallery';
 import { SessionDetails, LimitDetails } from './SessionDetails';
 import { RemoveRuleDialog } from './RemoveRuleDialog';
 import { AppUnlockSheet } from '../unlocking/AppUnlockSheet';
-import { routineHabits } from '@/data/routine';
+import { routineHabits, routineProgressToday, type Habit } from '@/data/routine';
 import { router, useLocalSearchParams } from 'expo-router';
 import { lockApp, lockDraftFrom, unlocksUsedToday } from '@/data/lockRule';
 import { Image } from 'expo-image';
@@ -347,18 +347,24 @@ function Progress({ value }: { value: number }) {
 function RoutineCard({ rule, demoEarned = false }: { rule: RoutineRule; demoEarned?: boolean }) {
   const [checked, setChecked] = useState(false);
   const [remove, setRemove] = useState(false);
-  const done = demoEarned || checked;
+  const app = useAppState();
   const config = rule.configuration;
-  const editable = useAppState().createdRoutines.some(item => item.id === rule.id) && !config?.strict;
+  const editable = app.createdRoutines.some(item => item.id === rule.id) && !config?.strict;
+  const progress = routineProgressToday(app.routineProgress[rule.id], Date.now());
   const tasks = config ? routineHabits(config) : [{ id: 'demo', title: demoEarned ? 'Убрать комнату' : 'Убрать в комнате', minutes: 5 }];
+  // Фото-привычки ждут проверки по снимку (APP-27), ручные отмечаются сразу (APP-15).
+  const isDone = (id: string) => config ? progress.claimed || progress.done.includes(id) : demoEarned || checked;
+  const allDone = !!config && tasks.length > 0 && tasks.every(task => isDone(task.id));
+  const earned = config ? tasks.reduce((sum, task) => sum + (isDone(task.id) ? task.minutes : 0), 0) : demoEarned ? 5 : 0;
+  const canClaim = demoEarned || (allDone && !progress.claimed);
   const appCount = config ? config.appGroup.selectedApps.filter(Boolean).length + config.appGroup.categories.length : 1;
   return <RuleCard style={[styles.wideCard, { marginTop: 10, paddingBottom: 8 }]}>
     <RuleHeader emoji={<Image source={art.emojiPlant} style={{ width: 21, height: 31 }} />} title={rule.title} streak={1} onPress={() => editable ? router.push({ pathname: '/routine', params: { id: rule.id } }) : setRemove(true)} accessibilityLabel={editable ? `Изменить правило ${rule.title}` : `Действия с правилом ${rule.title}`} />
-    <View style={[styles.metaRow, { marginTop: 11.3 }]}><StatusPill status={{ kind: 'blocking' }} blockingText={config || done ? 'Закрыто' : undefined} /><MetaSep /><AllDay /></View>
-    {tasks.map(task => <Pressable key={task.id} style={styles.task} disabled={!!config || demoEarned} onPress={() => setChecked(value => !value)} accessibilityLabel={`Проверить с ИИ: ${task.title}`} accessibilityHint={config ? 'Проверка по фото пока недоступна' : undefined} accessibilityRole="checkbox" accessibilityState={{ checked: done, disabled: !!config || demoEarned }} aria-checked={done}>
-      <View style={[styles.taskRing, done && { backgroundColor: 'transparent' }]}>{done && <Icon name="goal-check" width={13} height={13} color={colors.ruleCompleted} />}</View><View style={{ flex: 1, marginLeft: 6.7 }}><T size={15.25} color={done ? colors.ruleCompleted : colors.text}>{task.title}</T>{!done && <T size={11.75} weight={500} ls={TRACK_SMALL} color={colors.taskSub} style={{ marginTop: 1 }}>{config ? 'Проверить с ИИ' : 'Нажмите, чтобы проверить с ИИ'}</T>}</View><View style={[styles.plusTime, done && {backgroundColor: colors.ruleRewardBg, boxShadow: undefined}]}><Icon name="plus" width={12} height={12} color={done ? colors.limitProgress : colors.taskSub} style={{ marginRight: 3.8 }} /><T size={11.75} ls={TRACK_SMALL} color={done ? colors.limitProgress : colors.taskSub}>{task.minutes}{done ? 'мин' : ' мин'}</T></View>
-    </Pressable>)}
-    <DashedLine dash="5 5" style={{ marginTop: 17 }} /><View style={[styles.bottomRow, { marginTop: 25.3 }]}><Lock /><AppsCount count={appCount || 1} />{demoEarned && <Pressable accessibilityRole="button" accessibilityLabel="Демо: забрать время" onPress={() => router.setParams({earned:'0'})} style={{marginLeft:'auto',marginRight:8,width:114,height:33,borderRadius:24,backgroundColor:colors.white,boxShadow:shadows.pillSoft,alignItems:'center',justifyContent:'center'}}><T size={13} ls={0}>Забрать время</T></Pressable>}<T size={24} style={{ marginLeft: demoEarned ? 0 : 'auto' }}>{demoEarned?'5мин':'0с'}</T></View>
+    <View style={[styles.metaRow, { marginTop: 11.3 }]}><StatusPill status={{ kind: 'blocking' }} blockingText={progress.claimed ? 'Открыто' : config || demoEarned || checked ? 'Закрыто' : undefined} /><MetaSep /><AllDay /></View>
+    {tasks.map(task => { const done = isDone(task.id), manual = !!config && (task as Habit).kind === 'manual', locked = demoEarned || progress.claimed || (!!config && !manual); return <Pressable key={task.id} style={styles.task} disabled={locked} onPress={() => config ? app.toggleRoutineTask(rule.id, task.id) : setChecked(value => !value)} accessibilityLabel={`${manual ? 'Отметить' : 'Проверить с ИИ'}: ${task.title}`} accessibilityHint={config && !manual ? 'Проверка по фото пока недоступна' : undefined} accessibilityRole="checkbox" accessibilityState={{ checked: done, disabled: locked }} aria-checked={done}>
+      <View style={[styles.taskRing, done && { backgroundColor: 'transparent' }]}>{done && <Icon name="goal-check" width={13} height={13} color={colors.ruleCompleted} />}</View><View style={{ flex: 1, marginLeft: 6.7 }}><T size={15.25} color={done ? colors.ruleCompleted : colors.text}>{task.title}</T>{!done && <T size={11.75} weight={500} ls={TRACK_SMALL} color={colors.taskSub} style={{ marginTop: 1 }}>{manual ? 'Нажмите, чтобы отметить' : config ? 'Проверить с ИИ' : 'Нажмите, чтобы проверить с ИИ'}</T>}</View><View style={[styles.plusTime, done && {backgroundColor: colors.ruleRewardBg, boxShadow: undefined}]}><Icon name="plus" width={12} height={12} color={done ? colors.limitProgress : colors.taskSub} style={{ marginRight: 3.8 }} /><T size={11.75} ls={TRACK_SMALL} color={done ? colors.limitProgress : colors.taskSub}>{task.minutes}{done ? 'мин' : ' мин'}</T></View>
+    </Pressable>; })}
+    <DashedLine dash="5 5" style={{ marginTop: 17 }} /><View style={[styles.bottomRow, { marginTop: 25.3 }]}><Lock /><AppsCount count={appCount || 1} />{canClaim && <Pressable accessibilityRole="button" accessibilityLabel={demoEarned ? 'Демо: забрать время' : `Забрать время ${rule.title}`} onPress={() => demoEarned ? router.setParams({earned:'0'}) : app.claimRoutineReward(rule.id, earned)} style={{marginLeft:'auto',marginRight:8,width:114,height:33,borderRadius:24,backgroundColor:colors.white,boxShadow:shadows.pillSoft,alignItems:'center',justifyContent:'center'}}><T size={13} ls={0}>Забрать время</T></Pressable>}<T size={24} style={{ marginLeft: canClaim ? 0 : 'auto' }}>{earned ? `${earned}мин` : '0с'}</T></View>
     {remove && <RemoveRuleDialog id={rule.id} title={rule.title} strict={!!rule.configuration?.strict} onClose={() => setRemove(false)} />}
   </RuleCard>;
 }

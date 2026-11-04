@@ -7,7 +7,7 @@ import { initialReminders, type ReminderSettings } from '@/data/reminders';
 import { currentGoalDay, goalTimeLabel, boundedGoal } from '@/data/dailyGoal';
 import { reflectedDay } from '@/data/reflectionSummary';
 import { activityCatalog, reflectionKey, type ActivityDefinition, type Reflection } from '@/data/reflection';
-import type { Habit } from '@/data/routine';
+import { routineProgressToday, type Habit, type RoutineProgress } from '@/data/routine';
 import { liveSession } from '@/data/sessionSchedule';
 import { localDay, unlocksUsedToday, type AppUnlockEntry } from '@/data/lockRule';
 import { hapticResult } from '@/state/haptics';
@@ -106,6 +106,9 @@ type AppState = {
   savedLimitTemplates: LimitRule[];
   addLock: (rule: LockRule) => void;
   updateLock: (rule: LockRule) => void;
+  routineProgress: Record<string, RoutineProgress>;
+  toggleRoutineTask: (ruleId: string, taskId: string) => void;
+  claimRoutineReward: (ruleId: string, minutes: number) => void;
   updateRoutine: (rule: RoutineRule) => void;
   savedTemplates: SessionRule[];
   updateSessionTemplate: (id: string, changes: RuleDetailChanges) => void;
@@ -175,6 +178,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const [savedLimitTemplates, setSavedLimitTemplates] = useState<LimitRule[]>([]);
   const [createdLimits, setCreatedLimits] = useState<LimitRule[]>([]);
   const [createdLocks, setCreatedLocks] = useState<LockRule[]>([]);
+  const [routineProgress, setRoutineProgress] = useState<Record<string, RoutineProgress>>({});
   const [createdSessions, setCreatedSessions] = useState<SessionRule[]>([]);
   const [expertScreens, setExpertScreens] = useState(false);
   const [alternativeScreens, setAlternativeScreens] = useState(false);
@@ -209,7 +213,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     dailyGoalMinutes: [dailyGoalMinutes, setDailyGoalMinutes], reflectionTouchedDays: [reflectionTouchedDays, setReflectionTouchedDays], reflections: [reflections, setReflections],
     reflectionDefaults: [reflectionDefaults, setReflectionDefaults], reflectionExcluded: [reflectionExcluded, setReflectionExcludedRaw], customHabits: [customHabits, setCustomHabits],
     createdRoutines: [createdRoutines, setCreatedRoutines], savedRoutineTemplates: [savedRoutineTemplates, setSavedRoutineTemplates], savedLimitTemplates: [savedLimitTemplates, setSavedLimitTemplates],
-    createdLimits: [createdLimits, setCreatedLimits], createdLocks: [createdLocks, setCreatedLocks], createdSessions: [createdSessions, setCreatedSessions],
+    createdLimits: [createdLimits, setCreatedLimits], createdLocks: [createdLocks, setCreatedLocks], routineProgress: [routineProgress, setRoutineProgress], createdSessions: [createdSessions, setCreatedSessions],
     expertScreens: [expertScreens, setExpertScreens], alternativeScreens: [alternativeScreens, setAlternativeScreens], customBlockScreens: [customBlockScreens, setCustomBlockScreens],
     namedGroups: [namedGroups, setNamedGroups], savedTemplates: [savedTemplates, setSavedTemplates], scenario: [scenario, setScenarioRaw], rulesVariant: [rulesVariant, setRulesVariant],
     mostUsedMode: [mostUsedMode, setMostUsedMode], excluded: [excluded, setExcluded], productive: [productive, setProductive],
@@ -326,7 +330,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       setCreatedSessions(xs => xs.filter(x => x.id !== id)); setCreatedLimits(xs => xs.filter(x => x.id !== id));
       setCreatedLocks(xs => xs.filter(x => x.id !== id)); setCreatedRoutines(xs => xs.filter(x => x.id !== id));
       const without = <V,>(xs: Record<string, V>) => { if (!(id in xs)) return xs; const next = { ...xs }; delete next[id]; return next; };
-      setRuleChanges(without); setPausedSessions(without); setAppUnlocks(without);
+      setRuleChanges(without); setPausedSessions(without); setAppUnlocks(without); setRoutineProgress(without);
       if (noticeTimer.current) clearTimeout(noticeTimer.current); setSessionNotice('Правило удалено'); noticeTimer.current = setTimeout(() => setSessionNotice(null), 2800);
     },
     showRuleRefreshDemo: () => { if (noticeTimer.current) clearTimeout(noticeTimer.current); setSessionNotice('Обновляем данные. Это может занять\nнесколько минут.'); noticeTimer.current = setTimeout(() => setSessionNotice(null), 4000); },
@@ -386,6 +390,19 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       setSessionNotice('Правило добавлено!');
       noticeTimer.current = setTimeout(() => setSessionNotice(null), 2800);
       setCreatedLocks(xs => [rule, ...xs]);
+    },
+    routineProgress,
+    toggleRoutineTask: (ruleId, taskId) => setRoutineProgress(xs => {
+      const entry = routineProgressToday(xs[ruleId], Date.now());
+      if (entry.claimed) return xs;
+      return { ...xs, [ruleId]: { ...entry, done: entry.done.includes(taskId) ? entry.done.filter(id => id !== taskId) : [...entry.done, taskId] } };
+    }),
+    claimRoutineReward: (ruleId, minutes) => {
+      if (routineProgressToday(routineProgress[ruleId], Date.now()).claimed) return;
+      setRoutineProgress(xs => ({ ...xs, [ruleId]: { ...routineProgressToday(xs[ruleId], Date.now()), claimed: true } }));
+      setAppUnlocks(xs => { const now = Date.now(); return { ...xs, [ruleId]: { until: now + Math.max(1, minutes) * 60000, used: unlocksUsedToday(xs[ruleId], now), reason: '', day: localDay(now) } }; });
+      hapticResult('success');
+      if (noticeTimer.current) clearTimeout(noticeTimer.current); setSessionNotice(`Приложения откроются на ${minutes}мин.`); noticeTimer.current = setTimeout(() => setSessionNotice(null), 2800);
     },
     updateLock: rule => { setCreatedLocks(xs => xs.map(x => x.id === rule.id ? rule : x)); ruleNotice(); },
     updateRoutine: rule => { setCreatedRoutines(xs => xs.map(x => x.id === rule.id ? rule : x)); ruleNotice(); },

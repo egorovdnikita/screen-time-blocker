@@ -2,6 +2,7 @@ import { art } from './art';
 import { cloneAppGroup, hasGroupSelection } from './appGroup';
 import { initialSession, type SessionDraft } from './session';
 import type { RoutineRule } from './rules';
+import { localDay } from './unlockDay';
 export type Habit = { id: string; label: string; title: string; image: number; minutes: number; criterion?: string; kind?: 'photo' | 'manual' };
 export const habits: Habit[] = [
   { id: 'clean', label: 'Убраться в комнате', title: 'Убрать комнату', image: art.habitBroom, minutes: 5 },
@@ -19,6 +20,9 @@ export function habitCatalog(custom: Habit[]) {
 export const routineHabits = (draft: RoutineDraft) => (draft.habitDefinitions ?? habits).filter(h => draft.habitIds.includes(h.id));
 export type RoutineDraft = SessionDraft & { habitIds: HabitId[]; habitDefinitions?: Habit[]; earningMode: 'time' | 'completion'; startingMinutes: number };
 export const initialRoutine = (): RoutineDraft => ({ ...initialSession(), title: 'Рутина', days: [0, 1, 2, 3, 4, 5, 6], appGroup: { ...initialSession().appGroup, selectedApps: [false, false, false] }, habitIds: [], earningMode: 'time', startingMinutes: 0, allDay: true });
+/** Выполнение рутины за день (APP-15): новый день сбрасывает отметки, награда выдаётся один раз. */
+export type RoutineProgress = { day: string; done: string[]; claimed: boolean };
+export const routineProgressToday = (entry: RoutineProgress | undefined, now: number): RoutineProgress => entry?.day === localDay(now) ? entry : { day: localDay(now), done: [], claimed: false };
 export const routineReward = (draft: RoutineDraft) => routineHabits(draft).reduce((sum, h) => sum + h.minutes, 0);
 export const canSaveRoutine = (draft: RoutineDraft) => hasGroupSelection(draft.appGroup) && draft.habitIds.length > 0 && draft.days.length > 0;
 export function routineRule(draft: RoutineDraft): RoutineRule | null {
