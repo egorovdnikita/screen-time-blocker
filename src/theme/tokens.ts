@@ -7,6 +7,8 @@ export const colors = {
   card: '#ffffff',
   white: '#ffffff',
   black: '#000000',
+  counterOff: '#b7bbc0',
+  templateInk: '#111111',
   text: '#000000',
   textSecondary: '#717479',
   chartLabel: '#747679',
@@ -265,7 +267,7 @@ export const timeLimitTheme = {
   surface: '#f6f8fa', backdrop: 'rgba(0,0,0,.2)', handle: '#d8dade', ink: '#141517', secondary: '#828a95',
   subtitle: '#777f8d', hint: '#858b95', grid: '#f7f8fb', line: '#eceef2', value: '#818894',
   warningFill: '#fff7e3', warning: '#f5a400', badge: '#f1f3f6', summary: '#e4e8f7', blue: '#3983ed',
-  dayBorder: '#e2e3e6', dayOff: '#c5cad0', disabled: '#b3b4b8', disabledInk: '#cdced2',
+  dayBorder: '#e2e3e6', dayOff: '#c5cad0', stepOff: '#b6bac1', disabled: '#b3b4b8', disabledInk: '#cdced2',
   stepper: '#e9eaed', stepperLine: '#c7c9cd', surfaceFade: 'rgba(246,248,250,0)',
   panelRadius: 22, gridRadius: 18, stepperRadius: 18,
 } as const;
@@ -417,7 +419,7 @@ export const remainingTheme = {
   recap: '#169cff', recapDate: '#69b6ff', recapGradient: ['#a6dcff', '#e9f6ff', '#ffffff'] as const,
   lockGradient: ['#c7c7c7','#cbcbcb','#bfbfbf','#c0c0c0','#c5c5c5'] as const,
   system: '#d5d5d5', live: '#171717', liveMeta: '#7d8187', liveTrack: '#242424',
-  control: '#ededed', widgetInk: '#111111', widgetMeta: '#8b9099', widgetTrack: '#e9e7e8',
+  control: '#ededed', widgetInk: '#111111', widgetMeta: '#8b9099', widgetApprox: '#777777', widgetTrack: '#e9e7e8',
   widgetProgress: '#dcd8da', limitGradient: ['#ffffff','#ffffff','#f7d7c8'] as const,
   tip: '#050505', tipDim: 'rgba(20,22,27,.13)',
 };

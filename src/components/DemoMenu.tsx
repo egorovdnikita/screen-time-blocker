@@ -10,9 +10,9 @@ import { Icon } from './Icon';
 import { SheetModal } from './SheetModal';
 
 const SCENARIOS: { id: Scenario; title: string; hint: string }[] = [
-  { id: 'regular', title: 'Обычный день', hint: '12 мин, «Обновить» → 13 мин' },
-  { id: 'active', title: 'Активный день', hint: 'Активности, «Продуктивно», «С пользой»' },
-  { id: 'firstRun', title: 'Первый запуск', hint: 'Новое начало → загрузка → 8 мин, подсказки в Правилах' },
+  { id: 'regular', title: 'Обычный день', hint: 'Профиль «Стало/Было», «Обновить» меняет цифры' },
+  { id: 'active', title: 'Активный день', hint: 'Занятия, оценки «С пользой»' },
+  { id: 'firstRun', title: 'Первый запуск', hint: 'Новое начало, загрузка, подсказки в Правилах' },
 ];
 
 const RULES: { id: RulesVariant; title: string }[] = [
@@ -26,7 +26,8 @@ const RULES: { id: RulesVariant; title: string }[] = [
   { id: 'limitProgress', title: 'Прогресс лимита' },
 ];
 
-// Скрытое меню состояний из макетов: долгое нажатие на «⋯» на Главной или в Правилах.
+// Меню разработчика: долгое нажатие на «⋯» на Главной или в Правилах, только при __DEV__.
+// Любой пункт сначала откладывает данные пользователя, «Вернуться к моим данным» их восстанавливает.
 export function DemoMenu({ visible, onClose }: { visible: boolean; onClose: () => void }) {
   const app = useAppState();
   const insets = useSafeAreaInsets();
@@ -34,9 +35,10 @@ export function DemoMenu({ visible, onClose }: { visible: boolean; onClose: () =
     {close => <View style={[styles.sheet, { paddingBottom: insets.bottom + 16 }]}>
         <View style={styles.grabber} />
         <ScrollView showsVerticalScrollIndicator={false}>
-          <Row title="Последние 22 экрана" hint="046, 094, 107, 203–207, 265, 310–318, 338–344" selected={false} onPress={() => close(() => { onClose(); router.push('/remaining'); })} />
-          <Row title="Знакомство с Block" hint="Экраны 000–017" selected={false} onPress={() => close(() => { onClose(); router.push('/onboarding?step=0'); })} />
-          <Row title="Настройка первой блокировки" hint="Экраны 018–025" selected={false} onPress={() => close(() => { onClose(); router.push('/onboarding?step=18'); })} />
+          {app.demoActive && <Row title="Вернуться к моим данным" hint="Выйти из демо" selected={false} onPress={() => close(() => { app.leaveDemo(); onClose(); })} />}
+          <Row title="Экраны-образцы" hint="Фото привычки, QR, Live Activity, виджеты" selected={false} onPress={() => close(() => { onClose(); router.push('/remaining'); })} />
+          <Row title="Знакомство с Block" hint="С первого экрана" selected={false} onPress={() => close(() => { if (app.live) app.startDemo('firstRun'); onClose(); router.push('/onboarding?step=0'); })} />
+          <Row title="Настройка первой блокировки" hint="Выбор приложений и расписания" selected={false} onPress={() => close(() => { if (app.live) app.startDemo('firstRun'); onClose(); router.push('/onboarding?step=18'); })} />
           <T size={12} ls={TRACK_SMALL} color={colors.section} style={styles.caption}>
             ДЕМО · СЦЕНАРИЙ
           </T>
@@ -45,8 +47,8 @@ export function DemoMenu({ visible, onClose }: { visible: boolean; onClose: () =
               key={s.id}
               title={s.title}
               hint={s.hint}
-              selected={app.scenario === s.id}
-              onPress={() => close(() => { app.setScenario(s.id); onClose(); })}
+              selected={!app.live && app.scenario === s.id}
+              onPress={() => close(() => { app.startDemo(s.id); onClose(); })}
             />
           ))}
           <T size={12} ls={TRACK_SMALL} color={colors.section} style={[styles.caption, { marginTop: 18 }]}>
@@ -56,8 +58,8 @@ export function DemoMenu({ visible, onClose }: { visible: boolean; onClose: () =
             <Row
               key={r.id}
               title={r.title}
-              selected={app.rulesVariant === r.id}
-              onPress={() => close(() => { app.setRulesVariant(r.id); onClose(); })}
+              selected={!app.live && app.rulesVariant === r.id}
+              onPress={() => close(() => { app.startDemoRules(r.id); onClose(); })}
             />
           ))}
         </ScrollView>

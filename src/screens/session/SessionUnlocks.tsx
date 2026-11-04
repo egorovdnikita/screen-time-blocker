@@ -29,7 +29,7 @@ export function SessionUnlocks({ draft, patch, waitLabel, entryLabel = 'пере
       style={[styles.choice, !enabled && { minWidth: 57 }, enabled === on && styles.choiceOn]}><T size={15} color={enabled === on ? colors.white : c.secondary} ls={0}>{enabled === on ? '✓ ' : ''}{on ? 'Да' : 'Нет'}</T></PressScale>)}</View>
     {enabled && <>
       <View style={styles.count}>
-        <PressScale accessibilityRole="button" hitSlop={{ top: 2, bottom: 2 }} accessibilityLabel="Уменьшить число разблокировок" accessibilityState={{ disabled: draft.unlocks <= 1 }} disabled={draft.unlocks <= 1} onPress={() => patch({ unlocks: draft.unlocks - 1 })} style={[styles.countButton, draft.unlocks <= 1 && { opacity: .35 }]}><T size={25} weight={400} ls={0}>−</T></PressScale>
+        <PressScale accessibilityRole="button" hitSlop={{ top: 2, bottom: 2 }} accessibilityLabel="Уменьшить число разблокировок" accessibilityState={{ disabled: draft.unlocks <= 1 }} disabled={draft.unlocks <= 1} onPress={() => patch({ unlocks: draft.unlocks - 1 })} style={styles.countButton}><T size={25} weight={400} color={draft.unlocks <= 1 ? colors.counterOff : colors.black} ls={0}>−</T></PressScale>
         <T size={u.countSize} ls={-.8} accessibilityLiveRegion="polite">{unlockCountLabel(draft.unlocks)}</T>
         <PressScale accessibilityRole="button" hitSlop={{ top: 2, bottom: 2 }} accessibilityLabel="Увеличить число разблокировок" accessibilityState={{ disabled: draft.unlocks >= 99 }} disabled={draft.unlocks >= 99} onPress={() => patch({ unlocks: draft.unlocks + 1 })} style={[styles.countButton, draft.unlocks >= 99 && { opacity: .35 }]}><Icon name="plus" width={17} height={17} color={c.ink} /></PressScale>
       </View>

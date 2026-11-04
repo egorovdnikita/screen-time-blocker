@@ -39,7 +39,7 @@ export function MostUsed({ day, onOpenMenu }: Props) {
         <T size={20} color={colors.sectionLight}>
           Чаще всего
         </T>
-        <View ref={pillRef} collapsable={false}>
+        {!app.live && <View ref={pillRef} collapsable={false}>
           <PressScale
             onPress={() => pillRef.current?.measureInWindow((x, y, width, height) => onOpenMenu({ x, y, width, height }))}
             style={styles.pill}
@@ -49,10 +49,16 @@ export function MostUsed({ day, onOpenMenu }: Props) {
             <Icon name="updown" width={12} height={14.5} color={colors.black} style={{ marginRight: 3.4 }} />
             <T size={14.25}>{mode === 'apps' ? 'Прил.' : 'Занятия'}</T>
           </PressScale>
-        </View>
+        </View>}
       </View>
 
-      {mode === 'apps' ? (
+      {app.live ? (
+        <FadeIn key="live" from={6} style={styles.empty}>
+          <T size={15.25} color={colors.emptyActivities} center style={{ lineHeight: 18.333 }}>
+            {'Данные появятся, когда Block\nподключится к Экранному времени.'}
+          </T>
+        </FadeIn>
+      ) : mode === 'apps' ? (
         <FadeIn key="apps" from={6}>
           {counted.map((a) => (
             <AppItem

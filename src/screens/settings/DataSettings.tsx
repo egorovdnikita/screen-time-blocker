@@ -36,7 +36,7 @@ export function DataSettings({ onClose }: { onClose: () => void }) {
   };
   return <SettingsStack onClose={onClose} surface={c.surface} radius={44}>
     <T size={20} center ls={0} style={{ position: 'absolute', top: 44, left: 20, right: 20, lineHeight: 26 }}>Данные на устройстве</T>
-    <SheetScrollView accessibilityLabel="Данные на устройстве" style={{ marginTop: 100 }} contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 40 }}>
+    <SheetScrollView accessibilityLabel="Данные на устройстве" style={{ marginTop: 100 }} contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 32 }}>
       <T size={20} color={c.section} ls={0} style={{ lineHeight: 26 }}>Хранится на iPhone</T>
       <View style={[styles.group, { marginTop: 11 }]}>{rows.map((row, index) => <View key={row.title} accessibilityLabel={`${row.title}: ${row.value}`} style={[styles.row, index < rows.length - 1 && { borderBottomWidth: 1, borderColor: c.line }]}><T size={14.25} weight={400} variant="text" ls={0}>{row.title}</T><T size={17} color={c.value} ls={0} style={{ marginLeft: 'auto' }}>{row.value}</T></View>)}</View>
       <T size={13} weight={400} variant="text" color={c.value} ls={0} style={{ marginTop: 10, marginHorizontal: 4, lineHeight: 17 }}>Также сохраняются профиль, цель, напоминания и настройки. Аккаунта и облака нет: данные не покидают устройство и удаляются вместе с приложением.</T>

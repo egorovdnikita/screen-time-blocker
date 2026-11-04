@@ -18,7 +18,7 @@ export function OnboardingScreen({ initialStep }: { initialStep?: number }) {
   const go = (next: number) => patch({ step: next });
   useEffect(() => { if (step !== 11) return; const timer = setTimeout(() => patch({step:12}),1800); return () => clearTimeout(timer); }, [step,patch]);
   const finish = (schedule: boolean) => {
-    const session = initialSession(true); session.title = ({limit:'Рабочее время',morning:'Утро',work:'Рабочее время',evening:'Вечерний отдых'})[draft.preference];
+    const session = initialSession(true); session.title = ({limit:'Рабочие часы',morning:'Утро',work:'Рабочие часы',evening:'Вечерний отдых'})[draft.preference];
     session.start = draft.preference === 'morning' ? 6 : draft.preference === 'evening' ? 21 : 9;
     session.end = draft.preference === 'morning' ? 8 : draft.preference === 'evening' ? 6 : 17;
     session.unlocks = draft.unlocks; session.unlockMinutes = draft.unlockMinutes;

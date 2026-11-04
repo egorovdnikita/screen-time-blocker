@@ -15,6 +15,7 @@ import { useSkyStatusBar } from '@/components/useStatusBar';
 import { art } from '@/data/art';
 import { profile } from '@/data/mock';
 import { daysWithBlock, reportDaysLeft } from '@/data/profileStats';
+import { bestStreak } from '@/data/streak';
 import { strictDaysLabel } from '../session/StrictSettingsSheet';
 import { T, TRACK_SMALL } from '@/theme/typography';
 import { colors, insetBorder, radii, shadows, remainingTheme } from '@/theme/tokens';
@@ -132,18 +133,19 @@ export function ProfileScreen({ recap: recapProp = false }: { recap?: boolean })
                 </T>
               </View>
               <T size={20} ls={0} style={styles.gval}>
-                {recap ? '1' : profile.bestStreak}
+                {recap ? bestStreak(app.completedDays) : profile.bestStreak}
               </T>
             </View>
           </View>
 
-          <Pressable onPress={app.refresh} accessibilityLabel="Обновить отчёт" style={({ pressed }) => [styles.refresh, { opacity: pressed ? 0.7 : 1 }]} accessibilityRole="button">
+          {!app.live && <Pressable onPress={app.refresh} accessibilityLabel="Обновить отчёт" style={({ pressed }) => [styles.refresh, { opacity: pressed ? 0.7 : 1 }]} accessibilityRole="button">
             <Icon name="refresh-cycle" width={18} height={19.5} color={colors.black} style={{ marginRight: 2.833 }} />
             <T size={15.25}>Обновить</T>
-          </Pressable>
+          </Pressable>}
         </View>
 
-        <View style={styles.band}>
+        {/* Статей пока нет: карточки макета ни к чему не ведут. */}
+        {!app.live && <View style={styles.band}>
           <T size={20} color={colors.section} style={{ marginLeft: 20 }}>
             Подробнее
           </T>
@@ -155,7 +157,7 @@ export function ProfileScreen({ recap: recapProp = false }: { recap?: boolean })
             <Article image={art.articleDelete} title={'Удалить соцсети\nили просто\nзаблокировать?'} />
             <Image source={art.articleThirdEdge} style={{ width: 17, height: 221.333, marginLeft: -1 }} />
           </ScrollView>
-        </View>
+        </View>}
       </ScrollView>
 
       <BottomChrome />

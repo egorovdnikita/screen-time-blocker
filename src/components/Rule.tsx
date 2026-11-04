@@ -26,7 +26,7 @@ export function SectionHeader({ title, right }: { title: string; right?: ReactNo
 
 export function Streak({ count }: { count: number }) {
   const app = useAppState();
-  if (!app.interfaceSettings.streak) return <View style={{ height: 23.333 }} />;
+  if (!app.interfaceSettings.streak || !count) return <View style={{ height: 23.333 }} />;
   return (
     <View accessibilityLabel={`Серия: ${count}`}
       style={{

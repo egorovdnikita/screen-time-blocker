@@ -119,6 +119,20 @@ const activities: ActivityRow[] = [
   { id: 'procrastinate', name: 'Откладываю', time: '7 мин', ratio: 0.074, icon: 'procrastinate', quality: 'distracting', apps: ['store'] },
 ];
 
+// Реальный режим: данные появятся вместе с нативным слоем (APP-16), до него — честно пусто.
+const emptyChart: ChartData = { axis: ['1ч', '30мин', '0с'], tracks: { hours: [], tone: 'future' }, bars: [] };
+export const dayLive: Day = {
+  id: 'live',
+  label: 'Сегодня',
+  screenTime: '—',
+  goal: { kind: 'target', text: 'Не больше 4ч20' },
+  stats: { saved: '—', pickups: '—', notifications: '—' },
+  chart: emptyChart,
+  quality: { word: '—', pct: [0, 0, 0], stats: { screenTime: '—', pickups: '—', notifications: '—' }, chart: emptyChart },
+  apps: [],
+  activities: [],
+};
+
 // 24-home__01-home
 export const dayToday: Day = {
   id: 'today',

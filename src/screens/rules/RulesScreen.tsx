@@ -6,7 +6,8 @@ import { RemoveRuleDialog } from './RemoveRuleDialog';
 import { AppUnlockSheet } from '../unlocking/AppUnlockSheet';
 import { routineHabits, routineProgressToday, type Habit } from '@/data/routine';
 import { router, useLocalSearchParams } from 'expo-router';
-import { lockApp, lockDraftFrom, unlocksUsedToday } from '@/data/lockRule';
+import { localDay, lockApp, lockDraftFrom, unlocksUsedToday } from '@/data/lockRule';
+import { currentStreak } from '@/data/streak';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useEffect, useRef, useState, type ComponentRef } from 'react';
@@ -42,18 +43,18 @@ import { TAB_BAR_HEIGHT, TAB_BAR_SIDE } from '@/components/TabBar';
 import { useDarkStatusBar } from '@/components/useStatusBar';
 import { art } from '@/data/art';
 import { activeRuleCount, activeLabel, rulesForPresentation, type LimitRule, type LockRule, type RoutineRule, type Meta, type SessionRule, type Status } from '@/data/rules';
-import { useAppState } from '@/state/app';
+import { devMenu, useAppState } from '@/state/app';
 import { T, TRACK_SMALL, type TProps } from '@/theme/typography';
 import { colors, insetBorder, radii, shadows } from '@/theme/tokens';
 
 export function RulesScreen() {
   const { earned } = useLocalSearchParams<{earned?:string}>();
-  const demoEarned = earned === '1';
   const insets = useSafeAreaInsets();
   useDarkStatusBar();
   const bottomSpace = useBottomSpace(true);
   const top = Math.max(insets.top, 20);
   const app = useAppState();
+  const demoEarned = !app.live && earned === '1';
   const base = rulesForPresentation(app.rulesVariant, demoEarned);
   const data = { ...base, locks: [...app.createdLocks, ...base.locks].filter(x => !app.deletedRuleIds.includes(x.id)), limits: [...app.createdLimits, ...base.limits].filter(x => !app.deletedRuleIds.includes(x.id)), routines: [...app.createdRoutines, ...base.routines].filter(x => !app.deletedRuleIds.includes(x.id)), sessions: [...app.createdSessions, ...base.sessions].filter(x => !app.deletedRuleIds.includes(x.id)), active: activeRuleCount(base, app) };
   const [helpOpen, setHelpOpen] = useState(false);
@@ -171,7 +172,7 @@ export function RulesScreen() {
             iconHeight={7}
             accessibilityLabel="Ещё"
             onPress={() => setSettingsOpen(true)}
-            onLongPress={() => setDemoOpen(true)}
+            onLongPress={devMenu ? () => setDemoOpen(true) : undefined}
           />
         </View>
       </View>
@@ -182,7 +183,7 @@ export function RulesScreen() {
       <Tips step={tips} firstCardBottom={firstCardBottom} onNext={app.advanceOnboarding} />
       {helpOpen && <Troubleshoot onClose={() => setHelpOpen(false)} />}
       {settingsOpen && <RuleSettings onClose={() => setSettingsOpen(false)} />}
-      <DemoMenu visible={demoOpen} onClose={() => setDemoOpen(false)} />
+      {devMenu && <DemoMenu visible={demoOpen} onClose={() => setDemoOpen(false)} />}
     </View>
   );
 }
@@ -204,7 +205,7 @@ function LockCard({ rule }: { rule: LockRule }) {
   return (
     <RuleCard style={styles.blockCard}>
       <PressScale accessibilityRole="button" hitSlop={{ top: 10, bottom: 10 }} accessibilityLabel={editable ? `Изменить правило ${rule.name}` : `Действия с правилом ${rule.name}`} onPress={() => editable ? router.push({ pathname: '/lock', params: { id: rule.id } }) : setRemove(true)} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-        <Streak count={1} />
+        {/* Выполнение блокировок, сессий и лимитов считать не по чему (нужен нативный слой): серия только у рутин. */}<Streak count={app.live ? 0 : 1} />
         <Icon name="chevron-right" width={8} height={11} color={colors.chevron} style={{ marginRight: 1 }} />
       </PressScale>
       <Image
@@ -258,7 +259,7 @@ function SessionCard({ rule }: { rule: SessionRule }) {
   const status: Status = app.pausedSessions[rule.id] ? { kind: 'paused' } : rule.status.kind === 'blocking' ? { ...rule.status, strict: app.ruleChanges[rule.id]?.strict ?? rule.strict ?? rule.status.strict } : rule.status;
   return (
     <RuleCard style={[styles.wideCard, styles.cardGap]}>
-      <RuleHeader emoji={rule.iconId ? <SessionIcon id={rule.iconId} width={23} height={25} /> : sessionEmoji[rule.emoji]} title={title} streak={1} onPress={() => setDetails(true)} />
+      <RuleHeader emoji={rule.iconId ? <SessionIcon id={rule.iconId} width={23} height={25} /> : sessionEmoji[rule.emoji]} title={title} streak={app.live ? 0 : 1} onPress={() => setDetails(true)} />
       <View style={[styles.metaRow, { marginTop: 11 }]}>
         <StatusPill status={status} />
         <MetaView meta={rule.meta} />
@@ -299,7 +300,7 @@ function LimitCard({ rule }: { rule: LimitRule }) {
         title={title}
         onPress={() => setDetails(true)}
         accessibilityLabel={`Подробности лимита ${title}`}
-        streak={1}
+        streak={app.live ? 0 : 1}
       />
       <View style={[styles.metaRow, { marginTop: 10.6 }]}>
         <StatusPill status={rule.status} />
@@ -360,7 +361,7 @@ function RoutineCard({ rule, demoEarned = false }: { rule: RoutineRule; demoEarn
   const canClaim = demoEarned || (allDone && !progress.claimed);
   const appCount = config ? config.appGroup.selectedApps.filter(Boolean).length + config.appGroup.categories.length : 1;
   return <RuleCard style={[styles.wideCard, { marginTop: 10, paddingBottom: 8 }]}>
-    <RuleHeader emoji={<Image source={art.emojiPlant} style={{ width: 21, height: 31 }} />} title={rule.title} streak={1} onPress={() => editable ? router.push({ pathname: '/routine', params: { id: rule.id } }) : setRemove(true)} accessibilityLabel={editable ? `Изменить правило ${rule.title}` : `Действия с правилом ${rule.title}`} />
+    <RuleHeader emoji={<Image source={art.emojiPlant} style={{ width: 21, height: 31 }} />} title={rule.title} streak={app.live ? currentStreak(app.completedDays[rule.id], localDay(now)) : 1} onPress={() => editable ? router.push({ pathname: '/routine', params: { id: rule.id } }) : setRemove(true)} accessibilityLabel={editable ? `Изменить правило ${rule.title}` : `Действия с правилом ${rule.title}`} />
     <View style={[styles.metaRow, { marginTop: 11.3 }]}><StatusPill status={{ kind: 'blocking' }} blockingText={progress.claimed ? 'Открыто' : config || demoEarned || checked ? 'Закрыто' : undefined} /><MetaSep /><AllDay /></View>
     {tasks.map(task => { const done = isDone(task.id), manual = !!config && (task as Habit).kind === 'manual', locked = demoEarned || progress.claimed || (!!config && !manual); return <Pressable key={task.id} style={styles.task} disabled={locked} onPress={() => config ? app.toggleRoutineTask(rule.id, task.id) : setChecked(value => !value)} accessibilityLabel={`${manual ? 'Отметить' : 'Проверить с ИИ'}: ${task.title}`} accessibilityHint={config && !manual ? 'Проверка по фото пока недоступна' : undefined} accessibilityRole="checkbox" accessibilityState={{ checked: done, disabled: locked }} aria-checked={done}>
       <View style={[styles.taskRing, done && { backgroundColor: 'transparent' }]}>{done && <Icon name="goal-check" width={13} height={13} color={colors.ruleCompleted} />}</View><View style={{ flex: 1, marginLeft: 6.7 }}><T size={15.25} color={done ? colors.ruleCompleted : colors.text}>{task.title}</T>{!done && <T size={11.75} weight={500} ls={TRACK_SMALL} color={colors.taskSub} style={{ marginTop: 1 }}>{manual ? 'Нажмите, чтобы отметить' : config ? 'Проверить с ИИ' : 'Нажмите, чтобы проверить с ИИ'}</T>}</View><View style={[styles.plusTime, done && {backgroundColor: colors.ruleRewardBg, boxShadow: undefined}]}><Icon name="plus" width={12} height={12} color={done ? colors.limitProgress : colors.taskSub} style={{ marginRight: 3.8 }} /><T size={11.75} ls={TRACK_SMALL} color={done ? colors.limitProgress : colors.taskSub}>{task.minutes}{done ? 'мин' : ' мин'}</T></View>

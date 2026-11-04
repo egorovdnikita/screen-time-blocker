@@ -7,6 +7,7 @@ import { animateLayout, PressScale } from '@/components/motion';
 import { WheelColumn, type WheelItem } from '@/components/WheelColumn';
 import { durationLabel, hourLabel, type SessionDraft } from '@/data/session';
 import { colors, sessionPickerTheme as p, sessionTheme as c } from '@/theme/tokens';
+import { useAppState } from '@/state/app';
 import { T } from '@/theme/typography';
 
 const range = (count: number, pad = false): WheelItem[] => Array.from({ length: count }, (_, value) => ({ value, label: pad ? String(value).padStart(2, '0') : String(value) }));
@@ -17,6 +18,7 @@ type ClockKey = 'start' | 'end';
 type Props = { draft: SessionDraft; patch: (update: Partial<SessionDraft>) => void };
 
 export function SessionActivity({ draft, patch }: Props) {
+  const app = useAppState();
   const anchors = useRef<Partial<Record<ClockKey, ComponentRef<typeof View>>>>({});
   const [clock, setClock] = useState<{ key: ClockKey; left: number; top: number } | null>(null);
   const { width, height } = useWindowDimensions();
@@ -39,7 +41,7 @@ export function SessionActivity({ draft, patch }: Props) {
           style={[styles.segment, { minWidth: draft.scheduled === scheduled ? 129 : 108 }, i === 0 && draft.scheduled && { marginLeft: -20 }, draft.scheduled === scheduled && styles.segmentOn]}>
           <T size={14} color={draft.scheduled === scheduled ? colors.white : c.secondary} ls={0}>{draft.scheduled === scheduled ? '✓ ' : ''}{scheduled ? 'По графику' : 'Сразу'}</T>
         </PressScale>)}
-        <View style={styles.segment} accessibilityLabel="Всегда" accessibilityState={{ disabled: true }}><T size={14} color={c.secondary} ls={0}>Всегда</T></View>
+        {!app.live && <View style={styles.segment} accessibilityLabel="Всегда" accessibilityState={{ disabled: true }}><T size={14} color={c.secondary} ls={0}>Всегда</T></View>}
       </View>
     </View>
     {draft.scheduled ? <>

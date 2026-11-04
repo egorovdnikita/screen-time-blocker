@@ -15,7 +15,7 @@ import { RoundButton } from '@/components/RoundButton';
 import { useSkyStatusBar } from '@/components/useStatusBar';
 import { art } from '@/data/art';
 import type { Day } from '@/data/home';
-import { useAppState } from '@/state/app';
+import { devMenu, useAppState } from '@/state/app';
 import { T, TRACK_SMALL } from '@/theme/typography';
 import { homeSkyTheme, colors, radii, shadows } from '@/theme/tokens';
 
@@ -86,17 +86,18 @@ export function HomeScreen() {
         <View style={[styles.header, { marginTop: top + 10 }]}>
           <Icon name="block-wordmark" width={98.572} height={27.666} color={colors.wordmark} style={{ marginLeft: -5.8 }} />
           <View style={styles.periodWrap} pointerEvents="box-none">
-            <Pressable ref={periodRef} onPress={openPeriod} style={styles.period} accessibilityRole="button" hitSlop={{ top: 4, bottom: 4 }} accessibilityLabel="Период">
+            <Pressable ref={periodRef} disabled={app.live} onPress={openPeriod} style={styles.period} accessibilityRole="button" hitSlop={{ top: 4, bottom: 4 }} accessibilityLabel="Период">
               <T size={14.25} color={colors.white} onSky>
                 {day.label}
               </T>
-              <Icon name="chevron-down" width={13} height={8} color={colors.white} style={{ marginLeft: 3.5, marginTop: 1 }} />
+              {/* Истории у реального пользователя пока нет: выбирать нечего. */}
+              {!app.live && <Icon name="chevron-down" width={13} height={8} color={colors.white} style={{ marginLeft: 3.5, marginTop: 1 }} />}
             </Pressable>
           </View>
           <View style={styles.headerButtons}>
-            <Animated.View style={{ transform: [{ rotate: spin.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '360deg'] }) }] }}>
+            {!app.live && <Animated.View style={{ transform: [{ rotate: spin.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '360deg'] }) }] }}>
               <RoundButton variant="glass" icon="arrow-clockwise" iconWidth={19} iconHeight={23} accessibilityLabel="Обновить" onPress={app.refresh} />
-            </Animated.View>
+            </Animated.View>}
             <RoundButton
               variant="glass"
               icon="ellipsis"
@@ -104,7 +105,7 @@ export function HomeScreen() {
               iconHeight={7}
               accessibilityLabel="Ещё"
               onPress={() => setSettingsOpen(true)}
-              onLongPress={() => setDemoOpen(true)}
+              onLongPress={devMenu ? () => setDemoOpen(true) : undefined}
             />
           </View>
         </View>
@@ -115,15 +116,16 @@ export function HomeScreen() {
             <FadeIn key={day.id}>
               <Animated.ScrollView
                 horizontal
+                scrollEnabled={!app.live}
                 pagingEnabled
                 showsHorizontalScrollIndicator={false}
                 scrollEventThrottle={16}
                 onScroll={Animated.event([{ nativeEvent: { contentOffset: { x: pageX } } }], { useNativeDriver: Platform.OS !== 'web', listener: (event: { nativeEvent: { contentOffset: { x: number } } }) => { const next = Math.round(event.nativeEvent.contentOffset.x / width); setChartSelection(current => current.day === day.id && current.page === next ? current : { day: day.id, page: next }); } })}
               >
                 <ScreenTimePage day={day} width={width} />
-                <QualityPage day={day} width={width} />
+                {!app.live && <QualityPage day={day} width={width} />}
               </Animated.ScrollView>
-              <Dots page={page} />
+              {!app.live && <Dots page={page} />}
             </FadeIn>
           )}
         </View>
@@ -137,8 +139,8 @@ export function HomeScreen() {
           ) : (
             <FadeIn key={day.id} style={StyleSheet.absoluteFill} from={4}>
               <Animated.View pointerEvents={chartPage === 0 ? 'auto' : 'none'} accessibilityElementsHidden={chartPage !== 0} importantForAccessibility={chartPage === 0 ? 'auto' : 'no-hide-descendants'} style={[StyleSheet.absoluteFill, { opacity: page.interpolate({ inputRange: [0, 1], outputRange: [1, 0] }) }]}>
-                <Stats first={{ label: 'Экономия', value: day.stats.saved, decrease: true }} pickups={day.stats.pickups} notifications={day.stats.notifications} />
-                <UsageChart interactive={chartPage === 0} data={day.chart} onInsight={setInsight} />
+                <Stats first={{ label: 'Экономия', value: day.stats.saved, decrease: !app.live }} pickups={day.stats.pickups} notifications={day.stats.notifications} />
+                <UsageChart interactive={chartPage === 0} data={day.chart} onInsight={app.live ? undefined : setInsight} />
               </Animated.View>
               <Animated.View pointerEvents={chartPage === 1 ? 'auto' : 'none'} accessibilityElementsHidden={chartPage !== 1} importantForAccessibility={chartPage === 1 ? 'auto' : 'no-hide-descendants'} style={[StyleSheet.absoluteFill, { opacity: page }]}>
                 <Stats first={{ label: 'Время экрана', value: day.quality.stats.screenTime }} pickups={day.quality.stats.pickups} notifications={day.quality.stats.notifications} />
@@ -192,7 +194,7 @@ export function HomeScreen() {
       />
       <InsightSheet kind={insight} onClose={() => setInsight(null)} />
       {settingsOpen && <ScreenTimeSettings onClose={() => { setSettingsOpen(false); requestAnimationFrame(restoreStatusBar); }} />}
-      <DemoMenu visible={demoOpen} onClose={() => setDemoOpen(false)} />
+      {devMenu && <DemoMenu visible={demoOpen} onClose={() => setDemoOpen(false)} />}
     </View>
   );
 }
@@ -204,8 +206,8 @@ function ScreenTimePage({ day, width }: { day: Day; width: number }) {
       <T size={day.screenTime === '12 мин' ? 17.25 : 16} color={colors.white} onSky>
         {day.screenTime === '12 мин' ? 'Экранное время' : 'Время экрана'}
       </T>
-      <T size={74.25} ls={-2} color={colors.white} onSky numberOfLines={1} adjustsFontSizeToFit style={styles.num}>
-        {day.screenTime}
+      <T size={day.screenTime === '—' ? 48 : 74.25} ls={day.screenTime === '—' ? -1 : -2} color={colors.white} onSky numberOfLines={1} adjustsFontSizeToFit style={styles.num}>
+        {day.screenTime === '—' ? 'Нет данных' : day.screenTime}
       </T>
       {day.goal.enabled !== false && <Glass radius={radii.pill} style={styles.goal}>
         <LinearGradient

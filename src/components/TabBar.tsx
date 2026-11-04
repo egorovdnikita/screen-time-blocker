@@ -39,7 +39,7 @@ const LOCK_IDLE: Record<number, IconName> = { 0: 'tab-lock', 1: 'tab-lock', 2: '
 export function TabBar({ state, emitter, navigateToTab, insets }: BottomTabBarProps) {
   const app = useAppState();
   const { earned } = useGlobalSearchParams<{earned?: string}>();
-  const demoEarned = state.routes[state.index]?.name === 'rules' && earned === '1';
+  const demoEarned = !app.live && state.routes[state.index]?.name === 'rules' && earned === '1';
   const activeCount = activeRuleCount(rulesForPresentation(app.rulesVariant, demoEarned), app);
   const active = Math.min(3, activeCount);
   const [width, setWidth] = useState(0);

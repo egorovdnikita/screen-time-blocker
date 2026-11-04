@@ -8,6 +8,7 @@ import { Icon } from '@/components/Icon';
 import { animateLayout, PressScale } from '@/components/motion';
 import type { StrictSettings } from '@/data/session';
 import { colors, strictTheme as c } from '@/theme/tokens';
+import { useAppState } from '@/state/app';
 import { T } from '@/theme/typography';
 
 export const strictDaysLabel = (days: number) => `${days} ${days === 1 || days === 21 ? 'день' : days % 10 >= 2 && days % 10 <= 4 && (days < 12 || days > 14) ? 'дня' : 'дней'}`;
@@ -15,6 +16,7 @@ export function StrictSettingsSheet({ value, onCancel, onActivate }: { value: St
   const [draft, setDraft] = useState<StrictSettings>(() => ({ strictScope: value.strictScope, strictDays: value.strictDays }));
   const { height } = useWindowDimensions();
   const insets = useSafeAreaInsets();
+  const app = useAppState();
   const session = draft.strictScope === 'session';
   return <SheetModal animateClose onClose={onCancel} backdrop={close => <Pressable accessibilityLabel="Отменить строгий режим" onPress={() => close()} style={[StyleSheet.absoluteFill, { backgroundColor: c.backdrop }]} />}>{close => <>
     <View pointerEvents="box-none" style={{ flex: 1 }}>
@@ -25,7 +27,7 @@ export function StrictSettingsSheet({ value, onCancel, onActivate }: { value: St
             <View style={styles.section}><Icon name="chevron-down-section" width={10} height={8} color={c.handle} style={{ transform: [{ rotate: '180deg' }] }} /><T size={20} ls={0}>Активность…</T></View>
             <View style={[styles.tabs, session && { left: -49 }]}>
               {(['days', 'session'] as const).map(scope => <PressScale key={scope} accessibilityRole="radio" accessibilityLabel={scope === 'days' ? 'Строгий режим на срок' : 'Строгий режим на время сессии'} accessibilityState={{ checked: draft.strictScope === scope }} onPress={() => { animateLayout(); setDraft(d => ({ ...d, strictScope: scope })); }} style={[styles.tab, { width: scope === 'days' ? session ? 123 : 143 : session ? 180 : 161 }, draft.strictScope === scope && styles.tabOn]}><T size={session || scope === 'session' ? 14 : 13.5} color={draft.strictScope === scope ? colors.white : c.secondary} ls={0}>{draft.strictScope === scope ? '✓ ' : ''}{scope === 'days' ? session ? 'На срок' : 'На заданный срок' : 'На время сессии'}</T></PressScale>)}
-              {session && <View style={[styles.tab, { width: 80 }]} accessibilityState={{ disabled: true }}><T size={14} color={c.secondary} ls={0}>Всегда</T></View>}
+              {session && !app.live && <View style={[styles.tab, { width: 80 }]} accessibilityState={{ disabled: true }}><T size={14} color={c.secondary} ls={0}>Всегда</T></View>}
             </View>
             <View style={styles.description}>{session ? <T size={18} center ls={0} style={{ lineHeight: 23 }}>Запретить изменения <T size={18} color={c.red} ls={0}>во время </T><T size={18} color={c.orange} ls={0}>сессии.</T></T> : <><T size={18} center ls={0} style={{ lineHeight: 23 }}>Запретить изменения</T>{draft.strictDays === 1 ? <><T size={18} center ls={0} color={c.red} style={{ lineHeight: 23 }}>на 24 часа после</T><T size={18} center ls={0} color={c.orange} style={{ lineHeight: 23 }}>начала правила.</T></> : <T size={18} center ls={0} color={c.red} style={{ lineHeight: 23 }}>на {strictDaysLabel(draft.strictDays)} после начала правила.</T>}</>}</View>
             {!session && <><View style={styles.days}><PressScale accessibilityRole="button" hitSlop={3} accessibilityLabel="Уменьшить срок строгого режима" disabled={draft.strictDays <= 1} accessibilityState={{ disabled: draft.strictDays <= 1 }} onPress={() => setDraft(d => ({ ...d, strictDays: d.strictDays - 1 }))} style={[styles.countButton, draft.strictDays <= 1 && { opacity: .4 }]}><T size={25} weight={500} ls={0}>−</T></PressScale><T size={36} ls={0}>{strictDaysLabel(draft.strictDays)}</T><PressScale accessibilityRole="button" hitSlop={3} accessibilityLabel="Увеличить срок строгого режима" disabled={draft.strictDays >= 30} accessibilityState={{ disabled: draft.strictDays >= 30 }} onPress={() => setDraft(d => ({ ...d, strictDays: d.strictDays + 1 }))} style={styles.countButton}><Icon name="plus" width={15} height={15} color={colors.black} /></PressScale></View><T size={11} weight={400} color={c.note} center ls={0} style={styles.note}>При необходимости срок можно продлить.</T></>}

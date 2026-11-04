@@ -10,14 +10,16 @@ import { activityCatalog, reflectionKey, type ActivityDefinition, type Reflectio
 import { routineProgressToday, type Habit, type RoutineProgress } from '@/data/routine';
 import { liveSession } from '@/data/sessionSchedule';
 import { localDay, unlocksUsedToday, type AppUnlockEntry } from '@/data/lockRule';
+import { withDay, type CompletedDays } from '@/data/streak';
 import { hapticResult } from '@/state/haptics';
-import { clearSnapshot, encodeSnapshot, loadSnapshot, saveSnapshot } from '@/state/persist';
+import { clearSnapshot, decodeSnapshot, encodeSnapshot, loadSnapshot, saveSnapshot } from '@/state/persist';
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 
 import type { LimitRule, LockRule, RoutineRule, SessionRule, RuleDetailChanges } from '@/data/rules';
-import { dayActive, dayFirst, dayJune24, dayToday, dayTodayRefreshed, dayYesterday, type Day } from '@/data/home';
+import { dayActive, dayFirst, dayJune24, dayLive, dayToday, dayTodayRefreshed, dayYesterday, type Day } from '@/data/home';
 
-// Сценарии показывают все состояния из макетов. Переключаются в демо-меню (долгое нажатие на «⋯»).
+// Сценарии показывают все состояния из макетов. Переключаются в меню разработчика
+// (долгое нажатие на «⋯», только при __DEV__). Реальный пользователь живёт в live-режиме.
 export type Scenario = 'regular' | 'active' | 'firstRun';
 export type RulesVariant = 'onboarding' | 'strict' | 'full' | 'sessions' | 'locks' | 'limits' | 'limitProgress' | 'first' | 'reason';
 export type PeriodId = 'today' | 'yesterday' | 'june-24';
@@ -27,8 +29,17 @@ const LOADING_MS = 1400;
 // Скрипты проверки в tools/ ставят этот флаг до загрузки: состояние живёт только в памяти,
 // как до появления хранилища, и демо-маршруты открываются без знакомства.
 export const memoryOnly = (globalThis as { __BLOCK_DEMO__?: number }).__BLOCK_DEMO__ === 1;
+// Меню разработчика: в обычной сборке его нет. Флаг проверок нужен, чтобы сценарии шли и на статической сборке.
+export const devMenu = __DEV__ || memoryOnly;
 
 type AppState = {
+  /** Реальный режим: только данные пользователя, без цифр макета и без элементов-образцов. */
+  live: boolean;
+  /** Открыт демо-сценарий поверх сохранённых данных пользователя. */
+  demoActive: boolean;
+  startDemo: (s: Scenario) => void;
+  startDemoRules: (v: RulesVariant) => void;
+  leaveDemo: () => void;
   /** Состояние локального хранилища: ошибка чтения/записи показывается в настройках данных. */
   storage: { loaded: boolean; readError: boolean; writeError: boolean; restoredBackup: boolean };
   resetLocalData: () => Promise<boolean>;
@@ -109,6 +120,8 @@ type AppState = {
   addLock: (rule: LockRule) => void;
   updateLock: (rule: LockRule) => void;
   routineProgress: Record<string, RoutineProgress>;
+  /** Дни, когда правило выполнено: источник настоящей серии. */
+  completedDays: CompletedDays;
   toggleRoutineTask: (ruleId: string, taskId: string) => void;
   claimRoutineReward: (ruleId: string, minutes: number) => void;
   updateRoutine: (rule: RoutineRule) => void;
@@ -182,6 +195,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const [createdLimits, setCreatedLimits] = useState<LimitRule[]>([]);
   const [createdLocks, setCreatedLocks] = useState<LockRule[]>([]);
   const [routineProgress, setRoutineProgress] = useState<Record<string, RoutineProgress>>({});
+  const [completedDays, setCompletedDays] = useState<CompletedDays>({});
   const [createdSessions, setCreatedSessions] = useState<SessionRule[]>([]);
   const [expertScreens, setExpertScreens] = useState(false);
   const [alternativeScreens, setAlternativeScreens] = useState(false);
@@ -199,6 +213,9 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const [newStartVisible, setNewStartVisible] = useState(false);
   const [onboarding, setOnboarding] = useState<OnboardingStep>('done');
   const [onboardingCompleted, setOnboardingCompleted] = useState(memoryOnly);
+  // Снимок данных пользователя на время демо: вход в сценарий их не трогает, выход возвращает.
+  const [demoBackup, setDemoBackup] = useState<string | null>(null);
+  const live = !memoryOnly && demoBackup === null;
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => () => void (timer.current && clearTimeout(timer.current)), []);
@@ -216,11 +233,11 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     dailyGoalMinutes: [dailyGoalMinutes, setDailyGoalMinutes], reflectionTouchedDays: [reflectionTouchedDays, setReflectionTouchedDays], reflections: [reflections, setReflections],
     reflectionDefaults: [reflectionDefaults, setReflectionDefaults], reflectionExcluded: [reflectionExcluded, setReflectionExcludedRaw], customHabits: [customHabits, setCustomHabits],
     createdRoutines: [createdRoutines, setCreatedRoutines], savedRoutineTemplates: [savedRoutineTemplates, setSavedRoutineTemplates], savedLimitTemplates: [savedLimitTemplates, setSavedLimitTemplates],
-    createdLimits: [createdLimits, setCreatedLimits], createdLocks: [createdLocks, setCreatedLocks], routineProgress: [routineProgress, setRoutineProgress], createdSessions: [createdSessions, setCreatedSessions],
+    createdLimits: [createdLimits, setCreatedLimits], createdLocks: [createdLocks, setCreatedLocks], routineProgress: [routineProgress, setRoutineProgress], completedDays: [completedDays, setCompletedDays], createdSessions: [createdSessions, setCreatedSessions],
     expertScreens: [expertScreens, setExpertScreens], alternativeScreens: [alternativeScreens, setAlternativeScreens], customBlockScreens: [customBlockScreens, setCustomBlockScreens],
     namedGroups: [namedGroups, setNamedGroups], savedTemplates: [savedTemplates, setSavedTemplates], scenario: [scenario, setScenarioRaw], rulesVariant: [rulesVariant, setRulesVariant],
     mostUsedMode: [mostUsedMode, setMostUsedMode], excluded: [excluded, setExcluded], productive: [productive, setProductive],
-    newStartVisible: [newStartVisible, setNewStartVisible], onboarding: [onboarding, setOnboarding], onboardingCompleted: [onboardingCompleted, setOnboardingCompleted],
+    newStartVisible: [newStartVisible, setNewStartVisible], onboarding: [onboarding, setOnboarding], onboardingCompleted: [onboardingCompleted, setOnboardingCompleted], demoBackup: [demoBackup, setDemoBackup],
   };
   // APP-06: живой статус созданных сессий; тикаем, только если есть сессии с расписанием.
   const [tick, setTick] = useState(0);
@@ -239,7 +256,11 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       if (result.status === 'ok') {
         for (const [key, value] of Object.entries(result.data)) persistedRef.current[key]?.[1](value as never);
         // Завершившие знакомство до появления этого поля начинают отсчёт с первого запуска новой версии.
-        if (result.data.onboardingCompleted && !result.data.startedAt) setStartedAt(Date.now());
+        if (result.data.onboardingCompleted && !result.data.demoBackup) {
+          if (!result.data.startedAt) setStartedAt(Date.now());
+          // Старые версии сохраняли демо-вариант вместе с данными пользователя: чужие правила не показываем.
+          setScenarioRaw('firstRun'); setRulesVariant('onboarding');
+        }
       }
       setStorage(s => ({ ...s, loaded: true, readError: result.status === 'error', restoredBackup: result.status === 'corrupt' }));
     });
@@ -300,30 +321,44 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     setEstimatedMinutes(125); setEstimatedAccuracy(false);
     setReminders(initialReminders()); setRemindersAcknowledged(false);
     setCustomActivities([]); setDailyGoalMinutes(null); setDailyGoals(null); setDailyGoalEnabled(true);
-    setReflectionTouchedDays([]);
+    setReflectionTouchedDays([]); setRoutineProgress({}); setCompletedDays({}); setStartedAt(null);
     setReflections({}); setReflectionDefaults({}); setReflectionExcludedRaw([]);
     setNewStartVisible(s === 'firstRun');
     setOnboarding(s === 'firstRun' ? 'tip-first-rule' : 'done');
     setRulesVariant(s === 'firstRun' ? 'first' : 'full');
   }, []);
 
+  const startDemo = (s: Scenario) => {
+    const backup = memoryOnly ? null : demoBackup ?? encodeSnapshot(Object.fromEntries(Object.entries(persisted).filter(([key]) => key !== 'demoBackup').map(([key, [value]]) => [key, value])));
+    setScenario(s);
+    setDemoBackup(backup);
+  };
+  const leaveDemo = () => {
+    const data = demoBackup === null ? null : decodeSnapshot(demoBackup);
+    if (data) for (const [key, value] of Object.entries(data)) persistedRef.current[key]?.[1](value as never);
+    setDemoBackup(null); setPeriod('today'); setRefreshed(false); setLoading(false);
+  };
+
   const baseDay = useMemo<Day>(() => {
+    if (live) return dayLive;
     if (period === 'yesterday') return dayYesterday;
     if (period === 'june-24') return dayJune24;
     if (scenario === 'firstRun') return dayFirst;
     if (scenario === 'active') return dayActive;
     return refreshed ? dayTodayRefreshed : dayToday;
-  }, [period, scenario, refreshed]);
+  }, [live, period, scenario, refreshed]);
 
   const selectedGoal = dailyGoals?.[currentGoalDay(period)] ?? dailyGoalMinutes;
   const day = useMemo(() => reflectedDay(selectedGoal === null && dailyGoalEnabled ? baseDay : { ...baseDay, goal: { ...baseDay.goal, enabled: dailyGoalEnabled, text: `${baseDay.goal.kind === 'check' ? 'В пределах' : 'Не больше'} ${goalTimeLabel(selectedGoal ?? 260)}` } }, reflections, reflectionExcluded, excluded, reflectionTouchedDays.includes(reflectionKey(baseDay.id, '')), activityCatalog(customActivities)), [baseDay, reflections, reflectionExcluded, excluded, reflectionTouchedDays, customActivities, selectedGoal, dailyGoalEnabled]);
 
   const ruleNotice = () => { hapticResult('success'); if (noticeTimer.current) clearTimeout(noticeTimer.current); setSessionNotice('Изменения сохранены'); noticeTimer.current = setTimeout(() => setSessionNotice(null), 2800); };
   const value: AppState = {
+    live, demoActive: demoBackup !== null, startDemo, leaveDemo,
+    startDemoRules: variant => { if (live) startDemo('regular'); setRulesVariant(variant); setAppUnlocks({}); },
     storage, onboardingCompleted, startedAt, completeOnboarding: () => { setOnboardingCompleted(true); if (!memoryOnly) setStartedAt(value => value ?? Date.now()); },
     resetLocalData: async () => {
       const ok = await clearSnapshot();
-      if (ok) { lastSaved.current = null; setScenario('firstRun'); startOnboarding(0); setOnboardingCompleted(memoryOnly); setStorage(s => ({ ...s, readError: false, writeError: false, restoredBackup: false })); }
+      if (ok) { lastSaved.current = null; setDemoBackup(null); setScenario('firstRun'); startOnboarding(0); setOnboardingCompleted(memoryOnly); setStorage(s => ({ ...s, readError: false, writeError: false, restoredBackup: false })); }
       return ok;
     },
     onboardingDraft, startOnboarding, patchOnboarding, profileName, setProfileName,
@@ -396,7 +431,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       noticeTimer.current = setTimeout(() => setSessionNotice(null), 2800);
       setCreatedLocks(xs => [rule, ...xs]);
     },
-    routineProgress,
+    routineProgress, completedDays,
     toggleRoutineTask: (ruleId, taskId) => setRoutineProgress(xs => {
       const entry = routineProgressToday(xs[ruleId], Date.now());
       if (entry.claimed) return xs;
@@ -405,6 +440,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     claimRoutineReward: (ruleId, minutes) => {
       if (routineProgressToday(routineProgress[ruleId], Date.now()).claimed) return;
       setRoutineProgress(xs => ({ ...xs, [ruleId]: { ...routineProgressToday(xs[ruleId], Date.now()), claimed: true } }));
+      setCompletedDays(xs => ({ ...xs, [ruleId]: withDay(xs[ruleId], localDay(Date.now())) }));
       setAppUnlocks(xs => { const now = Date.now(); return { ...xs, [ruleId]: { until: now + Math.max(1, minutes) * 60000, used: unlocksUsedToday(xs[ruleId], now), reason: '', day: localDay(now) } }; });
       hapticResult('success');
       if (noticeTimer.current) clearTimeout(noticeTimer.current); setSessionNotice(`Приложения откроются на ${minutes}мин.`); noticeTimer.current = setTimeout(() => setSessionNotice(null), 2800);
