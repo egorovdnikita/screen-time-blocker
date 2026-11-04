@@ -11,7 +11,7 @@ import { art } from '@/data/art';
 import { countLabel } from '@/data/appGroup';
 import { habitCatalog, type Habit, type HabitId } from '@/data/routine';
 import { T } from '@/theme/typography';
-import { colors, routineTheme as c, lockTheme as l, habitFormTheme as f } from '@/theme/tokens';
+import { colors, settingsTheme, routineTheme as c, lockTheme as l, habitFormTheme as f } from '@/theme/tokens';
 export function HabitPicker({ value, onCancel, onSave, library = false }: { library?: boolean; value: HabitId[]; onCancel: () => void; onSave: (ids: HabitId[], definitions: Habit[]) => void }) {
   const app = useAppState();
   const catalog = habitCatalog(app.customHabits);
@@ -25,7 +25,7 @@ export function HabitPicker({ value, onCancel, onSave, library = false }: { libr
   const visible = catalog.filter(h => h.kind !== 'manual').filter(habit => habit.label.toLocaleLowerCase().includes(needle));
   return <SheetModal animateClose nativeOffset={Math.max(69, insets.top + 10)} onClose={onCancel} backdrop={close => <Pressable accessibilityLabel="Отменить выбор привычек" onPress={() => close()} style={[StyleSheet.absoluteFill, { backgroundColor: f.backdrop }]} />}>{close => <>
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} pointerEvents="box-none" style={{ flex: 1, paddingTop: Math.max(69, insets.top + 10) }}>
-      <View style={styles.sheet} accessibilityViewIsModal><SheetGrabber style={styles.handle} /><T size={20} center ls={0} style={styles.title}>Все привычки</T>
+      <View style={styles.sheet} accessibilityViewIsModal><SheetGrabber style={styles.handle} /><T size={20} center ls={0} color={settingsTheme.title} style={styles.title}>Все привычки</T>
         <View style={styles.search}><Icon name="session-search" width={19} height={19} color={c.placeholder} /><TextInput accessibilityLabel="Поиск привычек" value={query} onChangeText={setQuery} placeholder="Поиск или новая привычка" placeholderTextColor={c.placeholder} autoCorrect={false} autoCapitalize="none" style={styles.input} /></View>
         <ScrollView ref={scroll} contentContainerStyle={{ paddingBottom: 40 }} contentOffset={{ x: 0, y: library ? 165 : 0 }} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} style={styles.list}>
           {!needle && <><T size={20} color={c.group} ls={0} style={{ lineHeight: 24 }}>Полезные приложения</T><T size={14} color={c.note} ls={0} style={styles.example}>Например, «Читать 15 минут»</T><View accessibilityState={{ disabled: true }} style={[styles.row, { height: 65, marginTop: 10 }]}><Image source={art.habitPhone} style={styles.emoji} /><View style={{ flex: 1 }}><T size={15} weight={400} variant="display" ls={0}>Полезное приложение</T><View style={{ flexDirection: 'row', alignItems: 'center', gap: 2 }}><T size={14} weight={400} color={c.muted} ls={0}>Проверка</T><Icon name="habit-block" width={14} height={14} /></View></View><View style={styles.circle} /></View></>}

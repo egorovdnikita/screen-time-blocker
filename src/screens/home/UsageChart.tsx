@@ -137,11 +137,11 @@ export function UsageChart({ data, onInsight, interactive = true }: Props) {
             <T size={10} weight={500} color={colors.chartLabel}>{data.axis[1]}</T>
           </View>
           <View pointerEvents="none" style={[styles.axisY, { left: GRID_LEFT + gridW + 3.67, top: TOP + 78.67 }]}>
-            <T size={9.75} weight={500} color={colors.chartLabel}>{data.axis[2]}</T>
+            <T size={10} weight={500} color={colors.chartLabel}>{data.axis[2]}</T>
           </View>
           {TICKS.map((h) => (
             <View key={h} pointerEvents="none" style={[styles.axisX, { left: GRID_LEFT + h * slot + 4.33 }]}>
-              <T size={9.75} weight={500} ls={TRACK_SMALL} color={colors.chartLabel}>{hh(h)}</T>
+              <T size={h === 18 ? 10.25 : 9.75} weight={500} ls={TRACK_SMALL} color={colors.chartLabel}>{hh(h)}</T>
             </View>
           ))}
 

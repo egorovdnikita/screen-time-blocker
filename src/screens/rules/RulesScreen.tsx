@@ -219,7 +219,7 @@ function LockCard({ rule }: { rule: LockRule }) {
       </View>
       <PressScale accessibilityRole="button" hitSlop={{ top: 6, bottom: 6 }} accessibilityLabel={`Открыть ${rule.name}`} disabled={remaining > 0 || !available || !supported} accessibilityState={{ disabled: remaining > 0 || !available || !supported }} onPress={() => setOpen(true)} style={styles.unlock}>
         <T size={14.25}>{remaining ? `${String(Math.floor(remaining / 60)).padStart(2, '0')}:${String(remaining % 60).padStart(2, '0')}` : 'Открыть'}</T>
-        {!remaining && <T size={10} weight={500} color={colors.unlockCount} style={{ marginLeft: 5, marginTop: 2 }}>({available}/{count})</T>}
+        {!remaining && <T size={9.5} weight={500} color={colors.unlockCount} style={{ marginLeft: 5, marginTop: 2 }}>({available}/{count})</T>}
       </PressScale>
       {remove && <RemoveRuleDialog id={rule.id} title={rule.name} strict={!!(app.ruleChanges[rule.id]?.strict ?? rule.strict)} onClose={() => setRemove(false)} />}
       {open && <AppUnlockSheet rule={rule} onCancel={() => setOpen(false)} onConfirm={(minutes, reason) => { setNow(Date.now()); app.grantAppUnlock(rule.id, minutes, reason, rule.unlockSettings?.unlockMethod === 'reason'); setOpen(false); }} />}
@@ -271,7 +271,7 @@ function SessionCard({ rule }: { rule: SessionRule }) {
         {rule.unlock && (
           <PressScale accessibilityRole="button" hitSlop={{ top: 6, bottom: 6 }} accessibilityLabel={`Открыть ${title}`} onPress={() => setDetails(true)} style={styles.firstUnlock}>
             <T size={14.25}>Открыть</T>
-            <T size={10} weight={500} color={colors.unlockCount} style={{ marginLeft: 5, marginTop: 2 }}>
+            <T size={9.5} weight={500} color={colors.unlockCount} style={{ marginLeft: 5, marginTop: 2 }}>
               {rule.unlock}
             </T>
           </PressScale>
@@ -427,7 +427,7 @@ function MetaView({ meta }: { meta: Meta }) {
             transform="rotate(-100 8 8)"
           />
         </Svg>
-        <T size={12} weight={500} ls={TRACK_SMALL} color={color} style={{ marginLeft: 6.5 }} numberOfLines={1}>
+        <T size={12.5} weight={600} ls={TRACK_SMALL} color={colors.ringText} style={{ marginLeft: 6.5 }} numberOfLines={1}>
           {meta.text}
         </T>
       </>
@@ -442,7 +442,7 @@ function MetaView({ meta }: { meta: Meta }) {
       {meta.days && (
         <>
           <View style={styles.bullet} />
-          <T size={12} weight={500} ls={TRACK_SMALL} color={colors.meta} numberOfLines={1} style={{ flexShrink: 1 }}>
+          <T size={11.75} weight={500} ls={TRACK_SMALL} color={colors.meta} numberOfLines={1} style={{ flexShrink: 1 }}>
             {meta.days}
           </T>
         </>
@@ -536,12 +536,13 @@ function ImageTemplate({
   onStart?: () => void;
 }) {
   const lines = desc.split('\n').length;
+  const first = useAppState().rulesVariant === 'first';
   return (
     <PressScale accessibilityRole={onStart ? "button" : undefined} accessibilityLabel={onStart ? `Начать шаблон ${title}` : undefined} onPress={onStart} scaleTo={0.97} style={[styles.tplCard, { borderRadius: 25.5, overflow: 'hidden' }]}>
       <Image source={image} style={StyleSheet.absoluteFill} contentFit="cover" />
       <Glass tone="template" radius={radii.pill} style={[styles.tplPill, { top: 14, left: 13.7, height: 21 }]}>
         <Icon name="lock-fill" width={13} height={15} color={colors.white} style={styles.tplPillIcon} />
-        <T size={12} weight={600} color={colors.white}>
+        <T size={first ? 11.5 : 12} weight={600} color={colors.white}>
           {duration}
         </T>
       </Glass>

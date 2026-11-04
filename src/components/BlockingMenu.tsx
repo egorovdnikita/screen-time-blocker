@@ -25,12 +25,12 @@ export function BlockingMenu({ visible, onClose }: { visible: boolean; onClose: 
         <BlurView intensity={28} tint="light" style={StyleSheet.absoluteFill} />
         <View pointerEvents="none" style={[StyleSheet.absoluteFill, { backgroundColor: c.menu }]} />
         <SheetGrabber style={styles.handle} />
-        <T size={25} center ls={-.35} style={styles.title}>Блокировать</T>
+        <T size={25} center ls={-.35} color={c.ink} style={styles.title}>Блокировать</T>
         {options.map((item, i) => <PressScale key={item.title} accessibilityRole="button" accessibilityLabel={item.title} accessibilityHint={item.hint} accessibilityState={{ disabled: !item.mode }} disabled={!item.mode}
           onPress={() => close(() => { onClose(); if (item.mode === 'lock') router.push('/lock'); else if (item.mode === 'limit') router.push('/limit'); else if (item.mode === 'routine') router.push('/routine'); else router.push({ pathname: '/session', params: { mode: item.mode } }); })}
           style={[styles.row, i > 0 && styles.separator]}>
           <View style={[styles.icon, { backgroundColor: item.color }]}><Icon name={item.icon} width={item.icon === 'blocking-viewfinder' ? 31 : 28} height={28} color={colors.white} />{item.icon === 'blocking-viewfinder' && <Icon name="lock-fill" width={16} height={18} color={colors.white} style={{ position: 'absolute' }} />}</View>
-          <View style={{ flex: 1 }}><T size={18} ls={-.2}>{item.title}</T><T size={13.5} weight={400} ls={-.1} style={{ marginTop: 1 }}>{item.hint}</T></View>
+          <View style={{ flex: 1 }}><T size={18} ls={-.2} color={c.ink}>{item.title}</T><T size={13.5} weight={400} ls={-.1} color={c.menuHint} style={{ marginTop: 1 }}>{item.hint}</T></View>
         </PressScale>)}
       </View>
     </View>

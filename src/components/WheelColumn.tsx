@@ -7,7 +7,7 @@ import { T } from '@/theme/typography';
 import { colors, sessionPickerTheme as p } from '@/theme/tokens';
 
 export type WheelItem = { value: number; label: string };
-type Props = {
+type Props = { muted?: string;
   label: string;
   items: readonly WheelItem[];
   value: number;
@@ -25,7 +25,7 @@ type Props = {
 };
 
 // Один контрол для дней, часов, минут и AM/PM. Позиция определяется значением, а не картинкой.
-export function WheelColumn({ label, items, value, onChange, width, height = p.clockHeight, center = p.clockCenter, rowHeight = p.clockRow, highlight = false, surface = colors.white, fade = p.whiteFade, selectedSize = 22, otherSize = 18, cyclic = false }: Props) {
+export function WheelColumn({ label, items, value, onChange, width, height = p.clockHeight, center = p.clockCenter, rowHeight = p.clockRow, highlight = false, surface = colors.white, fade = p.whiteFade, selectedSize = 22, otherSize = 18, cyclic = false, muted = p.wheelMuted }: Props) {
   const padding = cyclic ? Math.min(3, items.length) : 0;
   const rows = cyclic ? [...items.slice(-padding), ...items, ...items.slice(0, padding)] : items;
   const index = Math.max(0, items.findIndex(item => item.value === value)) + padding;
@@ -101,7 +101,7 @@ export function WheelColumn({ label, items, value, onChange, width, height = p.c
         opacity: offset.interpolate({ inputRange: [(i - 3) * rowHeight, i * rowHeight, (i + 3) * rowHeight], outputRange: [.12, 1, .12], extrapolate: 'clamp' }),
         transform: [{ perspective: 500 }, { rotateX: offset.interpolate({ inputRange: [(i - 3) * rowHeight, i * rowHeight, (i + 3) * rowHeight], outputRange: ['65deg', '0deg', '-65deg'], extrapolate: 'clamp' }) }] }}>
         <Pressable accessible={false} onPress={() => select(i)} style={styles.value}>
-          <T size={i === index ? selectedSize : otherSize} weight={400} color={i === index ? p.wheelInk : p.wheelMuted} ls={0} center style={{ lineHeight: rowHeight }}>{item.label}</T>
+          <T size={i === index ? selectedSize : otherSize} weight={400} color={i === index ? p.wheelInk : muted} ls={0} center style={{ lineHeight: rowHeight }}>{item.label}</T>
         </Pressable>
       </Animated.View>)}
     </Animated.ScrollView>

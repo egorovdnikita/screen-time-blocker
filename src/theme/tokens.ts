@@ -1,6 +1,7 @@
 // Перенесено из block-screens/*/styles/tokens.css. Имена совпадают с CSS-переменными без префикса --c-.
 
 export const colors = {
+  ringText: '#5080da',
   bg: '#f4f6f8',
   bgPage: '#f6f8fa',
   card: '#ffffff',
@@ -154,7 +155,7 @@ export const GUTTER = 20;
 // Поток04: значения из session-editor.css и blocking-menu.css HTML-выгрузок.
 export const sessionTheme = {
   backdrop: 'rgba(0,0,0,.52)', surface: '#f7f7f9', menu: 'rgba(250,250,252,.68)',
-  ink: '#111114', secondary: '#7a7f88', section: '#858b95', handle: '#e5e6e8', value: '#101114', strictNote: '#858a93',
+  menuHint: '#242428', ink: '#111114', secondary: '#7a7f88', section: '#858b95', handle: '#e5e6e8', value: '#101114', strictNote: '#858a93',
   ruleValue: '#161719', ruleLabel: '#828a95', unlockInk: '#18191b', scheduleInk: '#161719',
   orange: '#ffab13', cyan: '#22b8e8', red: '#ff5427', violet: '#bd69e8', green: '#12c67a',
   strict: '#e1785c', strictDetails: '#f08254', blue: '#3983f0', off: '#c7c8ca', disabled: '#c5c7ca',
@@ -168,7 +169,7 @@ export const sessionTheme = {
 
 // Колёса и поповер времени из состояний048–053 HTML-потока04.
 export const sessionPickerTheme = {
-  wheelMuted: '#aeb2b9', wheelPill: '#f4f5f7', wheelInk: '#18191b',
+  wheelMuted: '#aeb2b9', wheelMutedSoft: '#9da0a3', wheelPill: '#f4f5f7', wheelInk: '#18191b',
   segmentBorder: '#e1e3e7', scheduleGrid: '#f7f8fa', scheduleLine: '#e4e6e9', scheduleTime: '#e9eaed',
   clockFill: 'rgba(250,250,252,.94)', clockMask: '#fafafc', clockFade: 'rgba(250,250,252,0)',
   whiteFade: 'rgba(255,255,255,0)', clockRim: 'rgba(255,255,255,.75)',
@@ -270,7 +271,7 @@ export const timeLimitTheme = {
 
 // Рутины131–139: routine-editor-fixes / habit-picker / routine-selected-states.
 export const routineTheme = {
-  group: '#9ba2ad', border: '#e1e5e9', edit: '#cbd0d6', note: '#7d8797', placeholder: '#b7bcc4',
+  subtitle: '#858b95', group: '#9ba2ad', border: '#e1e5e9', edit: '#cbd0d6', note: '#7d8797', placeholder: '#b7bcc4',
   segmentBorder: '#e3e4e7', muted: '#858b95', blue: '#3983ed', warning: '#f5a400', warningFill: '#fff8e9',
   completionBlue: '#4c82eb', warningDot: '#ffb200', radioOn: '#0095f5', addBorder: '#d9dce1', addFill: '#e8eaee', earnedFill: '#edf4ff', earned: '#4386e2',
   line: '#eff0f2', badgeBorder: '#e5e6e9', pickerRadius: 44, cardRadius: 21,

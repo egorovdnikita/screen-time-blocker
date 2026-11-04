@@ -29,6 +29,8 @@ export function MostUsed({ day, onOpenMenu }: Props) {
     state: app.excluded.includes(a.id) || app.reflectionExcluded.includes(reflectionKey(day.id, a.id)) ? 'excluded' : app.productive.includes(a.id) ? 'productive' : a.state,
   }));
   const counted = apps.filter((a) => a.state !== 'excluded');
+  // В макете имена крупнее на прошлых днях и после первой оценки.
+  const nameSize = app.period !== 'today' || counted.some(a => app.reflections[reflectionKey(day.id, a.id)]) ? 15.25 : 15;
   const excluded = apps.filter((a) => a.state === 'excluded');
 
   return (
@@ -57,6 +59,7 @@ export function MostUsed({ day, onOpenMenu }: Props) {
               key={a.id}
               app={a}
               assessment={app.reflections[reflectionKey(day.id, a.id)]}
+              nameSize={nameSize}
               onMark={() => {
                 animateLayout();
                 setEditing(a);
@@ -114,7 +117,7 @@ export function MostUsed({ day, onOpenMenu }: Props) {
 }
 
 
-function AppItem({ app, assessment, onMark, onToggleExclude }: { app: AppRow; assessment?: import('@/data/reflection').Reflection; onMark?: () => void; onToggleExclude: () => void }) {
+function AppItem({ app, assessment, nameSize = 15, onMark, onToggleExclude }: { app: AppRow; assessment?: import('@/data/reflection').Reflection; nameSize?: number; onMark?: () => void; onToggleExclude: () => void }) {
   const isOther = app.icon === 'other';
   const excluded = app.state === 'excluded';
   return (
@@ -129,7 +132,7 @@ function AppItem({ app, assessment, onMark, onToggleExclude }: { app: AppRow; as
       </View>
       <View style={{ flex: 1 }}>
         <View style={styles.rowTop}>
-          <T size={15}>{app.name}</T>
+          <T size={nameSize}>{app.name}</T>
           {!excluded && (
             <T size={14.25} weight={400}>
               {app.time}

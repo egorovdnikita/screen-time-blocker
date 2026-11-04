@@ -18,15 +18,15 @@ import { initialRoutine, routineHabits, routineReward, routineRule, canSaveRouti
 import { durationLabel } from '@/data/session';
 import { daysLabel } from '@/data/timeLimit';
 import { useAppState } from '@/state/app';
-import { ruleEditorSpacing, colors, timeLimitTheme as l, routineTheme as c, habitFormTheme } from '@/theme/tokens';
-import { T } from '@/theme/typography';
+import { ruleEditorSpacing, colors, settingsTheme, timeLimitTheme as l, routineTheme as c, habitFormTheme } from '@/theme/tokens';
+import { T, TextInk } from '@/theme/typography';
 import { AppGroupSheet } from '../session/AppGroupSheet';
 import { StrictSettingsSheet, StrictConfirmation, strictDaysLabel } from '../session/StrictSettingsSheet';
 import { RemoveRuleDialog } from '../rules/RemoveRuleDialog';
 import { HabitPicker } from './HabitPicker';
 
 export function RoutineEditor() {
-  return <EditorTone.Provider value={ruleEditorTone}><RoutineEditorBody /></EditorTone.Provider>;
+  return <EditorTone.Provider value={ruleEditorTone}><TextInk.Provider value={settingsTheme.title}><RoutineEditorBody /></TextInk.Provider></EditorTone.Provider>;
 }
 
 function RoutineEditorBody() {
@@ -51,12 +51,12 @@ function RoutineEditorBody() {
   const finish = (template = false) => { const rule = routineRule(draft); if (!rule) return; setAfterClose(() => () => { if (existing) app.updateRoutine({ ...rule, id: existing.id }); else app.addRoutine(rule, template); router.dismissAll(); router.navigate('/(tabs)/rules'); }); setSwipeClosing(true); };
   const count = draft.appGroup.selectedApps.filter(Boolean).length + draft.appGroup.categories.length;
   const warning = <View style={[styles.warning, { flexDirection: 'row', alignItems: 'center', gap: 3 }]}><View style={{ width: 10, height: 10, borderRadius: 5, backgroundColor: c.warningDot, alignItems: 'center', justifyContent: 'center' }}><T size={9} color={colors.white} ls={0} style={{ lineHeight: 10 }}>!</T></View><T size={12} color={c.warning} ls={0}>Выбрать</T></View>;
-  const badge = hasGroupSelection(draft.appGroup) ? <View style={styles.badge}><Icon name="apps-grid" width={14} height={14} color={l.ink} /><T size={14} weight={400} ls={0}>{count || 'Все'}</T></View> : warning;
+  const badge = hasGroupSelection(draft.appGroup) ? <View style={styles.badge}><Icon name="apps-grid" width={14} height={14} color={l.ink} /><T size={14} weight={600} color={l.ink} ls={0}>{count || 'Все'}</T></View> : warning;
   const subtitle = draft.earningMode === 'completion' ? `Завершайте привычки, чтобы разблокировать приложения. Действует ${draft.days.length === 7 ? 'каждый день' : daysLabel(draft.days)}.` : `Зарабатывайте время в приложениях${days ? ' после выполнения привычек с фото.' : ', выполняя привычки.'} Действует ${draft.days.length === 7 ? 'каждый день' : daysLabel(draft.days)}.`;
   return <SheetTransition closing={swipeClosing} onHidden={() => { if (afterClose) afterClose(); else dismiss(); }} onSwipeClose={() => setSwipeClosing(true)} backdrop={<Pressable accessibilityLabel="Закрыть рутину" onPress={() => setSwipeClosing(true)} style={[StyleSheet.absoluteFill, { backgroundColor: draft.earningMode === 'completion' ? habitFormTheme.backdrop : l.backdrop }]} />}>
     <View style={[styles.sheet, { marginTop: Math.max(59, insets.top + 1) }]}>
-      <RuleEditorScrollView focus={open} accessibilityLabel="Содержимое редактора рутины" showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: ruleEditorSpacing.scrollBottom }}>
-        <RuleEditorHeader title={draft.title} fallback="Рутина" subtitle={subtitle} image={art.routinePlant} width={47} height={53} top={68} onTitleChange={title => patch({ title })} editLabel="Изменить название рутины" inputLabel="Название рутины" />
+      <RuleEditorScrollView focusOffset={after ? completion ? 21 : 23 : 0} focus={open} accessibilityLabel="Содержимое редактора рутины" showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: ruleEditorSpacing.scrollBottom }}>
+        <RuleEditorHeader title={draft.title} fallback="Рутина" subtitle={subtitle} subtitleColor={c.subtitle} image={art.routinePlant} width={47} height={53} top={68} onTitleChange={title => patch({ title })} editLabel="Изменить название рутины" inputLabel="Название рутины" />
         <View style={[styles.recommendation, { marginTop: 23 }]}><Icon name="chevron-down-section" width={10} height={8} color={c.muted} /><T size={20} color={c.muted} ls={0}>Рекомендации</T></View>
         <View style={{ marginTop: completion ? 5.333 : after && selected ? 8 : 4 }}><RuleSuggestions items={[{ image: art.routineTemplateAdhd, title: 'При СДВГ', caption: '4 привычки' }, { image: art.routineTemplateClean, title: 'Уборка дома', caption: '5 привычек' }, { image: art.routineTemplatePositive, title: 'Позитив', caption: '5 привычек' }]} /></View>
         <RuleEditorScrollAnchor style={{ paddingHorizontal: 20 }}>

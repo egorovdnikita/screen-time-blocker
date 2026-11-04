@@ -62,9 +62,9 @@ function UnlockDurationBody({ value, onCancel, onConfirm, maxHours = 2 }: { valu
       <SheetGrabber style={styles.handle} /><T size={22} center ls={0} style={{ marginTop: 38 }}>Длительность</T>
       <View style={styles.wheel}>
         <View pointerEvents="none" style={styles.wheelHighlight} />
-        <View style={{ position: 'absolute', left: maxHours === 24 ? 120 : 105 }}><WheelColumn label="Часы разблокировки" items={hours} value={hour} onChange={h => setTime(h, minute)} width={48} height={200} center={100} rowHeight={26} surface={u.durationSurface} fade={u.durationFade} /></View>
+        <View style={{ position: 'absolute', left: maxHours === 24 ? 120 : 105 }}><WheelColumn muted={p.wheelMutedSoft} label="Часы разблокировки" items={hours} value={hour} onChange={h => setTime(h, minute)} width={48} height={200} center={100} rowHeight={26} surface={u.durationSurface} fade={u.durationFade} /></View>
         <T size={17} weight={400} ls={0} style={{ position: 'absolute', left: maxHours === 24 ? 159 : 144, top: 87 }}>ч</T>
-        <View style={{ position: 'absolute', left: 179 }}><WheelColumn label="Минуты разблокировки" items={hour === maxHours ? minutes.slice(0, 1) : hour === 0 ? minutes.slice(1) : minutes} value={minute} onChange={m => setTime(hour, m)} width={48} height={200} center={100} rowHeight={26} surface={u.durationSurface} fade={u.durationFade} /></View>
+        <View style={{ position: 'absolute', left: 179 }}><WheelColumn muted={p.wheelMutedSoft} label="Минуты разблокировки" items={hour === maxHours ? minutes.slice(0, 1) : hour === 0 ? minutes.slice(1) : minutes} value={minute} onChange={m => setTime(hour, m)} width={48} height={200} center={100} rowHeight={26} surface={u.durationSurface} fade={u.durationFade} /></View>
         <T size={17} weight={400} ls={0} style={{ position: 'absolute', left: 218, top: 87 }}>мин</T>
       </View>
       <T size={13} weight={400} color={u.durationHelp} center ls={0} style={{ position: 'absolute', bottom: 128, left: 12, right: 12 }}>От 1 минуты до {maxHours} часов.</T>
