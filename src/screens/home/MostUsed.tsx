@@ -42,7 +42,7 @@ export function MostUsed({ day, onOpenMenu }: Props) {
             onPress={() => pillRef.current?.measureInWindow((x, y, width, height) => onOpenMenu({ x, y, width, height }))}
             style={styles.pill}
             accessibilityRole="button"
-            accessibilityLabel="Режим сводки"
+            hitSlop={{ top: 6, bottom: 6 }} accessibilityLabel="Режим сводки"
           >
             <Icon name="updown" width={12} height={14.5} color={colors.black} style={{ marginRight: 3.4 }} />
             <T size={14.25}>{mode === 'apps' ? 'Прил.' : 'Занятия'}</T>
@@ -162,7 +162,7 @@ function AppItem({ app, assessment, onMark, onToggleExclude }: { app: AppRow; as
                 <PressScale onPress={onMark} accessibilityRole="button" accessibilityLabel={`Изменить оценку ${app.name}`}><T size={12.25} ls={TRACK_SMALL} color={!assessment || reflectionMoods.find(m => m.id === assessment.mood)?.quality === 'productive' ? colors.qProductive : colors.qNeutral} style={{ marginTop: 9 }}>{assessment ? reflectionMoods.find(m => m.id === assessment.mood)?.title : 'С пользой'}</T></PressScale>
               </FadeIn>
             ) : (
-              <PressScale onPress={onMark} style={styles.chip} accessibilityRole="button" accessibilityLabel={`Оценить время ${app.name}`}>
+              <PressScale onPress={onMark} style={styles.chip} accessibilityRole="button" hitSlop={{ top: 11, bottom: 11 }} accessibilityLabel={`Оценить время ${app.name}`}>
                 <Icon name="plus-chip" width={13} height={12} color={colors.chipInk} style={{ marginRight: 3.2 }} />
                 <T size={12.25} weight={600} ls={TRACK_SMALL} color={colors.chipInk}>
                   Время с пользой?

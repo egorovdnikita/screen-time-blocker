@@ -39,6 +39,13 @@ export function createLock(draft: LockDraft): LockRule | null {
     strictSettings: { strictScope: draft.strictScope, strictDays: draft.strictDays }, unlockSettings: { unlockMethod: draft.unlockMethod, waitAutomatic: draft.waitAutomatic, waitSeconds: draft.waitSeconds, copyText: draft.copyText, scanType: draft.scanType } };
 }
 
+/** Черновик для редактирования созданного лимита запусков. Демо-правила без настроек не редактируются. */
+export function lockDraftFrom(rule: LockRule): LockDraft | null {
+  const app = lockApps.find(item => item.id === rule.app);
+  if (!app || rule.count === undefined || rule.minutes === undefined) return null;
+  return { ...initialLock(), ...rule.strictSettings, ...rule.unlockSettings, appId: app.id, count: rule.count, minutes: rule.minutes, strict: !!rule.strict };
+}
+
 const pickerImages: Partial<Record<LockAppId, number>> = { bereal: art.lockPickerBereal, facetime: art.lockPickerFacetime, messages: art.lockPickerMessages, xchat: art.lockPickerXchat };
 export const lockPickerImage = (id: LockAppId) => pickerImages[id] ?? lockApp(id)!.image;
 

@@ -104,6 +104,8 @@ type AppState = {
   addLimit: (rule: LimitRule, template?: boolean) => void;
   savedLimitTemplates: LimitRule[];
   addLock: (rule: LockRule) => void;
+  updateLock: (rule: LockRule) => void;
+  updateRoutine: (rule: RoutineRule) => void;
   savedTemplates: SessionRule[];
   updateSessionTemplate: (id: string, changes: RuleDetailChanges) => void;
   deleteSessionTemplate: (id: string) => void;
@@ -379,6 +381,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       noticeTimer.current = setTimeout(() => setSessionNotice(null), 2800);
       setCreatedLocks(xs => [rule, ...xs]);
     },
+    updateLock: rule => { setCreatedLocks(xs => xs.map(x => x.id === rule.id ? rule : x)); ruleNotice(); },
+    updateRoutine: rule => { setCreatedRoutines(xs => xs.map(x => x.id === rule.id ? rule : x)); ruleNotice(); },
     addSession: (session, template = false) => {
       if (noticeTimer.current) clearTimeout(noticeTimer.current);
       setSessionNotice(template ? 'Шаблон создан!' : session.status.kind === 'upcoming' ? 'Правило добавлено!' : 'Сессия началась!');

@@ -86,7 +86,7 @@ export function HomeScreen() {
         <View style={[styles.header, { marginTop: top + 10 }]}>
           <Icon name="block-wordmark" width={98.572} height={27.666} color={colors.wordmark} style={{ marginLeft: -5.8 }} />
           <View style={styles.periodWrap} pointerEvents="box-none">
-            <Pressable ref={periodRef} onPress={openPeriod} style={styles.period} accessibilityRole="button" accessibilityLabel="Период">
+            <Pressable ref={periodRef} onPress={openPeriod} style={styles.period} accessibilityRole="button" hitSlop={{ top: 4, bottom: 4 }} accessibilityLabel="Период">
               <T size={14.25} color={colors.white} onSky>
                 {day.label}
               </T>

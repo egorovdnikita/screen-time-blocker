@@ -2,7 +2,7 @@ import { RuleEditorScrollView, RuleEditorScrollAnchor } from '@/components/RuleE
 import { SheetTransition, SheetGrabber } from '@/components/SheetModal';
 import { HabitForm } from './HabitForm';
 import { useDarkStatusBar } from '@/components/useStatusBar';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -22,6 +22,7 @@ import { ruleEditorSpacing, colors, timeLimitTheme as l, routineTheme as c, habi
 import { T } from '@/theme/typography';
 import { AppGroupSheet } from '../session/AppGroupSheet';
 import { StrictSettingsSheet, StrictConfirmation, strictDaysLabel } from '../session/StrictSettingsSheet';
+import { RemoveRuleDialog } from '../rules/RemoveRuleDialog';
 import { HabitPicker } from './HabitPicker';
 
 export function RoutineEditor() {
@@ -32,19 +33,22 @@ function RoutineEditorBody() {
   const [swipeClosing, setSwipeClosing] = useState(false);
   const [afterClose, setAfterClose] = useState<(() => void) | null>(null);
   useDarkStatusBar();
-  const [draft, setDraft] = useState(initialRoutine);
+  const app = useAppState();
+  const { id } = useLocalSearchParams<{ id?: string }>();
+  // Правило читается один раз: после удаления его уже нет в списке, а лист ещё закрывается.
+  const [existing] = useState(() => app.createdRoutines.find(rule => rule.id === id));
+  const [draft, setDraft] = useState<RoutineDraft>(() => existing?.configuration ?? initialRoutine());
   const [open, setOpen] = useState<'after' | 'days' | null>(null);
-  const [modal, setModal] = useState<'apps' | 'habits' | 'library' | 'edit' | 'strict' | 'confirm' | null>(null);
+  const [modal, setModal] = useState<'apps' | 'habits' | 'library' | 'edit' | 'strict' | 'confirm' | 'remove' | null>(null);
   const [editingHabit, setEditingHabit] = useState<Habit | null>(null);
   const insets = useSafeAreaInsets();
-  const app = useAppState();
   const after = open === 'after', days = open === 'days', selected = draft.habitIds.length > 0;
   const compact = open !== null;
   const completion = after && draft.earningMode === 'completion';
   const patch = (update: Partial<RoutineDraft>) => { animateLayout(); setDraft(d => ({ ...d, ...update })); };
   const toggle = (next: typeof open) => { animateLayout(); setOpen(v => v === next ? null : next); };
   const dismiss = () => router.canGoBack() ? router.back() : router.replace('/(tabs)');
-  const finish = (template = false) => { const rule = routineRule(draft); if (!rule) return; setAfterClose(() => () => { app.addRoutine(rule, template); router.dismissAll(); router.navigate('/(tabs)/rules'); }); setSwipeClosing(true); };
+  const finish = (template = false) => { const rule = routineRule(draft); if (!rule) return; setAfterClose(() => () => { if (existing) app.updateRoutine({ ...rule, id: existing.id }); else app.addRoutine(rule, template); router.dismissAll(); router.navigate('/(tabs)/rules'); }); setSwipeClosing(true); };
   const count = draft.appGroup.selectedApps.filter(Boolean).length + draft.appGroup.categories.length;
   const warning = <View style={[styles.warning, { flexDirection: 'row', alignItems: 'center', gap: 3 }]}><View style={{ width: 10, height: 10, borderRadius: 5, backgroundColor: c.warningDot, alignItems: 'center', justifyContent: 'center' }}><T size={9} color={colors.white} ls={0} style={{ lineHeight: 10 }}>!</T></View><T size={12} color={c.warning} ls={0}>Выбрать</T></View>;
   const badge = hasGroupSelection(draft.appGroup) ? <View style={styles.badge}><Icon name="apps-grid" width={14} height={14} color={l.ink} /><T size={14} weight={400} ls={0}>{count || 'Все'}</T></View> : warning;
@@ -69,13 +73,14 @@ function RoutineEditorBody() {
       </RuleEditorScrollView>
       <RuleEditorScrollCap active={compact} />
       <SheetGrabber style={styles.handle} />
-      <View style={[styles.footer, { paddingBottom: Math.max(39, insets.bottom + 5) }]}><StrictModeRow value={draft.strict} description={draft.strict ? draft.strictScope === 'session' ? 'Активен во время сессии' : `Активен ${strictDaysLabel(draft.strictDays)}` : 'Без изменения и удаления'} onOpen={() => setModal('strict')} onChange={strict => strict ? setModal('strict') : patch({ strict: false })} style={{ marginLeft: 5 }} /><View style={[styles.actions, { marginTop: compact ? 26 : 24 }]}><SessionAction disabled={!canSaveRoutine(draft)} onPress={() => finish(true)}>Новый шаблон</SessionAction><SessionAction primary disabled={!canSaveRoutine(draft)} onPress={() => draft.strict ? setModal('confirm') : finish()}>Расписание</SessionAction></View></View>
+      <View style={[styles.footer, { paddingBottom: Math.max(39, insets.bottom + 5) }]}><StrictModeRow value={draft.strict} description={draft.strict ? draft.strictScope === 'session' ? 'Активен во время сессии' : `Активен ${strictDaysLabel(draft.strictDays)}` : 'Без изменения и удаления'} onOpen={() => setModal('strict')} onChange={strict => strict ? setModal('strict') : patch({ strict: false })} style={{ marginLeft: 5 }} /><View style={[styles.actions, { marginTop: compact ? 26 : 24 }]}>{existing ? <SessionAction onPress={() => setModal('remove')}>Удалить</SessionAction> : <SessionAction disabled={!canSaveRoutine(draft)} onPress={() => finish(true)}>Новый шаблон</SessionAction>}<SessionAction primary disabled={!canSaveRoutine(draft)} onPress={() => draft.strict ? setModal('confirm') : finish()}>{existing ? 'Сохранить' : 'Расписание'}</SessionAction></View></View>
     </View>
     {modal === 'apps' && <AppGroupSheet purpose="routine" value={draft.appGroup} onCancel={() => setModal(null)} onConfirm={appGroup => { patch({ appGroup }); setModal(null); }} />}
     {(modal === 'habits' || modal === 'library') && <HabitPicker library={modal === 'library'} value={modal === 'library' ? [] : draft.habitIds} onCancel={() => setModal(null)} onSave={(ids, definitions) => { const habitIds = modal === 'library' ? [...new Set([...draft.habitIds, ...ids])] : ids; const previous = routineHabits(draft); patch({ habitIds, habitDefinitions: habitIds.map(id => definitions.find(h => h.id === id) ?? previous.find(h => h.id === id)!).filter(Boolean).map(h => ({ ...h })) }); setModal(null); }} />}
     {modal === 'edit' && editingHabit && <HabitForm value={editingHabit} onCancel={() => setModal(null)} onSave={habit => { app.upsertHabit(habit); patch({ habitDefinitions: routineHabits(draft).map(h => h.id === habit.id ? { ...habit } : { ...h }) }); setModal(null); }} />}
     {modal === 'strict' && <StrictSettingsSheet value={draft} onCancel={() => setModal(null)} onActivate={settings => { patch({ ...settings, strict: true }); setModal(null); }} />}
     {modal === 'confirm' && <StrictConfirmation onCancel={() => setModal(null)} onContinue={() => finish()} />}
+    {modal === 'remove' && existing && <RemoveRuleDialog id={existing.id} title={existing.title} strict={false} onClose={() => setModal(null)} onDeleted={() => setSwipeClosing(true)} />}
   </SheetTransition>;
 }
 const styles = StyleSheet.create({

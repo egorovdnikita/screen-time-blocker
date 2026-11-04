@@ -6,7 +6,7 @@ import { RemoveRuleDialog } from './RemoveRuleDialog';
 import { AppUnlockSheet } from '../unlocking/AppUnlockSheet';
 import { routineHabits } from '@/data/routine';
 import { router, useLocalSearchParams } from 'expo-router';
-import { lockApp, unlocksUsedToday } from '@/data/lockRule';
+import { lockApp, lockDraftFrom, unlocksUsedToday } from '@/data/lockRule';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useEffect, useRef, useState, type ComponentRef } from 'react';
@@ -199,9 +199,11 @@ function LockCard({ rule }: { rule: LockRule }) {
   const remaining = Math.max(0, Math.ceil(((entry?.until ?? 0) - now) / 1000));
   const count = rule.count ?? (Number(rule.unlocks.match(/\d+/)?.[0]) || 3), available = Math.max(0, count - unlocksUsedToday(entry, now));
   const supported = !rule.unlockSettings || ['wait', 'reason', 'none'].includes(rule.unlockSettings.unlockMethod);
+  // Созданный лимит открывается в редакторе; демо-правило и строгое остаются с диалогом.
+  const editable = app.createdLocks.some(item => item.id === rule.id) && !rule.strict && !!lockDraftFrom(rule);
   return (
     <RuleCard style={styles.blockCard}>
-      <PressScale accessibilityRole="button" accessibilityLabel={`Действия с правилом ${rule.name}`} onPress={() => setRemove(true)} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+      <PressScale accessibilityRole="button" hitSlop={{ top: 10, bottom: 10 }} accessibilityLabel={editable ? `Изменить правило ${rule.name}` : `Действия с правилом ${rule.name}`} onPress={() => editable ? router.push({ pathname: '/lock', params: { id: rule.id } }) : setRemove(true)} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
         <Streak count={1} />
         <Icon name="chevron-right" width={8} height={11} color={colors.chevron} style={{ marginRight: 1 }} />
       </PressScale>
@@ -215,7 +217,7 @@ function LockCard({ rule }: { rule: LockRule }) {
           {rule.name}
         </T>
       </View>
-      <PressScale accessibilityRole="button" accessibilityLabel={`Открыть ${rule.name}`} disabled={remaining > 0 || !available || !supported} accessibilityState={{ disabled: remaining > 0 || !available || !supported }} onPress={() => setOpen(true)} style={styles.unlock}>
+      <PressScale accessibilityRole="button" hitSlop={{ top: 6, bottom: 6 }} accessibilityLabel={`Открыть ${rule.name}`} disabled={remaining > 0 || !available || !supported} accessibilityState={{ disabled: remaining > 0 || !available || !supported }} onPress={() => setOpen(true)} style={styles.unlock}>
         <T size={14.25}>{remaining ? `${String(Math.floor(remaining / 60)).padStart(2, '0')}:${String(remaining % 60).padStart(2, '0')}` : 'Открыть'}</T>
         {!remaining && <T size={10} weight={500} color={colors.unlockCount} style={{ marginLeft: 5, marginTop: 2 }}>({available}/{count})</T>}
       </PressScale>
@@ -267,7 +269,7 @@ function SessionCard({ rule }: { rule: SessionRule }) {
           {rule.appIds ? <SessionApps appIds={rule.appIds} reverse={false}/> : rule.appGroup ? <AppGroupSummary group={rule.appGroup} /> : rule.selectedApps ? <SessionApps selected={rule.selectedApps} /> : <Image source={rule.apps === 'first-rule' ? art.appsFirstRule : art.appsSession} style={{ width: 45, height: 21 }} />}
         </View>
         {rule.unlock && (
-          <PressScale accessibilityRole="button" accessibilityLabel={`Открыть ${title}`} onPress={() => setDetails(true)} style={styles.firstUnlock}>
+          <PressScale accessibilityRole="button" hitSlop={{ top: 6, bottom: 6 }} accessibilityLabel={`Открыть ${title}`} onPress={() => setDetails(true)} style={styles.firstUnlock}>
             <T size={14.25}>Открыть</T>
             <T size={10} weight={500} color={colors.unlockCount} style={{ marginLeft: 5, marginTop: 2 }}>
               {rule.unlock}
@@ -347,10 +349,11 @@ function RoutineCard({ rule, demoEarned = false }: { rule: RoutineRule; demoEarn
   const [remove, setRemove] = useState(false);
   const done = demoEarned || checked;
   const config = rule.configuration;
+  const editable = useAppState().createdRoutines.some(item => item.id === rule.id) && !config?.strict;
   const tasks = config ? routineHabits(config) : [{ id: 'demo', title: demoEarned ? 'Убрать комнату' : 'Убрать в комнате', minutes: 5 }];
   const appCount = config ? config.appGroup.selectedApps.filter(Boolean).length + config.appGroup.categories.length : 1;
   return <RuleCard style={[styles.wideCard, { marginTop: 10, paddingBottom: 8 }]}>
-    <RuleHeader emoji={<Image source={art.emojiPlant} style={{ width: 21, height: 31 }} />} title={rule.title} streak={1} onPress={() => setRemove(true)} accessibilityLabel={`Действия с правилом ${rule.title}`} />
+    <RuleHeader emoji={<Image source={art.emojiPlant} style={{ width: 21, height: 31 }} />} title={rule.title} streak={1} onPress={() => editable ? router.push({ pathname: '/routine', params: { id: rule.id } }) : setRemove(true)} accessibilityLabel={editable ? `Изменить правило ${rule.title}` : `Действия с правилом ${rule.title}`} />
     <View style={[styles.metaRow, { marginTop: 11.3 }]}><StatusPill status={{ kind: 'blocking' }} blockingText={config || done ? 'Закрыто' : undefined} /><MetaSep /><AllDay /></View>
     {tasks.map(task => <Pressable key={task.id} style={styles.task} disabled={!!config || demoEarned} onPress={() => setChecked(value => !value)} accessibilityLabel={`Проверить с ИИ: ${task.title}`} accessibilityHint={config ? 'Проверка по фото пока недоступна' : undefined} accessibilityRole="checkbox" accessibilityState={{ checked: done, disabled: !!config || demoEarned }} aria-checked={done}>
       <View style={[styles.taskRing, done && { backgroundColor: 'transparent' }]}>{done && <Icon name="goal-check" width={13} height={13} color={colors.ruleCompleted} />}</View><View style={{ flex: 1, marginLeft: 6.7 }}><T size={15.25} color={done ? colors.ruleCompleted : colors.text}>{task.title}</T>{!done && <T size={11.75} weight={500} ls={TRACK_SMALL} color={colors.taskSub} style={{ marginTop: 1 }}>{config ? 'Проверить с ИИ' : 'Нажмите, чтобы проверить с ИИ'}</T>}</View><View style={[styles.plusTime, done && {backgroundColor: colors.ruleRewardBg, boxShadow: undefined}]}><Icon name="plus" width={12} height={12} color={done ? colors.limitProgress : colors.taskSub} style={{ marginRight: 3.8 }} /><T size={11.75} ls={TRACK_SMALL} color={done ? colors.limitProgress : colors.taskSub}>{task.minutes}{done ? 'мин' : ' мин'}</T></View>

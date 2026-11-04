@@ -71,7 +71,7 @@ export function RuleCard({ children, style, onPress }: { children: ReactNode; st
 export function RuleHeader({ emoji, title, streak, onPress, accessibilityLabel }: { emoji: ReactNode; title: string; streak: number; onPress?: () => void; accessibilityLabel?: string }) {
   const content = <><View style={{ width: 27.7 }}>{emoji}</View><T size={17} style={{ flex: 1 }}>{title}</T><Streak count={streak} /><Icon name="chevron-right" width={8} height={11} color={colors.chevron} style={{ marginLeft: 9 }} /></>;
   const style = { flexDirection: 'row' as const, alignItems: 'center' as const, height: 33 };
-  return onPress ? <PressScale accessibilityRole="button" accessibilityLabel={accessibilityLabel ?? `Подробности сессии ${title}`} onPress={onPress} style={style}>{content}</PressScale> : <View style={style}>{content}</View>;
+  return onPress ? <PressScale accessibilityRole="button" hitSlop={{ top: 6, bottom: 6 }} accessibilityLabel={accessibilityLabel ?? `Подробности сессии ${title}`} onPress={onPress} style={style}>{content}</PressScale> : <View style={style}>{content}</View>;
 }
 
 export function PlusCircle({ tone = 'light' }: { tone?: 'light' | 'hint' }) {
