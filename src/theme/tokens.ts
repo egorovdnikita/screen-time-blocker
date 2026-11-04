@@ -379,13 +379,18 @@ export const interfaceTheme = {
 
 // HTML000–025: измерения сохранены в отчёте онбординга.
 export const onboardingTheme = {
-  white: '#ffffff', ink: '#111111', surface: '#f7f7f8', picker: '#f4f3fa',
+  white: '#ffffff', ink: '#111111', black: '#000000', surface: '#f7f7f8', picker: '#f4f3fa',
   pickerRadio: '#d1d1d6', pickerBlue: '#0095f5', pickerChild: '#f9f9fc', pickerLine: '#ededee',
   muted: '#9299a4', note: '#818894', line: '#e0e3e9', rowLine: '#eff0f2',
   blue: '#3985ed', progress: '#f0f3fb', purple: ['#a950f6','#6265f2'] as const,
   gold: '#d8b66b', award: '#bd9855', avatar: '#e7edf7', avatarInk: '#66738c',
   star: '#e8ad2d', dimBlue: '#99ccf4', quoteName: '#d5ecff', before: '#e36a4c', after: '#4c86e4',
-  badge: '#edf4ff', disabled: '#b7b7b9', range: '#f0f1f2', cap: '#6093b9',
+  badge: '#edf4ff', disabled: '#b5b5bb', disabledInk: '#d0d0d4', disabledName: '#bcbcbc', disabledNameInk: '#ededed',
+  range: '#f0f1f2', cap: '#6093b9', reviewInk: '#151515', cardInk: '#73777c', quizNote: '#a0a0a0', pickerCount: '#aaaaaa',
+  unlockHint: '#c5c9ce', methodNote: '#929292', skip: '#c7cbd0', setupLabel: '#818a98', setupChevron: '#c9cdd3', prefCopy: '#89919d',
+  prefChevron: '#c2c8d0', pickerChevron: '#c8c8cd', searchInk: '#777777', fieldFocus: '#f7f8fa', fieldFocusLine: '#222222',
+  arrows: 'rgba(17,17,17,.22)', searchFill: 'rgba(255,255,255,.97)', searchShadow: '0px 12px 35px #26232e0a',
+  setupShadow: '0px 2px 5px #162c4910', timerShadow: '0px 12px 18px #1478ff4d',
   promptBlue: '#00b5eb', promptButton: '#ebeced',
   promptInk: '#818185', screenTime: '#5c51d8', skyFade: 'rgba(255,255,255,0)',
   fadeHalf: 'rgba(255,255,255,.42)', frictionBlue: ['#88c5ff','#32aafa'] as const,
@@ -393,7 +398,7 @@ export const onboardingTheme = {
   cardShadow: '0px 8px 24px #141a230a', secondaryShadow: '0px 6px 18px #00000017',
   rangeShadow: '0px 5px 17px #4b9fe71f', rangeFillShadow: '0px 3px 13px #318fe941',
   glassBorder: 'rgba(255,255,255,.3)', glassFill: 'rgba(255,255,255,.05)',
-  codeBlue: ['#348bff','#005df1'] as const, prompt: ['#fafbfce8','#f7f8fbe8'] as const,
+  codeBlue: ['#3085f5','#0666f5'] as const, prompt: ['#fafbfce8','#f7f8fbe8'] as const,
 };
 
 // Последние состояния HTML: локальные настройки и системные демо.
