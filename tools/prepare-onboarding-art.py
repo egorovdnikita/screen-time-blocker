@@ -43,4 +43,23 @@ sky=Image.open(sky_source).convert('RGB')
 cut=round(sky.height*59/852)
 row=sky.crop((0,cut,sky.width,cut+1)).resize((sky.width,cut))
 sky.paste(row,(0,0))
+# В исходном небе остались тёмные следы английского текста и обрезанный край облака (координаты px 1179×2556).
+def soften(image,box,feather):
+    mask=Image.new('L',image.size)
+    ImageDraw.Draw(mask).rectangle(box,fill=255)
+    return mask.filter(ImageFilter.GaussianBlur(feather))
+# На чистом голубом участке каждый столбец заново протягивается между верхней и нижней границей.
+soft=sky.filter(ImageFilter.GaussianBlur(10))
+for box,feather in (((60,412,1125,512),12),((300,665,1050,822),30)):
+    x0,y0,x1,y1=box
+    field=sky.copy(); pixels=field.load(); source=soft.load()
+    for x in range(x0,x1):
+        top,bottom=source[x,y0],source[x,y1]
+        for y in range(y0,y1):
+            t=(y-y0)/(y1-y0)
+            pixels[x,y]=tuple(round(top[k]*(1-t)+bottom[k]*t) for k in range(3))
+    sky=Image.composite(field,sky,soften(sky,box,feather))
+# Над облаком протягивать нельзя: след только размывается, облако там и так мягкое.
+sky=Image.composite(sky.filter(ImageFilter.GaussianBlur(26)),sky,soften(sky,(118,672,290,812),14))
+sky=Image.composite(sky.filter(ImageFilter.GaussianBlur(11)),sky,soften(sky,(120,532,370,560),12))
 sky.save(root/'assets/art/onboarding/welcome-sky-reference.png')
