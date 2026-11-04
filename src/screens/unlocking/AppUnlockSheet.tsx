@@ -10,10 +10,14 @@ import { Icon } from '@/components/Icon';
 import { art } from '@/data/art';
 import { lockApp } from '@/data/lockRule';
 import type { LockRule } from '@/data/rules';
-import { T, rounded } from '@/theme/typography';
-import { colors, appUnlockTheme as c } from '@/theme/tokens';
+import { T, rounded, TextInk } from '@/theme/typography';
+import { settingsTheme, colors, appUnlockTheme as c } from '@/theme/tokens';
 
-export function AppUnlockSheet({ rule, onCancel, onConfirm }: { rule: LockRule; onCancel: () => void; onConfirm: (minutes: number, reason: string) => void }) {
+export function AppUnlockSheet(props: Parameters<typeof AppUnlockSheetBody>[0]) {
+  return <TextInk.Provider value={settingsTheme.title}><AppUnlockSheetBody {...props} /></TextInk.Provider>;
+}
+
+function AppUnlockSheetBody({ rule, onCancel, onConfirm }: { rule: LockRule; onCancel: () => void; onConfirm: (minutes: number, reason: string) => void }) {
   const method = rule.unlockSettings?.unlockMethod ?? 'wait';
   const waitSeconds = method === 'wait' ? rule.unlockSettings?.waitAutomatic === false ? rule.unlockSettings.waitSeconds : 3 : 0;
   const [remaining, setRemaining] = useState(waitSeconds);

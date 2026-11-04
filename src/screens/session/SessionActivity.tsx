@@ -49,7 +49,7 @@ export function SessionActivity({ draft, patch }: Props) {
           <T size={15} weight={400} color={c.scheduleInk} ls={0}>{key === 'start' ? 'Начало' : 'Окончание'}</T>
           <View collapsable={false} ref={view => { anchors.current[key] = view ?? undefined; }}>
             <PressScale disabled={draft.allDay} accessibilityRole="button" accessibilityLabel={key === 'start' ? 'Начало' : 'Окончание'} accessibilityState={{ disabled: draft.allDay }} onPress={() => openClock(key)} style={styles.time}>
-              <T size={17} weight={400} ls={0}>{hourLabel(draft[key], draft[`${key}Minute`])}</T>
+              <T size={17} weight={400} color={c.scheduleInk} ls={0}>{hourLabel(draft[key], draft[`${key}Minute`])}</T>
             </PressScale>
           </View>
         </View>)}

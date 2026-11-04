@@ -14,6 +14,8 @@ import { PressScale } from '@/components/motion';
 import { Icon } from '@/components/Icon';
 
 // Выбор хранится локально. Подтверждение ОС доступно только как отдельное демо311.
+const blackInk = '#000000'; // в HTML этих листов текст чистый чёрный
+
 export function AppIconPicker({ onClose, demoAlert = false }: { onClose: () => void; demoAlert?: boolean }) {
   const {width, height} = useWindowDimensions();
   const insets = useSafeAreaInsets();
@@ -21,7 +23,7 @@ export function AppIconPicker({ onClose, demoAlert = false }: { onClose: () => v
   const gap = Math.max(8, (width - 16 - 51 - columns * 62) / (columns - 1));
   const top = floatingSheetTop(height, insets.top, 409.333, 434.667);
   const app = useAppState(), [alert, setAlert] = useState(false);
-  return <PlainSettingsSheet onShown={() => { if(demoAlert) setAlert(true); }} title="Иконка приложения" top={top} inset={8} bottom={8} onClose={onClose} surface={c.surface} backdropColor={c.dim}>
+  return <PlainSettingsSheet ink={blackInk} onShown={() => { if(demoAlert) setAlert(true); }} title="Иконка приложения" top={top} inset={8} bottom={8} onClose={onClose} surface={c.surface} backdropColor={c.dim}>
     <SheetScrollView accessibilityLabel="Выбор иконки приложения" style={{marginTop:100.667}} contentContainerStyle={{paddingBottom:Math.max(24,insets.bottom)}}><View style={[styles.grid,{columnGap:gap}]}>{appIcons.map(item => <PressScale key={item.id} accessibilityRole="button" accessibilityLabel={`Иконка: ${item.title}`} accessibilityState={{ selected: app.appIcon === item.id }} onPress={() => app.setAppIcon(item.id)} style={styles.tile}>
       <Image source={item.image} style={[styles.image, app.appIcon === item.id && { borderWidth: 2, borderColor: c.selection }]} />
       {app.appIcon === item.id && <View style={styles.check}><Icon name="checkmark" width={9} height={10} color={colors.white} /></View>}

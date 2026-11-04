@@ -7,10 +7,14 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Icon } from '@/components/Icon';
 import { PressScale } from '@/components/motion';
 import { lockApps, lockApp, lockPickerImage, lockCategories, popularLockApps, suggestedLockApps, type LockAppId } from '@/data/lockRule';
-import { colors, lockTheme as c } from '@/theme/tokens';
-import { T } from '@/theme/typography';
+import { colors, lockTheme as c, settingsTheme } from '@/theme/tokens';
+import { T, TextInk } from '@/theme/typography';
 
-export function SingleAppPicker({ value, onCancel, onConfirm }: { value: LockAppId | null; onCancel: () => void; onConfirm: (id: LockAppId) => void }) {
+export function SingleAppPicker(props: Parameters<typeof SingleAppPickerBody>[0]) {
+  return <TextInk.Provider value={settingsTheme.title}><SingleAppPickerBody {...props} /></TextInk.Provider>;
+}
+
+function SingleAppPickerBody({ value, onCancel, onConfirm }: { value: LockAppId | null; onCancel: () => void; onConfirm: (id: LockAppId) => void }) {
   const [selected, setSelected] = useState(value);
   const [confirmed, setConfirmed] = useState<LockAppId | null>(null);
   const [phase, setPhase] = useState<'select' | 'confirm'>('select');

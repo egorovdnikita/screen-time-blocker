@@ -4,7 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { BottomChrome } from '@/components/BottomChrome';
 import { Icon } from '@/components/Icon';
 import { useDarkStatusBar } from '@/components/useStatusBar';
-import { T, TRACK_SMALL } from '@/theme/typography';
+import { T } from '@/theme/typography';
 import { colors } from '@/theme/tokens';
 
 // Макета «Обзора» нет (APP-19): экран-заглушка.

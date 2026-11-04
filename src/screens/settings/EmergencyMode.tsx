@@ -16,12 +16,14 @@ import { colors, emergencyTheme as c, modalTheme } from '@/theme/tokens';
 import { T } from '@/theme/typography';
 
 type StrictRule = { id: string; title: string; strictSettings: RuleDetailChanges['strictSettings'] };
+const blackInk = '#000000'; // в HTML этих листов текст чистый чёрный
+
 export function EmergencyMode({ onClose }: { onClose: () => void }) {
   const app = useAppState();
   const [child, setChild] = useState<'settings' | 'passcode' | 'random' | 'rules' | null>(null);
   const [challenge, setChallenge] = useState('');
   const continueToRules = () => { if (app.emergencySettings.method === 'passcode') setChild('passcode'); else { setChallenge(emergencyChallenge(app.emergencySettings.length, app.interfaceSettings.special)); setChild('random'); } };
-  return <PlainSettingsSheet title="" onClose={onClose} surface={c.surface}>
+  return <PlainSettingsSheet ink={blackInk} title="" onClose={onClose} surface={c.surface}>
     <PressScale accessibilityRole="button" accessibilityLabel="Настройки экстренного режима" onPress={() => setChild('settings')} style={styles.settingsButton}><Icon name="emergency-settings" width={24} height={24} color={c.ink} /></PressScale>
     <View style={styles.intro}><Image source={require('../../../assets/art/emergency-shirt.png')} contentFit="contain" style={{ width: 110, height: 170 }} /><T size={24} ls={0} center style={{ marginTop: 7, lineHeight: 29 }}>Экстренный режим</T><T size={15} weight={400} ls={0} center style={{ marginTop: 8, lineHeight: 18 }}>Экстренный случай? Ошибка? Бывает. Отключите строгий режим, если это действительно нужно.</T></View>
     <BottomButton label="Продолжить в экстренный режим" onPress={continueToRules}>Продолжить</BottomButton>
@@ -43,7 +45,7 @@ function EmergencySettings({ onClose }: { onClose: () => void }) {
   const [code, setCode] = useState(''), [pin, setPin] = useState(''), [toast, setToast] = useState(false);
   useEffect(() => { if (!toast) return; const timer = setTimeout(() => setToast(false), 2800); return () => clearTimeout(timer); }, [toast]);
   const requestPasscode = () => { setCode(emergencyChallenge(settings.length, app.interfaceSettings.special)); setChild('challenge'); };
-  return <PlainSettingsSheet title="" surface={c.surface} onClose={onClose}>{close => <>
+  return <PlainSettingsSheet ink={blackInk} title="" surface={c.surface} onClose={onClose}>{close => <>
     <T size={20} center ls={0} style={{ position: 'absolute', top: 57, left: 70, right: 70, lineHeight: 24 }}>Настройки</T>
     <View style={styles.back}><EmergencyRoundButton label="Назад из настроек экстренного режима" back onPress={() => close()} /></View>
     <View style={styles.segment}>{(['random', 'passcode'] as const).map(method => <PressScale key={method} accessibilityRole="radio" accessibilityLabel={method === 'random' ? 'Экстренный режим: случайный код' : 'Экстренный режим: код-пароль'} accessibilityState={{ checked: settings.method === method }} onPress={() => { if (settings.method === method) return; if (method === 'passcode') requestPasscode(); else { setCode(emergencyChallenge(settings.length, app.interfaceSettings.special)); setChild('challenge'); } }} style={[styles.segmentItem, settings.method === method && { backgroundColor: colors.white, boxShadow: c.keyShadow }]}><T size={15} weight={settings.method === method ? 700 : 400} ls={0}>{method === 'random' ? 'Случайный код' : 'Код-пароль'}</T></PressScale>)}</View>
@@ -62,7 +64,7 @@ function EmergencyRules({ onClose }: { onClose: () => void }) {
   useEffect(() => { if (!toast) return; const timer = setTimeout(() => setToast(''), 2800); return () => clearTimeout(timer); }, [toast]);
   const candidates = [...base.locks, ...app.createdLocks].map(x => ({ id: x.id, title: x.name, strict: x.strict, strictSettings: x.strictSettings })).concat([...base.sessions, ...app.createdSessions].map(x => ({ id: x.id, title: x.title, strict: x.strict, strictSettings: x.strictSettings })), [...base.limits, ...app.createdLimits, ...base.routines, ...app.createdRoutines].map(x => ({ id: x.id, title: x.title, strict: x.configuration?.strict, strictSettings: x.configuration })));
   const strict = candidates.filter(x => !app.deletedRuleIds.includes(x.id) && (app.ruleChanges[x.id]?.strict ?? x.strict));
-  return <PlainSettingsSheet title="" surface={c.surface} onClose={onClose}>{close => <>
+  return <PlainSettingsSheet ink={blackInk} title="" surface={c.surface} onClose={onClose}>{close => <>
     <View style={styles.ruleHeader}><EmergencyRoundButton label="Назад из строгих правил" back onPress={() => close()} /><T size={18} ls={0}>{selected || toast ? 'Правила строгого режима' : 'Правила со строгим режимом'}</T></View>
     <View style={styles.info}><T size={14} weight={400} color={c.infoInk} ls={0} style={{ lineHeight: 18 }}>{selected || toast ? 'Для этих правил можно отключить строгий режим или удалить их.' : 'Вы можете отключить строгий режим для этого правила или удалить его.'}</T></View>
     <SheetScrollView accessibilityLabel="Строгие правила" style={{ marginTop: 211 }} contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 40, gap: 12 }}>{strict.map(x => <View key={x.id} style={styles.rule}><T size={16} ls={0}>🔒</T><T size={16} weight={400} ls={0} style={{ flex: 1 }}>{app.ruleChanges[x.id]?.title ?? x.title}</T><FlowSwitch label={`Строгий режим: ${x.title}`} value={app.ruleChanges[x.id]?.strict ?? x.strict ?? false} disabled={!(app.ruleChanges[x.id]?.strict ?? x.strict)} onChange={() => setSelected({ ...x, title: app.ruleChanges[x.id]?.title ?? x.title, strictSettings: app.ruleChanges[x.id]?.strictSettings ?? x.strictSettings ?? { strictScope: 'session', strictDays: 1 } })} /></View>)}</SheetScrollView>

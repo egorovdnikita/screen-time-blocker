@@ -1,11 +1,9 @@
 import { useEffect } from 'react';
-import { Image } from 'expo-image';
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { router } from 'expo-router';
 import { useAppState } from '@/state/app';
 import { initialSession, sessionRule } from '@/data/session';
-import { onboardingArt } from '@/data/onboarding';
 import { onboardingTheme as c } from '@/theme/tokens';
 import { Welcome, SocialProof } from './WelcomeSocial';
 import { OnboardingFriction, OnboardingStory } from './OnboardingPieces';
@@ -60,7 +58,7 @@ export function OnboardingScreen({ initialStep }: { initialStep?: number }) {
   const scale = compact ? Math.min(1,height/852,width/393) : 1;
   const surface = step>=19&&step<=21?c.picker:c.white;
   const page = height>=800 ? height : 852;
-  if (compact) return <View accessibilityLabel={`Знакомство: экран ${String(step).padStart(3,'0')}`} style={{flex:1,alignItems:'center',justifyContent:'center',overflow:'hidden',backgroundColor:surface}}><StatusBar style={step===0?'light':'dark'}/>{step===0&&<><Image source={onboardingArt.sky} contentFit="fill" style={StyleSheet.absoluteFill}/><View style={{position:'absolute',left:0,right:0,bottom:0,height:'37%',backgroundColor:c.white}}/></>}<View style={[styles.page,{width:393,height:852,transform:[{scale}]}]}>{content}</View></View>;
+  if (compact) return <View accessibilityLabel={`Знакомство: экран ${String(step).padStart(3,'0')}`} style={{flex:1,alignItems:'center',justifyContent:'center',overflow:'hidden',backgroundColor:surface}}><StatusBar style={step===0?'light':'dark'}/><View style={[styles.page,{width:393,height:852,overflow:'visible',transform:[{scale}]}]}>{step===0?<Welcome bleed={Math.max(0,(width/scale-393)/2)} onStart={()=>go(1)}/>:content}</View></View>;
   return <KeyboardAvoidingView behavior={Platform.OS==='ios'&&typing?'padding':undefined} style={{flex:1,backgroundColor:surface}}><StatusBar style={step===0?'light':'dark'}/><ScrollView accessibilityLabel={`Знакомство: экран ${String(step).padStart(3,'0')}`} scrollEnabled={typing} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} contentContainerStyle={{minHeight:page}}><View style={[styles.page,{minHeight:page,backgroundColor:surface}]}>{content}</View></ScrollView></KeyboardAvoidingView>;
 }
 const styles=StyleSheet.create({page:{position:'relative',overflow:'hidden'}});

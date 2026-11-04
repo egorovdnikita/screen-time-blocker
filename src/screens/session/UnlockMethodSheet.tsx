@@ -9,13 +9,17 @@ import { FlowSwitch } from '@/components/SessionPrimitives';
 import { animateLayout, PressScale } from '@/components/motion';
 import { art } from '@/data/art';
 import { copyTextIdeas, copyPreviewQuote, type UnlockSettings } from '@/data/session';
-import { colors, sessionTheme as c, sessionPickerTheme as p, unlockMethodTheme as m } from '@/theme/tokens';
-import { T } from '@/theme/typography';
+import { colors, sessionTheme as c, sessionPickerTheme as p, unlockMethodTheme as m, settingsTheme } from '@/theme/tokens';
+import { T, TextInk } from '@/theme/typography';
 import { unlockMethods } from '@/data/unlockMethods';
 import { ScanMethodSettings } from './ScanMethodSettings';
 
 type Props = { value: UnlockSettings; onCancel: () => void; onSave: (value: UnlockSettings) => void };
-export function UnlockMethodSheet({ value, onCancel, onSave }: Props) {
+export function UnlockMethodSheet(props: Parameters<typeof UnlockMethodSheetBody>[0]) {
+  return <TextInk.Provider value={settingsTheme.title}><UnlockMethodSheetBody {...props} /></TextInk.Provider>;
+}
+
+function UnlockMethodSheetBody({ value, onCancel, onSave }: Props) {
   const [draft, setDraft] = useState<UnlockSettings>(() => ({ unlockMethod: value.unlockMethod, waitAutomatic: value.waitAutomatic, waitSeconds: value.waitSeconds, copyText: value.copyText, scanType: value.scanType }));
   const insets = useSafeAreaInsets();
   const [scrolled, setScrolled] = useState(false);

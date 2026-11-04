@@ -15,7 +15,7 @@ import { art } from '@/data/art';
 import { daysLabel, initialTimeLimit, timeLimitRule, type TimeLimitDraft } from '@/data/timeLimit';
 import { durationLabel, unlockMethodLabel } from '@/data/session';
 import { useAppState } from '@/state/app';
-import { T } from '@/theme/typography';
+import { T, TextInk } from '@/theme/typography';
 import { ruleEditorSpacing, colors, sessionTheme, timeLimitTheme as c } from '@/theme/tokens';
 import { StrictSettingsSheet, StrictConfirmation, strictDaysLabel } from '../session/StrictSettingsSheet';
 import { SessionUnlocks, UnlockDuration } from '../session/SessionUnlocks';
@@ -23,7 +23,7 @@ import { LimitAppPicker } from './LimitAppPicker';
 
 type Open = 'after' | 'days' | 'unlocks' | 'notifications' | null;
 export function TimeLimitEditor() {
-  return <EditorTone.Provider value={ruleEditorTone}><TimeLimitEditorBody /></EditorTone.Provider>;
+  return <TextInk.Provider value={c.ink}><EditorTone.Provider value={ruleEditorTone}><TimeLimitEditorBody /></EditorTone.Provider></TextInk.Provider>;
 }
 
 function TimeLimitEditorBody() {

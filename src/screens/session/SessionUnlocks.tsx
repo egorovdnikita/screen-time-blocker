@@ -7,8 +7,8 @@ import { animateLayout, PressScale } from '@/components/motion';
 import { WheelColumn, type WheelItem } from '@/components/WheelColumn';
 import { UnlockMethodSheet } from './UnlockMethodSheet';
 import { durationLabel, unlockMethodLabel, type UnlockSettings, type SessionDraft } from '@/data/session';
-import { colors, sessionTheme as c, sessionPickerTheme as p, sessionUnlockTheme as u } from '@/theme/tokens';
-import { T } from '@/theme/typography';
+import { colors, sessionTheme as c, sessionPickerTheme as p, sessionUnlockTheme as u, settingsTheme } from '@/theme/tokens';
+import { T, TextInk } from '@/theme/typography';
 
 type UnlockDraft = UnlockSettings & Pick<SessionDraft, 'unlocks' | 'unlockMinutes'>;
 type Props = { draft: UnlockDraft; patch: (update: Partial<UnlockDraft>) => void; waitLabel?: string; entryLabel?: string };
@@ -45,7 +45,11 @@ export function SessionUnlocks({ draft, patch, waitLabel, entryLabel = 'пере
   </View>;
 }
 const minutes: WheelItem[] = Array.from({ length: 60 }, (_, value) => ({ value, label: String(value) }));
-export function UnlockDuration({ value, onCancel, onConfirm, maxHours = 2 }: { value: number; onCancel: () => void; onConfirm: (minutes: number) => void; maxHours?: number }) {
+export function UnlockDuration(props: Parameters<typeof UnlockDurationBody>[0]) {
+  return <TextInk.Provider value={settingsTheme.title}><UnlockDurationBody {...props} /></TextInk.Provider>;
+}
+
+function UnlockDurationBody({ value, onCancel, onConfirm, maxHours = 2 }: { value: number; onCancel: () => void; onConfirm: (minutes: number) => void; maxHours?: number }) {
   const [selected, setSelected] = useState(value);
   const hours: WheelItem[] = Array.from({ length: maxHours + 1 }, (_, value) => ({ value, label: String(value) }));
   const { height } = useWindowDimensions();
