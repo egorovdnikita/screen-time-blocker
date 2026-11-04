@@ -8,6 +8,7 @@ import { Icon } from './Icon';
 import { PressScale } from './motion';
 import { T, rounded } from '@/theme/typography';
 import { colors, emergencyTheme as c } from '@/theme/tokens';
+import { hapticResult } from '@/state/haptics';
 
 export function EmergencyRoundButton({ label, onPress, back = false }: { label: string; onPress: () => void; back?: boolean }) {
   return <PressScale accessibilityRole="button" accessibilityLabel={label} onPress={onPress} style={styles.round}><Icon name={back ? 'lock-back' : 'reflection-close'} width={back ? 22 : 13} height={back ? 18 : 13} color={c.ink} style={back ? { transform: [{ rotate: '180deg' }] } : undefined} /></PressScale>;
@@ -23,7 +24,7 @@ function PasscodeContent({ title, subtitle, onBack, onComplete, confirm, close }
   const complete = useRef(onComplete); useEffect(() => { complete.current = pin => close(() => onComplete(pin)); }, [onComplete, close]);
   useEffect(() => {
     if (pin.length !== 4) return;
-    const timer = setTimeout(() => { if (confirm && pin !== confirm) { setError(true); setPin(''); } else complete.current(pin); }, 650);
+    const timer = setTimeout(() => { if (confirm && pin !== confirm) { hapticResult('error'); setError(true); setPin(''); } else complete.current(pin); }, 650);
     return () => clearTimeout(timer);
   }, [pin, confirm]);
   return <View style={styles.full} accessibilityViewIsModal><StatusBar style="dark" />

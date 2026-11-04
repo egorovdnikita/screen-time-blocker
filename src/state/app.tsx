@@ -10,6 +10,7 @@ import { activityCatalog, reflectionKey, type ActivityDefinition, type Reflectio
 import type { Habit } from '@/data/routine';
 import { liveSession } from '@/data/sessionSchedule';
 import { localDay, unlocksUsedToday, type AppUnlockEntry } from '@/data/lockRule';
+import { hapticResult } from '@/state/haptics';
 import { clearSnapshot, encodeSnapshot, loadSnapshot, saveSnapshot } from '@/state/persist';
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 
@@ -308,7 +309,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const selectedGoal = dailyGoals?.[currentGoalDay(period)] ?? dailyGoalMinutes;
   const day = useMemo(() => reflectedDay(selectedGoal === null && dailyGoalEnabled ? baseDay : { ...baseDay, goal: { ...baseDay.goal, enabled: dailyGoalEnabled, text: `${baseDay.goal.kind === 'check' ? 'В пределах' : 'Не больше'} ${goalTimeLabel(selectedGoal ?? 260)}` } }, reflections, reflectionExcluded, excluded, reflectionTouchedDays.includes(reflectionKey(baseDay.id, '')), activityCatalog(customActivities)), [baseDay, reflections, reflectionExcluded, excluded, reflectionTouchedDays, customActivities, selectedGoal, dailyGoalEnabled]);
 
-  const ruleNotice = () => { if (noticeTimer.current) clearTimeout(noticeTimer.current); setSessionNotice('Изменения сохранены'); noticeTimer.current = setTimeout(() => setSessionNotice(null), 2800); };
+  const ruleNotice = () => { hapticResult('success'); if (noticeTimer.current) clearTimeout(noticeTimer.current); setSessionNotice('Изменения сохранены'); noticeTimer.current = setTimeout(() => setSessionNotice(null), 2800); };
   const value: AppState = {
     storage, onboardingCompleted, completeOnboarding: () => setOnboardingCompleted(true),
     resetLocalData: async () => {
@@ -319,6 +320,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     onboardingDraft, startOnboarding, patchOnboarding, profileName, setProfileName,
     appIcon, setAppIcon, notifications, setNotifications, emergencySettings, saveEmergencySettings, interfaceSettings, setInterfaceSettings, deletedRuleIds,
     deleteRule: id => {
+      hapticResult('warning');
       // Созданные правила удаляются из хранилища целиком, демо-правила скрываются по id.
       setDeletedRuleIds(xs => xs.includes(id) ? xs : [...xs, id]);
       setCreatedSessions(xs => xs.filter(x => x.id !== id)); setCreatedLimits(xs => xs.filter(x => x.id !== id));
@@ -332,6 +334,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     pausedSessions, pauseSession: (id, mode) => { setPausedSessions(xs => ({ ...xs, [id]: mode })); ruleNotice(); },
     resumeSession: id => { setPausedSessions(xs => { const next = { ...xs }; delete next[id]; return next; }); ruleNotice(); },
     appUnlocks, grantAppUnlock: (id, minutes, reason, showNotice) => {
+      hapticResult('success');
       setAppUnlocks(xs => { const now = Date.now(); return { ...xs, [id]: { until: now + Math.max(1, minutes) * 60000, used: unlocksUsedToday(xs[id], now) + 1, reason, day: localDay(now) } }; });
       if (showNotice) { if (noticeTimer.current) clearTimeout(noticeTimer.current); setSessionNotice(`Приложения откроются на ${minutes}мин.`); noticeTimer.current = setTimeout(() => setSessionNotice(null), 2800); }
     },
@@ -362,6 +365,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     updateSessionTemplate: (id, changes) => { setSavedTemplates(xs => xs.map(x => x.id === id ? { ...x, title: changes.title, strict: changes.strict, strictSettings: { ...changes.strictSettings } } : x)); },
     deleteSessionTemplate: id => { setSavedTemplates(xs => xs.filter(x => x.id !== id)); if (noticeTimer.current) clearTimeout(noticeTimer.current); setSessionNotice('Шаблон удалён.'); noticeTimer.current = setTimeout(() => setSessionNotice(null), 2800); },
     addRoutine: (rule, template = false) => {
+      hapticResult('success');
       if (noticeTimer.current) clearTimeout(noticeTimer.current);
       setSessionNotice(template ? 'Шаблон создан!' : 'Правило добавлено!');
       noticeTimer.current = setTimeout(() => setSessionNotice(null), 2800);
@@ -369,6 +373,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       else setCreatedRoutines(xs => [rule, ...xs]);
     },
     addLimit: (rule, template = false) => {
+      hapticResult('success');
       if (noticeTimer.current) clearTimeout(noticeTimer.current);
       setSessionNotice(template ? 'Шаблон создан!' : 'Правило добавлено!');
       noticeTimer.current = setTimeout(() => setSessionNotice(null), 2800);
@@ -376,6 +381,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       else setCreatedLimits(xs => [rule, ...xs]);
     },
     addLock: rule => {
+      hapticResult('success');
       if (noticeTimer.current) clearTimeout(noticeTimer.current);
       setSessionNotice('Правило добавлено!');
       noticeTimer.current = setTimeout(() => setSessionNotice(null), 2800);
@@ -384,6 +390,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     updateLock: rule => { setCreatedLocks(xs => xs.map(x => x.id === rule.id ? rule : x)); ruleNotice(); },
     updateRoutine: rule => { setCreatedRoutines(xs => xs.map(x => x.id === rule.id ? rule : x)); ruleNotice(); },
     addSession: (session, template = false) => {
+      hapticResult('success');
       if (noticeTimer.current) clearTimeout(noticeTimer.current);
       setSessionNotice(template ? 'Шаблон создан!' : session.status.kind === 'upcoming' ? 'Правило добавлено!' : 'Сессия началась!');
       noticeTimer.current = setTimeout(() => setSessionNotice(null), 2800);
