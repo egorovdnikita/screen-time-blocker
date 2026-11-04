@@ -284,7 +284,7 @@ function Stats({
 }) {
   return (
     <View style={styles.stats} pointerEvents="none">
-      <Stat label={first.label} value={first.value} decrease={first.decrease} />
+      <Stat label={first.label} value={first.value} decrease={first.decrease} {...first.label === 'Время экрана' ? { labelSize: 12.25, labelWeight: 600 as const } : {}} />
       <View style={styles.sep} />
       {/* HTML 044: у «Поднятия» 11.75/19.75, у «Уведомления» 12.25/600 */}<Stat label="Поднятия" value={pickups} labelSize={11.75} valueSize={19.75} />
       <View style={styles.sep} />

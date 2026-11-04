@@ -14,8 +14,8 @@ import { art } from '@/data/art';
 import { createLock, initialLock, lockApp, lockDraftFrom, type LockDraft } from '@/data/lockRule';
 import { durationLabel, unlockMethodLabel } from '@/data/session';
 import { useAppState } from '@/state/app';
-import { ruleEditorSpacing, colors, ruleDetailTheme, sessionTheme, strictTheme, lockTheme as c } from '@/theme/tokens';
-import { T } from '@/theme/typography';
+import { ruleEditorSpacing, colors, ruleDetailTheme, sessionTheme, settingsTheme, strictTheme, lockTheme as c } from '@/theme/tokens';
+import { T, TextInk } from '@/theme/typography';
 import { UnlockDuration, unlockCountLabel } from '../session/SessionUnlocks';
 import { UnlockMethodSheet } from '../session/UnlockMethodSheet';
 import { StrictSettingsSheet, StrictConfirmation, strictDaysLabel } from '../session/StrictSettingsSheet';
@@ -23,7 +23,7 @@ import { RemoveRuleDialog } from '../rules/RemoveRuleDialog';
 import { SingleAppPicker } from './SingleAppPicker';
 
 export function LockEditor() {
-  return <EditorTone.Provider value={ruleEditorTone}><LockEditorBody /></EditorTone.Provider>;
+  return <EditorTone.Provider value={ruleEditorTone}><TextInk.Provider value={settingsTheme.title}><LockEditorBody /></TextInk.Provider></EditorTone.Provider>;
 }
 
 function LockEditorBody() {
@@ -58,7 +58,7 @@ function LockEditorBody() {
       </ScrollView>
       <Image pointerEvents="none" source={art.lockMascot} style={styles.mascot} />
       <View style={[styles.footer, { paddingBottom: Math.max(39, insets.bottom + 5) }]}>
-        <StrictModeRow descriptionColor={strictTheme.note} value={draft.strict} description={draft.strict ? draft.strictScope === 'session' ? 'Активен во время сессии' : `Активен ${strictDaysLabel(draft.strictDays)}` : 'Без изменения и удаления'} onOpen={() => setPicker('strict')} onChange={strict => strict ? setPicker('strict') : patch({ strict: false })} style={{ marginLeft: 5, marginRight: 2 }} />
+        <StrictModeRow titleColor={c.strictTitle} descriptionColor={strictTheme.note} value={draft.strict} description={draft.strict ? draft.strictScope === 'session' ? 'Активен во время сессии' : `Активен ${strictDaysLabel(draft.strictDays)}` : 'Без изменения и удаления'} onOpen={() => setPicker('strict')} onChange={strict => strict ? setPicker('strict') : patch({ strict: false })} style={{ marginLeft: 5, marginRight: 2 }} />
         <PressScale accessibilityRole="button" accessibilityLabel={existing ? 'Сохранить лимит запусков' : 'Добавить лимит запусков'} disabled={!selected} accessibilityState={{ disabled: !selected }} onPress={() => draft.strict ? setPicker('confirm') : add()} style={[styles.add, { backgroundColor: selected ? c.dark : c.disabled, boxShadow: selected ? sessionTheme.buttonShadow : undefined, overflow: 'hidden' }]}>{selected && <LinearGradient pointerEvents="none" colors={c.buttonGradient} locations={[0, .65, 1]} start={{ x: .017, y: .37 }} end={{ x: .983, y: .63 }} style={StyleSheet.absoluteFill} />}{!existing && <Icon name="plus" width={16} height={18} color={selected ? colors.white : c.disabledInk} />}<T size={17} color={selected ? colors.white : c.disabledInk} ls={0}>{existing ? 'Сохранить' : 'Добавить'}</T></PressScale>
       </View>
     </View>

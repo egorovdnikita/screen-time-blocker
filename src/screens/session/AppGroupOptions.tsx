@@ -47,7 +47,7 @@ export function AppGroupOptions({ group, onChange, onClose }: Props) {
             <View style={styles.entryRow}>
               <View style={styles.entry}>
                 <TextInput ref={input} accessibilityLabel="Адрес сайта" value={entry} onChangeText={value => { setEntry(value); setError(''); }} onFocus={() => { if (Platform.OS !== 'web') scroll.current?.scrollTo({ y: 200, animated: true }); }} onSubmitEditing={add} placeholder="facebook.com" placeholderTextColor={c.placeholder} autoCapitalize="none" autoCorrect={false} keyboardType="url" returnKeyType="done" maxLength={2048} style={styles.input} />
-                <PressScale accessibilityRole="button" accessibilityLabel={entry ? 'Очистить адрес сайта' : 'Ввести адрес сайта'} onPress={() => { setEntry(''); setError(''); input.current?.focus(); }} style={styles.clear}>{entry ? <Icon name="session-clear" width={12} height={12} color={c.placeholder} /> : <T size={18} weight={400} color={c.placeholder} ls={0}>✎</T>}</PressScale>
+                <PressScale accessibilityRole="button" accessibilityLabel={entry ? 'Очистить адрес сайта' : 'Ввести адрес сайта'} onPress={() => { setEntry(''); setError(''); input.current?.focus(); }} style={styles.clear}>{entry ? <Icon name="session-clear" width={12} height={12} color={c.placeholder} /> : <T size={18} weight={700} color={c.placeholder} ls={0}>✎</T>}</PressScale>
               </View>
               <PressScale accessibilityRole="button" accessibilityLabel="Добавить сайт" accessibilityState={{ disabled: !host || duplicate }} disabled={!host || duplicate} onPress={add} style={[styles.add, (!host || duplicate) && { backgroundColor: c.addDisabled }]}><T size={26} weight={400} color={colors.white} ls={0}>＋</T></PressScale>
             </View>

@@ -18,7 +18,7 @@ export function ScanMethodSettings({ type, onChange }: { type: UnlockSettings['s
     <View pointerEvents="none" style={styles.illustration}>
       <Image source={nfc ? art.scanNfcDevice : art.scanQrDevice} style={{ width: 248, height: 218 }} />
     </View>
-    {nfc ? <T size={14} weight={600} color={m.scanHint} ls={0} center style={styles.nfcCopy}>Сканируйте <T size={14} weight={700} color={m.scanLink} ls={0}>AirTag</T></T> : <T size={12} weight={600} color={colors.white} ls={0} center style={styles.scanCopy}>Сканируйте для входа</T>}
+    {nfc ? <T size={14} weight={600} color={m.scanHint} ls={0} center style={styles.nfcCopy}>Сканируйте <T size={14} weight={900} color={m.scanLink} ls={0}>AirTag</T></T> : <T size={12} weight={600} color={colors.white} ls={0} center style={styles.scanCopy}>Сканируйте для входа</T>}
     <View style={styles.options}>
       <PressScale accessibilityRole="button" accessibilityLabel="Тип сканирования" accessibilityState={{ expanded: menu }} onPress={() => setMenu(v => !v)} style={[styles.option, styles.first]}>
         <T size={15} weight={400} ls={0}>Сканирование</T><T size={15} color={m.scanValue} ls={0} style={{ marginLeft: 'auto' }}>{nfc ? 'NFC-метка' : 'QR-код'}</T><Icon name="session-up-down" width={12} height={16} color={m.scanChevron} />
@@ -29,7 +29,7 @@ export function ScanMethodSettings({ type, onChange }: { type: UnlockSettings['s
       </PressScale>
     </View>
     {pass && <QrPass onClose={() => setPass(false)} />}
-    {nfc && <T size={12} color={m.scanNote} ls={0} style={styles.note}>Где найти NFC-метку? ↗</T>}
+    {nfc && <T size={12} weight={600} color={m.scanNote} ls={0} style={styles.note}>Где найти NFC-метку? ↗</T>}
     {menu && <>
       <Pressable accessibilityRole="button" accessibilityLabel="Закрыть типы сканирования" onPress={() => setMenu(false)} style={StyleSheet.absoluteFill} />
       <View style={styles.menu} accessibilityRole="menu">

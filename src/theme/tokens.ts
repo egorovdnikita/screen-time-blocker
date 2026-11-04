@@ -248,6 +248,7 @@ export const appGroupTheme = {
 
 // Лимит запусков103–111: lock-rule-summary.css / single-app-picker.css / app-confirmation.css.
 export const lockTheme = {
+  strictTitle: '#ed875b',
   buttonGradient: ['#191919', '#181818', '#1b1b1b'],
   backdrop: 'rgba(0,0,0,.2)', surface: '#f6f8fa', gradient: ['#f8fafb', '#f3f5f7', '#f6f8fa'],
   handle: '#dcdde1', backSheet: '#dedfe1', picker: '#f4f3fa', pickerFade: 'rgba(244,243,250,0)', pickerFadeMid: 'rgba(244,243,250,.64)', pickerFadeEnd: 'rgba(244,243,250,.94)', confirmFade: 'rgba(246,248,250,0)',
@@ -368,7 +369,7 @@ export const ruleEditorSpacing = { footerTop: 20, scrollBottom: 32 } as const;
 export const emergencyTheme = {
   surface: '#f7f8fa', ink: '#111111', muted: '#858b96', dot: '#e9eef1',
   key: '#fbfcfd', keyShadow: '0px 5px 18px #152a480b',
-  info: '#e8f0ff', infoInk: '#74a2ed', segment: '#e6e7eb', disabled: '#b7b7b9',
+  info: '#e8f0ff', infoInk: '#74a2ed', infoInkActive: '#5682cb', segment: '#e6e7eb', disabled: '#b7b7b9',
   codeDim: '#ffffff77', input: '#e5ebf2', inputText: '#adb4bf', blue: ['#348bff', '#005df1'] as const,
   codeShadow: '0px 12px 22px #1172e633', success: '#1ac979', successShadow: '0px 14px 25px #00c16e44',
   successCheck: '#ffffff44', border: '#ffffff30', actionBlue: '#d9e1ef', actionBlueInk: '#4d80db',
@@ -408,7 +409,7 @@ export const onboardingTheme = {
 export const remainingTheme = {
   widgetPause: '0px 1px 3px #152b4920',
   surface: '#f5f8fa', line: '#eff0f2', section: '#929aa8', icon: '#969eaa', value: '#7f899a',
-  selection: '#3484fb', handle: '#dcdee0', dim: '#00000020', alertDim: '#0003',
+  selection: '#3484fb', photoHint: '#3983ed', widgetBlue: '#5489ef', handle: '#dcdee0', dim: '#00000020', alertDim: '#0003',
   alert: '#f9f9f9c7', alertButton: '#cfd1d1c9', menu: '#f7f9fddd', menuBorder: '#ffffffd1',
   menuSelected: '#d7e8fc75', menuShadow: '0 10px 28px #23324b21',
   dark: '#17191a', photoSurface: '#f8fafb', scan: '#00d979', error: '#ff600c',

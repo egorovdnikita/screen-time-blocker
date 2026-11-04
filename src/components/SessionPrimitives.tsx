@@ -26,7 +26,7 @@ export function EditorRow({ title, value, expanded, onPress, children, emphasize
   return <View style={[styles.card, emphasized && { borderRadius: p.activityRadius, boxShadow: 'none' }]}>
     <PressScale accessibilityRole="button" accessibilityLabel={title} accessibilityState={{ expanded: !!expanded }} onPress={onPress} style={[styles.row, { minHeight: headerHeight }, emphasized && { paddingTop: 8 }]}>
       <Icon name="chevron-down-section" width={12} height={8} color={colors.chevronCompact} style={expanded ? { transform: [{ rotate: '180deg' }] } : undefined} />
-      <T size={emphasized ? 21 : 14} weight={emphasized ? 700 : 600} color={emphasized ? title === 'Разблокировки' ? colors.black : c.ink : tone.label} ls={0} style={emphasized ? { lineHeight: 26 } : undefined}>{title}</T><View style={{ marginLeft: 'auto' }}>{typeof value === 'string' ? <T size={14} weight={400} color={tone.value} ls={0}>{value}</T> : value}</View>
+      <T size={emphasized ? title === 'Ещё открытия' ? 20 : 21 : 14} weight={emphasized ? 700 : 600} color={emphasized ? title === 'Разблокировки' ? colors.black : c.ink : tone.label} ls={0} style={emphasized ? { lineHeight: 26 } : undefined}>{title}</T><View style={{ marginLeft: 'auto' }}>{typeof value === 'string' ? <T size={14} weight={400} color={tone.value} ls={0}>{value}</T> : value}</View>
     </PressScale>{expanded && children}
   </View>;
 }

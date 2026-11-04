@@ -63,9 +63,9 @@ function UnlockDurationBody({ value, onCancel, onConfirm, maxHours = 2 }: { valu
       <View style={styles.wheel}>
         <View pointerEvents="none" style={styles.wheelHighlight} />
         <View style={{ position: 'absolute', left: maxHours === 24 ? 120 : 105 }}><WheelColumn muted={p.wheelMutedSoft} label="Часы разблокировки" items={hours} value={hour} onChange={h => setTime(h, minute)} width={48} height={200} center={100} rowHeight={26} surface={u.durationSurface} fade={u.durationFade} /></View>
-        <T size={17} weight={400} ls={0} style={{ position: 'absolute', left: maxHours === 24 ? 159 : 144, top: 87 }}>ч</T>
+        <T size={17} weight={600} ls={0} style={{ position: 'absolute', left: maxHours === 24 ? 159 : 144, top: 87 }}>ч</T>
         <View style={{ position: 'absolute', left: 179 }}><WheelColumn muted={p.wheelMutedSoft} label="Минуты разблокировки" items={hour === maxHours ? minutes.slice(0, 1) : hour === 0 ? minutes.slice(1) : minutes} value={minute} onChange={m => setTime(hour, m)} width={48} height={200} center={100} rowHeight={26} surface={u.durationSurface} fade={u.durationFade} /></View>
-        <T size={17} weight={400} ls={0} style={{ position: 'absolute', left: 218, top: 87 }}>мин</T>
+        <T size={17} weight={600} ls={0} style={{ position: 'absolute', left: 218, top: 87 }}>мин</T>
       </View>
       <T size={13} weight={400} color={u.durationHelp} center ls={0} style={{ position: 'absolute', bottom: 128, left: 12, right: 12 }}>От 1 минуты до {maxHours} часов.</T>
       <PressScale accessibilityRole="button" onPress={() => close(() => onConfirm(selected))} style={[styles.confirm, { bottom: Math.max(40, insets.bottom + 6) }]}><T size={17} color={colors.white} ls={0}>Подтвердить</T></PressScale>
