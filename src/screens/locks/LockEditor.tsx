@@ -10,7 +10,6 @@ import { EditorTone, ruleEditorTone } from '@/components/SessionPrimitives';
 import { StrictModeRow } from '@/components/StrictModeRow';
 import { Icon } from '@/components/Icon';
 import { PressScale } from '@/components/motion';
-import { art } from '@/data/art';
 import { createLock, initialLock, lockApp, lockDraftFrom, type LockDraft } from '@/data/lockRule';
 import { durationLabel, unlockMethodLabel } from '@/data/session';
 import { useAppState } from '@/state/app';
@@ -56,7 +55,6 @@ function LockEditorBody() {
         </View>
         {existing ? <PressScale accessibilityRole="button" accessibilityLabel="Удалить лимит запусков" hitSlop={{ top: 12, bottom: 12 }} onPress={() => setPicker('remove')} style={styles.extra}><Icon name="rule-detail-trash" width={14} height={17} /><T size={14} color={ruleDetailTheme.orange} ls={0}>Удалить</T></PressScale> : <View accessibilityState={{ disabled: true }} style={styles.extra}><T size={14} color={c.note} ls={0}>Дни и другие приложения</T><Icon name="chevron-right" width={9} height={13} color={c.note} /></View>}
       </ScrollView>
-      <Image pointerEvents="none" source={art.lockMascot} style={styles.mascot} />
       <View style={[styles.footer, { paddingBottom: Math.max(39, insets.bottom + 5) }]}>
         <StrictModeRow titleColor={c.strictTitle} descriptionColor={strictTheme.note} value={draft.strict} description={draft.strict ? draft.strictScope === 'session' ? 'Активен во время сессии' : `Активен ${strictDaysLabel(draft.strictDays)}` : 'Без изменения и удаления'} onOpen={() => setPicker('strict')} onChange={strict => strict ? setPicker('strict') : patch({ strict: false })} style={{ marginLeft: 5, marginRight: 2 }} />
         <PressScale accessibilityRole="button" accessibilityLabel={existing ? 'Сохранить лимит запусков' : 'Добавить лимит запусков'} disabled={!selected} accessibilityState={{ disabled: !selected }} onPress={() => draft.strict ? setPicker('confirm') : add()} style={[styles.add, { backgroundColor: selected ? c.dark : c.disabled, boxShadow: selected ? sessionTheme.buttonShadow : undefined, overflow: 'hidden' }]}>{selected && <LinearGradient pointerEvents="none" colors={c.buttonGradient} locations={[0, .65, 1]} start={{ x: .017, y: .37 }} end={{ x: .983, y: .63 }} style={StyleSheet.absoluteFill} />}{!existing && <Icon name="plus" width={16} height={18} color={selected ? colors.white : c.disabledInk} />}<T size={17} color={selected ? colors.white : c.disabledInk} ls={0}>{existing ? 'Сохранить' : 'Добавить'}</T></PressScale>
@@ -72,7 +70,7 @@ function LockEditorBody() {
 }
 const styles = StyleSheet.create({
   sheet: { flex: 1, borderRadius: c.radius, overflow: 'hidden', backgroundColor: c.surface }, handle: { position: 'absolute', top: 12, width: 64, height: 5, borderRadius: 5, alignSelf: 'center', backgroundColor: c.handle, zIndex: 1 },
-  mascot: { position: 'absolute', top: 94, width: 60, height: 60, alignSelf: 'center' }, card: { marginHorizontal: 20, height: 368, borderRadius: c.radius, backgroundColor: colors.white },
+  card: { marginHorizontal: 20, height: 368, borderRadius: c.radius, backgroundColor: colors.white },
   use: { position: 'absolute', top: 50, left: 10, right: 10, height: 29, flexDirection: 'row', gap: 8, alignItems: 'center', justifyContent: 'center' }, placeholder: { width: 24, height: 24, borderRadius: 12, borderWidth: 2, borderStyle: 'dashed', borderColor: c.confirmLine },
   count: { position: 'absolute', left: 42, right: 42, top: 92, height: 48, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }, counterButton: { width: 40, height: 40, borderRadius: 20, backgroundColor: colors.white, boxShadow: c.counterShadow, alignItems: 'center', justifyContent: 'center' },
   max: { position: 'absolute', top: 153, left: 0, right: 0, lineHeight: 29 }, inline: { flexDirection: 'row', alignItems: 'center', gap: 6 },

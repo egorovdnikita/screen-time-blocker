@@ -90,7 +90,6 @@ export const art = {
   lockPickerMessages: require('../../assets/art/lock/picker-messages.png'),
   lockPickerXchat: require('../../assets/art/lock/picker-xchat.png'),
 
-  lockMascot: require('../../assets/art/lock/lockMascot.png'),
   lockCategoryAll: require('../../assets/art/lock/lockCategoryAll.png'),
   lockCategorySocial: require('../../assets/art/lock/lockCategorySocial.png'),
   lockCategoryGames: require('../../assets/art/lock/lockCategoryGames.png'),
