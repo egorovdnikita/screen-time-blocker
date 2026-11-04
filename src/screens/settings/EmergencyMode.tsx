@@ -12,7 +12,7 @@ import { PressScale } from '@/components/motion';
 import { emergencyChallenge } from '@/data/emergency';
 import { rulesVariants, type RuleDetailChanges } from '@/data/rules';
 import { useAppState } from '@/state/app';
-import { colors, emergencyTheme as c, modalTheme } from '@/theme/tokens';
+import { colors, emergencyTheme as c, modalTheme, settingsTheme } from '@/theme/tokens';
 import { T } from '@/theme/typography';
 
 type StrictRule = { id: string; title: string; strictSettings: RuleDetailChanges['strictSettings'] };
@@ -25,7 +25,7 @@ export function EmergencyMode({ onClose }: { onClose: () => void }) {
   const continueToRules = () => { if (app.emergencySettings.method === 'passcode') setChild('passcode'); else { setChallenge(emergencyChallenge(app.emergencySettings.length, app.interfaceSettings.special)); setChild('random'); } };
   return <PlainSettingsSheet ink={blackInk} title="" onClose={onClose} surface={c.surface}>
     <PressScale accessibilityRole="button" accessibilityLabel="Настройки экстренного режима" onPress={() => setChild('settings')} style={styles.settingsButton}><Icon name="emergency-settings" width={24} height={24} color={c.ink} /></PressScale>
-    <View style={styles.intro}><Image source={require('../../../assets/art/emergency-shirt.png')} contentFit="contain" style={{ width: 110, height: 170 }} /><T size={24} ls={0} center style={{ marginTop: 7, lineHeight: 29 }}>Экстренный режим</T><T size={15} weight={400} ls={0} center style={{ marginTop: 8, lineHeight: 18 }}>Экстренный случай? Ошибка? Бывает. Отключите строгий режим, если это действительно нужно.</T></View>
+    <View style={styles.intro}><Image source={require('../../../assets/art/emergency-shirt.png')} contentFit="contain" style={{ width: 110, height: 170 }} /><T size={24} ls={0} center style={{ marginTop: 7, lineHeight: 29 }}>Экстренный режим</T><T size={15} weight={400} color={settingsTheme.title} ls={0} center style={{ marginTop: 8, lineHeight: 18 }}>Экстренный случай? Ошибка? Бывает. Отключите строгий режим, если это действительно нужно.</T></View>
     <BottomButton label="Продолжить в экстренный режим" onPress={continueToRules}>Продолжить</BottomButton>
     {child === 'settings' && <EmergencySettings onClose={() => setChild(null)} />}
     {child === 'passcode' && <PasscodeScreen title={'Код-пароль для разблокировки\nэкстренного режима'} confirm={app.emergencySettings.passcode ?? undefined} onCancel={() => setChild(null)} onComplete={() => setChild('rules')} />}

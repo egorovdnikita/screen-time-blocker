@@ -11,7 +11,7 @@ import { GlassDialog } from '@/components/GlassDialog';
 import { PressScale } from '@/components/motion';
 import { BlockScreens } from '@/screens/rules/BlockScreens';
 import { useAppState } from '@/state/app';
-import { colors, interfaceTheme as c, sessionPickerTheme } from '@/theme/tokens';
+import { colors, interfaceTheme as c, sessionPickerTheme, settingsTheme } from '@/theme/tokens';
 import { T } from '@/theme/typography';
 
 const interfaceSwitch = { true: c.switchOn, false: sessionPickerTheme.switchOff };
@@ -33,7 +33,7 @@ export function InterfaceSettings({ onClose, initialPicker = false, demoAlert = 
       <T size={20} color={c.section} ls={0} style={{ lineHeight: 26, marginTop: 30 }}>Экраны блокировки</T>
       <PressScale accessibilityRole="button" accessibilityLabel="Интерфейс: экраны блокировки" onPress={() => setScreens(true)} style={[styles.group, styles.feature, { marginTop: 11.333, height: 84 }]}><Icon name="shield-check" width={19} height={21} color={c.icon} /><View style={{ flex: 1 }}><T size={14.25} weight={400} variant="text" ls={0}>Экраны блокировки</T><T size={13} weight={400} variant="text" color={c.value} ls={0} style={{ lineHeight: 17 }}>{'Что показывать поверх\nзаблокированных приложений.'}</T></View><Icon name="activity-row-chevron" width={13} height={20} /></PressScale>
     </SheetScrollView>
-    {warning && <GlassDialog name="спецсимволы" title="Перед продолжением" titleWeight={700} titleSize={16} top={323} height={232} radius={31.623} blur={4} surface={c.alertSurface} titleTop={20} titleSide={29} buttonSide={15} buttonBottom={16} buttonRadius={28} buttonWeight={400} confirmLabel="Продолжить" cancelColor={c.alertCancel} confirmColor={c.alertConfirm} onCancel={() => setWarning(false)} onConfirm={() => { app.setInterfaceSettings({ ...app.interfaceSettings, special: true }); setWarning(false); }}><T size={14} weight={400} variant="text" color={c.alertInk} ls={0} style={{ position: 'absolute', top: 48, left: 29, right: 29, lineHeight: 20 }}>{'Если клавиатура не поддерживает\nспецсимволы, вы не сможете\nввести код. Проверьте, есть ли\nна вашей клавиатуре нужные\nсимволы.'}</T></GlassDialog>}
+    {warning && <GlassDialog ink={settingsTheme.title} name="спецсимволы" title="Перед продолжением" titleWeight={700} titleSize={16} top={323} height={232} radius={31.623} blur={4} surface={c.alertSurface} titleTop={20} titleSide={29} buttonSide={15} buttonBottom={16} buttonRadius={28} buttonWeight={400} confirmLabel="Продолжить" cancelColor={c.alertCancel} confirmColor={c.alertConfirm} onCancel={() => setWarning(false)} onConfirm={() => { app.setInterfaceSettings({ ...app.interfaceSettings, special: true }); setWarning(false); }}><T size={14} weight={400} variant="text" color={c.alertInk} ls={0} style={{ position: 'absolute', top: 48, left: 29, right: 29, lineHeight: 20 }}>{'Если клавиатура не поддерживает\nспецсимволы, вы не сможете\nввести код. Проверьте, есть ли\nна вашей клавиатуре нужные\nсимволы.'}</T></GlassDialog>}
     {picker && <AppIconPicker demoAlert={demoAlert} onClose={() => setPicker(false)} />}
     {screens && <BlockScreens onClose={() => setScreens(false)} />}
   </SettingsStack>;
