@@ -238,13 +238,13 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       if (!alive) return;
       if (result.status === 'ok') {
         for (const [key, value] of Object.entries(result.data)) persistedRef.current[key]?.[1](value as never);
+        // Завершившие знакомство до появления этого поля начинают отсчёт с первого запуска новой версии.
+        if (result.data.onboardingCompleted && !result.data.startedAt) setStartedAt(Date.now());
       }
       setStorage(s => ({ ...s, loaded: true, readError: result.status === 'error', restoredBackup: result.status === 'corrupt' }));
     });
     return () => { alive = false; };
   }, []);
-  // Завершившие знакомство до появления этого поля начинают отсчёт с первого запуска новой версии.
-  useEffect(() => { if (!memoryOnly && storage.loaded && onboardingCompleted && startedAt === null) setStartedAt(Date.now()); }, [storage.loaded, onboardingCompleted, startedAt]);
   const encoded = !memoryOnly && storage.loaded && !storage.readError ? encodeSnapshot(Object.fromEntries(Object.entries(persisted).map(([key, [value]]) => [key, value]))) : null;
   const lastSaved = useRef<string | null>(null);
   useEffect(() => {
@@ -320,7 +320,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
 
   const ruleNotice = () => { hapticResult('success'); if (noticeTimer.current) clearTimeout(noticeTimer.current); setSessionNotice('Изменения сохранены'); noticeTimer.current = setTimeout(() => setSessionNotice(null), 2800); };
   const value: AppState = {
-    storage, onboardingCompleted, startedAt, completeOnboarding: () => setOnboardingCompleted(true),
+    storage, onboardingCompleted, startedAt, completeOnboarding: () => { setOnboardingCompleted(true); if (!memoryOnly) setStartedAt(value => value ?? Date.now()); },
     resetLocalData: async () => {
       const ok = await clearSnapshot();
       if (ok) { lastSaved.current = null; setScenario('firstRun'); startOnboarding(0); setOnboardingCompleted(memoryOnly); setStorage(s => ({ ...s, readError: false, writeError: false, restoredBackup: false })); }

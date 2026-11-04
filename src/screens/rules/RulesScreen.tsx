@@ -350,7 +350,8 @@ function RoutineCard({ rule, demoEarned = false }: { rule: RoutineRule; demoEarn
   const app = useAppState();
   const config = rule.configuration;
   const editable = app.createdRoutines.some(item => item.id === rule.id) && !config?.strict;
-  const progress = routineProgressToday(app.routineProgress[rule.id], Date.now());
+  const [now] = useState(Date.now);
+  const progress = routineProgressToday(app.routineProgress[rule.id], now);
   const tasks = config ? routineHabits(config) : [{ id: 'demo', title: demoEarned ? 'Убрать комнату' : 'Убрать в комнате', minutes: 5 }];
   // Фото-привычки ждут проверки по снимку (APP-27), ручные отмечаются сразу (APP-15).
   const isDone = (id: string) => config ? progress.claimed || progress.done.includes(id) : demoEarned || checked;

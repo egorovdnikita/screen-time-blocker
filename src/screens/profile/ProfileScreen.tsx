@@ -24,9 +24,10 @@ const SKY_RATIO = 2556 / 1179;
 export function ProfileScreen({ recap: recapProp = false }: { recap?: boolean }) {
   const params = useLocalSearchParams<{recap?:string}>();
   const app = useAppState();
+  const [now] = useState(Date.now);
   const started = app.startedAt;
   const recap = recapProp || params.recap === '1' || started !== null;
-  const days = started === null ? 1 : daysWithBlock(started, Date.now()), left = reportDaysLeft(days);
+  const days = started === null ? 1 : daysWithBlock(started, now), left = reportDaysLeft(days);
   const waiting = left ? `Доступно через ${strictDaysLabel(left)}` : 'Доступно скоро';
   const [settings, setSettings] = useState(false);
   const insets = useSafeAreaInsets();
