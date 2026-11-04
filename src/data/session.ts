@@ -7,6 +7,8 @@ export const copyTextIdeas = [
 ] as const;
 export const copyPreviewQuote = 'Да, я мог бы использовать это время лучше и заняться чем-то полезным прямо сейчас. Но я выбираю провести время в этом приложении и принимаю это.';
 export type UnlockMethod = 'none' | 'wait' | 'reason' | 'text' | 'scan';
+/** Перепечатанный текст засчитывается без учёта регистра и лишних пробелов (APP-13). */
+export const matchesCopyText = (input: string, target: string) => { const clean = (text: string) => text.trim().replace(/\s+/g, ' ').toLocaleLowerCase(); return !!clean(target) && clean(input) === clean(target); };
 export type UnlockSettings = { unlockMethod: UnlockMethod; waitAutomatic: boolean; waitSeconds: number; copyText: string; scanType: 'qr' | 'nfc' };
 export const unlockMethodLabel: Record<UnlockMethod, string> = { none: 'Ничего', wait: 'Пауза', reason: 'Указать причину', text: 'Перепечатать…', scan: 'Сканировать' };
 export type StrictSettings = { strictScope: 'session' | 'days'; strictDays: number };

@@ -198,7 +198,7 @@ function LockCard({ rule }: { rule: LockRule }) {
   useEffect(() => { if (!entry || entry.until <= Date.now()) return; const timer = setInterval(() => { const time = Date.now(); setNow(time); if (time >= entry.until) clearInterval(timer); }, 500); return () => clearInterval(timer); }, [entry]);
   const remaining = Math.max(0, Math.ceil(((entry?.until ?? 0) - now) / 1000));
   const count = rule.count ?? (Number(rule.unlocks.match(/\d+/)?.[0]) || 3), available = Math.max(0, count - unlocksUsedToday(entry, now));
-  const supported = !rule.unlockSettings || ['wait', 'reason', 'none'].includes(rule.unlockSettings.unlockMethod);
+  const supported = !rule.unlockSettings || ['wait', 'reason', 'text', 'none'].includes(rule.unlockSettings.unlockMethod);
   // Созданный лимит открывается в редакторе; демо-правило и строгое остаются с диалогом.
   const editable = app.createdLocks.some(item => item.id === rule.id) && !rule.strict && !!lockDraftFrom(rule);
   return (
