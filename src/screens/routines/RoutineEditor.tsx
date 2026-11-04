@@ -46,6 +46,8 @@ function RoutineEditorBody() {
   const compact = open !== null;
   const completion = after && draft.earningMode === 'completion';
   const patch = (update: Partial<RoutineDraft>) => { animateLayout(); setDraft(d => ({ ...d, ...update })); };
+  // Результат нативного листа: анимация раскладки здесь попала бы в одно обновление с удалением Modal, и iOS падает.
+  const applySheet = (update: Partial<RoutineDraft>) => setDraft(d => ({ ...d, ...update }));
   const toggle = (next: typeof open) => { animateLayout(); setOpen(v => v === next ? null : next); };
   const dismiss = () => router.canGoBack() ? router.back() : router.replace('/(tabs)');
   const finish = (template = false) => { const rule = routineRule(draft); if (!rule) return; setAfterClose(() => () => { if (existing) app.updateRoutine({ ...rule, id: existing.id }); else app.addRoutine(rule, template); router.dismissAll(); router.navigate('/(tabs)/rules'); }); setSwipeClosing(true); };
@@ -75,10 +77,10 @@ function RoutineEditorBody() {
       <SheetGrabber style={styles.handle} />
       <View style={[styles.footer, { paddingBottom: Math.max(39, insets.bottom + 5) }]}><StrictModeRow value={draft.strict} description={draft.strict ? draft.strictScope === 'session' ? 'Активен во время сессии' : `Активен ${strictDaysLabel(draft.strictDays)}` : 'Без изменения и удаления'} onOpen={() => setModal('strict')} onChange={strict => strict ? setModal('strict') : patch({ strict: false })} style={{ marginLeft: 5 }} /><View style={[styles.actions, { marginTop: compact ? 26 : 24 }]}>{existing ? <SessionAction onPress={() => setModal('remove')}>Удалить</SessionAction> : <SessionAction disabled={!canSaveRoutine(draft)} onPress={() => finish(true)}>Новый шаблон</SessionAction>}<SessionAction primary disabled={!canSaveRoutine(draft)} onPress={() => draft.strict ? setModal('confirm') : finish()}>{existing ? 'Сохранить' : 'Расписание'}</SessionAction></View></View>
     </View>
-    {modal === 'apps' && <AppGroupSheet purpose="routine" value={draft.appGroup} onCancel={() => setModal(null)} onConfirm={appGroup => { patch({ appGroup }); setModal(null); }} />}
-    {(modal === 'habits' || modal === 'library') && <HabitPicker library={modal === 'library'} value={modal === 'library' ? [] : draft.habitIds} onCancel={() => setModal(null)} onSave={(ids, definitions) => { const habitIds = modal === 'library' ? [...new Set([...draft.habitIds, ...ids])] : ids; const previous = routineHabits(draft); patch({ habitIds, habitDefinitions: habitIds.map(id => definitions.find(h => h.id === id) ?? previous.find(h => h.id === id)!).filter(Boolean).map(h => ({ ...h })) }); setModal(null); }} />}
-    {modal === 'edit' && editingHabit && <HabitForm value={editingHabit} onCancel={() => setModal(null)} onSave={habit => { app.upsertHabit(habit); patch({ habitDefinitions: routineHabits(draft).map(h => h.id === habit.id ? { ...habit } : { ...h }) }); setModal(null); }} />}
-    {modal === 'strict' && <StrictSettingsSheet value={draft} onCancel={() => setModal(null)} onActivate={settings => { patch({ ...settings, strict: true }); setModal(null); }} />}
+    {modal === 'apps' && <AppGroupSheet purpose="routine" value={draft.appGroup} onCancel={() => setModal(null)} onConfirm={appGroup => { applySheet({ appGroup }); setModal(null); }} />}
+    {(modal === 'habits' || modal === 'library') && <HabitPicker library={modal === 'library'} value={modal === 'library' ? [] : draft.habitIds} onCancel={() => setModal(null)} onSave={(ids, definitions) => { const habitIds = modal === 'library' ? [...new Set([...draft.habitIds, ...ids])] : ids; const previous = routineHabits(draft); applySheet({ habitIds, habitDefinitions: habitIds.map(id => definitions.find(h => h.id === id) ?? previous.find(h => h.id === id)!).filter(Boolean).map(h => ({ ...h })) }); setModal(null); }} />}
+    {modal === 'edit' && editingHabit && <HabitForm value={editingHabit} onCancel={() => setModal(null)} onSave={habit => { app.upsertHabit(habit); applySheet({ habitDefinitions: routineHabits(draft).map(h => h.id === habit.id ? { ...habit } : { ...h }) }); setModal(null); }} />}
+    {modal === 'strict' && <StrictSettingsSheet value={draft} onCancel={() => setModal(null)} onActivate={settings => { applySheet({ ...settings, strict: true }); setModal(null); }} />}
     {modal === 'confirm' && <StrictConfirmation onCancel={() => setModal(null)} onContinue={() => finish()} />}
     {modal === 'remove' && existing && <RemoveRuleDialog id={existing.id} title={existing.title} strict={false} onClose={() => setModal(null)} onDeleted={() => setSwipeClosing(true)} />}
   </SheetTransition>;

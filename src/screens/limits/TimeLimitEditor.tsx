@@ -40,8 +40,11 @@ function TimeLimitEditorBody() {
   const deep = extra && draft.unlocks > 0;
   const compact = open !== null;
   const patch = (update: Partial<TimeLimitDraft>) => { animateLayout(); setDraft(d => ({ ...d, ...update })); };
+  // Результат нативного листа: анимация раскладки здесь попала бы в одно обновление с удалением Modal, и iOS падает.
+  const applySheet = (update: Partial<TimeLimitDraft>) => setDraft(d => ({ ...d, ...update }));
   const toggle = (next: Open) => { animateLayout(); setOpen(x => x === next ? null : next); };
-  const setMinutes = (minutes: number) => patch({ minutes, notifyBefore: Math.min(draft.notifyBefore, Math.floor((minutes - 1) / 10) * 10), notifyEvery: Math.min(draft.notifyEvery, Math.floor(minutes / 10) * 10) });
+  const minutesUpdate = (minutes: number) => ({ minutes, notifyBefore: Math.min(draft.notifyBefore, Math.floor((minutes - 1) / 10) * 10), notifyEvery: Math.min(draft.notifyEvery, Math.floor(minutes / 10) * 10) });
+  const setMinutes = (minutes: number) => patch(minutesUpdate(minutes));
   const dismiss = () => router.canGoBack() ? router.back() : router.replace('/(tabs)');
   const finish = (template = false) => { const rule = timeLimitRule(draft); if (!rule) return; setAfterClose(() => () => { app.addLimit(rule, template); router.dismissAll(); router.navigate(!template && !app.shareGuideSeen ? '/share-devices' : '/(tabs)/rules'); }); setSwipeClosing(true); };
   const selectedCount = draft.limitApps.length + draft.limitCategories.length;
@@ -77,9 +80,9 @@ function TimeLimitEditorBody() {
       <SheetGrabber style={styles.handle} />
       <View style={[styles.footer, { paddingBottom: Math.max(39, insets.bottom + 5) }]}><StrictModeRow value={draft.strict} description={draft.strict ? draft.strictScope === 'session' ? 'Активен во время сессии' : `Активен ${strictDaysLabel(draft.strictDays)}` : 'Без изменения и удаления'} onOpen={() => setModal('strict')} onChange={strict => strict ? setModal('strict') : patch({ strict: false })} style={{ marginLeft: 5 }} /><View style={styles.actions}><SessionAction disabled={!selectedCount} onPress={() => finish(true)}>Новый шаблон</SessionAction><SessionAction primary disabled={!selectedCount} onPress={() => draft.strict ? setModal('confirm') : finish()}>Расписание</SessionAction></View></View>
     </View>
-    {modal === 'apps' && <LimitAppPicker value={draft.limitApps} categories={draft.limitCategories} onCancel={() => setModal(null)} onSave={(limitApps, limitCategories) => { patch({ limitApps, limitCategories }); setModal(null); }} />}
-    {modal === 'duration' && <UnlockDuration maxHours={24} value={draft.minutes} onCancel={() => setModal(null)} onConfirm={minutes => { setMinutes(minutes); setModal(null); }} />}
-    {modal === 'strict' && <StrictSettingsSheet value={draft} onCancel={() => setModal(null)} onActivate={settings => { patch({ ...settings, strict: true }); setModal(null); }} />}
+    {modal === 'apps' && <LimitAppPicker value={draft.limitApps} categories={draft.limitCategories} onCancel={() => setModal(null)} onSave={(limitApps, limitCategories) => { applySheet({ limitApps, limitCategories }); setModal(null); }} />}
+    {modal === 'duration' && <UnlockDuration maxHours={24} value={draft.minutes} onCancel={() => setModal(null)} onConfirm={minutes => { applySheet(minutesUpdate(minutes)); setModal(null); }} />}
+    {modal === 'strict' && <StrictSettingsSheet value={draft} onCancel={() => setModal(null)} onActivate={settings => { applySheet({ ...settings, strict: true }); setModal(null); }} />}
     {modal === 'confirm' && <StrictConfirmation onCancel={() => setModal(null)} onContinue={() => finish()} />}
   </SheetTransition>;
 }
