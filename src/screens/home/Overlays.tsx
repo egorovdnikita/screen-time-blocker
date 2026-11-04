@@ -149,7 +149,7 @@ export function MostUsedMenu({
                   style={{ position: 'absolute', left: m === 'apps' ? 30 : 29 }}
                 />
                 <T size={17} weight={400} ls={0} color={colors.menuInk} style={SYSTEM}>
-                  {m === 'apps' ? 'Приложения' : 'Занятия'}
+                  {m === 'apps' ? 'Приложения' : 'Активности'}
                 </T>
               </>
             )}
@@ -254,7 +254,7 @@ export function LoadingScene() {
         Загрузка…
       </T>
       <T size={15.25} weight={400} center style={{ lineHeight: 18.333, marginTop: 8 }}>
-        {'Пока ничего? Сначала нужно немного\nпопользоваться приложениями.'}
+        {'Пока пусто? Попробуйте немного\nпопользоваться приложениями.'}
       </T>
     </View>
   );

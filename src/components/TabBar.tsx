@@ -113,6 +113,8 @@ export function TabBar({ state, emitter, navigateToTab, insets }: BottomTabBarPr
               </Pressable>
             );
           })}
+        {/* HTML 040/041: затемнение подсказок лежит и поверх таббара. */}
+        {app.rulesVariant === 'first' && app.onboarding !== 'done' && state.routes[state.index]?.name === 'rules' && <View pointerEvents="none" style={[StyleSheet.absoluteFill, { backgroundColor: colors.tutorialDim }]} />}
         <View pointerEvents="none" style={[StyleSheet.absoluteFill, styles.rim]} />
       </View>
     </View>

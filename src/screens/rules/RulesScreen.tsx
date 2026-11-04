@@ -360,7 +360,10 @@ function RoutineCard({ rule, demoEarned = false }: { rule: RoutineRule; demoEarn
   </RuleCard>;
 }
 
-function StatusPill({ status, blockingText = 'Блокирует' }: { status: Status; blockingText?: string }) {
+function StatusPill({ status, blockingText = 'Активно' }: { status: Status; blockingText?: string }) {
+  // В HTML «Предстоит» только в состояниях с блокировками, в остальных — «Скоро».
+  const { rulesVariant } = useAppState();
+  const upcoming = rulesVariant === 'locks' || rulesVariant === 'strict' ? 'Предстоит' : 'Скоро';
   if (status.kind === 'paused') return <View style={styles.upcoming}><Icon name="snoozed" width={13.5} height={11.5} color={colors.meta} style={{ marginRight: 2.7 }} /><T size={12} weight={600} color={colors.meta}>На паузе</T></View>;
   if (status.kind === 'blocking') {
     return (
@@ -387,7 +390,7 @@ function StatusPill({ status, blockingText = 'Блокирует' }: { status: S
     <View style={styles.upcoming}>
       <Icon name="upcoming" width={13.5} height={11.5} color={colors.meta} style={{ marginRight: 2.7 }} />
       <T size={12} weight={500} ls={TRACK_SMALL} color={colors.meta}>
-        {status.text ?? 'Предстоит'}
+        {status.text ?? upcoming}
       </T>
     </View>
   );
@@ -451,7 +454,7 @@ function TemplatesShell({ children }: { children: React.ReactNode }) {
         right={
           <PressScale accessibilityRole="button" accessibilityLabel="Открыть галерею шаблонов" onPress={() => setGallery(true)} style={styles.seeMore}>
             <T size={14.25} color={colors.white}>
-              {app.savedTemplates.length ? 'Смотреть' : 'Ещё'}
+              {app.savedTemplates.length || app.rulesVariant === 'first' ? 'Смотреть' : 'Ещё'}
             </T>
             <Icon name="arrow-right-small" width={14} height={14} color={colors.white} style={{ marginLeft: 5 }} />
           </PressScale>
@@ -482,7 +485,7 @@ function ClassicTemplates() {
             </T>
           </View>
           <Image source={art.emojiZap} style={{ position: 'absolute', left: 14.7, top: 87.3, width: 18, height: 25 }} />
-          <TemplateText title="Сессия" desc={'Блокировка на 30 минут\nс этой минуты.'} color={colors.text} top={112.7} />
+          <TemplateText title="Сессия" desc={'Блокировать на 30 мин,\nначиная сейчас.'} color={colors.text} top={112.7} />
           <View style={[styles.tplStart, { backgroundColor: colors.white, boxShadow: shadows.pillSoft, top: 176.3 }]}>
             <Icon name="play-fill" width={11} height={12} color={colors.black} style={{ marginRight: 4 }} />
             <T size={14.5}>Начать</T>
@@ -498,9 +501,10 @@ function ClassicTemplates() {
 }
 
 function GalleryTemplates() {
+  const { rulesVariant } = useAppState();
   return (
     <TemplatesShell>
-      <ImageTemplate image={art.templateDeepWorkFirst} duration="30 мин" title="Глубокая работа" desc={'Полчаса на главную\nзадачу дня.'} />
+      <ImageTemplate image={art.templateDeepWorkFirst} duration="30 мин" title={rulesVariant === 'first' ? 'Фокус на работе' : 'Глубокая работа'} desc={'Полчаса на главную\nзадачу дня.'} />
       <ImageTemplate image={art.templateMeTime} duration="1ч" title="Время для себя" desc={'Отдохните от суеты.\nПрогуляйтесь или\nничего не делайте.'} />
       <Image source={art.templateFocusEdge} style={{ width: 14.333, height: 221, marginLeft: -9.3 }} />
     </TemplatesShell>

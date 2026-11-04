@@ -115,8 +115,8 @@ const appsRegular: AppRow[] = [
 
 const activities: ActivityRow[] = [
   { id: 'work', name: 'Работа', time: '1ч40', ratio: 1, icon: 'work', quality: 'productive', apps: ['block', 'flight'] },
-  { id: 'inspiration', name: 'Поиск вдохновения', time: '24 мин', ratio: 0.245, icon: 'inspiration', quality: 'productive', apps: ['photos'] },
-  { id: 'procrastinate', name: 'Прокрастинация', time: '7 мин', ratio: 0.074, icon: 'procrastinate', quality: 'distracting', apps: ['store'] },
+  { id: 'inspiration', name: 'Ищу вдохновение', time: '24 мин', ratio: 0.245, icon: 'inspiration', quality: 'productive', apps: ['photos'] },
+  { id: 'procrastinate', name: 'Откладываю', time: '7 мин', ratio: 0.074, icon: 'procrastinate', quality: 'distracting', apps: ['store'] },
 ];
 
 // 24-home__01-home
@@ -248,7 +248,7 @@ export const insights = {
   },
   offline: {
     title: '8 ч офлайн',
-    hint: 'Что вы успели за это время? Как вы себя чувствуете?',
+    hint: 'Чего вы добились за это время? Как вы себя чувствуете?',
   },
 };
 

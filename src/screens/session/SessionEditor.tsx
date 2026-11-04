@@ -19,10 +19,10 @@ import { SessionIconPicker } from './SessionIconPicker';
 import { Icon } from '@/components/Icon';
 import { animateLayout, PressScale } from '@/components/motion';
 import { EditorRow, SessionAction } from '@/components/SessionPrimitives';
-import { SessionUnlocks, unlockCountLabel } from './SessionUnlocks';
+import { SessionUnlocks } from './SessionUnlocks';
 import { SessionActivity } from './SessionActivity';
 import { art } from '@/data/art';
-import { durationLabel, initialSession, sessionRule } from '@/data/session';
+import { durationLabel, initialSession, sessionRule, unlockMethodLabel } from '@/data/session';
 import { useAppState } from '@/state/app';
 import { T, rounded } from '@/theme/typography';
 import { ruleEditorSpacing, colors, remainingTheme, sessionTheme as c } from '@/theme/tokens';
@@ -62,7 +62,7 @@ export function SessionEditor() {
           </PressScale>
           {editing ? <TextInput autoFocus accessibilityLabel="Название сессии" value={draft.title} onChangeText={title => patch({ title })} onBlur={() => { patch({ title: draft.title.trim() || 'Сессия' }); setEditing(false); }} onSubmitEditing={() => { patch({ title: draft.title.trim() || 'Сессия' }); setEditing(false); }} maxLength={35} style={styles.titleInput} /> :
             <PressScale onPress={() => setEditing(true)} accessibilityRole="button" accessibilityLabel="Изменить название сессии" style={styles.title}><T size={28} ls={-.4} numberOfLines={1} style={{ flexShrink: 1 }}>{draft.title}</T><Icon name="pencil" width={18} height={18} color={c.disabled} /></PressScale>}
-          <T size={14} weight={400} center color={c.secondary} ls={0} style={{ marginTop: 9.8 }}>{draft.strict && !draft.scheduled ? `Блокировать ${durationLabel(draft.minutes)}. Строгий режим включён.` : draft.scheduled ? draft.allDay ? 'Блокировать приложения весь день.' : `Блокировать ${draft.days.length === 7 ? 'каждый день' : daysSummary} с ${shortTime(draft.start, draft.startMinute)} до ${shortTime(draft.end, draft.endMinute)}.` : `Блокировать на ${durationLabel(draft.minutes)}, начиная сейчас.`}</T>
+          <T size={14} weight={400} center color={c.secondary} ls={0} style={{ marginTop: 9.8 }}>{draft.strict && !draft.scheduled ? `Блокировать ${durationLabel(draft.minutes)}. Строгий режим включён.` : draft.scheduled ? draft.allDay ? 'Блокировать приложения весь день.' : `Блокировать ${draft.days.length === 7 ? 'каждый день' : daysSummary} с ${shortTime(draft.start, draft.startMinute)} до ${shortTime(draft.end, draft.endMinute)}.` : `Блокировать на ${durationLabel(draft.minutes)}, начиная сейчас.${draft.unlocks === 1 ? '\nОдно быстрое открытие.' : ''}`}</T>
         </View>
         <View style={styles.suggestionHeading}><Icon name="chevron-down-section" width={8} height={6} color={c.section} /><T size={20} color={c.section} ls={0}>{draft.scheduled ? 'Подборки' : 'Рекомендации'}</T></View>
         <View style={styles.normalBand}><View style={styles.normalBand}>
@@ -82,7 +82,7 @@ export function SessionEditor() {
             <SessionActivity draft={draft} patch={patch} />
           </EditorRow>
           </View>
-          <EditorRow title="Разблокировки" value={unlockExpanded ? undefined : draft.unlocks ? unlockCountLabel(draft.unlocks) : 'Нет'} emphasized={unlockExpanded} headerHeight={unlockExpanded ? draft.unlocks ? 54 : 53 : 59} expanded={unlockExpanded} onPress={() => { animateLayout(); setOpen(unlockExpanded ? null : 'unlocks'); }}>
+          <EditorRow title="Разблокировки" value={unlockExpanded ? undefined : draft.unlocks ? `${draft.unlocks} | ${unlockMethodLabel[draft.unlockMethod]}` : 'Нет'} emphasized={unlockExpanded} headerHeight={unlockExpanded ? draft.unlocks ? 54 : 53 : 59} expanded={unlockExpanded} onPress={() => { animateLayout(); setOpen(unlockExpanded ? null : 'unlocks'); }}>
             <SessionUnlocks draft={draft} patch={patch} />
           </EditorRow>
         </RuleEditorScrollAnchor>

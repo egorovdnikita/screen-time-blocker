@@ -133,7 +133,7 @@ export const rulesVariants: Record<RulesVariant, RulesData> = {
         id: 'session',
         emoji: 'zap',
         title: 'Сессия',
-        status: { kind: 'upcoming', text: 'Предстоит…' },
+        status: { kind: 'upcoming', text: 'Скоро…' },
         meta: { kind: 'schedule', time: '24.06, 23:11 – 24.06, 23:41' },
         apps: 'session',
       },

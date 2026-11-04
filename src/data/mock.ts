@@ -33,8 +33,8 @@ export const profile = {
   nowMinutes: '9 мин',
   nowCaption: 'За 5 дней',
   before: '7 ч',
-  beforeCaption: 'Среднее в день',
-  lifeBack: 'Вернёте 25 лет жизни.',
+  beforeCaption: 'Ср. за день',
+  lifeBack: 'Вернули 25 лет жизни.',
   daysWithBlock: '3 дня',
   bestStreak: '1',
 };

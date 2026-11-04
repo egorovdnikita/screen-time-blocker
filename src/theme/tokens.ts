@@ -403,6 +403,7 @@ export const onboardingTheme = {
 
 // Последние состояния HTML: локальные настройки и системные демо.
 export const remainingTheme = {
+  widgetPause: '0px 1px 3px #152b4920',
   surface: '#f5f8fa', line: '#eff0f2', section: '#929aa8', icon: '#969eaa', value: '#7f899a',
   selection: '#3484fb', handle: '#dcdee0', dim: '#00000020', alertDim: '#0003',
   alert: '#f9f9f9c7', alertButton: '#cfd1d1c9', menu: '#f7f9fddd', menuBorder: '#ffffffd1',

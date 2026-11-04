@@ -67,7 +67,7 @@ export function ProfileScreen({ recap: recapProp = false }: { recap?: boolean })
             <View style={[styles.tile, { backgroundColor: colors.nowBg, boxShadow: insetBorder(colors.nowBorder) }]}>
               <View style={[styles.tpill, { backgroundColor: colors.nowPill }]}>
                 <T size={17} color={colors.now}>
-                  Сейчас
+                  Стало
                 </T>
               </View>
               <View style={[styles.tileValue, { marginTop: 25 }]}>
@@ -83,7 +83,7 @@ export function ProfileScreen({ recap: recapProp = false }: { recap?: boolean })
             <View style={[styles.tile, { backgroundColor: colors.white, boxShadow: insetBorder(colors.beforeBorder) }]}>
               <View style={[styles.tpill, { backgroundColor: colors.white, boxShadow: insetBorder(colors.beforePillBorder) }]}>
                 <T size={17} color={colors.before}>
-                  Раньше
+                  Было
                 </T>
               </View>
               <View style={[styles.tileValue, { marginTop: 17 }]}>

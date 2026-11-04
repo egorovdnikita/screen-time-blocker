@@ -14,7 +14,7 @@ for (const [route,id] of [['/session?mode=scheduled',55],['/session',73]]) {
 }
 await nav('/rules?earned=1');await shot('207');
 const reward=await ev(`({text:document.body.innerText,tab:document.querySelector('[role="tab"][aria-label^="Правила"]')?.getAttribute('aria-label')})`);
-if(!reward.text.includes('Предстоит')||!reward.text.includes('Закрыто')||!reward.text.includes('2 активных')||reward.tab!=='Правила, активных: 2'||!reward.text.includes('Убрать комнату')||reward.text.includes('Нажмите, чтобы проверить с ИИ'))throw Error('Reward mismatch '+JSON.stringify(reward));
+if(!reward.text.includes('Скоро')||!reward.text.includes('Закрыто')||!reward.text.includes('2 активных')||reward.tab!=='Правила, активных: 2'||!reward.text.includes('Убрать комнату')||reward.text.includes('Нажмите, чтобы проверить с ИИ'))throw Error('Reward mismatch '+JSON.stringify(reward));
 const button=await ev(`(()=>{const r=document.querySelector('[aria-label="Демо: забрать время"]').getBoundingClientRect();return{width:r.width,height:r.height}})()`);if(button.width!==114||button.height!==33)throw Error('Reward target geometry');
 fs.writeFileSync(out+'/checks.json',JSON.stringify({results,reward,button,errors},null,2));console.log(JSON.stringify(results));
 }catch(e){console.log(String(e));await shot('error');process.exitCode=1;}finally{ws.close();chrome.kill();await wait(300);fs.rmSync(profile,{recursive:true,force:true});}

@@ -45,7 +45,7 @@ export function MostUsed({ day, onOpenMenu }: Props) {
             accessibilityLabel="Режим сводки"
           >
             <Icon name="updown" width={12} height={14.5} color={colors.black} style={{ marginRight: 3.4 }} />
-            <T size={14.25}>{mode === 'apps' ? 'Приложения' : 'Занятия'}</T>
+            <T size={14.25}>{mode === 'apps' ? 'Прил.' : 'Занятия'}</T>
           </PressScale>
         </View>
       </View>
