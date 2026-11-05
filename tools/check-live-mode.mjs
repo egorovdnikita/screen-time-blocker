@@ -21,9 +21,11 @@ try{
   assert.ok(!t.includes('Подробнее')&&!await b.ev(`!!document.querySelector('[aria-label="Обновить отчёт"]')`),'Профиль: заглушки');
   assert.match(t,/Лучшая серия\s+0/,'Профиль: серия у нового пользователя 0');
   await b.click('Настройки профиля');await wait(1000);t=await text();
-  for(const fake of ['Годовой план','Пробный период','Аккаунт Block','Управлять'])assert.ok(!t.includes(fake),'Настройки: '+fake);
+  for(const fake of ['Годовой план','Пробный период','Аккаунт Block','Управлять','Язык'])assert.ok(!t.includes(fake),'Настройки: '+fake);
   await b.click('Помощь и отзывы');await wait(1000);t=await text();
   for(const fake of ['+75','Связаться','Предложить идею','Строгий режим'])assert.ok(!t.includes(fake),'Помощь: '+fake);
+  await b.click('Ошибки и проблемы');await wait(1000);t=await text();
+  for(const fake of ['Другие настройки','Скрывать иконки','Учёт в реальном времени'])assert.ok(!t.includes(fake),'Решение проблем: '+fake);
   await b.nav('/rules');await wait(1200);t=await text();
   assert.ok(t.includes('Рабочие часы')&&t.includes('9:00 – 17:00')&&t.includes('По будням'),'Карточка правила: '+t.slice(0,160));
   assert.ok(!t.includes('Apple Music'),'Правила: чужие демо-правила');
