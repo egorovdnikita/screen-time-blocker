@@ -47,3 +47,8 @@ build/
 .playwright-mcp/
 .vercel/
 .wrangler/
+
+# скриншоты проверок: макеты в публичный репозиторий не кладём
+docs/reviews/**/*.png
+docs/reviews/**/*.jpg
+docs/reviews/**/*.jpeg
