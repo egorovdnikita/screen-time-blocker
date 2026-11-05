@@ -7,6 +7,14 @@ const text=()=>b.ev('document.body.innerText');
 const stored=()=>b.ev(`JSON.parse(localStorage.getItem('block.state')).data`);
 const hold=async()=>{const r=await b.ev(`(()=>{const e=document.querySelector('[aria-label="Ещё"]');const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()`);await b.cdp('Input.dispatchMouseEvent',{type:'mousePressed',button:'left',clickCount:1,...r});await wait(900);await b.cdp('Input.dispatchMouseEvent',{type:'mouseReleased',button:'left',clickCount:1,...r});await wait(1100)};
 try{
+  // Выдуманные цифры и отзывы знакомства не видны реальному пользователю.
+  const noFake=async(step,list)=>{await b.nav('/onboarding?step='+step);await wait(800);const t=await text();for(const f of list)assert.ok(!t.includes(f),'Знакомство '+step+': '+f)};
+  await noFake(0,['300 000','12 часов','Маша','Спасибо']);
+  await noFake(2,['301 500','7000','Алекс']);
+  await noFake(14,['2022']);
+  await noFake(15,['Выбор App Store']);
+  await b.nav('/onboarding?step=1');await wait(800);await b.click('Продолжить');await wait(800);
+  assert.equal(await b.ev(`JSON.parse(localStorage.getItem('block.state')).data.onboardingDraft.step`),3,'Шаг 002 не пропущен');
   await b.nav('/onboarding?step=25');await b.click('Добавить расписание');await wait(1500);
   await b.click('Главная');await wait(1200);
   let t=await text();

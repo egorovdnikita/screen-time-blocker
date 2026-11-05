@@ -32,8 +32,9 @@ export function OnboardingScreen({ initialStep }: { initialStep?: number }) {
   let content;
   switch (step) {
     case 0: content=<Welcome onStart={()=>go(1)}/>;break;
-    case 1: content=<OnboardingFriction onBack={()=>go(0)} onNext={()=>go(2)}/>;break;
-    case 2: content=<SocialProof onBack={()=>go(1)} onNext={()=>go(3)}/>;break;
+    case 1: content=<OnboardingFriction onBack={()=>go(0)} onNext={()=>go(app.live?3:2)}/>;break;
+    // 002 целиком из выдуманных цифр и отзывов: в реальном режиме пропускается, шаг 2 мог сохраниться до этой правки.
+    case 2: content=app.live?<OnboardingStory kind="personalize" onNext={()=>go(4)}/>:<SocialProof onBack={()=>go(1)} onNext={()=>go(3)}/>;break;
     case 3: content=<OnboardingStory kind="personalize" onNext={()=>go(4)}/>;break;
     case 4: case 5: content=<NameEntry name={draft.name} onChange={name=>patch({name,step:name?5:4})} onNext={()=>go(6)}/>;break;
     case 6: content=<OnboardingQuiz onBack={()=>go(draft.name?5:4)} onSelect={issue=>patch({issue,step:7})}/>;break;
