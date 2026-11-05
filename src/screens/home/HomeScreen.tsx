@@ -146,7 +146,7 @@ export function HomeScreen() {
                 <Stats first={{ label: 'Время экрана', value: day.quality.stats.screenTime }} pickups={day.quality.stats.pickups} notifications={day.quality.stats.notifications} />
                 <UsageChart interactive={chartPage === 1} data={day.quality.chart} onInsight={setInsight} />
               </Animated.View>
-              <Icon name="chevron-compact-down" width={21} height={9} color={colors.chevronCompact} style={styles.cardChevron} />
+              {!app.live && <Icon name="chevron-compact-down" width={21} height={9} color={colors.chevronCompact} style={styles.cardChevron} />}
             </FadeIn>
           )}
         </View>

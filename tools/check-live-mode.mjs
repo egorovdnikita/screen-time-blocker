@@ -13,6 +13,9 @@ try{
   if(t.includes('Ясно')){await b.click('Понятно');await wait(2200);t=await text()}
   for(const fake of ['8 мин','6ч52','20с','Phia'])assert.ok(!t.includes(fake),'Главная: цифры макета: '+fake);
   assert.ok(t.includes('Данные появятся'),'Главная: нет пустого состояния');
+  assert.ok(!t.includes('Чаще всего'),'Главная: пустая секция');
+  const gap=await b.ev(`(()=>{const box=t=>{const e=[...document.querySelectorAll('div,span')].filter(n=>n.textContent.trim().startsWith(t)).sort((x,y)=>x.textContent.length-y.textContent.length)[0];return e.getBoundingClientRect()};return box('Блокировать').top-box('Данные появятся').bottom})()`);
+  assert.ok(gap>=0,'Главная: текст уходит под кнопку на '+-gap);
   assert.ok(!await b.ev(`!!document.querySelector('[aria-label="Обновить"]')`),'Главная: «Обновить» ничего не меняет');
   await b.click('Профиль');await wait(1000);t=await text();
   assert.ok(!t.includes('Подробнее')&&!await b.ev(`!!document.querySelector('[aria-label="Обновить отчёт"]')`),'Профиль: заглушки');

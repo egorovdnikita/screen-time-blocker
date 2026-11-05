@@ -33,13 +33,24 @@ export function MostUsed({ day, onOpenMenu }: Props) {
   const nameSize = app.period !== 'today' || counted.some(a => app.reflections[reflectionKey(day.id, a.id)]) ? 15.25 : 15;
   const excluded = apps.filter((a) => a.state === 'excluded');
 
+  // Без данных секции нет: одно объяснение между карточкой и кнопкой «Блокировать», иначе текст уходит под неё.
+  if (app.live) {
+    return (
+      <FadeIn key="live" from={6} style={styles.live}>
+        <T size={15.25} color={colors.emptyActivities} center style={{ lineHeight: 18.333 }}>
+          {'Данные появятся, когда Block\nподключится к Экранному времени.'}
+        </T>
+      </FadeIn>
+    );
+  }
+
   return (
     <View>
       <View style={styles.header}>
         <T size={20} color={colors.sectionLight}>
           Чаще всего
         </T>
-        {!app.live && <View ref={pillRef} collapsable={false}>
+        <View ref={pillRef} collapsable={false}>
           <PressScale
             onPress={() => pillRef.current?.measureInWindow((x, y, width, height) => onOpenMenu({ x, y, width, height }))}
             style={styles.pill}
@@ -49,16 +60,10 @@ export function MostUsed({ day, onOpenMenu }: Props) {
             <Icon name="updown" width={12} height={14.5} color={colors.black} style={{ marginRight: 3.4 }} />
             <T size={14.25}>{mode === 'apps' ? 'Прил.' : 'Занятия'}</T>
           </PressScale>
-        </View>}
+        </View>
       </View>
 
-      {app.live ? (
-        <FadeIn key="live" from={6} style={styles.empty}>
-          <T size={15.25} color={colors.emptyActivities} center style={{ lineHeight: 18.333 }}>
-            {'Данные появятся, когда Block\nподключится к Экранному времени.'}
-          </T>
-        </FadeIn>
-      ) : mode === 'apps' ? (
+      {mode === 'apps' ? (
         <FadeIn key="apps" from={6}>
           {counted.map((a) => (
             <AppItem
@@ -289,5 +294,6 @@ const styles = StyleSheet.create({
   activityMeta: { flexDirection: 'row', alignItems: 'center', marginTop: 11 },
   metaSep: { width: 1.333, height: 17, backgroundColor: colors.separator },
   empty: { alignItems: 'center', marginTop: 34 },
+  live: { alignItems: 'center', marginTop: 15 },
   emptyLine: { flexDirection: 'row', alignItems: 'center' },
 });
