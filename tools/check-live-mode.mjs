@@ -20,16 +20,16 @@ try{
   let t=await text();
   if(t.includes('Ясно')){await b.click('Понятно');await wait(2200);t=await text()}
   for(const fake of ['8 мин','6ч52','20с','Phia'])assert.ok(!t.includes(fake),'Главная: цифры макета: '+fake);
-  assert.ok(t.includes('Данные появятся'),'Главная: нет пустого состояния');
+  assert.ok(t.includes('Прототип: правила сохраняются'),'Главная: нет пустого состояния');
   assert.ok(!t.includes('Чаще всего'),'Главная: пустая секция');
-  const gap=await b.ev(`(()=>{const box=t=>{const e=[...document.querySelectorAll('div,span')].filter(n=>n.textContent.trim().startsWith(t)).sort((x,y)=>x.textContent.length-y.textContent.length)[0];return e.getBoundingClientRect()};return box('Блокировать').top-box('Данные появятся').bottom})()`);
+  const gap=await b.ev(`(()=>{const box=t=>{const e=[...document.querySelectorAll('div,span')].filter(n=>n.textContent.trim().startsWith(t)).sort((x,y)=>x.textContent.length-y.textContent.length)[0];return e.getBoundingClientRect()};return box('Блокировать').top-box('Прототип: правила сохраняются').bottom})()`);
   assert.ok(gap>=0,'Главная: текст уходит под кнопку на '+-gap);
   assert.ok(!await b.ev(`!!document.querySelector('[aria-label="Обновить"]')`),'Главная: «Обновить» ничего не меняет');
   await b.click('Профиль');await wait(1000);t=await text();
   assert.ok(!t.includes('Подробнее')&&!await b.ev(`!!document.querySelector('[aria-label="Обновить отчёт"]')`),'Профиль: заглушки');
   assert.match(t,/Лучшая серия\s+0/,'Профиль: серия у нового пользователя 0');
   await b.click('Настройки профиля');await wait(1000);t=await text();
-  for(const fake of ['Годовой план','Пробный период','Аккаунт Block','Управлять','Язык'])assert.ok(!t.includes(fake),'Настройки: '+fake);
+  for(const fake of ['Годовой план','Пробный период','Аккаунт screen-time-blocker','Управлять','Язык'])assert.ok(!t.includes(fake),'Настройки: '+fake);
   await b.click('Помощь и отзывы');await wait(1000);t=await text();
   for(const fake of ['+75','Связаться','Предложить идею','Строгий режим'])assert.ok(!t.includes(fake),'Помощь: '+fake);
   await b.click('Ошибки и проблемы');await wait(1000);t=await text();
@@ -50,7 +50,7 @@ try{
     await b.reload();await wait(800);assert.ok((await text()).includes('Вернули 25 лет'),'Демо не пережило перезапуск');
     await b.nav('/rules');await wait(1200);await hold();await b.click('Вернуться к моим данным');await wait(1200);
     s=await stored();assert.equal(s.demoBackup,null);assert.equal(s.createdSessions.length,1,'Данные не вернулись');
-    assert.equal(s.startedAt,before.startedAt,'Срок с Block не вернулся');assert.equal(s.rulesVariant,'onboarding');
+    assert.equal(s.startedAt,before.startedAt,'Срок с screen-time-blocker не вернулся');assert.equal(s.rulesVariant,'onboarding');
     t=await text();assert.ok(t.includes('Рабочие часы')&&!t.includes('Apple Music'),'После выхода из демо');
     console.log('Live mode OK');
   }

@@ -11,7 +11,7 @@ import { useAppState } from '@/state/app';
 import { T } from '@/theme/typography';
 import { colors, mainSettingsTheme as c } from '@/theme/tokens';
 import { SettingsStack } from './SettingsStack';
-const topics = ['Ошибки и проблемы', 'Первые шаги в Block', 'Дополнительные возможности', 'Строгий режим', 'Команды, фокус и виджеты', 'Удалить Block'];
+const topics = ['Ошибки и проблемы', 'Первые шаги в screen-time-blocker', 'Дополнительные возможности', 'Строгий режим', 'Команды, фокус и виджеты', 'Удалить screen-time-blocker'];
 const images = [art.helpTopic0, art.helpTopic1, art.helpTopic2, art.helpTopic3, art.helpTopic4, art.helpTopic5];
 export function HelpFeedback({ onClose }: { onClose: () => void }) {
   const { live } = useAppState();

@@ -228,7 +228,7 @@ export function NewStart({ onClose }: { onClose: () => void }) {
           Новое начало
         </T>
         <T size={15.25} weight={400} center style={{ lineHeight: 18.333, marginTop: 8 }}>
-          {'Block поможет начать заново.\nОставьте прошлое позади. Следите\nза экранным временем, замечайте\nсвои привычки и постепенно\nсокращайте время у экрана.'}
+          {'screen-time-blocker поможет начать заново.\nОставьте прошлое позади. Следите\nза экранным временем, замечайте\nсвои привычки и постепенно\nсокращайте время у экрана.'}
         </T>
         <PressScale accessibilityRole="button" accessibilityLabel="Понятно" onPress={onClose} style={styles.newStartButton}>
           <T size={15.25} color={colors.white}>

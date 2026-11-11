@@ -38,7 +38,7 @@ export function MostUsed({ day, onOpenMenu }: Props) {
     return (
       <FadeIn key="live" from={6} style={styles.live}>
         <T size={15.25} color={colors.emptyActivities} center style={{ lineHeight: 18.333 }}>
-          {'Данные появятся, когда Block\nподключится к Экранному времени.'}
+          {'Прототип: правила сохраняются,\nблокировка и данные пока недоступны.'}
         </T>
       </FadeIn>
     );

@@ -118,7 +118,7 @@ export function ProfileScreen({ recap: recapProp = false }: { recap?: boolean })
               <View style={styles.glabel}>
                 <Icon name="cake" width={16} height={15.5} color={colors.section} style={{ marginRight: 2 }} />
                 <T size={12.25} weight={600} ls={TRACK_SMALL} color={colors.section}>
-                  С Block уже
+                  С screen-time-blocker уже
                 </T>
               </View>
               <T size={20} style={styles.gval}>
@@ -150,7 +150,7 @@ export function ProfileScreen({ recap: recapProp = false }: { recap?: boolean })
             Подробнее
           </T>
           <T size={12.5} weight={500} ls={TRACK_SMALL} color={colors.written} style={{ marginLeft: 21, marginTop: 2 }}>
-            От команды Block
+            От команды screen-time-blocker
           </T>
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.articles}>
             <Article image={art.articleAttention} title={'Как вернуть\nконцентрацию\nв 2026 году'} />

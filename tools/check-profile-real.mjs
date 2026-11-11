@@ -1,4 +1,4 @@
-// APP-20: у реального пользователя Профиль показывает срок с Block и обратный отсчёт отчёта, а не демо-цифры.
+// APP-20: у реального пользователя Профиль показывает срок с screen-time-blocker и обратный отсчёт отчёта, а не демо-цифры.
 import assert from 'node:assert/strict';
 import {openChrome,wait} from './lib/cdp.mjs';
 const b=await openChrome({port:9356});const text=()=>b.ev('document.body.innerText');

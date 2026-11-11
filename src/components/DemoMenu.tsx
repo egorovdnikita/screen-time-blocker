@@ -37,7 +37,7 @@ export function DemoMenu({ visible, onClose }: { visible: boolean; onClose: () =
         <ScrollView showsVerticalScrollIndicator={false}>
           {app.demoActive && <Row title="Вернуться к моим данным" hint="Выйти из демо" selected={false} onPress={() => close(() => { app.leaveDemo(); onClose(); })} />}
           <Row title="Экраны-образцы" hint="Фото привычки, QR, Live Activity, виджеты" selected={false} onPress={() => close(() => { onClose(); router.push('/remaining'); })} />
-          <Row title="Знакомство с Block" hint="С первого экрана" selected={false} onPress={() => close(() => { if (app.live) app.startDemo('firstRun'); onClose(); router.push('/onboarding?step=0'); })} />
+          <Row title="Знакомство с screen-time-blocker" hint="С первого экрана" selected={false} onPress={() => close(() => { if (app.live) app.startDemo('firstRun'); onClose(); router.push('/onboarding?step=0'); })} />
           <Row title="Настройка первой блокировки" hint="Выбор приложений и расписания" selected={false} onPress={() => close(() => { if (app.live) app.startDemo('firstRun'); onClose(); router.push('/onboarding?step=18'); })} />
           <T size={12} ls={TRACK_SMALL} color={colors.section} style={styles.caption}>
             ДЕМО · СЦЕНАРИЙ

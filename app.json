@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Block",
+    "name": "screen-time-blocker",
     "slug": "screen-time-blocker",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -34,7 +34,11 @@
       "package": "com.egorovdnikita.block"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "name": "screen-time-blocker",
+      "shortName": "screen-time-blocker",
+      "lang": "ru",
+      "description": "Прототип настройки экранного времени. Правила хранятся на устройстве; блокировка приложений пока недоступна."
     },
     "plugins": [
       "expo-router",

@@ -39,5 +39,6 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint ."
   },
-  "private": true
+  "private": true,
+  "description": "Прототип настройки экранного времени с локальным хранением правил."
 }

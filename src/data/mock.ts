@@ -21,7 +21,7 @@ export type MostUsedApp = {
 };
 
 export const mostUsed: MostUsedApp[] = [
-  { id: 'block', name: 'Block', minutes: 35, icon: 'block' },
+  { id: 'block', name: 'screen-time-blocker', minutes: 35, icon: 'block' },
   { id: 'photos', name: 'Фото', minutes: 7, icon: 'photos' },
   { id: 'phia', name: 'Phia', minutes: 1, icon: 'phia' },
   { id: 'other', name: 'Другое', minutes: 1, icon: 'other' },

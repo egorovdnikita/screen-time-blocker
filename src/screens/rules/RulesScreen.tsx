@@ -373,7 +373,7 @@ function RoutineCard({ rule, demoEarned = false }: { rule: RoutineRule; demoEarn
 
 function StatusPill({ status, blockingText = 'Активно' }: { status: Status; blockingText?: string }) {
   // В HTML «Предстоит» только в состояниях с блокировками, в остальных — «Скоро».
-  const { rulesVariant } = useAppState();
+  const { rulesVariant, live } = useAppState();
   const upcoming = rulesVariant === 'locks' || rulesVariant === 'strict' ? 'Предстоит' : 'Скоро';
   if (status.kind === 'paused') return <View style={styles.upcoming}><Icon name="snoozed" width={13.5} height={11.5} color={colors.meta} style={{ marginRight: 2.7 }} /><T size={12} weight={600} color={colors.meta}>На паузе</T></View>;
   if (status.kind === 'blocking') {
@@ -381,7 +381,7 @@ function StatusPill({ status, blockingText = 'Активно' }: { status: Statu
       <View style={styles.blockingPill}>
         <Icon name="shield-check-white" width={13.5} height={17} color={colors.white} style={{ marginRight: 2.3 }} />
         <T size={12.5} color={colors.white}>
-          {blockingText}
+          {live ? 'Включено' : blockingText}
         </T>
         {status.strict && <Icon name="strict-badge" width={14} color="#ff7428" style={{ position: 'absolute', right: -5, top: -6 }} />}
       </View>

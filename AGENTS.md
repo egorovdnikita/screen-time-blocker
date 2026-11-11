@@ -40,7 +40,7 @@ Docs: https://docs.expo.dev/eas/index.md
 - Expo Go only includes its bundled native modules. After adding a library with native code, the app needs a development build: `npx expo run:ios|android` locally, or `eas build --profile development`.
 - Prefer recommended Expo modules over third-party libraries, and check your available skills before adding dependencies. Docs: https://docs.expo.dev/versions/latest/index.md
 
-## Этот проект (Block)
+## Этот проект (screen-time-blocker)
 
 Перед работой прочитай `docs/HANDOFF.md`, раздел «Текущая задача». Вёрстка 267 HTML-состояний закрыта; сейчас — готовность приложения по `docs/audits/2026-11-03-app-readiness.md` и приёмка 1:1 по `docs/audits/2026-11-03-ui-full.md`. Там же история, решения, отклонения от макетов и известные проблемы.
 
@@ -52,5 +52,5 @@ Docs: https://docs.expo.dev/eas/index.md
 - **Состояния** экранов — данными в `src/data/*` и `src/state/app.tsx`, а не копиями экранов. Новые демо-состояния — в `DemoMenu`; всё, что показывает цифры макета или не работает, скрывай при `app.live`.
 - **Нажатия** — `PressScale` (сжатие) или `Pressable`; позиционирующий стиль кладётся прямо на `PressScale`.
 - **Пиксель-перфект.** Отступы и кегли — из макета (393×852 pt), раскладка — flex, абсолют только там, где он в природе компонента (график, оверлеи).
-- **Проверка перед коммитом:** `npx tsc --noEmit`, веб-сборка и скриншоты Playwright 393×852 против `screen@3x.png` макета. `expo lint` не настроен.
+- **Проверка перед коммитом:** `npx tsc --noEmit`, веб-сборка и скриншоты Playwright 393×852 против `screen@3x.png` макета. `npm run lint` (ESLint настроен).
 - **Git.** Основная ветка — `main`. Не пушь в `main` без согласия заказчика, работай в своей ветке.

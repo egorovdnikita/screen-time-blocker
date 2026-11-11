@@ -20,4 +20,4 @@ assert.equal(new Set(screenApps.map(app => app.id)).size, screenApps.length);
 assert.equal(resolveScreenText('{shielded_activity_name}: {total_screen_time}', { shielded_activity_name: 'XChat', total_screen_time: '12 мин' }), 'XChat: 12 мин');
 assert.equal(resolveScreenText('{first_name} / {unknown}', {}), '{first_name} / {unknown}');
 assert.equal(resolveScreenText('{total_shielded_activity_opens_count}', { total_shielded_activity_opens_count: '5' }), '5');
-console.log('Block screen data OK');
+console.log('screen-time-blocker screen data OK');

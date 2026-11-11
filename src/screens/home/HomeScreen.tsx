@@ -84,7 +84,7 @@ export function HomeScreen() {
         <Image source={art.homeSky} style={[styles.sky, { width, height: width * SKY_RATIO }]} contentFit="cover" /><LinearGradient pointerEvents="none" colors={homeSkyTheme.fade} style={{ position: 'absolute', left: 0, right: 0, top: width * SKY_RATIO * .4, height: width * SKY_RATIO * .6 }} />
 
         <View style={[styles.header, { marginTop: top + 10 }]}>
-          <Icon name="block-wordmark" width={98.572} height={27.666} color={colors.wordmark} style={{ marginLeft: -5.8 }} />
+          <T size={12} weight={600} ls={0} color={colors.wordmark}>screen-time-blocker</T>
           <View style={styles.periodWrap} pointerEvents="box-none">
             <Pressable ref={periodRef} disabled={app.live} onPress={openPeriod} style={styles.period} accessibilityRole="button" hitSlop={{ top: 4, bottom: 4 }} accessibilityLabel="Период">
               <T size={14.25} color={colors.white} onSky>

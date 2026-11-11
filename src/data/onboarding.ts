@@ -21,7 +21,7 @@ export const onboardingArt = {
 };
 export const onboardingGoalLabel = (minutes: number) => minutes % 60 ? `${Math.floor(minutes / 60)}ч${String(minutes % 60).padStart(2,'0')}` : `${minutes / 60} ч`;
 export const onboardingPreferences = [
-  { id: 'limit', icon: 'onboarding-shield-fill', title: 'Ограничить приложения', copy: 'Открывать их несколько раз в день' },
+  { id: 'limit', icon: 'onboarding-shield-fill', title: 'Настроить расписание', copy: 'Начать с рабочих часов 9:00–17:00' },
   { id: 'morning', icon: 'onboarding-cup-fill', title: 'Блокировать утром', copy: 'Например, с 6:00 до 8:00' },
   { id: 'work', icon: 'onboarding-graduationcap-fill', title: 'Блокировать на работе', copy: 'Например, с 8:00 до 17:00' },
   { id: 'evening', icon: 'onboarding-moon-fill', title: 'Блокировать вечером', copy: 'Например, с 21:00 до 6:00' },

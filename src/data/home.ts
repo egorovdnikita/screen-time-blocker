@@ -107,7 +107,7 @@ const qualityProductive: Quality = {
 };
 
 const appsRegular: AppRow[] = [
-  { id: 'block', name: 'Block', time: '35 мин', ratio: 1, icon: 'block', state: 'ask' },
+  { id: 'block', name: 'screen-time-blocker', time: '35 мин', ratio: 1, icon: 'block', state: 'ask' },
   { id: 'photos', name: 'Фото', time: '7 мин', ratio: 0.2, icon: 'photos', state: 'ask' },
   { id: 'phia', name: 'Phia', time: '1 мин', ratio: 0.03, icon: 'phia', state: 'ask' },
   { id: 'other', name: 'Другое', time: '1 мин', ratio: 0, icon: 'other', state: 'ask', others: 'apps-other', othersCount: 1 },
@@ -181,7 +181,7 @@ export const dayFirst: Day = {
     tracks: { hours: [0], tone: 'past' },
     bars: [{ h: 0, v: 0.143, tone: 'now' }],
   },
-  apps: [{ id: 'block', name: 'Block', time: '20с', ratio: 1, icon: 'block', state: 'ask' }],
+  apps: [{ id: 'block', name: 'screen-time-blocker', time: '20с', ratio: 1, icon: 'block', state: 'ask' }],
 };
 
 // 30-changing-period__02-home-yesterday
@@ -210,7 +210,7 @@ export const dayYesterday: Day = {
   quality: qualityNeutral,
   apps: [
     { id: 'photos', name: 'Фото', time: '7 мин', ratio: 1, icon: 'photos', state: 'ask' },
-    { id: 'block', name: 'Block', time: '5 мин', ratio: 0.7, icon: 'block', state: 'ask' },
+    { id: 'block', name: 'screen-time-blocker', time: '5 мин', ratio: 0.7, icon: 'block', state: 'ask' },
     { id: 'phia', name: 'Phia', time: '1 мин', ratio: 0.14, icon: 'phia', state: 'ask' },
   ],
   activities: [],
@@ -245,7 +245,7 @@ export const dayActive: Day = {
   },
   quality: qualityProductive,
   apps: [
-    { id: 'block', name: 'Block', time: '1ч09', ratio: 1, icon: 'block', state: 'productive' },
+    { id: 'block', name: 'screen-time-blocker', time: '1ч09', ratio: 1, icon: 'block', state: 'productive' },
     { id: 'photos', name: 'Фото', time: '15 мин', ratio: 0.22, icon: 'photos', state: 'ask' },
     { id: 'substack', name: 'Substack', time: '4 мин', ratio: 0.06, icon: 'substack', state: 'ask' },
     { id: 'phia', name: 'Phia', time: '1 мин', ratio: 0.02, icon: 'phia', state: 'ask' },
@@ -257,7 +257,7 @@ export const dayActive: Day = {
 // Подсказки по тапу на график (25-information)
 export const insights = {
   glued: {
-    title: '12 минут без отрыва\nот экрана в Block…',
+    title: '12 минут без отрыва\nот экрана в screen-time-blocker…',
     hint: 'Как часто вас отвлекали? Почему тянет проверить телефон? Это действительно важно?',
   },
   offline: {

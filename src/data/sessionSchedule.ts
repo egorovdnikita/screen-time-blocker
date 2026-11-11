@@ -1,7 +1,7 @@
 import type { Meta, SessionRule, Status } from './rules';
 
 // APP-06: статус сессии считается из расписания и текущего времени, а не хранится строкой.
-// Внутри приложения; автоматическое начало защиты без открытого Block требует DeviceActivity (dev-сборка).
+// Внутри приложения; автоматическое начало защиты без открытого screen-time-blocker требует DeviceActivity (dev-сборка).
 export type SessionSchedule =
   | { kind: 'now'; startedAt: number; minutes: number }
   | { kind: 'weekly'; start: number; end: number; days: number[] }; // минуты от полуночи, дни 0 = пн

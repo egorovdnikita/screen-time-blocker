@@ -1,4 +1,4 @@
-// Запись промо-ролика: настоящая веб-сборка Block в headless Chrome, кадр за кадром.
+// Запись промо-ролика: настоящая веб-сборка screen-time-blocker в headless Chrome, кадр за кадром.
 // Время подменено часами Playwright, поэтому анимации идут ровно 30 кадров/с независимо от скорости машины.
 // Использование: node scripts/promo/record.mjs ПАПКА  (переменная PROMO_ENV — папка с установленным playwright)
 import fs from 'node:fs';

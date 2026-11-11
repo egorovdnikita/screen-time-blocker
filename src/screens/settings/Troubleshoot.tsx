@@ -22,7 +22,7 @@ const issues = [
   [art.troubleshootPhone, 'Не работает выбор приложений'],
   [art.troubleshootNerd, 'Приватный просмотр выключен'],
   [art.namedGroupForbidden, 'Не удаётся удалить приложения'],
-  [art.troubleshootTrash, 'Приложения блокируются\nпосле удаления Block'],
+  [art.troubleshootTrash, 'Приложения блокируются\nпосле удаления screen-time-blocker'],
 ] as const;
 // Один прокручиваемый лист:217/218 — продолжение213, а не отдельные страницы.
 export function Troubleshoot({ onClose }: { onClose: () => void }) {

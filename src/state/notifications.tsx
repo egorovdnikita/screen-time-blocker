@@ -56,7 +56,7 @@ function trigger(item: PlannedNotification): NotificationsModule.NotificationTri
   return { type: Notifications.SchedulableTriggerInputTypes.DATE, date: t.at };
 }
 
-/** Пересоздаёт уведомления Block при каждом изменении плана; чужие уведомления не трогает. */
+/** Пересоздаёт уведомления screen-time-blocker при каждом изменении плана; чужие уведомления не трогает. */
 export function NotificationSync() {
   const app = useAppState();
   const unlockNames = useMemo(() => Object.fromEntries([...app.createdLocks, ...rulesVariants[app.rulesVariant].locks].map(rule => [rule.id, rule.name])), [app.createdLocks, app.rulesVariant]);
