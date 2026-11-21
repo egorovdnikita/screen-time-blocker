@@ -303,10 +303,10 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     const id = setInterval(() => setTick(t => t + 1), 15000);
     return () => clearInterval(id);
   }, [hasSchedules]);
-  // eslint-disable-next-line react-hooks/exhaustive-deps -- tick перезапускает расчёт по часам
   const liveSessions = useMemo(() => {
     const now = new Date();
     return createdSessions.map(x => liveSession(x, now));
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- tick перезапускает расчёт по часам
   }, [createdSessions, tick]);
   const [storage, setStorage] = useState({
     loaded: memoryOnly,
