@@ -33,12 +33,22 @@ const PILL_W = 95.667;
 const PILL_H = 53.833;
 
 // Замок на вкладке «Правила» показывает число активных правил (иконки из макетов).
-const LOCK_ACTIVE: Record<number, IconName> = { 0: 'tab-lock', 1: 'tab-lock-one', 2: 'tab-lock-two', 3: 'tab-lock-badge' };
-const LOCK_IDLE: Record<number, IconName> = { 0: 'tab-lock', 1: 'tab-lock', 2: 'tab-lock-badge-2', 3: 'tab-lock-badge-3' };
+const LOCK_ACTIVE: Record<number, IconName> = {
+  0: 'tab-lock',
+  1: 'tab-lock-one',
+  2: 'tab-lock-two',
+  3: 'tab-lock-badge',
+};
+const LOCK_IDLE: Record<number, IconName> = {
+  0: 'tab-lock',
+  1: 'tab-lock',
+  2: 'tab-lock-badge-2',
+  3: 'tab-lock-badge-3',
+};
 
 export function TabBar({ state, emitter, navigateToTab, insets }: BottomTabBarProps) {
   const app = useAppState();
-  const { earned } = useGlobalSearchParams<{earned?: string}>();
+  const { earned } = useGlobalSearchParams<{ earned?: string }>();
   const demoEarned = !app.live && state.routes[state.index]?.name === 'rules' && earned === '1';
   const activeCount = activeRuleCount(rulesForPresentation(app.rulesVariant, demoEarned), app);
   const active = Math.min(3, activeCount);
@@ -48,17 +58,19 @@ export function TabBar({ state, emitter, navigateToTab, insets }: BottomTabBarPr
 
   const [x] = useState(() => new Animated.Value(state.index));
   useEffect(() => {
-    Animated.spring(x, { toValue: state.index, useNativeDriver: Platform.OS !== 'web', bounciness: 6, speed: 16 }).start();
+    Animated.spring(x, {
+      toValue: state.index,
+      useNativeDriver: Platform.OS !== 'web',
+      bounciness: 6,
+      speed: 16,
+    }).start();
   }, [state.index, x]);
 
   const onHome = state.routes[state.index]?.name === 'index';
   const bottom = insets.bottom > 0 ? TAB_BAR_SIDE : 12;
 
   return (
-    <View
-      style={[styles.root, { bottom }]}
-      onLayout={(e) => setWidth(e.nativeEvent.layout.width)}
-    >
+    <View style={[styles.root, { bottom }]} onLayout={e => setWidth(e.nativeEvent.layout.width)}>
       <View style={styles.clip}>
         <BlurView intensity={30} tint="light" style={StyleSheet.absoluteFill} />
         <View style={[StyleSheet.absoluteFill, { backgroundColor: onHome ? colors.tabbarHome : colors.tabbar }]} />
@@ -100,21 +112,55 @@ export function TabBar({ state, emitter, navigateToTab, insets }: BottomTabBarPr
               >
                 <View style={styles.iconBox}>
                   <Icon
-                    name={route.name === 'rules' ? (activeCount > 3 ? LOCK_ACTIVE[1] : (focused ? LOCK_ACTIVE : LOCK_IDLE)[active]) : focused ? spec.iconActive : spec.icon}
+                    name={
+                      route.name === 'rules'
+                        ? activeCount > 3
+                          ? LOCK_ACTIVE[1]
+                          : (focused ? LOCK_ACTIVE : LOCK_IDLE)[active]
+                        : focused
+                          ? spec.iconActive
+                          : spec.icon
+                    }
                     width={spec.w}
                     height={spec.h}
                     color={colors.tabInk}
                   />
-                  {route.name === 'rules' && activeCount > 3 && <View pointerEvents="none" style={{ position: 'absolute', left: 4.5, top: 10, width: 12, height: 12, borderRadius: 2, backgroundColor: colors.tabInk, justifyContent: 'center' }}><T size={9} color={colors.white} ls={0} center style={{ lineHeight: 12 }}>{activeCount > 99 ? '99+' : activeCount}</T></View>}
+                  {route.name === 'rules' && activeCount > 3 && (
+                    <View
+                      pointerEvents="none"
+                      style={{
+                        position: 'absolute',
+                        left: 4.5,
+                        top: 10,
+                        width: 12,
+                        height: 12,
+                        borderRadius: 2,
+                        backgroundColor: colors.tabInk,
+                        justifyContent: 'center',
+                      }}
+                    >
+                      <T size={9} color={colors.white} ls={0} center style={{ lineHeight: 12 }}>
+                        {activeCount > 99 ? '99+' : activeCount}
+                      </T>
+                    </View>
+                  )}
                 </View>
-                <T size={route.name === 'overview' || (route.name === 'rules' && focused) ? 10 : 10.25} weight={focused ? 600 : 500} ls={TRACK_SMALL} color={colors.tabInk}>{/* HTML 044/186: «Обзор» и активные «Правила» — 10 */}
+                <T
+                  size={route.name === 'overview' || (route.name === 'rules' && focused) ? 10 : 10.25}
+                  weight={focused ? 600 : 500}
+                  ls={TRACK_SMALL}
+                  color={colors.tabInk}
+                >
+                  {/* HTML 044/186: «Обзор» и активные «Правила» — 10 */}
                   {spec.label}
                 </T>
               </Pressable>
             );
           })}
         {/* HTML 040/041: затемнение подсказок лежит и поверх таббара. */}
-        {app.rulesVariant === 'first' && app.onboarding !== 'done' && state.routes[state.index]?.name === 'rules' && <View pointerEvents="none" style={[StyleSheet.absoluteFill, { backgroundColor: colors.tutorialDim }]} />}
+        {app.rulesVariant === 'first' && app.onboarding !== 'done' && state.routes[state.index]?.name === 'rules' && (
+          <View pointerEvents="none" style={[StyleSheet.absoluteFill, { backgroundColor: colors.tutorialDim }]} />
+        )}
         <View pointerEvents="none" style={[StyleSheet.absoluteFill, styles.rim]} />
       </View>
     </View>

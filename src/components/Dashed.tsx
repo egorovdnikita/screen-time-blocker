@@ -48,10 +48,18 @@ type LineProps = { color?: string; dash?: string; style?: StyleProp<ViewStyle> }
 export function DashedLine({ color = colors.dash, dash = DASH, style }: LineProps) {
   const [w, setW] = useState(0);
   return (
-    <View style={[{ height: STROKE }, style]} onLayout={(e) => setW(e.nativeEvent.layout.width)}>
+    <View style={[{ height: STROKE }, style]} onLayout={e => setW(e.nativeEvent.layout.width)}>
       {w > 0 && (
         <Svg width={w} height={STROKE}>
-          <Line x1={0} y1={STROKE / 2} x2={w} y2={STROKE / 2} stroke={color} strokeWidth={STROKE} strokeDasharray={dash} />
+          <Line
+            x1={0}
+            y1={STROKE / 2}
+            x2={w}
+            y2={STROKE / 2}
+            stroke={color}
+            strokeWidth={STROKE}
+            strokeDasharray={dash}
+          />
         </Svg>
       )}
     </View>

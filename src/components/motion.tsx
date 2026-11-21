@@ -91,7 +91,15 @@ export function FadeIn({
 }
 
 /** «Поп» при появлении — пузырьки на графике, иконки. */
-export function PopIn({ children, delay = 0, style }: { children: ReactNode; delay?: number; style?: StyleProp<ViewStyle> }) {
+export function PopIn({
+  children,
+  delay = 0,
+  style,
+}: {
+  children: ReactNode;
+  delay?: number;
+  style?: StyleProp<ViewStyle>;
+}) {
   const [v] = useState(() => new Animated.Value(0));
   useEffect(() => {
     const t = setTimeout(() => spring(v, 1), delay);
@@ -99,7 +107,10 @@ export function PopIn({ children, delay = 0, style }: { children: ReactNode; del
   }, [delay, v]);
   return (
     <Animated.View
-      style={[style, { opacity: v, transform: [{ scale: v.interpolate({ inputRange: [0, 1], outputRange: [0.6, 1] }) }] }]}
+      style={[
+        style,
+        { opacity: v, transform: [{ scale: v.interpolate({ inputRange: [0, 1], outputRange: [0.6, 1] }) }] },
+      ]}
     >
       {children}
     </Animated.View>
@@ -122,11 +133,11 @@ export function PressScale({
       aria-checked={rest['aria-checked'] ?? rest.accessibilityState?.checked}
       aria-selected={rest['aria-selected'] ?? rest.accessibilityState?.selected}
       aria-expanded={rest['aria-expanded'] ?? rest.accessibilityState?.expanded}
-      onPressIn={(e) => {
+      onPressIn={e => {
         spring(v, scaleTo);
         rest.onPressIn?.(e);
       }}
-      onPressOut={(e) => {
+      onPressOut={e => {
         spring(v, 1);
         rest.onPressOut?.(e);
       }}

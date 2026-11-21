@@ -18,7 +18,9 @@ type Props = {
 const SIZE = 44;
 
 export function RoundButton({ icon, iconWidth, iconHeight, variant, onPress, onLongPress, accessibilityLabel }: Props) {
-  const content = <Icon name={icon} width={iconWidth} height={iconHeight} color={variant === 'glass' ? colors.white : colors.black} />;
+  const content = (
+    <Icon name={icon} width={iconWidth} height={iconHeight} color={variant === 'glass' ? colors.white : colors.black} />
+  );
   return (
     <Pressable
       onPress={onPress}

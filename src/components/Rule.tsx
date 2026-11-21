@@ -15,7 +15,13 @@ import { Icon } from './Icon';
 export function SectionHeader({ title, right }: { title: string; right?: ReactNode }) {
   return (
     <View style={{ flexDirection: 'row', alignItems: 'center', height: 26, paddingHorizontal: 20 }}>
-      <Icon name="chevron-down-section" width={11} height={8} color={colors.section} style={{ marginLeft: -0.5, marginRight: 7.5 }} />
+      <Icon
+        name="chevron-down-section"
+        width={11}
+        height={8}
+        color={colors.section}
+        style={{ marginLeft: -0.5, marginRight: 7.5 }}
+      />
       <T size={20} color={colors.section} style={{ flex: 1 }}>
         {title}
       </T>
@@ -28,7 +34,8 @@ export function Streak({ count }: { count: number }) {
   const app = useAppState();
   if (!app.interfaceSettings.streak || !count) return <View style={{ height: 23.333 }} />;
   return (
-    <View accessibilityLabel={`Серия: ${count}`}
+    <View
+      accessibilityLabel={`Серия: ${count}`}
       style={{
         flexDirection: 'row',
         alignItems: 'center',
@@ -48,7 +55,15 @@ export function Streak({ count }: { count: number }) {
   );
 }
 
-export function RuleCard({ children, style, onPress }: { children: ReactNode; style?: StyleProp<ViewStyle>; onPress?: () => void }) {
+export function RuleCard({
+  children,
+  style,
+  onPress,
+}: {
+  children: ReactNode;
+  style?: StyleProp<ViewStyle>;
+  onPress?: () => void;
+}) {
   return (
     <Pressable
       onPress={onPress}
@@ -68,10 +83,43 @@ export function RuleCard({ children, style, onPress }: { children: ReactNode; st
 }
 
 // Шапка карточки правила: эмодзи, название, серия, шеврон.
-export function RuleHeader({ emoji, title, streak, onPress, accessibilityLabel }: { emoji: ReactNode; title: string; streak: number; onPress?: () => void; accessibilityLabel?: string }) {
-  const content = <><View style={{ width: 27.7 }}>{emoji}</View><T size={17} style={{ flex: 1 }}>{title}</T><Streak count={streak} /><Icon name="chevron-right" width={8} height={11} color={colors.chevron} style={{ marginLeft: 9 }} /></>;
+export function RuleHeader({
+  emoji,
+  title,
+  streak,
+  onPress,
+  accessibilityLabel,
+}: {
+  emoji: ReactNode;
+  title: string;
+  streak: number;
+  onPress?: () => void;
+  accessibilityLabel?: string;
+}) {
+  const content = (
+    <>
+      <View style={{ width: 27.7 }}>{emoji}</View>
+      <T size={17} style={{ flex: 1 }}>
+        {title}
+      </T>
+      <Streak count={streak} />
+      <Icon name="chevron-right" width={8} height={11} color={colors.chevron} style={{ marginLeft: 9 }} />
+    </>
+  );
   const style = { flexDirection: 'row' as const, alignItems: 'center' as const, height: 33 };
-  return onPress ? <PressScale accessibilityRole="button" hitSlop={{ top: 6, bottom: 6 }} accessibilityLabel={accessibilityLabel ?? `Подробности сессии ${title}`} onPress={onPress} style={style}>{content}</PressScale> : <View style={style}>{content}</View>;
+  return onPress ? (
+    <PressScale
+      accessibilityRole="button"
+      hitSlop={{ top: 6, bottom: 6 }}
+      accessibilityLabel={accessibilityLabel ?? `Подробности сессии ${title}`}
+      onPress={onPress}
+      style={style}
+    >
+      {content}
+    </PressScale>
+  ) : (
+    <View style={style}>{content}</View>
+  );
 }
 
 export function PlusCircle({ tone = 'light' }: { tone?: 'light' | 'hint' }) {
@@ -94,11 +142,23 @@ export function PlusCircle({ tone = 'light' }: { tone?: 'light' | 'hint' }) {
 // Пунктирная подсказка «Напр., …» под карточкой.
 export function HintPill({ text, onPress }: { text: string; onPress: () => void }) {
   return (
-    <Pressable accessibilityRole="button" accessibilityLabel={text} onPress={onPress} style={{ alignSelf: 'center', marginTop: 14.5 }}>
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={text}
+      onPress={onPress}
+      style={{ alignSelf: 'center', marginTop: 14.5 }}
+    >
       <DashedBox
         radius={20.75}
         color={colors.dashHint}
-        style={{ width: 297.333, height: 41.5, flexDirection: 'row', alignItems: 'center', paddingLeft: 13.5, paddingRight: 13 }}
+        style={{
+          width: 297.333,
+          height: 41.5,
+          flexDirection: 'row',
+          alignItems: 'center',
+          paddingLeft: 13.5,
+          paddingRight: 13,
+        }}
       >
         <T size={14} weight={500} color={colors.hint} style={{ flex: 1 }} numberOfLines={1}>
           {text}
@@ -136,7 +196,18 @@ export function AppsCount({ count }: { count: number }) {
 }
 
 export function MetaSep() {
-  return <View style={{ width: 2, height: 8, borderRadius: 1, backgroundColor: colors.metaSep, marginLeft: 7.333, marginRight: 7.833 }} />;
+  return (
+    <View
+      style={{
+        width: 2,
+        height: 8,
+        borderRadius: 1,
+        backgroundColor: colors.metaSep,
+        marginLeft: 7.333,
+        marginRight: 7.833,
+      }}
+    />
+  );
 }
 
 // Круговой индикатор «Весь день» (stroke-dasharray 6/94 от -100°).
