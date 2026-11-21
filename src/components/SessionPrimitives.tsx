@@ -45,13 +45,15 @@ export function SessionApps({
   if (reverse) items.reverse();
   const large = size === 'large';
   const setup = size === 'setup';
+  // Подложка по числу иконок: размеры макета (100 и 54) — для трёх, у меньшего числа нет пустого хвоста.
+  const missing = 3 - Math.min(3, Math.max(1, items.length));
   return (
     <View
       style={[
         styles.apps,
         bare && { width: 45, height: 21, backgroundColor: p.whiteFade },
-        large && { width: 100, height: 44, backgroundColor: p.whiteFade },
-        setup && { width: 54, height: 26, backgroundColor: p.whiteFade },
+        large && { width: 100 - missing * 28, height: 44, backgroundColor: p.whiteFade },
+        setup && { width: 54 - missing * 15.12, height: 26, backgroundColor: p.whiteFade },
         style,
       ]}
       accessibilityLabel={
