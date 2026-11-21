@@ -9,7 +9,7 @@ export default function TabsLayout() {
   const { onboardingCompleted } = useAppState();
   if (!onboardingCompleted) return <Redirect href="/onboarding" />;
   return (
-    <Tabs tabBar={(props) => <TabBar {...props} />} screenOptions={{ headerShown: false, animation: 'shift' }}>
+    <Tabs tabBar={props => <TabBar {...props} />} screenOptions={{ headerShown: false, animation: 'shift' }}>
       <Tabs.Screen name="index" />
       <Tabs.Screen name="rules" />
       <Tabs.Screen name="overview" />
