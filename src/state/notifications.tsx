@@ -17,7 +17,12 @@ const Notifications: typeof NotificationsModule = supported ? require('expo-noti
 
 if (supported) {
   Notifications.setNotificationHandler({
-    handleNotification: async () => ({ shouldShowBanner: true, shouldShowList: true, shouldPlaySound: false, shouldSetBadge: false }),
+    handleNotification: async () => ({
+      shouldShowBanner: true,
+      shouldShowList: true,
+      shouldPlaySound: false,
+      shouldSetBadge: false,
+    }),
   });
 }
 
@@ -34,15 +39,24 @@ async function readPermission(): Promise<NotificationPermission> {
 /** Состояние разрешения для экрана настроек: обновляется при возврате из Настроек iOS. */
 export function useNotificationPermission() {
   const [permission, setPermission] = useState<NotificationPermission>(supported ? 'unknown' : 'unsupported');
-  const refresh = useCallback(() => { readPermission().then(setPermission).catch(() => setPermission('unsupported')); }, []);
+  const refresh = useCallback(() => {
+    readPermission()
+      .then(setPermission)
+      .catch(() => setPermission('unsupported'));
+  }, []);
   useEffect(() => {
     refresh();
-    const sub = RNAppState.addEventListener('change', state => { if (state === 'active') refresh(); });
+    const sub = RNAppState.addEventListener('change', state => {
+      if (state === 'active') refresh();
+    });
     return () => sub.remove();
   }, [refresh]);
   const request = useCallback(async () => {
     if (!supported) return;
-    if (permission === 'blocked') { await Linking.openSettings(); return; }
+    if (permission === 'blocked') {
+      await Linking.openSettings();
+      return;
+    }
     await Notifications.requestPermissionsAsync();
     refresh();
   }, [permission, refresh]);
@@ -51,20 +65,52 @@ export function useNotificationPermission() {
 
 function trigger(item: PlannedNotification): NotificationsModule.NotificationTriggerInput {
   const t = item.trigger;
-  if (t.kind === 'daily') return { type: Notifications.SchedulableTriggerInputTypes.DAILY, hour: t.hour, minute: t.minute };
-  if (t.kind === 'weekly') return { type: Notifications.SchedulableTriggerInputTypes.WEEKLY, weekday: t.weekday, hour: t.hour, minute: t.minute };
+  if (t.kind === 'daily')
+    return { type: Notifications.SchedulableTriggerInputTypes.DAILY, hour: t.hour, minute: t.minute };
+  if (t.kind === 'weekly')
+    return {
+      type: Notifications.SchedulableTriggerInputTypes.WEEKLY,
+      weekday: t.weekday,
+      hour: t.hour,
+      minute: t.minute,
+    };
   return { type: Notifications.SchedulableTriggerInputTypes.DATE, date: t.at };
 }
 
 /** Пересоздаёт уведомления screen-time-blocker при каждом изменении плана; чужие уведомления не трогает. */
 export function NotificationSync() {
   const app = useAppState();
-  const unlockNames = useMemo(() => Object.fromEntries([...app.createdLocks, ...rulesVariants[app.rulesVariant].locks].map(rule => [rule.id, rule.name])), [app.createdLocks, app.rulesVariant]);
-  const titles = useMemo(() => Object.fromEntries(Object.entries(app.ruleChanges).map(([id, change]) => [id, change.title])), [app.ruleChanges]);
+  const unlockNames = useMemo(
+    () =>
+      Object.fromEntries(
+        [...app.createdLocks, ...rulesVariants[app.rulesVariant].locks].map(rule => [rule.id, rule.name]),
+      ),
+    [app.createdLocks, app.rulesVariant],
+  );
+  const titles = useMemo(
+    () => Object.fromEntries(Object.entries(app.ruleChanges).map(([id, change]) => [id, change.title])),
+    [app.ruleChanges],
+  );
   // Минута как часы плана: прошедшие одноразовые события отпадают сами.
   const [minute, setMinute] = useState(() => Math.floor(Date.now() / 60000));
-  useEffect(() => { if (!supported) return; const id = setInterval(() => setMinute(Math.floor(Date.now() / 60000)), 60000); return () => clearInterval(id); }, []);
-  const plan = useMemo(() => plannedNotifications({ notifications: app.notifications, sessions: app.createdSessions, titles, paused: app.pausedSessions, unlocks: app.appUnlocks, unlockNames, now: minute * 60000 }), [app.notifications, app.createdSessions, titles, app.pausedSessions, app.appUnlocks, unlockNames, minute]);
+  useEffect(() => {
+    if (!supported) return;
+    const id = setInterval(() => setMinute(Math.floor(Date.now() / 60000)), 60000);
+    return () => clearInterval(id);
+  }, []);
+  const plan = useMemo(
+    () =>
+      plannedNotifications({
+        notifications: app.notifications,
+        sessions: app.createdSessions,
+        titles,
+        paused: app.pausedSessions,
+        unlocks: app.appUnlocks,
+        unlockNames,
+        now: minute * 60000,
+      }),
+    [app.notifications, app.createdSessions, titles, app.pausedSessions, app.appUnlocks, unlockNames, minute],
+  );
   const signature = JSON.stringify(plan);
   const applied = useRef<string | null>(null);
   useEffect(() => {
@@ -74,17 +120,32 @@ export function NotificationSync() {
       try {
         let permission = await readPermission();
         // Первый запрос — в контексте: когда появилось первое событие, о котором стоит напомнить.
-        if (permission === 'unknown' && plan.length) { await Notifications.requestPermissionsAsync(); permission = await readPermission(); }
+        if (permission === 'unknown' && plan.length) {
+          await Notifications.requestPermissionsAsync();
+          permission = await readPermission();
+        }
         const existing = await Notifications.getAllScheduledNotificationsAsync();
-        await Promise.all(existing.filter(n => n.identifier.startsWith(PREFIX)).map(n => Notifications.cancelScheduledNotificationAsync(n.identifier)));
+        await Promise.all(
+          existing
+            .filter(n => n.identifier.startsWith(PREFIX))
+            .map(n => Notifications.cancelScheduledNotificationAsync(n.identifier)),
+        );
         if (cancelled || permission !== 'granted') return;
-        for (const item of plan) await Notifications.scheduleNotificationAsync({ identifier: item.id, content: { title: item.title, body: item.body, data: { route: item.route } }, trigger: trigger(item) });
+        for (const item of plan)
+          await Notifications.scheduleNotificationAsync({
+            identifier: item.id,
+            content: { title: item.title, body: item.body, data: { route: item.route } },
+            trigger: trigger(item),
+          });
         applied.current = signature;
       } catch {
         // Ошибка ОС не должна ронять приложение; следующий пересчёт плана повторит попытку.
       }
     }, 600);
-    return () => { cancelled = true; clearTimeout(id); };
+    return () => {
+      cancelled = true;
+      clearTimeout(id);
+    };
   }, [signature, plan]);
   // Нажатие на уведомление открывает нужный раздел.
   useEffect(() => {
@@ -93,7 +154,9 @@ export function NotificationSync() {
       const route = response?.notification.request.content.data?.route;
       if (typeof route === 'string') router.navigate(route as never);
     };
-    Notifications.getLastNotificationResponseAsync().then(open).catch(() => {});
+    Notifications.getLastNotificationResponseAsync()
+      .then(open)
+      .catch(() => {});
     const sub = Notifications.addNotificationResponseReceivedListener(open);
     return () => sub.remove();
   }, []);

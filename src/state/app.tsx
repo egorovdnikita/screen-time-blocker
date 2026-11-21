@@ -16,12 +16,22 @@ import { clearSnapshot, decodeSnapshot, encodeSnapshot, loadSnapshot, saveSnapsh
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 
 import type { LimitRule, LockRule, RoutineRule, SessionRule, RuleDetailChanges } from '@/data/rules';
-import { dayActive, dayFirst, dayJune24, dayLive, dayToday, dayTodayRefreshed, dayYesterday, type Day } from '@/data/home';
+import {
+  dayActive,
+  dayFirst,
+  dayJune24,
+  dayLive,
+  dayToday,
+  dayTodayRefreshed,
+  dayYesterday,
+  type Day,
+} from '@/data/home';
 
 // Сценарии показывают все состояния из макетов. Переключаются в меню разработчика
 // (долгое нажатие на «⋯», только при __DEV__). Реальный пользователь живёт в live-режиме.
 export type Scenario = 'regular' | 'active' | 'firstRun';
-export type RulesVariant = 'onboarding' | 'strict' | 'full' | 'sessions' | 'locks' | 'limits' | 'limitProgress' | 'first' | 'reason';
+export type RulesVariant =
+  'onboarding' | 'strict' | 'full' | 'sessions' | 'locks' | 'limits' | 'limitProgress' | 'first' | 'reason';
 export type PeriodId = 'today' | 'yesterday' | 'june-24';
 export type OnboardingStep = 'tip-first-rule' | 'tip-add-more' | 'done';
 
@@ -159,8 +169,14 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const [onboardingDraft, setOnboardingDraft] = useState(() => initialOnboarding());
   const [profileName, setProfileName] = useState('Саша');
   const [startedAt, setStartedAt] = useState<number | null>(null);
-  const startOnboarding = useCallback((step = 0) => setOnboardingDraft(previous => step === 18 ? { ...previous, step } : initialOnboarding(step)), []);
-  const patchOnboarding = useCallback((patch: Partial<OnboardingDraft>) => setOnboardingDraft(value => ({ ...value, ...patch })), []);
+  const startOnboarding = useCallback(
+    (step = 0) => setOnboardingDraft(previous => (step === 18 ? { ...previous, step } : initialOnboarding(step))),
+    [],
+  );
+  const patchOnboarding = useCallback(
+    (patch: Partial<OnboardingDraft>) => setOnboardingDraft(value => ({ ...value, ...patch })),
+    [],
+  );
   const [emergencySettings, saveEmergencySettings] = useState(initialEmergencySettings);
   const [appIcon, setAppIcon] = useState<AppIconId>('original');
   const [notifications, setNotifications] = useState(initialNotifications);
@@ -181,14 +197,20 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const [dailyGoalEnabled, setDailyGoalEnabled] = useState(true);
   const [dailyGoalMinutes, setDailyGoalMinutes] = useState<number | null>(null);
   const [reflectionTouchedDays, setReflectionTouchedDays] = useState<string[]>([]);
-  const touchReflectionDay = (dayId: string) => setReflectionTouchedDays(xs => [...new Set([...xs, reflectionKey(dayId, '')])]);
+  const touchReflectionDay = (dayId: string) =>
+    setReflectionTouchedDays(xs => [...new Set([...xs, reflectionKey(dayId, '')])]);
   const [reflections, setReflections] = useState<Record<string, Reflection>>({});
   const [reflectionDefaults, setReflectionDefaults] = useState<Record<string, Reflection>>({});
   const [reflectionExcluded, setReflectionExcludedRaw] = useState<string[]>([]);
   const [customHabits, setCustomHabits] = useState<Habit[]>([]);
   const [sessionNotice, setSessionNotice] = useState<string | null>(null);
   const noticeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  useEffect(() => () => { if (noticeTimer.current) clearTimeout(noticeTimer.current); }, []);
+  useEffect(
+    () => () => {
+      if (noticeTimer.current) clearTimeout(noticeTimer.current);
+    },
+    [],
+  );
   const [createdRoutines, setCreatedRoutines] = useState<RoutineRule[]>([]);
   const [savedRoutineTemplates, setSavedRoutineTemplates] = useState<RoutineRule[]>([]);
   const [savedLimitTemplates, setSavedLimitTemplates] = useState<LimitRule[]>([]);
@@ -223,31 +245,79 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   // Постоянное хранение (APP-01): всё, что пользователь создал и настроил. Временные
   // значения (загрузка, тосты, выбранный период) не сохраняются.
   const persisted: Record<string, [unknown, (value: never) => void]> = {
-    onboardingDraft: [onboardingDraft, setOnboardingDraft], profileName: [profileName, setProfileName], startedAt: [startedAt, setStartedAt],
-    emergencySettings: [emergencySettings, saveEmergencySettings], appIcon: [appIcon, setAppIcon], notifications: [notifications, setNotifications],
-    interfaceSettings: [interfaceSettings, setInterfaceSettings], deletedRuleIds: [deletedRuleIds, setDeletedRuleIds], legacyLimits: [legacyLimits, setLegacyLimits],
-    troubleshooting: [troubleshooting, setTroubleshooting], ruleChanges: [ruleChanges, setRuleChanges], pausedSessions: [pausedSessions, setPausedSessions],
-    appUnlocks: [appUnlocks, setAppUnlocks], shareGuideSeen: [shareGuideSeen, setShareGuideSeen], estimatedMinutes: [estimatedMinutes, setEstimatedMinutes],
-    estimatedAccuracy: [estimatedAccuracy, setEstimatedAccuracy], reminders: [reminders, setReminders], remindersAcknowledged: [remindersAcknowledged, setRemindersAcknowledged],
-    customActivities: [customActivities, setCustomActivities], dailyGoals: [dailyGoals, setDailyGoals], dailyGoalEnabled: [dailyGoalEnabled, setDailyGoalEnabled],
-    dailyGoalMinutes: [dailyGoalMinutes, setDailyGoalMinutes], reflectionTouchedDays: [reflectionTouchedDays, setReflectionTouchedDays], reflections: [reflections, setReflections],
-    reflectionDefaults: [reflectionDefaults, setReflectionDefaults], reflectionExcluded: [reflectionExcluded, setReflectionExcludedRaw], customHabits: [customHabits, setCustomHabits],
-    createdRoutines: [createdRoutines, setCreatedRoutines], savedRoutineTemplates: [savedRoutineTemplates, setSavedRoutineTemplates], savedLimitTemplates: [savedLimitTemplates, setSavedLimitTemplates],
-    createdLimits: [createdLimits, setCreatedLimits], createdLocks: [createdLocks, setCreatedLocks], routineProgress: [routineProgress, setRoutineProgress], completedDays: [completedDays, setCompletedDays], createdSessions: [createdSessions, setCreatedSessions],
-    expertScreens: [expertScreens, setExpertScreens], alternativeScreens: [alternativeScreens, setAlternativeScreens], customBlockScreens: [customBlockScreens, setCustomBlockScreens],
-    namedGroups: [namedGroups, setNamedGroups], savedTemplates: [savedTemplates, setSavedTemplates], scenario: [scenario, setScenarioRaw], rulesVariant: [rulesVariant, setRulesVariant],
-    mostUsedMode: [mostUsedMode, setMostUsedMode], excluded: [excluded, setExcluded], productive: [productive, setProductive],
-    newStartVisible: [newStartVisible, setNewStartVisible], onboarding: [onboarding, setOnboarding], onboardingCompleted: [onboardingCompleted, setOnboardingCompleted], demoBackup: [demoBackup, setDemoBackup],
+    onboardingDraft: [onboardingDraft, setOnboardingDraft],
+    profileName: [profileName, setProfileName],
+    startedAt: [startedAt, setStartedAt],
+    emergencySettings: [emergencySettings, saveEmergencySettings],
+    appIcon: [appIcon, setAppIcon],
+    notifications: [notifications, setNotifications],
+    interfaceSettings: [interfaceSettings, setInterfaceSettings],
+    deletedRuleIds: [deletedRuleIds, setDeletedRuleIds],
+    legacyLimits: [legacyLimits, setLegacyLimits],
+    troubleshooting: [troubleshooting, setTroubleshooting],
+    ruleChanges: [ruleChanges, setRuleChanges],
+    pausedSessions: [pausedSessions, setPausedSessions],
+    appUnlocks: [appUnlocks, setAppUnlocks],
+    shareGuideSeen: [shareGuideSeen, setShareGuideSeen],
+    estimatedMinutes: [estimatedMinutes, setEstimatedMinutes],
+    estimatedAccuracy: [estimatedAccuracy, setEstimatedAccuracy],
+    reminders: [reminders, setReminders],
+    remindersAcknowledged: [remindersAcknowledged, setRemindersAcknowledged],
+    customActivities: [customActivities, setCustomActivities],
+    dailyGoals: [dailyGoals, setDailyGoals],
+    dailyGoalEnabled: [dailyGoalEnabled, setDailyGoalEnabled],
+    dailyGoalMinutes: [dailyGoalMinutes, setDailyGoalMinutes],
+    reflectionTouchedDays: [reflectionTouchedDays, setReflectionTouchedDays],
+    reflections: [reflections, setReflections],
+    reflectionDefaults: [reflectionDefaults, setReflectionDefaults],
+    reflectionExcluded: [reflectionExcluded, setReflectionExcludedRaw],
+    customHabits: [customHabits, setCustomHabits],
+    createdRoutines: [createdRoutines, setCreatedRoutines],
+    savedRoutineTemplates: [savedRoutineTemplates, setSavedRoutineTemplates],
+    savedLimitTemplates: [savedLimitTemplates, setSavedLimitTemplates],
+    createdLimits: [createdLimits, setCreatedLimits],
+    createdLocks: [createdLocks, setCreatedLocks],
+    routineProgress: [routineProgress, setRoutineProgress],
+    completedDays: [completedDays, setCompletedDays],
+    createdSessions: [createdSessions, setCreatedSessions],
+    expertScreens: [expertScreens, setExpertScreens],
+    alternativeScreens: [alternativeScreens, setAlternativeScreens],
+    customBlockScreens: [customBlockScreens, setCustomBlockScreens],
+    namedGroups: [namedGroups, setNamedGroups],
+    savedTemplates: [savedTemplates, setSavedTemplates],
+    scenario: [scenario, setScenarioRaw],
+    rulesVariant: [rulesVariant, setRulesVariant],
+    mostUsedMode: [mostUsedMode, setMostUsedMode],
+    excluded: [excluded, setExcluded],
+    productive: [productive, setProductive],
+    newStartVisible: [newStartVisible, setNewStartVisible],
+    onboarding: [onboarding, setOnboarding],
+    onboardingCompleted: [onboardingCompleted, setOnboardingCompleted],
+    demoBackup: [demoBackup, setDemoBackup],
   };
   // APP-06: живой статус созданных сессий; тикаем, только если есть сессии с расписанием.
   const [tick, setTick] = useState(0);
   const hasSchedules = createdSessions.some(x => x.schedule);
-  useEffect(() => { if (!hasSchedules) return; const id = setInterval(() => setTick(t => t + 1), 15000); return () => clearInterval(id); }, [hasSchedules]);
+  useEffect(() => {
+    if (!hasSchedules) return;
+    const id = setInterval(() => setTick(t => t + 1), 15000);
+    return () => clearInterval(id);
+  }, [hasSchedules]);
   // eslint-disable-next-line react-hooks/exhaustive-deps -- tick перезапускает расчёт по часам
-  const liveSessions = useMemo(() => { const now = new Date(); return createdSessions.map(x => liveSession(x, now)); }, [createdSessions, tick]);
-  const [storage, setStorage] = useState({ loaded: memoryOnly, readError: false, writeError: false, restoredBackup: false });
+  const liveSessions = useMemo(() => {
+    const now = new Date();
+    return createdSessions.map(x => liveSession(x, now));
+  }, [createdSessions, tick]);
+  const [storage, setStorage] = useState({
+    loaded: memoryOnly,
+    readError: false,
+    writeError: false,
+    restoredBackup: false,
+  });
   const persistedRef = useRef(persisted);
-  useEffect(() => { persistedRef.current = persisted; });
+  useEffect(() => {
+    persistedRef.current = persisted;
+  });
   useEffect(() => {
     if (memoryOnly) return;
     let alive = true;
@@ -259,14 +329,25 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
         if (result.data.onboardingCompleted && !result.data.demoBackup) {
           if (!result.data.startedAt) setStartedAt(Date.now());
           // Старые версии сохраняли демо-вариант вместе с данными пользователя: чужие правила не показываем.
-          setScenarioRaw('firstRun'); setRulesVariant('onboarding');
+          setScenarioRaw('firstRun');
+          setRulesVariant('onboarding');
         }
       }
-      setStorage(s => ({ ...s, loaded: true, readError: result.status === 'error', restoredBackup: result.status === 'corrupt' }));
+      setStorage(s => ({
+        ...s,
+        loaded: true,
+        readError: result.status === 'error',
+        restoredBackup: result.status === 'corrupt',
+      }));
     });
-    return () => { alive = false; };
+    return () => {
+      alive = false;
+    };
   }, []);
-  const encoded = !memoryOnly && storage.loaded && !storage.readError ? encodeSnapshot(Object.fromEntries(Object.entries(persisted).map(([key, [value]]) => [key, value]))) : null;
+  const encoded =
+    !memoryOnly && storage.loaded && !storage.readError
+      ? encodeSnapshot(Object.fromEntries(Object.entries(persisted).map(([key, [value]]) => [key, value])))
+      : null;
   const lastSaved = useRef<string | null>(null);
   useEffect(() => {
     if (encoded === null || encoded === lastSaved.current) return;
@@ -274,8 +355,12 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       saveSnapshot(encoded).then(ok => {
         if (ok) lastSaved.current = encoded;
         // APP-25: ошибку записи не выдаём за успех — короткое сообщение и пометка в «Данных на устройстве».
-        else { if (noticeTimer.current) clearTimeout(noticeTimer.current); setSessionNotice('Не удалось сохранить изменения'); noticeTimer.current = setTimeout(() => setSessionNotice(null), 2800); }
-        setStorage(s => s.writeError === !ok ? s : { ...s, writeError: !ok });
+        else {
+          if (noticeTimer.current) clearTimeout(noticeTimer.current);
+          setSessionNotice('Не удалось сохранить изменения');
+          noticeTimer.current = setTimeout(() => setSessionNotice(null), 2800);
+        }
+        setStorage(s => (s.writeError === !ok ? s : { ...s, writeError: !ok }));
       });
     }, 250);
     return () => clearTimeout(id);
@@ -304,10 +389,17 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     setSavedTemplates([]);
     setNamedGroups([]);
     setLegacyLimits(false);
-    setOnboardingDraft(initialOnboarding()); setProfileName('Саша');
-    setAppIcon('original'); setNotifications(initialNotifications()); saveEmergencySettings(initialEmergencySettings()); setInterfaceSettings({ streak: true, special: false }); setDeletedRuleIds([]);
+    setOnboardingDraft(initialOnboarding());
+    setProfileName('Саша');
+    setAppIcon('original');
+    setNotifications(initialNotifications());
+    saveEmergencySettings(initialEmergencySettings());
+    setInterfaceSettings({ streak: true, special: false });
+    setDeletedRuleIds([]);
     setTroubleshooting({ hideIcons: false, realTime: true });
-    setExpertScreens(false); setAlternativeScreens(false); setCustomBlockScreens([]);
+    setExpertScreens(false);
+    setAlternativeScreens(false);
+    setCustomBlockScreens([]);
     setScenarioRaw(s);
     setPeriod('today');
     setRefreshed(false);
@@ -315,28 +407,51 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     setMostUsedMode('apps');
     setExcluded([]);
     setProductive([]);
-    setRuleChanges({}); setPausedSessions({});
+    setRuleChanges({});
+    setPausedSessions({});
     setAppUnlocks({});
     setShareGuideSeen(false);
-    setEstimatedMinutes(125); setEstimatedAccuracy(false);
-    setReminders(initialReminders()); setRemindersAcknowledged(false);
-    setCustomActivities([]); setDailyGoalMinutes(null); setDailyGoals(null); setDailyGoalEnabled(true);
-    setReflectionTouchedDays([]); setRoutineProgress({}); setCompletedDays({}); setStartedAt(null);
-    setReflections({}); setReflectionDefaults({}); setReflectionExcludedRaw([]);
+    setEstimatedMinutes(125);
+    setEstimatedAccuracy(false);
+    setReminders(initialReminders());
+    setRemindersAcknowledged(false);
+    setCustomActivities([]);
+    setDailyGoalMinutes(null);
+    setDailyGoals(null);
+    setDailyGoalEnabled(true);
+    setReflectionTouchedDays([]);
+    setRoutineProgress({});
+    setCompletedDays({});
+    setStartedAt(null);
+    setReflections({});
+    setReflectionDefaults({});
+    setReflectionExcludedRaw([]);
     setNewStartVisible(s === 'firstRun');
     setOnboarding(s === 'firstRun' ? 'tip-first-rule' : 'done');
     setRulesVariant(s === 'firstRun' ? 'first' : 'full');
   }, []);
 
   const startDemo = (s: Scenario) => {
-    const backup = memoryOnly ? null : demoBackup ?? encodeSnapshot(Object.fromEntries(Object.entries(persisted).filter(([key]) => key !== 'demoBackup').map(([key, [value]]) => [key, value])));
+    const backup = memoryOnly
+      ? null
+      : (demoBackup ??
+        encodeSnapshot(
+          Object.fromEntries(
+            Object.entries(persisted)
+              .filter(([key]) => key !== 'demoBackup')
+              .map(([key, [value]]) => [key, value]),
+          ),
+        ));
     setScenario(s);
     setDemoBackup(backup);
   };
   const leaveDemo = () => {
     const data = demoBackup === null ? null : decodeSnapshot(demoBackup);
     if (data) for (const [key, value] of Object.entries(data)) persistedRef.current[key]?.[1](value as never);
-    setDemoBackup(null); setPeriod('today'); setRefreshed(false); setLoading(false);
+    setDemoBackup(null);
+    setPeriod('today');
+    setRefreshed(false);
+    setLoading(false);
   };
 
   const baseDay = useMemo<Day>(() => {
@@ -349,65 +464,258 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   }, [live, period, scenario, refreshed]);
 
   const selectedGoal = dailyGoals?.[currentGoalDay(period)] ?? dailyGoalMinutes;
-  const day = useMemo(() => reflectedDay(selectedGoal === null && dailyGoalEnabled ? baseDay : { ...baseDay, goal: { ...baseDay.goal, enabled: dailyGoalEnabled, text: `${baseDay.goal.kind === 'check' ? 'В пределах' : 'Не больше'} ${goalTimeLabel(selectedGoal ?? 260)}` } }, reflections, reflectionExcluded, excluded, reflectionTouchedDays.includes(reflectionKey(baseDay.id, '')), activityCatalog(customActivities)), [baseDay, reflections, reflectionExcluded, excluded, reflectionTouchedDays, customActivities, selectedGoal, dailyGoalEnabled]);
+  const day = useMemo(
+    () =>
+      reflectedDay(
+        selectedGoal === null && dailyGoalEnabled
+          ? baseDay
+          : {
+              ...baseDay,
+              goal: {
+                ...baseDay.goal,
+                enabled: dailyGoalEnabled,
+                text: `${baseDay.goal.kind === 'check' ? 'В пределах' : 'Не больше'} ${goalTimeLabel(selectedGoal ?? 260)}`,
+              },
+            },
+        reflections,
+        reflectionExcluded,
+        excluded,
+        reflectionTouchedDays.includes(reflectionKey(baseDay.id, '')),
+        activityCatalog(customActivities),
+      ),
+    [
+      baseDay,
+      reflections,
+      reflectionExcluded,
+      excluded,
+      reflectionTouchedDays,
+      customActivities,
+      selectedGoal,
+      dailyGoalEnabled,
+    ],
+  );
 
-  const ruleNotice = () => { hapticResult('success'); if (noticeTimer.current) clearTimeout(noticeTimer.current); setSessionNotice('Изменения сохранены'); noticeTimer.current = setTimeout(() => setSessionNotice(null), 2800); };
+  const ruleNotice = () => {
+    hapticResult('success');
+    if (noticeTimer.current) clearTimeout(noticeTimer.current);
+    setSessionNotice('Изменения сохранены');
+    noticeTimer.current = setTimeout(() => setSessionNotice(null), 2800);
+  };
   const value: AppState = {
-    live, demoActive: demoBackup !== null, startDemo, leaveDemo,
-    startDemoRules: variant => { if (live) startDemo('regular'); setRulesVariant(variant); setAppUnlocks({}); },
-    storage, onboardingCompleted, startedAt, completeOnboarding: () => { setOnboardingCompleted(true); if (!memoryOnly) setStartedAt(value => value ?? Date.now()); },
+    live,
+    demoActive: demoBackup !== null,
+    startDemo,
+    leaveDemo,
+    startDemoRules: variant => {
+      if (live) startDemo('regular');
+      setRulesVariant(variant);
+      setAppUnlocks({});
+    },
+    storage,
+    onboardingCompleted,
+    startedAt,
+    completeOnboarding: () => {
+      setOnboardingCompleted(true);
+      if (!memoryOnly) setStartedAt(value => value ?? Date.now());
+    },
     resetLocalData: async () => {
       const ok = await clearSnapshot();
-      if (ok) { lastSaved.current = null; setDemoBackup(null); setScenario('firstRun'); startOnboarding(0); setOnboardingCompleted(memoryOnly); setStorage(s => ({ ...s, readError: false, writeError: false, restoredBackup: false })); }
+      if (ok) {
+        lastSaved.current = null;
+        setDemoBackup(null);
+        setScenario('firstRun');
+        startOnboarding(0);
+        setOnboardingCompleted(memoryOnly);
+        setStorage(s => ({ ...s, readError: false, writeError: false, restoredBackup: false }));
+      }
       return ok;
     },
-    onboardingDraft, startOnboarding, patchOnboarding, profileName, setProfileName,
-    appIcon, setAppIcon, notifications, setNotifications, emergencySettings, saveEmergencySettings, interfaceSettings, setInterfaceSettings, deletedRuleIds,
+    onboardingDraft,
+    startOnboarding,
+    patchOnboarding,
+    profileName,
+    setProfileName,
+    appIcon,
+    setAppIcon,
+    notifications,
+    setNotifications,
+    emergencySettings,
+    saveEmergencySettings,
+    interfaceSettings,
+    setInterfaceSettings,
+    deletedRuleIds,
     deleteRule: id => {
       hapticResult('warning');
       // Созданные правила удаляются из хранилища целиком, демо-правила скрываются по id.
-      setDeletedRuleIds(xs => xs.includes(id) ? xs : [...xs, id]);
-      setCreatedSessions(xs => xs.filter(x => x.id !== id)); setCreatedLimits(xs => xs.filter(x => x.id !== id));
-      setCreatedLocks(xs => xs.filter(x => x.id !== id)); setCreatedRoutines(xs => xs.filter(x => x.id !== id));
-      const without = <V,>(xs: Record<string, V>) => { if (!(id in xs)) return xs; const next = { ...xs }; delete next[id]; return next; };
-      setRuleChanges(without); setPausedSessions(without); setAppUnlocks(without); setRoutineProgress(without);
-      if (noticeTimer.current) clearTimeout(noticeTimer.current); setSessionNotice('Правило удалено'); noticeTimer.current = setTimeout(() => setSessionNotice(null), 2800);
+      setDeletedRuleIds(xs => (xs.includes(id) ? xs : [...xs, id]));
+      setCreatedSessions(xs => xs.filter(x => x.id !== id));
+      setCreatedLimits(xs => xs.filter(x => x.id !== id));
+      setCreatedLocks(xs => xs.filter(x => x.id !== id));
+      setCreatedRoutines(xs => xs.filter(x => x.id !== id));
+      const without = <V,>(xs: Record<string, V>) => {
+        if (!(id in xs)) return xs;
+        const next = { ...xs };
+        delete next[id];
+        return next;
+      };
+      setRuleChanges(without);
+      setPausedSessions(without);
+      setAppUnlocks(without);
+      setRoutineProgress(without);
+      if (noticeTimer.current) clearTimeout(noticeTimer.current);
+      setSessionNotice('Правило удалено');
+      noticeTimer.current = setTimeout(() => setSessionNotice(null), 2800);
     },
-    showRuleRefreshDemo: () => { if (noticeTimer.current) clearTimeout(noticeTimer.current); setSessionNotice('Обновляем данные. Это может занять\nнесколько минут.'); noticeTimer.current = setTimeout(() => setSessionNotice(null), 4000); },
-    ruleChanges, saveRuleDetails: (id, changes) => { setRuleChanges(xs => ({ ...xs, [id]: { ...changes, strictSettings: { ...changes.strictSettings } } })); ruleNotice(); },
-    pausedSessions, pauseSession: (id, mode) => { setPausedSessions(xs => ({ ...xs, [id]: mode })); ruleNotice(); },
-    resumeSession: id => { setPausedSessions(xs => { const next = { ...xs }; delete next[id]; return next; }); ruleNotice(); },
-    appUnlocks, grantAppUnlock: (id, minutes, reason, showNotice) => {
+    showRuleRefreshDemo: () => {
+      if (noticeTimer.current) clearTimeout(noticeTimer.current);
+      setSessionNotice('Обновляем данные. Это может занять\nнесколько минут.');
+      noticeTimer.current = setTimeout(() => setSessionNotice(null), 4000);
+    },
+    ruleChanges,
+    saveRuleDetails: (id, changes) => {
+      setRuleChanges(xs => ({ ...xs, [id]: { ...changes, strictSettings: { ...changes.strictSettings } } }));
+      ruleNotice();
+    },
+    pausedSessions,
+    pauseSession: (id, mode) => {
+      setPausedSessions(xs => ({ ...xs, [id]: mode }));
+      ruleNotice();
+    },
+    resumeSession: id => {
+      setPausedSessions(xs => {
+        const next = { ...xs };
+        delete next[id];
+        return next;
+      });
+      ruleNotice();
+    },
+    appUnlocks,
+    grantAppUnlock: (id, minutes, reason, showNotice) => {
       hapticResult('success');
-      setAppUnlocks(xs => { const now = Date.now(); return { ...xs, [id]: { until: now + Math.max(1, minutes) * 60000, used: unlocksUsedToday(xs[id], now) + 1, reason, day: localDay(now) } }; });
-      if (showNotice) { if (noticeTimer.current) clearTimeout(noticeTimer.current); setSessionNotice(`Приложения откроются на ${minutes}мин.`); noticeTimer.current = setTimeout(() => setSessionNotice(null), 2800); }
+      setAppUnlocks(xs => {
+        const now = Date.now();
+        return {
+          ...xs,
+          [id]: {
+            until: now + Math.max(1, minutes) * 60000,
+            used: unlocksUsedToday(xs[id], now) + 1,
+            reason,
+            day: localDay(now),
+          },
+        };
+      });
+      if (showNotice) {
+        if (noticeTimer.current) clearTimeout(noticeTimer.current);
+        setSessionNotice(`Приложения откроются на ${minutes}мин.`);
+        noticeTimer.current = setTimeout(() => setSessionNotice(null), 2800);
+      }
     },
-    shareGuideSeen, markShareGuideSeen: () => setShareGuideSeen(true),
-    estimatedMinutes, estimatedAccuracy, refreshEstimatedDemo: () => { setEstimatedMinutes(value => value === 125 ? 110 : 125); setEstimatedAccuracy(true); },
-    reminders, remindersAcknowledged, saveReminders: value => { setReminders({ ...value }); setRemindersAcknowledged(true); },
-    customActivities, upsertActivity: activity => setCustomActivities(xs => [...xs.filter(item => item.id !== activity.id), { ...activity }]),
-    dailyGoalMinutes, dailyGoals, dailyGoalEnabled,
-    saveDailyGoals: days => { if (days.length !== 7) return; setDailyGoals(days.map(boundedGoal)); setDailyGoalEnabled(true); },
+    shareGuideSeen,
+    markShareGuideSeen: () => setShareGuideSeen(true),
+    estimatedMinutes,
+    estimatedAccuracy,
+    refreshEstimatedDemo: () => {
+      setEstimatedMinutes(value => (value === 125 ? 110 : 125));
+      setEstimatedAccuracy(true);
+    },
+    reminders,
+    remindersAcknowledged,
+    saveReminders: value => {
+      setReminders({ ...value });
+      setRemindersAcknowledged(true);
+    },
+    customActivities,
+    upsertActivity: activity =>
+      setCustomActivities(xs => [...xs.filter(item => item.id !== activity.id), { ...activity }]),
+    dailyGoalMinutes,
+    dailyGoals,
+    dailyGoalEnabled,
+    saveDailyGoals: days => {
+      if (days.length !== 7) return;
+      setDailyGoals(days.map(boundedGoal));
+      setDailyGoalEnabled(true);
+    },
     disableDailyGoal: () => setDailyGoalEnabled(false),
-    setDailyGoalMinutes: minutes => { const goal = boundedGoal(minutes); setDailyGoalMinutes(goal); setDailyGoals(Array(7).fill(goal)); setDailyGoalEnabled(true); },
-    reflections, reflectionDefaults, reflectionExcluded,
-    deleteReflection: (dayId, appId) => { touchReflectionDay(dayId); setReflections(xs => { const next = { ...xs }; delete next[reflectionKey(dayId, appId)]; return next; }); },
+    setDailyGoalMinutes: minutes => {
+      const goal = boundedGoal(minutes);
+      setDailyGoalMinutes(goal);
+      setDailyGoals(Array(7).fill(goal));
+      setDailyGoalEnabled(true);
+    },
+    reflections,
+    reflectionDefaults,
+    reflectionExcluded,
+    deleteReflection: (dayId, appId) => {
+      touchReflectionDay(dayId);
+      setReflections(xs => {
+        const next = { ...xs };
+        delete next[reflectionKey(dayId, appId)];
+        return next;
+      });
+    },
     saveReflection: (dayId, appId, value) => {
       touchReflectionDay(dayId);
       setReflections(xs => ({ ...xs, [reflectionKey(dayId, appId)]: { ...value } }));
-      setReflectionDefaults(xs => { const next = { ...xs }; if (value.always) next[appId] = { ...value }; else delete next[appId]; return next; });
+      setReflectionDefaults(xs => {
+        const next = { ...xs };
+        if (value.always) next[appId] = { ...value };
+        else delete next[appId];
+        return next;
+      });
     },
-    setReflectionExcluded: (dayId, appId, excluded) => { touchReflectionDay(dayId); const key = reflectionKey(dayId, appId); setReflectionExcludedRaw(xs => excluded ? [...new Set([...xs, key])] : xs.filter(x => x !== key)); },
-    customHabits, upsertHabit: habit => setCustomHabits(items => [...items.filter(h => h.id !== habit.id), { ...habit }]),
-    legacyLimits, setLegacyLimits,
-    troubleshooting, setTroubleshooting,
-    expertScreens, alternativeScreens, setExpertScreens, setAlternativeScreens, customBlockScreens,
-    saveBlockScreen: screen => setCustomBlockScreens(xs => xs.some(x => x.id === screen.id) ? xs.map(x => x.id === screen.id ? { ...screen } : x) : [...xs, { ...screen }]),
+    setReflectionExcluded: (dayId, appId, excluded) => {
+      touchReflectionDay(dayId);
+      const key = reflectionKey(dayId, appId);
+      setReflectionExcludedRaw(xs => (excluded ? [...new Set([...xs, key])] : xs.filter(x => x !== key)));
+    },
+    customHabits,
+    upsertHabit: habit => setCustomHabits(items => [...items.filter(h => h.id !== habit.id), { ...habit }]),
+    legacyLimits,
+    setLegacyLimits,
+    troubleshooting,
+    setTroubleshooting,
+    expertScreens,
+    alternativeScreens,
+    setExpertScreens,
+    setAlternativeScreens,
+    customBlockScreens,
+    saveBlockScreen: screen =>
+      setCustomBlockScreens(xs =>
+        xs.some(x => x.id === screen.id)
+          ? xs.map(x => (x.id === screen.id ? { ...screen } : x))
+          : [...xs, { ...screen }],
+      ),
     deleteBlockScreen: id => setCustomBlockScreens(xs => xs.filter(x => x.id !== id)),
-    namedGroups, saveNamedGroup: group => setNamedGroups(xs => xs.some(x => x.id === group.id) ? xs.map(x => x.id === group.id ? cloneNamedGroup(group) : x) : [...xs, cloneNamedGroup(group)]),
-    sessionNotice, createdSessions: liveSessions, savedTemplates, createdLocks, createdLimits, savedLimitTemplates, createdRoutines, savedRoutineTemplates,
-    updateSessionTemplate: (id, changes) => { setSavedTemplates(xs => xs.map(x => x.id === id ? { ...x, title: changes.title, strict: changes.strict, strictSettings: { ...changes.strictSettings } } : x)); },
-    deleteSessionTemplate: id => { setSavedTemplates(xs => xs.filter(x => x.id !== id)); if (noticeTimer.current) clearTimeout(noticeTimer.current); setSessionNotice('Шаблон удалён.'); noticeTimer.current = setTimeout(() => setSessionNotice(null), 2800); },
+    namedGroups,
+    saveNamedGroup: group =>
+      setNamedGroups(xs =>
+        xs.some(x => x.id === group.id)
+          ? xs.map(x => (x.id === group.id ? cloneNamedGroup(group) : x))
+          : [...xs, cloneNamedGroup(group)],
+      ),
+    sessionNotice,
+    createdSessions: liveSessions,
+    savedTemplates,
+    createdLocks,
+    createdLimits,
+    savedLimitTemplates,
+    createdRoutines,
+    savedRoutineTemplates,
+    updateSessionTemplate: (id, changes) => {
+      setSavedTemplates(xs =>
+        xs.map(x =>
+          x.id === id
+            ? { ...x, title: changes.title, strict: changes.strict, strictSettings: { ...changes.strictSettings } }
+            : x,
+        ),
+      );
+    },
+    deleteSessionTemplate: id => {
+      setSavedTemplates(xs => xs.filter(x => x.id !== id));
+      if (noticeTimer.current) clearTimeout(noticeTimer.current);
+      setSessionNotice('Шаблон удалён.');
+      noticeTimer.current = setTimeout(() => setSessionNotice(null), 2800);
+    },
     addRoutine: (rule, template = false) => {
       hapticResult('success');
       if (noticeTimer.current) clearTimeout(noticeTimer.current);
@@ -431,35 +739,82 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       noticeTimer.current = setTimeout(() => setSessionNotice(null), 2800);
       setCreatedLocks(xs => [rule, ...xs]);
     },
-    routineProgress, completedDays,
-    toggleRoutineTask: (ruleId, taskId) => setRoutineProgress(xs => {
-      const entry = routineProgressToday(xs[ruleId], Date.now());
-      if (entry.claimed) return xs;
-      return { ...xs, [ruleId]: { ...entry, done: entry.done.includes(taskId) ? entry.done.filter(id => id !== taskId) : [...entry.done, taskId] } };
-    }),
+    routineProgress,
+    completedDays,
+    toggleRoutineTask: (ruleId, taskId) =>
+      setRoutineProgress(xs => {
+        const entry = routineProgressToday(xs[ruleId], Date.now());
+        if (entry.claimed) return xs;
+        return {
+          ...xs,
+          [ruleId]: {
+            ...entry,
+            done: entry.done.includes(taskId) ? entry.done.filter(id => id !== taskId) : [...entry.done, taskId],
+          },
+        };
+      }),
     claimRoutineReward: (ruleId, minutes) => {
       if (routineProgressToday(routineProgress[ruleId], Date.now()).claimed) return;
-      setRoutineProgress(xs => ({ ...xs, [ruleId]: { ...routineProgressToday(xs[ruleId], Date.now()), claimed: true } }));
+      setRoutineProgress(xs => ({
+        ...xs,
+        [ruleId]: { ...routineProgressToday(xs[ruleId], Date.now()), claimed: true },
+      }));
       setCompletedDays(xs => ({ ...xs, [ruleId]: withDay(xs[ruleId], localDay(Date.now())) }));
-      setAppUnlocks(xs => { const now = Date.now(); return { ...xs, [ruleId]: { until: now + Math.max(1, minutes) * 60000, used: unlocksUsedToday(xs[ruleId], now), reason: '', day: localDay(now) } }; });
+      setAppUnlocks(xs => {
+        const now = Date.now();
+        return {
+          ...xs,
+          [ruleId]: {
+            until: now + Math.max(1, minutes) * 60000,
+            used: unlocksUsedToday(xs[ruleId], now),
+            reason: '',
+            day: localDay(now),
+          },
+        };
+      });
       hapticResult('success');
-      if (noticeTimer.current) clearTimeout(noticeTimer.current); setSessionNotice(`Приложения откроются на ${minutes}мин.`); noticeTimer.current = setTimeout(() => setSessionNotice(null), 2800);
+      if (noticeTimer.current) clearTimeout(noticeTimer.current);
+      setSessionNotice(`Приложения откроются на ${minutes}мин.`);
+      noticeTimer.current = setTimeout(() => setSessionNotice(null), 2800);
     },
-    updateLock: rule => { setCreatedLocks(xs => xs.map(x => x.id === rule.id ? rule : x)); ruleNotice(); },
-    updateRoutine: rule => { setCreatedRoutines(xs => xs.map(x => x.id === rule.id ? rule : x)); ruleNotice(); },
+    updateLock: rule => {
+      setCreatedLocks(xs => xs.map(x => (x.id === rule.id ? rule : x)));
+      ruleNotice();
+    },
+    updateRoutine: rule => {
+      setCreatedRoutines(xs => xs.map(x => (x.id === rule.id ? rule : x)));
+      ruleNotice();
+    },
     addSession: (session, template = false) => {
       hapticResult('success');
       if (noticeTimer.current) clearTimeout(noticeTimer.current);
-      setSessionNotice(template ? 'Шаблон создан!' : live ? 'Правило сохранено. Блокировка недоступна.' : session.status.kind === 'upcoming' ? 'Правило добавлено!' : 'Сессия началась!');
+      setSessionNotice(
+        template
+          ? 'Шаблон создан!'
+          : live
+            ? 'Правило сохранено. Блокировка недоступна.'
+            : session.status.kind === 'upcoming'
+              ? 'Правило добавлено!'
+              : 'Сессия началась!',
+      );
       noticeTimer.current = setTimeout(() => setSessionNotice(null), 2800);
       if (template) setSavedTemplates(xs => [session, ...xs]);
       // Сессия «сейчас» из шаблона начинается в момент запуска, а не в момент сохранения шаблона.
-      else setCreatedSessions(xs => [session.schedule?.kind === 'now' ? { ...session, schedule: { ...session.schedule, startedAt: Date.now() } } : session, ...xs]);
+      else
+        setCreatedSessions(xs => [
+          session.schedule?.kind === 'now'
+            ? { ...session, schedule: { ...session.schedule, startedAt: Date.now() } }
+            : session,
+          ...xs,
+        ]);
     },
     scenario,
     setScenario,
     rulesVariant,
-    setRulesVariant: variant => { setRulesVariant(variant); setAppUnlocks({}); },
+    setRulesVariant: variant => {
+      setRulesVariant(variant);
+      setAppUnlocks({});
+    },
     period,
     setPeriod,
     day,
@@ -468,16 +823,16 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     mostUsedMode,
     setMostUsedMode,
     excluded,
-    toggleExcluded: (id) => setExcluded((xs) => (xs.includes(id) ? xs.filter((x) => x !== id) : [...xs, id])),
+    toggleExcluded: id => setExcluded(xs => (xs.includes(id) ? xs.filter(x => x !== id) : [...xs, id])),
     productive,
-    markProductive: (id) => setProductive((xs) => (xs.includes(id) ? xs : [...xs, id])),
+    markProductive: id => setProductive(xs => (xs.includes(id) ? xs : [...xs, id])),
     newStartVisible,
     dismissNewStart: () => {
       setNewStartVisible(false);
       startLoading();
     },
     onboarding,
-    advanceOnboarding: () => setOnboarding((s) => (s === 'tip-first-rule' ? 'tip-add-more' : 'done')),
+    advanceOnboarding: () => setOnboarding(s => (s === 'tip-first-rule' ? 'tip-add-more' : 'done')),
   };
 
   // До чтения хранилища ничего не рисуем, чтобы не мигнули демо-данные и не сработал редирект.

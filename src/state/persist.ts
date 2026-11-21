@@ -21,12 +21,14 @@ const artRegistry = art as Record<string, unknown>;
 
 export function encodeSnapshot(data: Snapshot): string {
   return JSON.stringify({ version: STORAGE_VERSION, data }, (key, value) =>
-    IMAGE_KEYS.has(key) && artByAsset.has(value) ? { $art: artByAsset.get(value) } : value);
+    IMAGE_KEYS.has(key) && artByAsset.has(value) ? { $art: artByAsset.get(value) } : value,
+  );
 }
 
 export function decodeSnapshot(raw: string): Snapshot | null {
   const parsed = JSON.parse(raw, (_key, value) =>
-    value && typeof value === 'object' && typeof value.$art === 'string' ? artRegistry[value.$art] ?? null : value);
+    value && typeof value === 'object' && typeof value.$art === 'string' ? (artRegistry[value.$art] ?? null) : value,
+  );
   if (!parsed || typeof parsed !== 'object' || typeof parsed.data !== 'object' || parsed.data === null) return null;
   return migrate(parsed.version, parsed.data);
 }
@@ -46,7 +48,11 @@ export async function loadSnapshot(): Promise<LoadResult> {
   }
   if (raw === null) return { status: 'empty' };
   let data: Snapshot | null = null;
-  try { data = decodeSnapshot(raw); } catch { data = null; }
+  try {
+    data = decodeSnapshot(raw);
+  } catch {
+    data = null;
+  }
   if (data) return { status: 'ok', data };
   // Повреждённую или несовместимую запись не удаляем молча: переносим в резервный ключ.
   const backupKey = `${STORAGE_KEY}.backup-${Date.now()}`;
