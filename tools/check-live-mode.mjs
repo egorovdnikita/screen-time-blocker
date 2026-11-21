@@ -35,7 +35,7 @@ try{
   await b.click('Ошибки и проблемы');await wait(1000);t=await text();
   for(const fake of ['Другие настройки','Скрывать иконки','Учёт в реальном времени'])assert.ok(!t.includes(fake),'Решение проблем: '+fake);
   await b.nav('/rules');await wait(1200);t=await text();
-  assert.ok(t.includes('Рабочие часы')&&t.includes('9:00 – 17:00')&&t.includes('По будням'),'Карточка правила: '+t.slice(0,160));
+  assert.ok(t.includes('Рабочие часы')&&t.includes('8:00 – 17:00')&&t.includes('По будням'),'Карточка правила: '+t.slice(0,160));
   assert.ok(!t.includes('Apple Music'),'Правила: чужие демо-правила');
   assert.ok(!await b.ev(`!!document.querySelector('[aria-label^="Серия"]')`),'Серия у правила без данных');
   const before=await stored();assert.equal(before.createdSessions.length,1);
