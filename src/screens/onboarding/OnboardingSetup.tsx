@@ -21,6 +21,8 @@ import { T } from './OnboardingText';
 import { onboardingTheme as c } from '@/theme/tokens';
 import { OnboardingButton, OnboardingNav, OnboardingTitle } from './OnboardingPieces';
 import { SearchMic } from '@/components/SearchMic';
+import { SessionIcon } from '@/components/SessionIcon';
+import { initialSession } from '@/data/session';
 
 export function Commit({ onNext }: { onNext: () => void }) {
   const { live } = useAppState();
@@ -663,9 +665,14 @@ export function OnboardingSchedule({
           justifyContent: 'center',
         }}
       >
-        <T size={48} weight={400} ls={0} style={{ lineHeight: 51 }}>
-          💼
-        </T>
+        {/* Показываем иконку, которую получит правило; 💼 из макета в наборе иконок нет (аудит 2026-11-21). */}
+        {live ? (
+          <SessionIcon id={initialSession().iconId} width={48} />
+        ) : (
+          <T size={48} weight={400} ls={0} style={{ lineHeight: 51 }}>
+            💼
+          </T>
+        )}
       </View>
       <View style={{ marginTop: 15, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 12 }}>
         <T size={28} ls={-0.2} style={{ lineHeight: 34 }}>
