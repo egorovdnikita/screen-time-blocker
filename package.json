@@ -40,7 +40,8 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "format": "prettier --write src",
-    "format:check": "prettier --check src"
+    "format:check": "prettier --check src",
+    "test": "node tools/run-checks.mjs"
   },
   "private": true,
   "description": "Прототип настройки экранного времени с локальным хранением правил."
