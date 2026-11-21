@@ -19,6 +19,7 @@ const checks = [
   'check-rule-count.mjs',
   'check-sheet-scroll-events.mjs',
   'check-streak.mjs',
+  'check-scenario-reset.mjs',
   'check-session-schedule.mjs',
   'check-sheet-layout-animation.mjs',
   'check-status-bar.mjs',
