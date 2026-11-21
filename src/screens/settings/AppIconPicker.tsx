@@ -14,7 +14,6 @@ import { PressScale } from '@/components/motion';
 import { Icon } from '@/components/Icon';
 
 // Выбор хранится локально. Подтверждение ОС доступно только как отдельное демо311.
-const blackInk = '#000000'; // в HTML этих листов текст чистый чёрный
 
 export function AppIconPicker({ onClose, demoAlert = false }: { onClose: () => void; demoAlert?: boolean }) {
   const { width, height } = useWindowDimensions();
@@ -26,7 +25,7 @@ export function AppIconPicker({ onClose, demoAlert = false }: { onClose: () => v
     [alert, setAlert] = useState(false);
   return (
     <PlainSettingsSheet
-      ink={blackInk}
+      ink={colors.black}
       onShown={() => {
         if (demoAlert) setAlert(true);
       }}

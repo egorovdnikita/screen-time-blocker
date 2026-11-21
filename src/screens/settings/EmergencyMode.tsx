@@ -16,7 +16,6 @@ import { colors, emergencyTheme as c, modalTheme, settingsTheme } from '@/theme/
 import { T } from '@/theme/typography';
 
 type StrictRule = { id: string; title: string; strictSettings: RuleDetailChanges['strictSettings'] };
-const blackInk = '#000000'; // в HTML этих листов текст чистый чёрный
 
 export function EmergencyMode({ onClose }: { onClose: () => void }) {
   const app = useAppState();
@@ -30,7 +29,7 @@ export function EmergencyMode({ onClose }: { onClose: () => void }) {
     }
   };
   return (
-    <PlainSettingsSheet ink={blackInk} title="" onClose={onClose} surface={c.surface}>
+    <PlainSettingsSheet ink={colors.black} title="" onClose={onClose} surface={c.surface}>
       <PressScale
         accessibilityRole="button"
         accessibilityLabel="Настройки экстренного режима"
@@ -140,7 +139,7 @@ function EmergencySettings({ onClose }: { onClose: () => void }) {
     setChild('challenge');
   };
   return (
-    <PlainSettingsSheet ink={blackInk} title="" surface={c.surface} onClose={onClose}>
+    <PlainSettingsSheet ink={colors.black} title="" surface={c.surface} onClose={onClose}>
       {close => (
         <>
           <T size={20} center ls={0} style={{ position: 'absolute', top: 57, left: 70, right: 70, lineHeight: 24 }}>
@@ -301,7 +300,7 @@ function EmergencyRules({ onClose }: { onClose: () => void }) {
     x => !app.deletedRuleIds.includes(x.id) && (app.ruleChanges[x.id]?.strict ?? x.strict),
   );
   return (
-    <PlainSettingsSheet ink={blackInk} title="" surface={c.surface} onClose={onClose}>
+    <PlainSettingsSheet ink={colors.black} title="" surface={c.surface} onClose={onClose}>
       {close => (
         <>
           <View style={styles.ruleHeader}>

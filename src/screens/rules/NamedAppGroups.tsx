@@ -27,8 +27,6 @@ type Props = {
   renderEditor: (props: GroupEditorProps) => ReactNode;
 };
 
-const blackInk = '#000000'; // в HTML этих листов текст чистый чёрный
-
 export function NamedAppGroups({ onClose, onSelect, renderEditor }: Props) {
   const app = useAppState();
   const [editing, setEditing] = useState<NamedAppGroup | null>(null);
@@ -46,7 +44,7 @@ export function NamedAppGroups({ onClose, onSelect, renderEditor }: Props) {
     setEditing(item ?? newNamedGroup());
   };
   return (
-    <PlainSettingsSheet ink={blackInk} title="Группы приложений" top={69} onClose={onClose}>
+    <PlainSettingsSheet ink={colors.black} title="Группы приложений" top={69} onClose={onClose}>
       {close => (
         <>
           {!app.namedGroups.length ? (
