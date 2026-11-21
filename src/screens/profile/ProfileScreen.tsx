@@ -23,12 +23,13 @@ import { colors, insetBorder, radii, shadows, remainingTheme } from '@/theme/tok
 const SKY_RATIO = 2556 / 1179;
 
 export function ProfileScreen({ recap: recapProp = false }: { recap?: boolean }) {
-  const params = useLocalSearchParams<{recap?:string}>();
+  const params = useLocalSearchParams<{ recap?: string }>();
   const app = useAppState();
   const [now] = useState(Date.now);
   const started = app.startedAt;
   const recap = recapProp || params.recap === '1' || started !== null;
-  const days = started === null ? 1 : daysWithBlock(started, now), left = reportDaysLeft(days);
+  const days = started === null ? 1 : daysWithBlock(started, now),
+    left = reportDaysLeft(days);
   const waiting = left ? `Доступно через ${strictDaysLabel(left)}` : 'Доступно скоро';
   const [settings, setSettings] = useState(false);
   const insets = useSafeAreaInsets();
@@ -52,16 +53,40 @@ export function ProfileScreen({ recap: recapProp = false }: { recap?: boolean })
           <T variant="display" size={29} ls={0} color={colors.white} onSky style={{ marginTop: 3 }}>
             Профиль
           </T>
-          <RoundButton variant="glass" icon="ellipsis" iconWidth={20} iconHeight={7} accessibilityLabel="Настройки профиля" onPress={() => setSettings(true)} />
+          <RoundButton
+            variant="glass"
+            icon="ellipsis"
+            iconWidth={20}
+            iconHeight={7}
+            accessibilityLabel="Настройки профиля"
+            onPress={() => setSettings(true)}
+          />
         </View>
 
         <View style={styles.identity}>
           <View style={styles.avatar}>
             <T size={32} weight={800} ls={0} color={colors.avatarInk}>
-              {app.profileName.slice(0,2).toUpperCase()}
+              {app.profileName.slice(0, 2).toUpperCase()}
             </T>
           </View>
-          <Pressable style={styles.nameRow} accessibilityRole="button" accessibilityLabel="Изменить имя" disabled={Platform.OS !== 'ios'} accessibilityState={{ disabled: Platform.OS !== 'ios' }} onPress={() => Alert.prompt('Как к вам обращаться?', undefined, name => { if (name?.trim()) app.setProfileName(name.trim().slice(0, 40)); }, 'plain-text', app.profileName)}>
+          <Pressable
+            style={styles.nameRow}
+            accessibilityRole="button"
+            accessibilityLabel="Изменить имя"
+            disabled={Platform.OS !== 'ios'}
+            accessibilityState={{ disabled: Platform.OS !== 'ios' }}
+            onPress={() =>
+              Alert.prompt(
+                'Как к вам обращаться?',
+                undefined,
+                name => {
+                  if (name?.trim()) app.setProfileName(name.trim().slice(0, 40));
+                },
+                'plain-text',
+                app.profileName,
+              )
+            }
+          >
             <T size={24} color={colors.white} onSky>
               {app.profileName}
             </T>
@@ -70,48 +95,85 @@ export function ProfileScreen({ recap: recapProp = false }: { recap?: boolean })
         </View>
 
         <View style={styles.card}>
-          {recap ? <View accessibilityLabel={`Отчёт о прогрессе: ${waiting.toLowerCase()}`} style={{height:213,marginHorizontal:-20,marginTop:-22.5,overflow:'hidden',borderTopLeftRadius:40,borderTopRightRadius:40}}><LinearGradient colors={remainingTheme.recapGradient} style={StyleSheet.absoluteFill}/><T size={20} center color={remainingTheme.recap} ls={0} style={{marginTop:82,lineHeight:24}}>{'Что покажет о прогрессе\nваш отчёт?'}</T><T size={14} center color={remainingTheme.recapDate} ls={0} style={{marginTop:8,lineHeight:18}}>{waiting}</T></View> : <><View style={styles.tiles}>
-            <View style={[styles.tile, { backgroundColor: colors.nowBg, boxShadow: insetBorder(colors.nowBorder) }]}>
-              <View style={[styles.tpill, { backgroundColor: colors.nowPill }]}>
-                <T size={17} color={colors.now}>
-                  Стало
-                </T>
-              </View>
-              <View style={[styles.tileValue, { marginTop: 25 }]}>
-                <Icon name="arrow-down-circle-fill" width={27} color={colors.now} style={{ marginLeft: -1.4, marginRight: 2 }} />
-                <T size={28.5} ls={0}>
-                  {profile.nowMinutes}
-                </T>
-              </View>
-              <T size={13.75} ls={TRACK_SMALL} style={styles.tileSub}>
-                {profile.nowCaption}
+          {recap ? (
+            <View
+              accessibilityLabel={`Отчёт о прогрессе: ${waiting.toLowerCase()}`}
+              style={{
+                height: 213,
+                marginHorizontal: -20,
+                marginTop: -22.5,
+                overflow: 'hidden',
+                borderTopLeftRadius: 40,
+                borderTopRightRadius: 40,
+              }}
+            >
+              <LinearGradient colors={remainingTheme.recapGradient} style={StyleSheet.absoluteFill} />
+              <T size={20} center color={remainingTheme.recap} ls={0} style={{ marginTop: 82, lineHeight: 24 }}>
+                {'Что покажет о прогрессе\nваш отчёт?'}
+              </T>
+              <T size={14} center color={remainingTheme.recapDate} ls={0} style={{ marginTop: 8, lineHeight: 18 }}>
+                {waiting}
               </T>
             </View>
-            <View style={[styles.tile, { backgroundColor: colors.white, boxShadow: insetBorder(colors.beforeBorder) }]}>
-              <View style={[styles.tpill, { backgroundColor: colors.white, boxShadow: insetBorder(colors.beforePillBorder) }]}>
-                <T size={17} color={colors.before}>
-                  Было
+          ) : (
+            <>
+              <View style={styles.tiles}>
+                <View
+                  style={[styles.tile, { backgroundColor: colors.nowBg, boxShadow: insetBorder(colors.nowBorder) }]}
+                >
+                  <View style={[styles.tpill, { backgroundColor: colors.nowPill }]}>
+                    <T size={17} color={colors.now}>
+                      Стало
+                    </T>
+                  </View>
+                  <View style={[styles.tileValue, { marginTop: 25 }]}>
+                    <Icon
+                      name="arrow-down-circle-fill"
+                      width={27}
+                      color={colors.now}
+                      style={{ marginLeft: -1.4, marginRight: 2 }}
+                    />
+                    <T size={28.5} ls={0}>
+                      {profile.nowMinutes}
+                    </T>
+                  </View>
+                  <T size={13.75} ls={TRACK_SMALL} style={styles.tileSub}>
+                    {profile.nowCaption}
+                  </T>
+                </View>
+                <View
+                  style={[styles.tile, { backgroundColor: colors.white, boxShadow: insetBorder(colors.beforeBorder) }]}
+                >
+                  <View
+                    style={[
+                      styles.tpill,
+                      { backgroundColor: colors.white, boxShadow: insetBorder(colors.beforePillBorder) },
+                    ]}
+                  >
+                    <T size={17} color={colors.before}>
+                      Было
+                    </T>
+                  </View>
+                  <View style={[styles.tileValue, { marginTop: 17 }]}>
+                    <T size={34} ls={0} color={colors.beforeNum}>
+                      {profile.before}
+                    </T>
+                  </View>
+                  <T size={13.75} ls={TRACK_SMALL} color={colors.beforeSub} style={styles.tileSub}>
+                    {profile.beforeCaption}
+                  </T>
+                </View>
+              </View>
+
+              <View style={styles.lifeRow}>
+                <Icon name="laurel" width={20} height={18} color={colors.now} style={{ marginRight: 3.5 }} />
+                <T size={15.25} color={colors.now}>
+                  {profile.lifeBack}
                 </T>
               </View>
-              <View style={[styles.tileValue, { marginTop: 17 }]}>
-                <T size={34} ls={0} color={colors.beforeNum}>
-                  {profile.before}
-                </T>
-              </View>
-              <T size={13.75} ls={TRACK_SMALL} color={colors.beforeSub} style={styles.tileSub}>
-                {profile.beforeCaption}
-              </T>
-            </View>
-          </View>
-
-          <View style={styles.lifeRow}>
-            <Icon name="laurel" width={20} height={18} color={colors.now} style={{ marginRight: 3.5 }} />
-            <T size={15.25} color={colors.now}>
-              {profile.lifeBack}
-            </T>
-          </View>
-
-          </>}<DashedLine style={{ marginTop: 24.6 }} />
+            </>
+          )}
+          <DashedLine style={{ marginTop: 24.6 }} />
 
           <View style={styles.gtiles}>
             <View style={styles.gtile}>
@@ -138,26 +200,41 @@ export function ProfileScreen({ recap: recapProp = false }: { recap?: boolean })
             </View>
           </View>
 
-          {!app.live && <Pressable onPress={app.refresh} accessibilityLabel="Обновить отчёт" style={({ pressed }) => [styles.refresh, { opacity: pressed ? 0.7 : 1 }]} accessibilityRole="button">
-            <Icon name="refresh-cycle" width={18} height={19.5} color={colors.black} style={{ marginRight: 2.833 }} />
-            <T size={15.25}>Обновить</T>
-          </Pressable>}
+          {!app.live && (
+            <Pressable
+              onPress={app.refresh}
+              accessibilityLabel="Обновить отчёт"
+              style={({ pressed }) => [styles.refresh, { opacity: pressed ? 0.7 : 1 }]}
+              accessibilityRole="button"
+            >
+              <Icon name="refresh-cycle" width={18} height={19.5} color={colors.black} style={{ marginRight: 2.833 }} />
+              <T size={15.25}>Обновить</T>
+            </Pressable>
+          )}
         </View>
 
         {/* Статей пока нет: карточки макета ни к чему не ведут. */}
-        {!app.live && <View style={styles.band}>
-          <T size={20} color={colors.section} style={{ marginLeft: 20 }}>
-            Подробнее
-          </T>
-          <T size={12.5} weight={500} ls={TRACK_SMALL} color={colors.written} style={{ marginLeft: 21, marginTop: 2 }}>
-            От команды screen-time-blocker
-          </T>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.articles}>
-            <Article image={art.articleAttention} title={'Как вернуть\nконцентрацию\nв 2026 году'} />
-            <Article image={art.articleDelete} title={'Удалить соцсети\nили просто\nзаблокировать?'} />
-            <Image source={art.articleThirdEdge} style={{ width: 17, height: 221.333, marginLeft: -1 }} />
-          </ScrollView>
-        </View>}
+        {!app.live && (
+          <View style={styles.band}>
+            <T size={20} color={colors.section} style={{ marginLeft: 20 }}>
+              Подробнее
+            </T>
+            <T
+              size={12.5}
+              weight={500}
+              ls={TRACK_SMALL}
+              color={colors.written}
+              style={{ marginLeft: 21, marginTop: 2 }}
+            >
+              От команды screen-time-blocker
+            </T>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.articles}>
+              <Article image={art.articleAttention} title={'Как вернуть\nконцентрацию\nв 2026 году'} />
+              <Article image={art.articleDelete} title={'Удалить соцсети\nили просто\nзаблокировать?'} />
+              <Image source={art.articleThirdEdge} style={{ width: 17, height: 221.333, marginLeft: -1 }} />
+            </ScrollView>
+          </View>
+        )}
       </ScrollView>
 
       <BottomChrome />
@@ -170,13 +247,18 @@ function Article({ image, title }: { image: ImageSource; title: string }) {
     <View style={styles.article}>
       <Image source={image} style={StyleSheet.absoluteFill} contentFit="cover" />
       <View style={styles.artPill}>
-        <Icon name="clock-fill" width={11.5} color={colors.white} style={{ position: 'absolute', left: 6.5, top: 5.5 }} />
+        <Icon
+          name="clock-fill"
+          width={11.5}
+          color={colors.white}
+          style={{ position: 'absolute', left: 6.5, top: 5.5 }}
+        />
         <T size={12.5} weight={600} color={colors.white}>
           5 мин
         </T>
       </View>
       <View style={styles.artTitle}>
-        {title.split('\n').map((line) => (
+        {title.split('\n').map(line => (
           <T key={line} size={18} color={colors.white} numberOfLines={1} style={{ lineHeight: 20 }}>
             {line}
           </T>
@@ -189,8 +271,21 @@ function Article({ image, title }: { image: ImageSource; title: string }) {
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: colors.bgPage },
   sky: { position: 'absolute', left: 0, top: 0 },
-  header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', paddingLeft: 19.333, paddingRight: 20 },
-  identity: { flexDirection: 'row', justifyContent: 'center', alignItems: 'flex-start', marginTop: 46.25, gap: 16.25, paddingRight: 32 },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    paddingLeft: 19.333,
+    paddingRight: 20,
+  },
+  identity: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    marginTop: 46.25,
+    gap: 16.25,
+    paddingRight: 32,
+  },
   avatar: {
     width: 80,
     height: 80,
@@ -212,12 +307,25 @@ const styles = StyleSheet.create({
   },
   tiles: { flexDirection: 'row', gap: 11.833 },
   tile: { flex: 1, height: 149.5, borderRadius: radii.tile, paddingLeft: 19.5, paddingTop: 17.8 },
-  tpill: { alignSelf: 'flex-start', height: 28, paddingHorizontal: 8.3, borderRadius: radii.pill, justifyContent: 'center' },
+  tpill: {
+    alignSelf: 'flex-start',
+    height: 28,
+    paddingHorizontal: 8.3,
+    borderRadius: radii.pill,
+    justifyContent: 'center',
+  },
   tileValue: { flexDirection: 'row', alignItems: 'center' },
   tileSub: { position: 'absolute', left: 19.5, top: 113.8 },
   lifeRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 19.7 },
   gtiles: { flexDirection: 'row', gap: 8.8, marginTop: 20 },
-  gtile: { flex: 1, height: 62.5, borderRadius: radii.gtile, backgroundColor: colors.bgPage, alignItems: 'center', paddingTop: 8.2 },
+  gtile: {
+    flex: 1,
+    height: 62.5,
+    borderRadius: radii.gtile,
+    backgroundColor: colors.bgPage,
+    alignItems: 'center',
+    paddingTop: 8.2,
+  },
   glabel: { flexDirection: 'row', alignItems: 'center', height: 16 },
   gval: { marginTop: 7.4 },
   refresh: {
