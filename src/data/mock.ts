@@ -13,20 +13,6 @@ export const today = {
   upcomingHours: [15, 16, 17, 18, 19, 20],
 };
 
-export type MostUsedApp = {
-  id: string;
-  name: string;
-  minutes: number;
-  icon: 'block' | 'photos' | 'phia' | 'other';
-};
-
-export const mostUsed: MostUsedApp[] = [
-  { id: 'block', name: 'screen-time-blocker', minutes: 35, icon: 'block' },
-  { id: 'photos', name: 'Фото', minutes: 7, icon: 'photos' },
-  { id: 'phia', name: 'Phia', minutes: 1, icon: 'phia' },
-  { id: 'other', name: 'Другое', minutes: 1, icon: 'other' },
-];
-
 export const profile = {
   name: 'Саша',
   initials: 'СА',

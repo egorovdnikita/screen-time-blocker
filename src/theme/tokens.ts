@@ -151,9 +151,6 @@ export const shadows = {
 
 export const insetBorder = (color: string, width = 1.333) => `inset 0px 0px 0px ${width}px ${color}`;
 
-// Горизонтальное поле экрана в макете.
-export const GUTTER = 20;
-
 // Поток04: значения из session-editor.css и blocking-menu.css HTML-выгрузок.
 export const sessionTheme = {
   backdrop: 'rgba(0,0,0,.52)',
