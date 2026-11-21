@@ -552,6 +552,7 @@ export function OnboardingUnlocks({
   );
 }
 export function OnboardingMethod({ onBack, onNext }: { onBack: () => void; onNext: () => void }) {
+  const { live } = useAppState();
   return (
     <>
       <OnboardingNav onBack={onBack} progress={0.875} />
@@ -603,21 +604,24 @@ export function OnboardingMethod({ onBack, onNext }: { onBack: () => void; onNex
       <OnboardingButton onPress={onNext} style={{ top: 689, bottom: undefined, left: 40, right: 40 }}>
         Выбрать
       </OnboardingButton>
-      <View
-        style={{
-          position: 'absolute',
-          top: 784,
-          left: 0,
-          right: 0,
-          flexDirection: 'row',
-          justifyContent: 'center',
-          gap: 4,
-        }}
-      >
-        {[0, 1, 2].map(i => (
-          <View key={i} style={{ width: 6, height: 6, borderRadius: 3, backgroundColor: i === 0 ? c.ink : c.line }} />
-        ))}
-      </View>
+      {/* Точки обещали карусель, но вариант один и листания нет — в реальном режиме скрыты (аудит 2026-11-21). */}
+      {!live && (
+        <View
+          style={{
+            position: 'absolute',
+            top: 784,
+            left: 0,
+            right: 0,
+            flexDirection: 'row',
+            justifyContent: 'center',
+            gap: 4,
+          }}
+        >
+          {[0, 1, 2].map(i => (
+            <View key={i} style={{ width: 6, height: 6, borderRadius: 3, backgroundColor: i === 0 ? c.ink : c.line }} />
+          ))}
+        </View>
+      )}
     </>
   );
 }
