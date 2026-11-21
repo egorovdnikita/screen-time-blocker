@@ -10,6 +10,7 @@ import { AppCatalog } from '../locks/SingleAppPicker';
 import type { LockAppId } from '@/data/lockRule';
 import { colors, lockTheme as c, timeLimitTheme as l } from '@/theme/tokens';
 import { T } from '@/theme/typography';
+import { SearchMic } from '@/components/SearchMic';
 
 export function LimitAppPicker({
   value,
@@ -119,7 +120,7 @@ export function LimitAppPicker({
                   placeholderTextColor={c.note}
                   style={styles.input}
                 />
-                <Icon name="group-microphone" width={20} height={23} color={c.note} />
+                <SearchMic color={c.note} />
               </View>
             </View>
           </KeyboardAvoidingView>

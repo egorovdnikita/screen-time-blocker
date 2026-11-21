@@ -42,6 +42,7 @@ import {
 import { T, TextInk } from '@/theme/typography';
 import { AppGroupCheck } from './AppGroupCheck';
 import { AppGroupOptions } from './AppGroupOptions';
+import { SearchMic } from '@/components/SearchMic';
 
 type Props = {
   purpose?: 'group' | 'routine' | 'named';
@@ -413,7 +414,7 @@ function AppGroupSheetBody({ value, onCancel, onConfirm, purpose = 'group', name
                     <Icon name="session-clear" width={14} height={14} color={c.secondary} />
                   </PressScale>
                 ) : (
-                  <Icon name="group-microphone" width={20} height={23} color={colors.black} />
+                  <SearchMic color={colors.black} />
                 )}
               </View>
               {!compact && (

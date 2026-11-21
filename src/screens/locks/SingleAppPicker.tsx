@@ -17,6 +17,7 @@ import {
 } from '@/data/lockRule';
 import { colors, lockTheme as c, settingsTheme } from '@/theme/tokens';
 import { T, TextInk } from '@/theme/typography';
+import { SearchMic } from '@/components/SearchMic';
 
 export function SingleAppPicker(props: Parameters<typeof SingleAppPickerBody>[0]) {
   return (
@@ -215,7 +216,7 @@ function SingleAppPickerBody({
                         placeholderTextColor={c.note}
                         style={[styles.input, { fontSize: 17 }]}
                       />
-                      <Icon name="group-microphone" width={20} height={23} color={c.note} />
+                      <SearchMic color={c.note} />
                     </View>
                   </>
                 )}

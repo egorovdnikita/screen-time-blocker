@@ -20,6 +20,7 @@ import { rounded } from '@/theme/typography';
 import { T } from './OnboardingText';
 import { onboardingTheme as c } from '@/theme/tokens';
 import { OnboardingButton, OnboardingNav, OnboardingTitle } from './OnboardingPieces';
+import { SearchMic } from '@/components/SearchMic';
 
 export function Commit({ onNext }: { onNext: () => void }) {
   const { live } = useAppState();
@@ -329,7 +330,7 @@ export function OnboardingPicker({
             outlineWidth: 0,
           }}
         />
-        <Icon name="group-microphone" width={20} height={23} color={c.ink} />
+        <SearchMic color={c.ink} />
       </View>
       <OnboardingButton disabled={!value.length} onPress={onNext}>
         Продолжить
