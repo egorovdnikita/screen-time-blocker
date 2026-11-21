@@ -59,7 +59,12 @@ export function Commit({ onNext }: { onNext: () => void }) {
       </T>
       <View style={{ marginTop: 27, gap: 18 }}>
         {[
-          { icon: 'clock-fill', title: 'Экономить 2+ часа в день', copy: 'Блокируя приложения, которые отвлекают' },
+          // В реальном режиме блокировки нет, а «14 лет» ни из чего не считается (аудит 2026-11-21).
+          {
+            icon: 'clock-fill',
+            title: 'Экономить 2+ часа в день',
+            copy: live ? 'Следуя правилам, которые вы настроите' : 'Блокируя приложения, которые отвлекают',
+          },
           {
             icon: 'onboarding-hand-raised-fill',
             title: 'Прервать привычку листать',
@@ -67,7 +72,7 @@ export function Commit({ onNext }: { onNext: () => void }) {
           },
           {
             icon: 'onboarding-checkmark-seal-fill',
-            title: 'Вернуть себе 14 лет жизни',
+            title: live ? 'Вернуть себе время' : 'Вернуть себе 14 лет жизни',
             copy: 'Формируя привычки, которые останутся надолго',
           },
         ].map((row, i) => (

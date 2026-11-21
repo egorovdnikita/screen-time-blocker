@@ -10,6 +10,12 @@ try {
   await b.nav('/onboarding');
   assert.ok(!(await text()).includes('Политикой конфиденциальности'), 'Строка о документах скрыта');
 
+  // Обещания не противоречат следующему экрану «Это прототип».
+  await b.nav('/onboarding?step=15');
+  for (const promise of ['Блокируя приложения', '14 лет']) {
+    assert.ok(!(await text()).includes(promise), `Нет обещания «${promise}»`);
+  }
+
   // Нерабочий флаг языка скрыт в реальном режиме.
   await b.nav('/onboarding?step=1');
   assert.ok(!(await b.has('Язык: русский', 300)), 'Флаг языка скрыт');
