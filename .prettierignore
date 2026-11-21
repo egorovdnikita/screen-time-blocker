@@ -1,0 +1,6 @@
+# Сгенерированные данные: иконки и картинки обновляются скриптами из tools/
+src/icons/data.ts
+src/data/art.ts
+src/data/remainingArt.ts
+dist
+node_modules
