@@ -4,6 +4,7 @@ import { StatusBar } from 'expo-status-bar';
 import { router } from 'expo-router';
 import { useAppState } from '@/state/app';
 import { initialSession, sessionRule } from '@/data/session';
+import { onboardingSchedule } from '@/data/onboarding';
 import { onboardingTheme as c } from '@/theme/tokens';
 import { Welcome, SocialProof } from './WelcomeSocial';
 import { OnboardingFriction, OnboardingStory } from './OnboardingPieces';
@@ -35,11 +36,10 @@ export function OnboardingScreen({ initialStep }: { initialStep?: number }) {
   }, [step, patch]);
   const finish = (schedule: boolean) => {
     const session = initialSession(true);
-    session.title = { limit: 'Рабочие часы', morning: 'Утро', work: 'Рабочие часы', evening: 'Вечерний отдых' }[
-      draft.preference
-    ];
-    session.start = draft.preference === 'morning' ? 6 : draft.preference === 'evening' ? 21 : 9;
-    session.end = draft.preference === 'morning' ? 8 : draft.preference === 'evening' ? 6 : 17;
+    const hours = onboardingSchedule(draft.preference);
+    session.title = hours.name;
+    session.start = hours.start;
+    session.end = hours.end;
     session.unlocks = draft.unlocks;
     session.unlockMinutes = draft.unlockMinutes;
     session.appGroup.selectedApps = ['xchat', 'messages', 'bereal'].map(id => draft.apps.includes(id));

@@ -12,6 +12,7 @@ const checks = [
   'check-gallery-presets.mjs',
   'check-notification-plan.mjs',
   'check-modal-lifecycle.mjs',
+  'check-onboarding-schedule.mjs',
   'check-reflection-summary.mjs',
   'check-rule-count.mjs',
   'check-sheet-scroll-events.mjs',

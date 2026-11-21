@@ -51,19 +51,46 @@ export const onboardingArt = {
 };
 export const onboardingGoalLabel = (minutes: number) =>
   minutes % 60 ? `${Math.floor(minutes / 60)}ч${String(minutes % 60).padStart(2, '0')}` : `${minutes / 60} ч`;
+// Единственный источник расписаний знакомства: подпись варианта, экран подтверждения
+// и созданное правило берут название и часы отсюда.
+const onboardingScheduleData = {
+  limit: { name: 'Рабочие часы', start: 9, end: 17 },
+  morning: { name: 'Утро', start: 6, end: 8 },
+  work: { name: 'Рабочие часы', start: 8, end: 17 },
+  evening: { name: 'Вечерний отдых', start: 21, end: 6 },
+} as const;
+export type OnboardingPreference = OnboardingDraft['preference'];
+export const onboardingSchedule = (preference: OnboardingPreference) => {
+  const { name, start, end } = onboardingScheduleData[preference];
+  return { name, start, end, hours: `${start}:00–${end}:00` };
+};
+const scheduleRange = (preference: OnboardingPreference) => {
+  const { start, end } = onboardingScheduleData[preference];
+  return `с ${start}:00 до ${end}:00`;
+};
 export const onboardingPreferences = [
   {
     id: 'limit',
     icon: 'onboarding-shield-fill',
     title: 'Настроить расписание',
-    copy: 'Начать с рабочих часов 9:00–17:00',
+    copy: `Начать с рабочих часов ${onboardingSchedule('limit').hours}`,
   },
-  { id: 'morning', icon: 'onboarding-cup-fill', title: 'Блокировать утром', copy: 'Например, с 6:00 до 8:00' },
+  {
+    id: 'morning',
+    icon: 'onboarding-cup-fill',
+    title: 'Блокировать утром',
+    copy: `Например, ${scheduleRange('morning')}`,
+  },
   {
     id: 'work',
     icon: 'onboarding-graduationcap-fill',
     title: 'Блокировать на работе',
-    copy: 'Например, с 8:00 до 17:00',
+    copy: `Например, ${scheduleRange('work')}`,
   },
-  { id: 'evening', icon: 'onboarding-moon-fill', title: 'Блокировать вечером', copy: 'Например, с 21:00 до 6:00' },
+  {
+    id: 'evening',
+    icon: 'onboarding-moon-fill',
+    title: 'Блокировать вечером',
+    copy: `Например, ${scheduleRange('evening')}`,
+  },
 ] as const;

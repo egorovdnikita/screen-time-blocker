@@ -6,7 +6,12 @@ import { Icon, type IconName } from '@/components/Icon';
 import { PressScale } from '@/components/motion';
 import { SessionApps } from '@/components/SessionPrimitives';
 import { UnlockDuration } from '@/screens/session/SessionUnlocks';
-import { onboardingArt as art, onboardingPreferences, type OnboardingDraft } from '@/data/onboarding';
+import {
+  onboardingArt as art,
+  onboardingPreferences,
+  onboardingSchedule,
+  type OnboardingDraft,
+} from '@/data/onboarding';
 import { groupCategories } from '@/data/appGroup';
 import { lockApps, lockPickerImage, type LockAppId } from '@/data/lockRule';
 import { art as sharedArt } from '@/data/art';
@@ -615,8 +620,7 @@ export function OnboardingSchedule({
 }) {
   const { live } = useAppState();
   const selected = ['messages', 'xchat', 'bereal', 'facetime'].filter(id => draft.apps.includes(id));
-  const names = { limit: 'Рабочие часы', morning: 'Утро', work: 'Рабочие часы', evening: 'Вечерний отдых' };
-  const times = { limit: '9:00–17:00', morning: '6:00–8:00', work: '9:00–17:00', evening: '21:00–6:00' };
+  const schedule = onboardingSchedule(draft.preference);
   return (
     <>
       <OnboardingNav onBack={onBack} />
@@ -649,7 +653,7 @@ export function OnboardingSchedule({
       </View>
       <View style={{ marginTop: 15, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 12 }}>
         <T size={28} ls={-0.2} style={{ lineHeight: 34 }}>
-          {names[draft.preference]}
+          {schedule.name}
         </T>
         <Icon name="pencil" width={16} height={16} color={c.muted} />
       </View>
@@ -660,7 +664,7 @@ export function OnboardingSchedule({
             label: 'Активно',
             content: (
               <T size={14} weight={400} ls={0}>
-                {times[draft.preference]} · По будням
+                {schedule.hours} · По будням
               </T>
             ),
           },
