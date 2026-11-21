@@ -85,7 +85,10 @@ const scenario = [
   ['Профиль', 2.2], ['Главная', 2.0],
 ];
 try {
-  for (const [label, after] of scenario) label ? await tap(label, after) : await hold(after);
+  for (const [label, after] of scenario) {
+    if (label) await tap(label, after);
+    else await hold(after);
+  }
   const final = await page.evaluate(() => document.querySelector('[role="tab"][aria-label^="Правила"]')?.getAttribute('aria-label'));
   if (final !== 'Правила, активных: 3') throw Error('Состояние не вернулось к началу: ' + final);
   if (errors.length) throw Error('Ошибки страницы: ' + errors.join('\n'));
