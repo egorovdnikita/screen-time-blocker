@@ -17,7 +17,11 @@ const display = Platform.select({
   default: undefined,
 });
 
-const text = Platform.select({ ios: 'System', web: '"Block Text", -apple-system, system-ui, sans-serif', default: undefined });
+const text = Platform.select({
+  ios: 'System',
+  web: '"Block Text", -apple-system, system-ui, sans-serif',
+  default: undefined,
+});
 // Как `-apple-system` в HTML (системные строки списков и запросов): на вебе без подмены начертания.
 const system = Platform.select({ ios: 'System', web: '-apple-system, system-ui, sans-serif', default: undefined });
 
@@ -60,7 +64,8 @@ export function T({
       {...rest}
       style={[
         {
-          fontFamily: variant === 'display' ? display : variant === 'text' ? text : variant === 'system' ? system : rounded,
+          fontFamily:
+            variant === 'display' ? display : variant === 'text' ? text : variant === 'system' ? system : rounded,
           fontSize: size,
           fontWeight: String(weight) as TextStyle['fontWeight'],
           color: color ?? ink,
