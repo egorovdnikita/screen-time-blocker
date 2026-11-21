@@ -1,4 +1,4 @@
-import { createContext, useContext } from 'react';
+import { Children, createContext, useContext, type ReactNode } from 'react';
 import { Platform, Text, type TextProps, type TextStyle } from 'react-native';
 
 import { colors } from './tokens';
@@ -43,6 +43,16 @@ export const skyShadow: TextStyle = {
   textShadowOffset: { width: 0, height: 0 },
 };
 
+// Название переносится только целиком: в «screen-time-blocker» дефисы неразрывные (U+2011),
+// иначе строки рвались на «screen-» / «time-blocker» (аудит 2026-11-21).
+const APP_NAME = /screen-time-blocker/g;
+const keepAppName = (children: ReactNode) =>
+  typeof children === 'string'
+    ? children.replace(APP_NAME, 'screen\u2011time\u2011blocker')
+    : Children.map(children, node =>
+        typeof node === 'string' ? node.replace(APP_NAME, 'screen\u2011time\u2011blocker') : node,
+      );
+
 // Цвет текста области: в HTML настройки набраны #111, а не чистым чёрным. Явный color важнее.
 export const TextInk = createContext<string>(colors.text);
 
@@ -55,6 +65,7 @@ export function T({
   center,
   onSky,
   style,
+  children,
   ...rest
 }: TProps) {
   const ink = useContext(TextInk);
@@ -75,7 +86,9 @@ export function T({
         onSky && skyShadow,
         style,
       ]}
-    />
+    >
+      {keepAppName(children)}
+    </Text>
   );
 }
 

@@ -32,7 +32,7 @@ try {
   await b.shot('.expo/audit-time-mobile.png');
   await b.nav('/');
   assert.match(await text(), /Прототип: правила сохраняются/);
-  assert.match(await text(), /screen-time-blocker/);
+  assert.match(await text(), /screen[-\u2011]time[-\u2011]blocker/);
   assert.deepEqual(b.errors,[]);
   console.log('Аудит: расписание соответствует выбору, прототип обозначен, напоминания скрыты — OK');
 } finally { await b.close(); }

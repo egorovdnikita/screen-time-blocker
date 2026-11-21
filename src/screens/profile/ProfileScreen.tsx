@@ -180,7 +180,7 @@ export function ProfileScreen({ recap: recapProp = false }: { recap?: boolean })
               <View style={styles.glabel}>
                 <Icon name="cake" width={16} height={15.5} color={colors.section} style={{ marginRight: 2 }} />
                 <T size={12.25} weight={600} ls={TRACK_SMALL} color={colors.section}>
-                  С screen-time-blocker уже
+                  С нами уже
                 </T>
               </View>
               <T size={20} style={styles.gval}>

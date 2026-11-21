@@ -26,6 +26,11 @@ try {
   await b.click('Добавить расписание');
   assert.match(await text(), /8:00/);
 
+  // Название не рвётся по дефису: в тексте интерфейса дефисы неразрывные.
+  await b.nav('/');
+  assert.match(await text(), /screen\u2011time\u2011blocker/);
+  assert.ok(!(await text()).includes('screen-time-blocker'), 'Нет переносимых дефисов в названии');
+
   assert.deepEqual(b.errors, []);
   console.log('Аудит 2026-11-21: регрессии OK');
 } finally {
