@@ -6,6 +6,8 @@ import Svg, { Circle, Defs, LinearGradient as SvgGradient, Stop } from 'react-na
 import { Icon, type IconName } from '@/components/Icon';
 import { PressScale } from '@/components/motion';
 import { onboardingArt as art, onboardingGoalLabel, onboardingIssues, onboardingTimes } from '@/data/onboarding';
+import { usualTimeText } from '@/data/onboardingGoal';
+import { useAppState } from '@/state/app';
 import { onboardingTheme as c } from '@/theme/tokens';
 import { T, rounded } from '@/theme/typography';
 import { OnboardingButton, OnboardingHint, OnboardingNav, OnboardingTitle } from './OnboardingPieces';
@@ -193,6 +195,8 @@ export function GoalControls({
   onBack: () => void;
   onNext: () => void;
 }) {
+  // В реальном режиме подписи следуют ответу «сколько часов» (аудит 2026-11-21), в демо — как в макете.
+  const { live, onboardingDraft } = useAppState();
   const [gesture] = useState(() => new GoalGesture(value, onChange));
   useEffect(() => gesture.update(value, onChange), [gesture, value, onChange]);
   const change = (delta: number) => onChange(Math.max(20, Math.min(420, value + delta)));
@@ -210,7 +214,7 @@ export function GoalControls({
         ls={0}
         style={{ marginTop: value % 60 ? 0 : -1, marginHorizontal: 35, lineHeight: 20 }}
       >
-        {'Обычно вы проводите около 7 часов в день\nна телефоне'}
+        {`${live ? usualTimeText(onboardingDraft.time) : 'Обычно вы проводите около 7 часов в день'}\nна телефоне`}
       </T>
       <View style={styles.goalMarker}>
         <View
@@ -263,7 +267,7 @@ export function GoalControls({
           Ваша цель
         </T>
         <T size={13} weight={400} color={c.muted} ls={0}>
-          Сегодня
+          {live ? 'Максимум' : 'Сегодня'}
         </T>
       </View>
       <View style={styles.adjust}>
@@ -414,6 +418,8 @@ const styles = StyleSheet.create({
     boxShadow: c.rangeShadow,
   },
   fill: {
+    // Подпись цели («1ч20») не должна выходить за заливку на маленьких значениях.
+    minWidth: 110,
     height: 54,
     borderRadius: 30,
     backgroundColor: c.blue,

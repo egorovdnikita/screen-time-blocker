@@ -16,6 +16,18 @@ try {
     assert.ok(!(await text()).includes(promise), `Нет обещания «${promise}»`);
   }
 
+  // Цель и годы следуют ответу «сколько часов», а не цифрам макета.
+  await b.nav('/onboarding?step=7');
+  await b.click('1–3 часа');
+  await b.click('Продолжить');
+  assert.match(await text(), /Обычно вы проводите 1–3 часа в день/);
+  assert.ok(!(await text()).includes('5 ч'), 'Цель меньше обычного времени');
+  await b.click('Продолжить');
+  await new Promise(r => setTimeout(r, 2600)); // экран подсчёта переходит сам
+  await b.click('Расскажу подробнее');
+  assert.match(await text(), /(^|\D)8 лет/);
+  assert.ok(!(await text()).includes('28 лет'));
+
   // Нерабочий флаг языка скрыт в реальном режиме.
   await b.nav('/onboarding?step=1');
   assert.ok(!(await b.has('Язык: русский', 300)), 'Флаг языка скрыт');

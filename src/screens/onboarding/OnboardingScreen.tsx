@@ -5,6 +5,7 @@ import { router } from 'expo-router';
 import { useAppState } from '@/state/app';
 import { initialSession, sessionRule } from '@/data/session';
 import { onboardingSchedule } from '@/data/onboarding';
+import { suggestedGoal } from '@/data/onboardingGoal';
 import { onboardingTheme as c } from '@/theme/tokens';
 import { Welcome, SocialProof } from './WelcomeSocial';
 import { OnboardingFriction, OnboardingStory } from './OnboardingPieces';
@@ -84,7 +85,13 @@ export function OnboardingScreen({ initialStep }: { initialStep?: number }) {
       content = <OnboardingQuiz onBack={() => go(draft.name ? 5 : 4)} onSelect={issue => patch({ issue, step: 7 })} />;
       break;
     case 7:
-      content = <OnboardingQuiz time onBack={() => go(6)} onSelect={time => patch({ time, step: 8 })} />;
+      content = (
+        <OnboardingQuiz
+          time
+          onBack={() => go(6)}
+          onSelect={time => patch({ time, step: 8, ...(app.live && { goal: suggestedGoal(time) }) })}
+        />
+      );
       break;
     case 8:
       content = <GoalIntro onNext={() => go(draft.goal % 60 ? 10 : 9)} />;

@@ -6,6 +6,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Icon } from '@/components/Icon';
 import { PressScale } from '@/components/motion';
 import { DarkButtonSurface } from '@/components/DarkButtonSurface';
+import { phoneYears, yearsLabel } from '@/data/onboardingGoal';
 import { useAppState } from '@/state/app';
 import { T } from '@/theme/typography';
 import { onboardingTheme as c } from '@/theme/tokens';
@@ -161,7 +162,7 @@ export function OnboardingStory({
   kind: 'personalize' | 'honest' | 'years' | 'started';
   onNext: () => void;
 }) {
-  const { live } = useAppState();
+  const { live, onboardingDraft } = useAppState();
   if (kind === 'personalize')
     return (
       <>
@@ -219,7 +220,7 @@ export function OnboardingStory({
         </T>
         <View style={{ alignSelf: 'center', marginTop: 18 }}>
           <T size={51} color={c.purple[0]} ls={0} style={{ lineHeight: 68 }}>
-            28 лет
+            {live ? yearsLabel(phoneYears(onboardingDraft.time)) : '28 лет'}
           </T>
         </View>
         <T size={28} ls={0} center style={{ marginTop: 25, lineHeight: 34 }}>

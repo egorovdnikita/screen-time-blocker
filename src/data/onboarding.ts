@@ -34,7 +34,7 @@ export const onboardingIssues = [
   'Зависимость от контента 18+',
   'Всё в порядке…',
 ];
-export const onboardingTimes = ['Больше 7 часов', '5–7 часов', '4–5 часов', '3–4 часа', '1–3 часа', 'Меньше часа'];
+export { onboardingTimes } from './onboardingGoal';
 export const onboardingArt = {
   originalIcon: require('../../assets/art/onboarding/icon-original-unselected.png'),
   sky: require('../../assets/art/onboarding/welcome-sky-reference.png'),
