@@ -24,14 +24,20 @@ export function MostUsed({ day, onOpenMenu }: Props) {
   const mode = app.mostUsedMode;
   const [editing, setEditing] = useState<AppRow | null>(null);
 
-  const apps = day.apps.map<AppRow>((a) => ({
+  const apps = day.apps.map<AppRow>(a => ({
     ...a,
-    state: app.excluded.includes(a.id) || app.reflectionExcluded.includes(reflectionKey(day.id, a.id)) ? 'excluded' : app.productive.includes(a.id) ? 'productive' : a.state,
+    state:
+      app.excluded.includes(a.id) || app.reflectionExcluded.includes(reflectionKey(day.id, a.id))
+        ? 'excluded'
+        : app.productive.includes(a.id)
+          ? 'productive'
+          : a.state,
   }));
-  const counted = apps.filter((a) => a.state !== 'excluded');
+  const counted = apps.filter(a => a.state !== 'excluded');
   // В макете имена крупнее на прошлых днях и после первой оценки.
-  const nameSize = app.period !== 'today' || counted.some(a => app.reflections[reflectionKey(day.id, a.id)]) ? 15.25 : 15;
-  const excluded = apps.filter((a) => a.state === 'excluded');
+  const nameSize =
+    app.period !== 'today' || counted.some(a => app.reflections[reflectionKey(day.id, a.id)]) ? 15.25 : 15;
+  const excluded = apps.filter(a => a.state === 'excluded');
 
   // Без данных секции нет: одно объяснение между карточкой и кнопкой «Блокировать», иначе текст уходит под неё.
   if (app.live) {
@@ -52,10 +58,13 @@ export function MostUsed({ day, onOpenMenu }: Props) {
         </T>
         <View ref={pillRef} collapsable={false}>
           <PressScale
-            onPress={() => pillRef.current?.measureInWindow((x, y, width, height) => onOpenMenu({ x, y, width, height }))}
+            onPress={() =>
+              pillRef.current?.measureInWindow((x, y, width, height) => onOpenMenu({ x, y, width, height }))
+            }
             style={styles.pill}
             accessibilityRole="button"
-            hitSlop={{ top: 6, bottom: 6 }} accessibilityLabel="Режим сводки"
+            hitSlop={{ top: 6, bottom: 6 }}
+            accessibilityLabel="Режим сводки"
           >
             <Icon name="updown" width={12} height={14.5} color={colors.black} style={{ marginRight: 3.4 }} />
             <T size={14.25}>{mode === 'apps' ? 'Прил.' : 'Занятия'}</T>
@@ -65,7 +74,7 @@ export function MostUsed({ day, onOpenMenu }: Props) {
 
       {mode === 'apps' ? (
         <FadeIn key="apps" from={6}>
-          {counted.map((a) => (
+          {counted.map(a => (
             <AppItem
               key={a.id}
               app={a}
@@ -83,15 +92,21 @@ export function MostUsed({ day, onOpenMenu }: Props) {
           ))}
           {excluded.length > 0 && (
             <>
-              <DashedLine color={colors.separator} style={{ marginHorizontal: 20, marginTop: -10.5, marginBottom: 38 }} />
-              {excluded.map((a) => (
+              <DashedLine
+                color={colors.separator}
+                style={{ marginHorizontal: 20, marginTop: -10.5, marginBottom: 38 }}
+              />
+              {excluded.map(a => (
                 <AppItem
                   key={a.id}
                   app={a}
                   onMark={() => setEditing(a)}
                   assessment={app.reflections[reflectionKey(day.id, a.id)]}
                   onToggleExclude={() => {
-                    if (app.reflectionExcluded.includes(reflectionKey(day.id, a.id))) { app.setReflectionExcluded(day.id, a.id, false); return; }
+                    if (app.reflectionExcluded.includes(reflectionKey(day.id, a.id))) {
+                      app.setReflectionExcluded(day.id, a.id, false);
+                      return;
+                    }
                     animateLayout();
                     app.toggleExcluded(a.id);
                   }}
@@ -102,7 +117,7 @@ export function MostUsed({ day, onOpenMenu }: Props) {
         </FadeIn>
       ) : day.activities.length > 0 ? (
         <FadeIn key="activities" from={6}>
-          {day.activities.map((a) => (
+          {day.activities.map(a => (
             <ActivityItem key={a.id} activity={a} />
           ))}
         </FadeIn>
@@ -114,7 +129,8 @@ export function MostUsed({ day, onOpenMenu }: Props) {
             </T>
             <Icon name="plus" width={13} color={colors.emptyActivities} style={{ marginHorizontal: 1 }} />
             <T size={15.25} color={colors.emptyActivities}>
-              {' '}под приложением
+              {' '}
+              под приложением
             </T>
           </View>
           <T size={15.25} color={colors.emptyActivities} center style={{ lineHeight: 18.333 }}>
@@ -122,13 +138,46 @@ export function MostUsed({ day, onOpenMenu }: Props) {
           </T>
         </FadeIn>
       )}
-      {editing && <ReflectionSheet app={editing} value={app.reflections[reflectionKey(day.id, editing.id)] ?? app.reflectionDefaults[editing.id]} onCancel={() => setEditing(null)} onDelete={app.reflections[reflectionKey(day.id, editing.id)] ? () => { app.deleteReflection(day.id, editing.id); setEditing(null); } : undefined} onSave={value => { app.saveReflection(day.id, editing.id, value); setEditing(null); }} onExclude={() => { app.setReflectionExcluded(day.id, editing.id, true); setEditing(null); }} />}
+      {editing && (
+        <ReflectionSheet
+          app={editing}
+          value={app.reflections[reflectionKey(day.id, editing.id)] ?? app.reflectionDefaults[editing.id]}
+          onCancel={() => setEditing(null)}
+          onDelete={
+            app.reflections[reflectionKey(day.id, editing.id)]
+              ? () => {
+                  app.deleteReflection(day.id, editing.id);
+                  setEditing(null);
+                }
+              : undefined
+          }
+          onSave={value => {
+            app.saveReflection(day.id, editing.id, value);
+            setEditing(null);
+          }}
+          onExclude={() => {
+            app.setReflectionExcluded(day.id, editing.id, true);
+            setEditing(null);
+          }}
+        />
+      )}
     </View>
   );
 }
 
-
-function AppItem({ app, assessment, nameSize = 15, onMark, onToggleExclude }: { app: AppRow; assessment?: import('@/data/reflection').Reflection; nameSize?: number; onMark?: () => void; onToggleExclude: () => void }) {
+function AppItem({
+  app,
+  assessment,
+  nameSize = 15,
+  onMark,
+  onToggleExclude,
+}: {
+  app: AppRow;
+  assessment?: import('@/data/reflection').Reflection;
+  nameSize?: number;
+  onMark?: () => void;
+  onToggleExclude: () => void;
+}) {
   const isOther = app.icon === 'other';
   const excluded = app.state === 'excluded';
   return (
@@ -136,7 +185,13 @@ function AppItem({ app, assessment, nameSize = 15, onMark, onToggleExclude }: { 
       onLongPress={isOther ? undefined : onToggleExclude}
       delayLongPress={400}
       style={({ pressed }) => [styles.row, excluded && { height: 74 }, pressed && !isOther && { opacity: 0.7 }]}
-      accessibilityHint={isOther ? undefined : excluded ? 'Долгое нажатие вернёт в экранное время' : 'Долгое нажатие исключит из экранного времени'}
+      accessibilityHint={
+        isOther
+          ? undefined
+          : excluded
+            ? 'Долгое нажатие вернёт в экранное время'
+            : 'Долгое нажатие исключит из экранного времени'
+      }
     >
       <View style={styles.rowIcon}>
         <AppIcon icon={app.icon} />
@@ -159,7 +214,13 @@ function AppItem({ app, assessment, nameSize = 15, onMark, onToggleExclude }: { 
           </View>
         ) : isOther ? (
           <View style={styles.otherApps}>
-            <Image source={app.others === 'apps-other-2' ? art.appsOther2 : art.appsOther} style={{ width: app.others === 'apps-other-2' ? 46 : 45, height: app.others === 'apps-other-2' ? 25 : 24 }} />
+            <Image
+              source={app.others === 'apps-other-2' ? art.appsOther2 : art.appsOther}
+              style={{
+                width: app.others === 'apps-other-2' ? 46 : 45,
+                height: app.others === 'apps-other-2' ? 25 : 24,
+              }}
+            />
             {app.othersCount ? (
               <T size={12.25} ls={TRACK_SMALL} color={colors.plusMore} style={{ marginLeft: 2 }}>
                 +{app.othersCount}
@@ -173,10 +234,33 @@ function AppItem({ app, assessment, nameSize = 15, onMark, onToggleExclude }: { 
             </View>
             {assessment || app.state === 'productive' ? (
               <FadeIn from={4}>
-                <PressScale onPress={onMark} accessibilityRole="button" accessibilityLabel={`Изменить оценку ${app.name}`}><T size={12.25} ls={TRACK_SMALL} color={!assessment || reflectionMoods.find(m => m.id === assessment.mood)?.quality === 'productive' ? colors.qProductive : colors.qNeutral} style={{ marginTop: 9 }}>{assessment ? reflectionMoods.find(m => m.id === assessment.mood)?.title : 'С пользой'}</T></PressScale>
+                <PressScale
+                  onPress={onMark}
+                  accessibilityRole="button"
+                  accessibilityLabel={`Изменить оценку ${app.name}`}
+                >
+                  <T
+                    size={12.25}
+                    ls={TRACK_SMALL}
+                    color={
+                      !assessment || reflectionMoods.find(m => m.id === assessment.mood)?.quality === 'productive'
+                        ? colors.qProductive
+                        : colors.qNeutral
+                    }
+                    style={{ marginTop: 9 }}
+                  >
+                    {assessment ? reflectionMoods.find(m => m.id === assessment.mood)?.title : 'С пользой'}
+                  </T>
+                </PressScale>
               </FadeIn>
             ) : (
-              <PressScale onPress={onMark} style={styles.chip} accessibilityRole="button" hitSlop={{ top: 11, bottom: 11 }} accessibilityLabel={`Оценить время ${app.name}`}>
+              <PressScale
+                onPress={onMark}
+                style={styles.chip}
+                accessibilityRole="button"
+                hitSlop={{ top: 11, bottom: 11 }}
+                accessibilityLabel={`Оценить время ${app.name}`}
+              >
                 <Icon name="plus-chip" width={13} height={12} color={colors.chipInk} style={{ marginRight: 3.2 }} />
                 <T size={12.25} weight={600} ls={TRACK_SMALL} color={colors.chipInk}>
                   Время с пользой?
@@ -217,8 +301,17 @@ function ActivityItem({ activity }: { activity: ActivityRow }) {
   const a = activityArt[activity.icon];
   const good = activity.quality === 'productive';
   return (
-    <View accessibilityLabel={`Активность ${activity.name}: ${activity.quality}`} style={[styles.row, { height: 88, paddingLeft: 22 }]}>
-      {activity.emoji ? <T size={28} style={{ width: 32, marginRight: 14 }}>{activity.emoji}</T> : <Image source={activity.image ?? a.src} style={{ width: a.w, height: a.h, marginRight: 14 }} />}
+    <View
+      accessibilityLabel={`Активность ${activity.name}: ${activity.quality}`}
+      style={[styles.row, { height: 88, paddingLeft: 22 }]}
+    >
+      {activity.emoji ? (
+        <T size={28} style={{ width: 32, marginRight: 14 }}>
+          {activity.emoji}
+        </T>
+      ) : (
+        <Image source={activity.image ?? a.src} style={{ width: a.w, height: a.h, marginRight: 14 }} />
+      )}
       <View style={{ flex: 1 }}>
         <View style={styles.rowTop}>
           <T size={15.25}>{activity.name}</T>
@@ -235,7 +328,7 @@ function ActivityItem({ activity }: { activity: ActivityRow }) {
           </T>
           <View style={styles.metaSep} />
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 2, marginLeft: 8 }}>
-            {activity.apps.map((i) => (
+            {activity.apps.map(i => (
               <ActivityAppGlyph key={i} icon={i} />
             ))}
           </View>

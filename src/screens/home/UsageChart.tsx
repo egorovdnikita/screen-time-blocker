@@ -45,13 +45,13 @@ export function UsageChart({ data, onInsight, interactive = true }: Props) {
   // Столбики одного часа складываются стопкой снизу вверх.
   const stacked = useMemo(() => {
     const acc: Record<number, number> = {};
-    return data.bars.map((b) => {
+    return data.bars.map(b => {
       const below = acc[b.h] ?? 0;
       acc[b.h] = below + b.v;
       return { ...b, below };
     });
   }, [data.bars]);
-  const totalAt = (h: number) => stacked.filter((b) => b.h === h).reduce((s, b) => s + b.v, 0);
+  const totalAt = (h: number) => stacked.filter(b => b.h === h).reduce((s, b) => s + b.v, 0);
 
   // Рост столбиков при смене данных.
   const [grow] = useState(() => new Animated.Value(0));
@@ -62,25 +62,29 @@ export function UsageChart({ data, onInsight, interactive = true }: Props) {
 
   const onPlotPress = (e: GestureResponderEvent) => {
     if (!interactive || !onInsight || slot === 0) return;
-    const h = chartHourFromPress(e.nativeEvent as GestureResponderEvent['nativeEvent'] & { offsetX?: number }, slot, Platform.OS === 'web');
+    const h = chartHourFromPress(
+      e.nativeEvent as GestureResponderEvent['nativeEvent'] & { offsetX?: number },
+      slot,
+      Platform.OS === 'web',
+    );
     if (h === null) return;
-    onInsight(totalAt(h) > 0 || data.bubbles?.some((b) => b.h === h) ? 'glued' : 'offline');
+    onInsight(totalAt(h) > 0 || data.bubbles?.some(b => b.h === h) ? 'glued' : 'offline');
   };
 
   const trackColor = data.tracks.tone === 'future' ? colors.barFuture : colors.qChartTrack;
 
   return (
-    <View style={StyleSheet.absoluteFill} pointerEvents="box-none" onLayout={(e) => setW(e.nativeEvent.layout.width)}>
+    <View style={StyleSheet.absoluteFill} pointerEvents="box-none" onLayout={e => setW(e.nativeEvent.layout.width)}>
       {w > 0 && (
         <>
-          {[0, 42, 84].map((y) => (
+          {[0, 42, 84].map(y => (
             <View key={y} pointerEvents="none" style={[styles.grid, { top: TOP + y - 0.333, width: gridW }]} />
           ))}
-          {TICKS.map((h) => (
+          {TICKS.map(h => (
             <View key={h} pointerEvents="none" style={[styles.tick, { left: GRID_LEFT + h * slot + 0.167 }]} />
           ))}
 
-          {data.tracks.hours.map((h) => (
+          {data.tracks.hours.map(h => (
             <View
               key={`t${h}`}
               pointerEvents="none"
@@ -96,12 +100,15 @@ export function UsageChart({ data, onInsight, interactive = true }: Props) {
             />
           ))}
           {data.highlights
-            ?.filter((h) => !data.tracks.hours.includes(h))
-            .map((h) => (
+            ?.filter(h => !data.tracks.hours.includes(h))
+            .map(h => (
               <View
                 key={`hl${h}`}
                 pointerEvents="none"
-                style={[styles.bar, { left: barX(h), top: TOP + 0.333, height: PLOT_H, backgroundColor: colors.activityHighlight }]}
+                style={[
+                  styles.bar,
+                  { left: barX(h), top: TOP + 0.333, height: PLOT_H, backgroundColor: colors.activityHighlight },
+                ]}
               />
             ))}
 
@@ -128,20 +135,34 @@ export function UsageChart({ data, onInsight, interactive = true }: Props) {
           })}
 
           {/* Зона тапа по часам */}
-          <Pressable disabled={!interactive} pointerEvents={interactive ? 'auto' : 'none'} style={[styles.hit, { left: GRID_LEFT, width: gridW }]} onPress={onPlotPress} accessibilityLabel="График по часам" />
+          <Pressable
+            disabled={!interactive}
+            pointerEvents={interactive ? 'auto' : 'none'}
+            style={[styles.hit, { left: GRID_LEFT, width: gridW }]}
+            onPress={onPlotPress}
+            accessibilityLabel="График по часам"
+          />
 
           <View pointerEvents="none" style={[styles.axisY, { left: GRID_LEFT + gridW + 3.67, top: TOP - 5.67 }]}>
-            <T size={10} weight={500} color={colors.chartLabel}>{data.axis[0]}</T>
+            <T size={10} weight={500} color={colors.chartLabel}>
+              {data.axis[0]}
+            </T>
           </View>
           <View pointerEvents="none" style={[styles.axisY, { left: GRID_LEFT + gridW + 3.67, top: TOP + 36.33 }]}>
-            <T size={10} weight={500} color={colors.chartLabel}>{data.axis[1]}</T>
+            <T size={10} weight={500} color={colors.chartLabel}>
+              {data.axis[1]}
+            </T>
           </View>
           <View pointerEvents="none" style={[styles.axisY, { left: GRID_LEFT + gridW + 3.67, top: TOP + 78.67 }]}>
-            <T size={10} weight={500} color={colors.chartLabel}>{data.axis[2]}</T>
+            <T size={10} weight={500} color={colors.chartLabel}>
+              {data.axis[2]}
+            </T>
           </View>
-          {TICKS.map((h) => (
+          {TICKS.map(h => (
             <View key={h} pointerEvents="none" style={[styles.axisX, { left: GRID_LEFT + h * slot + 4.33 }]}>
-              <T size={9.75} weight={500} ls={TRACK_SMALL} color={colors.chartLabel}>{hh(h)}</T>
+              <T size={9.75} weight={500} ls={TRACK_SMALL} color={colors.chartLabel}>
+                {hh(h)}
+              </T>
             </View>
           ))}
 
@@ -149,8 +170,17 @@ export function UsageChart({ data, onInsight, interactive = true }: Props) {
           {data.bubbles?.map((bb, i) => {
             const top = Math.max(TOP, TOP + PLOT_H - totalAt(bb.h) * PLOT_H - BUBBLE_LIFT);
             return (
-              <PopIn key={`${bb.kind}${bb.h}`} delay={180 + i * 80} style={[styles.bubble, { left: barX(bb.h) + BAR_W / 2 - 25.7, top }]}>
-                <Pressable disabled={!interactive} pointerEvents={interactive ? 'auto' : 'none'} onPress={() => onInsight?.('glued')} accessibilityLabel="Подробнее о сессии">
+              <PopIn
+                key={`${bb.kind}${bb.h}`}
+                delay={180 + i * 80}
+                style={[styles.bubble, { left: barX(bb.h) + BAR_W / 2 - 25.7, top }]}
+              >
+                <Pressable
+                  disabled={!interactive}
+                  pointerEvents={interactive ? 'auto' : 'none'}
+                  onPress={() => onInsight?.('glued')}
+                  accessibilityLabel="Подробнее о сессии"
+                >
                   <View style={styles.tail} />
                   <View style={styles.disc}>
                     {bb.kind === 'app' ? (

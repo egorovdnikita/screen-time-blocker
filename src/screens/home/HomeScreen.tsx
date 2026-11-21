@@ -67,13 +67,21 @@ export function HomeScreen() {
   useEffect(() => {
     if (!loading) return;
     spin.setValue(0);
-    const loop = Animated.loop(Animated.timing(spin, { toValue: 1, duration: 900, useNativeDriver: Platform.OS !== 'web' }));
+    const loop = Animated.loop(
+      Animated.timing(spin, { toValue: 1, duration: 900, useNativeDriver: Platform.OS !== 'web' }),
+    );
     loop.start();
     return () => loop.stop();
   }, [loading, spin]);
 
   return (
-    <View style={styles.root}><LinearGradient pointerEvents="none" colors={[homeSkyTheme.top, colors.bg, colors.bg]} locations={[0, .45, 1]} style={StyleSheet.absoluteFill} />
+    <View style={styles.root}>
+      <LinearGradient
+        pointerEvents="none"
+        colors={[homeSkyTheme.top, colors.bg, colors.bg]}
+        locations={[0, 0.45, 1]}
+        style={StyleSheet.absoluteFill}
+      />
       <ScrollView
         onScroll={onScroll}
         scrollEventThrottle={32}
@@ -81,23 +89,65 @@ export function HomeScreen() {
         scrollEnabled={!app.newStartVisible}
         contentContainerStyle={{ paddingBottom: bottomSpace, backgroundColor: colors.bg }}
       >
-        <Image source={art.homeSky} style={[styles.sky, { width, height: width * SKY_RATIO }]} contentFit="cover" /><LinearGradient pointerEvents="none" colors={homeSkyTheme.fade} style={{ position: 'absolute', left: 0, right: 0, top: width * SKY_RATIO * .4, height: width * SKY_RATIO * .6 }} />
+        <Image source={art.homeSky} style={[styles.sky, { width, height: width * SKY_RATIO }]} contentFit="cover" />
+        <LinearGradient
+          pointerEvents="none"
+          colors={homeSkyTheme.fade}
+          style={{
+            position: 'absolute',
+            left: 0,
+            right: 0,
+            top: width * SKY_RATIO * 0.4,
+            height: width * SKY_RATIO * 0.6,
+          }}
+        />
 
         <View style={[styles.header, { marginTop: top + 10 }]}>
-          <T size={12} weight={600} ls={0} color={colors.wordmark}>screen-time-blocker</T>
+          <T size={12} weight={600} ls={0} color={colors.wordmark}>
+            screen-time-blocker
+          </T>
           <View style={styles.periodWrap} pointerEvents="box-none">
-            <Pressable ref={periodRef} disabled={app.live} onPress={openPeriod} style={styles.period} accessibilityRole="button" hitSlop={{ top: 4, bottom: 4 }} accessibilityLabel="Период">
+            <Pressable
+              ref={periodRef}
+              disabled={app.live}
+              onPress={openPeriod}
+              style={styles.period}
+              accessibilityRole="button"
+              hitSlop={{ top: 4, bottom: 4 }}
+              accessibilityLabel="Период"
+            >
               <T size={14.25} color={colors.white} onSky>
                 {day.label}
               </T>
               {/* Истории у реального пользователя пока нет: выбирать нечего. */}
-              {!app.live && <Icon name="chevron-down" width={13} height={8} color={colors.white} style={{ marginLeft: 3.5, marginTop: 1 }} />}
+              {!app.live && (
+                <Icon
+                  name="chevron-down"
+                  width={13}
+                  height={8}
+                  color={colors.white}
+                  style={{ marginLeft: 3.5, marginTop: 1 }}
+                />
+              )}
             </Pressable>
           </View>
           <View style={styles.headerButtons}>
-            {!app.live && <Animated.View style={{ transform: [{ rotate: spin.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '360deg'] }) }] }}>
-              <RoundButton variant="glass" icon="arrow-clockwise" iconWidth={19} iconHeight={23} accessibilityLabel="Обновить" onPress={app.refresh} />
-            </Animated.View>}
+            {!app.live && (
+              <Animated.View
+                style={{
+                  transform: [{ rotate: spin.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '360deg'] }) }],
+                }}
+              >
+                <RoundButton
+                  variant="glass"
+                  icon="arrow-clockwise"
+                  iconWidth={19}
+                  iconHeight={23}
+                  accessibilityLabel="Обновить"
+                  onPress={app.refresh}
+                />
+              </Animated.View>
+            )}
             <RoundButton
               variant="glass"
               icon="ellipsis"
@@ -120,7 +170,15 @@ export function HomeScreen() {
                 pagingEnabled
                 showsHorizontalScrollIndicator={false}
                 scrollEventThrottle={16}
-                onScroll={Animated.event([{ nativeEvent: { contentOffset: { x: pageX } } }], { useNativeDriver: Platform.OS !== 'web', listener: (event: { nativeEvent: { contentOffset: { x: number } } }) => { const next = Math.round(event.nativeEvent.contentOffset.x / width); setChartSelection(current => current.day === day.id && current.page === next ? current : { day: day.id, page: next }); } })}
+                onScroll={Animated.event([{ nativeEvent: { contentOffset: { x: pageX } } }], {
+                  useNativeDriver: Platform.OS !== 'web',
+                  listener: (event: { nativeEvent: { contentOffset: { x: number } } }) => {
+                    const next = Math.round(event.nativeEvent.contentOffset.x / width);
+                    setChartSelection(current =>
+                      current.day === day.id && current.page === next ? current : { day: day.id, page: next },
+                    );
+                  },
+                })}
               >
                 <ScreenTimePage day={day} width={width} />
                 {!app.live && <QualityPage day={day} width={width} />}
@@ -138,15 +196,48 @@ export function HomeScreen() {
             </FadeIn>
           ) : (
             <FadeIn key={day.id} style={StyleSheet.absoluteFill} from={4}>
-              <Animated.View pointerEvents={chartPage === 0 ? 'auto' : 'none'} accessibilityElementsHidden={chartPage !== 0} importantForAccessibility={chartPage === 0 ? 'auto' : 'no-hide-descendants'} style={[StyleSheet.absoluteFill, { opacity: page.interpolate({ inputRange: [0, 1], outputRange: [1, 0] }) }]}>
-                <Stats first={{ label: 'Экономия', value: day.stats.saved, decrease: !app.live }} pickups={day.stats.pickups} notifications={day.stats.notifications} />
-                <UsageChart interactive={chartPage === 0} data={day.chart} onInsight={app.live ? undefined : setInsight} />
+              <Animated.View
+                pointerEvents={chartPage === 0 ? 'auto' : 'none'}
+                accessibilityElementsHidden={chartPage !== 0}
+                importantForAccessibility={chartPage === 0 ? 'auto' : 'no-hide-descendants'}
+                style={[
+                  StyleSheet.absoluteFill,
+                  { opacity: page.interpolate({ inputRange: [0, 1], outputRange: [1, 0] }) },
+                ]}
+              >
+                <Stats
+                  first={{ label: 'Экономия', value: day.stats.saved, decrease: !app.live }}
+                  pickups={day.stats.pickups}
+                  notifications={day.stats.notifications}
+                />
+                <UsageChart
+                  interactive={chartPage === 0}
+                  data={day.chart}
+                  onInsight={app.live ? undefined : setInsight}
+                />
               </Animated.View>
-              <Animated.View pointerEvents={chartPage === 1 ? 'auto' : 'none'} accessibilityElementsHidden={chartPage !== 1} importantForAccessibility={chartPage === 1 ? 'auto' : 'no-hide-descendants'} style={[StyleSheet.absoluteFill, { opacity: page }]}>
-                <Stats first={{ label: 'Время экрана', value: day.quality.stats.screenTime }} pickups={day.quality.stats.pickups} notifications={day.quality.stats.notifications} />
+              <Animated.View
+                pointerEvents={chartPage === 1 ? 'auto' : 'none'}
+                accessibilityElementsHidden={chartPage !== 1}
+                importantForAccessibility={chartPage === 1 ? 'auto' : 'no-hide-descendants'}
+                style={[StyleSheet.absoluteFill, { opacity: page }]}
+              >
+                <Stats
+                  first={{ label: 'Время экрана', value: day.quality.stats.screenTime }}
+                  pickups={day.quality.stats.pickups}
+                  notifications={day.quality.stats.notifications}
+                />
                 <UsageChart interactive={chartPage === 1} data={day.quality.chart} onInsight={setInsight} />
               </Animated.View>
-              {!app.live && <Icon name="chevron-compact-down" width={21} height={9} color={colors.chevronCompact} style={styles.cardChevron} />}
+              {!app.live && (
+                <Icon
+                  name="chevron-compact-down"
+                  width={21}
+                  height={9}
+                  color={colors.chevronCompact}
+                  style={styles.cardChevron}
+                />
+              )}
             </FadeIn>
           )}
         </View>
@@ -155,7 +246,7 @@ export function HomeScreen() {
           <FadeIn key={`mu-${day.id}`} delay={60}>
             <MostUsed
               day={day}
-              onOpenMenu={(a) => {
+              onOpenMenu={a => {
                 setMenuAnchor(a);
                 setMenuOpen(true);
               }}
@@ -177,7 +268,7 @@ export function HomeScreen() {
         anchor={periodAnchor}
         value={app.period}
         onClose={() => setPeriodOpen(false)}
-        onSelect={(p) => {
+        onSelect={p => {
           setPeriodOpen(false);
           if (p !== app.period) app.setPeriod(p);
         }}
@@ -186,14 +277,21 @@ export function HomeScreen() {
         visible={menuOpen}
         anchor={menuAnchor}
         onClose={() => setMenuOpen(false)}
-        onSelect={(m) => {
+        onSelect={m => {
           setMenuOpen(false);
           animateLayout();
           app.setMostUsedMode(m);
         }}
       />
       <InsightSheet kind={insight} onClose={() => setInsight(null)} />
-      {settingsOpen && <ScreenTimeSettings onClose={() => { setSettingsOpen(false); requestAnimationFrame(restoreStatusBar); }} />}
+      {settingsOpen && (
+        <ScreenTimeSettings
+          onClose={() => {
+            setSettingsOpen(false);
+            requestAnimationFrame(restoreStatusBar);
+          }}
+        />
+      )}
       {devMenu && <DemoMenu visible={demoOpen} onClose={() => setDemoOpen(false)} />}
     </View>
   );
@@ -206,22 +304,37 @@ function ScreenTimePage({ day, width }: { day: Day; width: number }) {
       <T size={day.screenTime === '12 мин' ? 17.25 : 16} color={colors.white} onSky>
         {day.screenTime === '12 мин' ? 'Экранное время' : 'Время экрана'}
       </T>
-      <T size={day.screenTime === '—' ? 48 : 74.25} ls={day.screenTime === '—' ? -1 : -2} color={colors.white} onSky numberOfLines={1} adjustsFontSizeToFit style={styles.num}>
+      <T
+        size={day.screenTime === '—' ? 48 : 74.25}
+        ls={day.screenTime === '—' ? -1 : -2}
+        color={colors.white}
+        onSky
+        numberOfLines={1}
+        adjustsFontSizeToFit
+        style={styles.num}
+      >
         {day.screenTime === '—' ? 'Нет данных' : day.screenTime}
       </T>
-      {day.goal.enabled !== false && <Glass radius={radii.pill} style={styles.goal}>
-        <LinearGradient
-          colors={[colors.goalGreen, colors.goalGreen, 'rgba(0, 195, 80, 0)']}
-          locations={[0, 0.55, 1]}
-          start={{ x: 0, y: 0.5 }}
-          end={{ x: 1, y: 0.5 }}
-          style={styles.goalFill}
-        />
-        <Icon name={day.goal.kind === 'check' ? 'goal-check' : 'goal-target'} width={13.5} color={colors.white} style={{ marginRight: 3.5 }} />
-        <T size={17.25} color={colors.white} onSky>
-          {day.goal.text}
-        </T>
-      </Glass>}
+      {day.goal.enabled !== false && (
+        <Glass radius={radii.pill} style={styles.goal}>
+          <LinearGradient
+            colors={[colors.goalGreen, colors.goalGreen, 'rgba(0, 195, 80, 0)']}
+            locations={[0, 0.55, 1]}
+            start={{ x: 0, y: 0.5 }}
+            end={{ x: 1, y: 0.5 }}
+            style={styles.goalFill}
+          />
+          <Icon
+            name={day.goal.kind === 'check' ? 'goal-check' : 'goal-target'}
+            width={13.5}
+            color={colors.white}
+            style={{ marginRight: 3.5 }}
+          />
+          <T size={17.25} color={colors.white} onSky>
+            {day.goal.text}
+          </T>
+        </Glass>
+      )}
     </View>
   );
 }
@@ -239,7 +352,10 @@ function QualityPage({ day, width }: { day: Day; width: number }) {
       <T size={58.5} ls={-1.5} color={colors.white} onSky numberOfLines={1} adjustsFontSizeToFit style={styles.qWord}>
         {q.word}
       </T>
-      <View accessibilityLabel={`Качество времени: ${q.pct[0]}% с пользой, ${q.pct[1]}% нейтрально, ${q.pct[2]}% отвлекает`} style={styles.qTiles}>
+      <View
+        accessibilityLabel={`Качество времени: ${q.pct[0]}% с пользой, ${q.pct[1]}% нейтрально, ${q.pct[2]}% отвлекает`}
+        style={styles.qTiles}
+      >
         {FACES.map((f, i) => (
           <View key={f} style={{ alignItems: 'center', width: 53.8 }}>
             <View style={[styles.qTile, q.pct[i] === 100 && { backgroundColor: colors.qTileOn, boxShadow: undefined }]}>
@@ -261,12 +377,16 @@ function QualityPage({ day, width }: { day: Day; width: number }) {
 function Dots({ page }: { page: Animated.AnimatedInterpolation<number> }) {
   return (
     <View style={styles.dots}>
-      {[0, 1].map((i) => (
+      {[0, 1].map(i => (
         <View key={i} style={[styles.dot, { backgroundColor: colors.dotOff }]}>
           <Animated.View
             style={[
               StyleSheet.absoluteFill,
-              { borderRadius: 3.1, backgroundColor: colors.white, opacity: page.interpolate({ inputRange: [0, 1], outputRange: i === 0 ? [1, 0] : [0, 1] }) },
+              {
+                borderRadius: 3.1,
+                backgroundColor: colors.white,
+                opacity: page.interpolate({ inputRange: [0, 1], outputRange: i === 0 ? [1, 0] : [0, 1] }),
+              },
             ]}
           />
         </View>
@@ -286,16 +406,36 @@ function Stats({
 }) {
   return (
     <View style={styles.stats} pointerEvents="none">
-      <Stat label={first.label} value={first.value} decrease={first.decrease} {...first.label === 'Время экрана' ? { labelSize: 12.25, labelWeight: 600 as const } : {}} />
+      <Stat
+        label={first.label}
+        value={first.value}
+        decrease={first.decrease}
+        {...(first.label === 'Время экрана' ? { labelSize: 12.25, labelWeight: 600 as const } : {})}
+      />
       <View style={styles.sep} />
-      {/* HTML 044: у «Поднятия» 11.75/19.75, у «Уведомления» 12.25/600 */}<Stat label="Поднятия" value={pickups} labelSize={11.75} valueSize={19.75} />
+      {/* HTML 044: у «Поднятия» 11.75/19.75, у «Уведомления» 12.25/600 */}
+      <Stat label="Поднятия" value={pickups} labelSize={11.75} valueSize={19.75} />
       <View style={styles.sep} />
       <Stat label="Уведомления" value={notifications} labelSize={12.25} labelWeight={600} />
     </View>
   );
 }
 
-function Stat({ label, value, decrease, labelSize = 12, labelWeight = 700, valueSize = 20 }: { label: string; value: string; decrease?: boolean; labelSize?: number; labelWeight?: 600 | 700; valueSize?: number }) {
+function Stat({
+  label,
+  value,
+  decrease,
+  labelSize = 12,
+  labelWeight = 700,
+  valueSize = 20,
+}: {
+  label: string;
+  value: string;
+  decrease?: boolean;
+  labelSize?: number;
+  labelWeight?: 600 | 700;
+  valueSize?: number;
+}) {
   return (
     <View style={styles.stat}>
       <T size={labelSize} weight={labelWeight} ls={TRACK_SMALL} color={colors.textSecondary}>
@@ -304,7 +444,10 @@ function Stat({ label, value, decrease, labelSize = 12, labelWeight = 700, value
       <View style={styles.statValue}>
         {decrease && (
           <Svg width={9.5} height={8} viewBox="0 0 9.5 8" style={{ marginRight: 4.5 }}>
-            <Path fill={colors.decrease} d="M1.6 0H7.9C9.1 0 9.8 1.3 9.2 2.3L6.1 7.2C5.5 8.2 4 8.2 3.4 7.2L.3 2.3C-.3 1.3.4 0 1.6 0Z" />
+            <Path
+              fill={colors.decrease}
+              d="M1.6 0H7.9C9.1 0 9.8 1.3 9.2 2.3L6.1 7.2C5.5 8.2 4 8.2 3.4 7.2L.3 2.3C-.3 1.3.4 0 1.6 0Z"
+            />
           </Svg>
         )}
         <T size={valueSize} ls={decrease ? 0.3 : 0}>
@@ -319,7 +462,15 @@ const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: colors.bg },
   sky: { position: 'absolute', left: 0, top: 0 },
   header: { height: 44, flexDirection: 'row', alignItems: 'center', paddingLeft: 20, paddingRight: 20 },
-  periodWrap: { position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, alignItems: 'center', justifyContent: 'center' },
+  periodWrap: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   period: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 8, paddingVertical: 10 },
   headerButtons: { marginLeft: 'auto', flexDirection: 'row', gap: 6.7 },
   num: { marginTop: -2, lineHeight: 89, height: 89, maxWidth: 360 },
@@ -327,11 +478,24 @@ const styles = StyleSheet.create({
   goalFill: { position: 'absolute', left: 0, top: 0, bottom: 0, width: 30 },
   qWord: { marginTop: 1, lineHeight: 70, height: 70, maxWidth: 380 },
   qTiles: { flexDirection: 'row', marginTop: 0 },
-  qTile: { width: 28, height: 28, borderRadius: 8, overflow: 'hidden', backgroundColor: colors.qTile, boxShadow: `inset 0px 0px 0px 1px ${colors.qTileRim}` },
+  qTile: {
+    width: 28,
+    height: 28,
+    borderRadius: 8,
+    overflow: 'hidden',
+    backgroundColor: colors.qTile,
+    boxShadow: `inset 0px 0px 0px 1px ${colors.qTileRim}`,
+  },
   qFill: { position: 'absolute', left: 0, right: 0, bottom: 0 },
   dots: { flexDirection: 'row', gap: 3.67, alignSelf: 'center', marginTop: 20.6 },
   dot: { width: 6.167, height: 6.167, borderRadius: 3.1, overflow: 'hidden' },
-  card: { marginHorizontal: 20, height: CARD_H, borderRadius: radii.card, backgroundColor: colors.card, boxShadow: shadows.card },
+  card: {
+    marginHorizontal: 20,
+    height: CARD_H,
+    borderRadius: radii.card,
+    backgroundColor: colors.card,
+    boxShadow: shadows.card,
+  },
   loading: { flex: 1, justifyContent: 'center', paddingBottom: 6 },
   stats: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, marginTop: 28 },
   stat: { flex: 1, alignItems: 'center' },
@@ -339,4 +503,3 @@ const styles = StyleSheet.create({
   sep: { width: 1.5, height: 16.5, borderRadius: 1, backgroundColor: colors.separator, marginTop: 23.6 },
   cardChevron: { position: 'absolute', top: 232, alignSelf: 'center' },
 });
-

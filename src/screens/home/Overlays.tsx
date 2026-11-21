@@ -62,10 +62,14 @@ export function PeriodMenu({
         </View>
         <View style={styles.segment}>
           <View style={[styles.segmentItem, styles.segmentOn]}>
-            <T size={14} ls={0} style={SYSTEM}>День</T>
+            <T size={14} ls={0} style={SYSTEM}>
+              День
+            </T>
           </View>
           <View style={styles.segmentItem}>
-            <T size={14} ls={0} style={SYSTEM}>Неделя</T>
+            <T size={14} ls={0} style={SYSTEM}>
+              Неделя
+            </T>
           </View>
         </View>
         {periodOptions.map((o, i) => {
@@ -129,9 +133,15 @@ export function MostUsedMenu({
           },
         ]}
       >
-        <MaterialBlur pointerEvents="none" blurPx={12} nativeIntensity={14} tint="light" style={StyleSheet.absoluteFill}/>
-        <View pointerEvents="none" style={[StyleSheet.absoluteFill,{backgroundColor:colors.contextMenu}]}/>
-        {(['apps', 'activities'] as const).map((m) => (
+        <MaterialBlur
+          pointerEvents="none"
+          blurPx={12}
+          nativeIntensity={14}
+          tint="light"
+          style={StyleSheet.absoluteFill}
+        />
+        <View pointerEvents="none" style={[StyleSheet.absoluteFill, { backgroundColor: colors.contextMenu }]} />
+        {(['apps', 'activities'] as const).map(m => (
           <Pressable accessibilityRole="button" key={m} onPress={() => onSelect(m)} style={styles.menuRow}>
             {({ pressed }) => (
               <>
@@ -155,7 +165,10 @@ export function MostUsedMenu({
             )}
           </Pressable>
         ))}
-        <View pointerEvents="none" style={[StyleSheet.absoluteFill, { borderRadius: 34, boxShadow: shadows.contextMenuRim }]} />
+        <View
+          pointerEvents="none"
+          style={[StyleSheet.absoluteFill, { borderRadius: 34, boxShadow: shadows.contextMenuRim }]}
+        />
       </Animated.View>
     </Modal>
   );
@@ -196,15 +209,30 @@ export function InsightSheet({ kind, onClose }: { kind: 'glued' | 'offline' | nu
               <Icon name="ogonek-resting" width={58} height={60} style={{ position: 'absolute', left: 38, top: 0 }} />
             </View>
           )}
-          <T size={29} ls={0} center style={{ lineHeight: 33.333, marginTop: k === 'glued' ? 18.3 : 26, paddingHorizontal: 25 }}>
+          <T
+            size={29}
+            ls={0}
+            center
+            style={{ lineHeight: 33.333, marginTop: k === 'glued' ? 18.3 : 26, paddingHorizontal: 25 }}
+          >
             {copy.title}
           </T>
           {k === 'glued' && <Icon name="ogonek-app-icon" width={34} style={{ alignSelf: 'center', marginTop: 21 }} />}
-          <T size={15.25} weight={400} center style={{ lineHeight: 20, marginTop: k === 'glued' ? 20.3 : 19.7, paddingHorizontal: 32 }}>
+          <T
+            size={15.25}
+            weight={400}
+            center
+            style={{ lineHeight: 20, marginTop: k === 'glued' ? 20.3 : 19.7, paddingHorizontal: 32 }}
+          >
             <T size={15.25}>Подумайте: </T>
             {copy.hint}
           </T>
-          <PressScale accessibilityRole="button" accessibilityLabel="Закрыть подсказку графика" onPress={onClose} style={styles.sheetButton}>
+          <PressScale
+            accessibilityRole="button"
+            accessibilityLabel="Закрыть подсказку графика"
+            onPress={onClose}
+            style={styles.sheetButton}
+          >
             <T size={17.25}>Понятно</T>
           </PressScale>
         </Animated.View>
@@ -228,9 +256,16 @@ export function NewStart({ onClose }: { onClose: () => void }) {
           Новое начало
         </T>
         <T size={15.25} weight={400} center style={{ lineHeight: 18.333, marginTop: 8 }}>
-          {'screen-time-blocker поможет начать заново.\nОставьте прошлое позади. Следите\nза экранным временем, замечайте\nсвои привычки и постепенно\nсокращайте время у экрана.'}
+          {
+            'screen-time-blocker поможет начать заново.\nОставьте прошлое позади. Следите\nза экранным временем, замечайте\nсвои привычки и постепенно\nсокращайте время у экрана.'
+          }
         </T>
-        <PressScale accessibilityRole="button" accessibilityLabel="Понятно" onPress={onClose} style={styles.newStartButton}>
+        <PressScale
+          accessibilityRole="button"
+          accessibilityLabel="Понятно"
+          onPress={onClose}
+          style={styles.newStartButton}
+        >
           <T size={15.25} color={colors.white}>
             Ясно
           </T>
@@ -290,7 +325,16 @@ const styles = StyleSheet.create({
   },
   menuRow: { height: 42, justifyContent: 'center', paddingLeft: 64 },
   menuHighlight: { position: 'absolute', left: 15, right: 15, top: 7, height: 28, borderRadius: 9 },
-  sheetWrap: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, justifyContent: 'center', paddingHorizontal: 20, paddingBottom: 60 },
+  sheetWrap: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: 'center',
+    paddingHorizontal: 20,
+    paddingBottom: 60,
+  },
   sheet: {
     borderRadius: 34,
     backgroundColor: colors.bgPage,
@@ -307,7 +351,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  newStart: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, alignItems: 'center', justifyContent: 'center', paddingBottom: 100 },
+  newStart: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingBottom: 100,
+  },
   newStartButton: {
     marginTop: 26,
     height: 41,
