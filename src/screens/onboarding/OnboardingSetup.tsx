@@ -234,6 +234,7 @@ export function OnboardingPicker({
   onBack: () => void;
   onNext: () => void;
 }) {
+  const { live } = useAppState();
   const [search, setSearch] = useState('');
   const apps = lockApps.filter(x => ['bereal', 'facetime', 'messages', 'xchat'].includes(x.id));
   const toggle = (id: string) =>
@@ -256,13 +257,15 @@ export function OnboardingPicker({
         >
           {!search && (
             <>
-              <PickerCategory title="Приложения и категории" image={sharedArt.groupAll} onPress={() => {}} />
+              {/* В реальном режиме остальные категории скрыты: выбрать из них нечего (аудит 2026-11-21). */}
+              {!live && <PickerCategory title="Приложения и категории" image={sharedArt.groupAll} onPress={() => {}} />}
               <PickerCategory
                 title="Социальные сети"
                 image={sharedArt.groupSocial}
                 onPress={onExpand}
                 expanded={expanded}
                 count={value.length}
+                circle={!live}
               />
             </>
           )}
@@ -293,6 +296,7 @@ export function OnboardingPicker({
               </PressScale>
             ))}
           {!search &&
+            !live &&
             groupCategories
               .filter(x => x.id !== 'social')
               .map(category => (
@@ -361,12 +365,14 @@ function PickerCategory({
   onPress,
   expanded = false,
   count = 0,
+  circle = true,
 }: {
   title: string;
   image: number;
   onPress: () => void;
   expanded?: boolean;
   count?: number;
+  circle?: boolean;
 }) {
   return (
     <PressScale
@@ -378,7 +384,7 @@ function PickerCategory({
       style={styles.pickerRow}
     >
       <View pointerEvents="none" style={styles.pickerLine} />
-      <PickerCircle />
+      {circle ? <PickerCircle /> : <View style={{ width: 24 }} />}
       <Image source={image} contentFit="contain" style={{ width: 30, height: 30 }} />
       <T size={17} weight={400} variant="system" ls={0} style={{ flex: 1, lineHeight: 21 }}>
         {title}
