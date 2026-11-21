@@ -235,8 +235,8 @@ export function OnboardingStory({
       />
       <T size={27} ls={0} center style={{ marginTop: 46, lineHeight: 34 }}>
         {live
-          ? 'Поэтому мы создали\nBlock, чтобы\nпомочь вам'
-          : 'Поэтому мы запустили\nBlock в 2022 году,\nчтобы помочь вам'}
+          ? 'Поэтому мы создали\nscreen-time-blocker,\nчтобы помочь вам'
+          : 'Поэтому мы запустили\nscreen-time-blocker\nв 2022 году,\nчтобы помочь вам'}
       </T>
       <OnboardingButton onPress={onNext}>Как это работает?</OnboardingButton>
     </>

@@ -7,6 +7,7 @@ import path from 'node:path';
 const dir = path.dirname(fileURLToPath(import.meta.url));
 const checks = [
   'check-chart-interaction.mjs',
+  'check-app-name.mjs',
   'check-block-screen-data.mjs',
   'check-icon-generator.mjs',
   'check-gallery-presets.mjs',
