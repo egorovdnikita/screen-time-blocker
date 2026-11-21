@@ -26,11 +26,15 @@ npx expo start --clear
 
 ```sh
 npm run typecheck
-npm run lint
+npm run lint          # предупреждения тоже считаются ошибкой
+npm run format:check  # Prettier; исправить — npm run format
+npm test              # проверки без браузера
 npx expo export --platform web
 ```
 
-Регрессионные сценарии находятся в `tools/check-*.mjs`; браузерным сценариям нужен Google Chrome и запущенная веб-версия. Адрес задаётся через `EXPO_WEB_URL` (по умолчанию `http://localhost:8082`).
+Те же четыре проверки запускает GitHub Actions на каждый PR и push в `main`.
+
+Регрессионные сценарии находятся в `tools/check-*.mjs`; `npm test` запускает те, что не требуют браузера (список в `tools/run-checks.mjs`). Браузерным сценариям нужен Google Chrome и запущенная веб-версия. Адрес задаётся через `EXPO_WEB_URL` (по умолчанию `http://localhost:8082`).
 
 ## Стек
 
