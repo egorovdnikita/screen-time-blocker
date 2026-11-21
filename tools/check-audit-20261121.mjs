@@ -6,6 +6,10 @@ import { openChrome } from './lib/cdp.mjs';
 const b = await openChrome({ port: 9383 });
 const text = () => b.ev('document.body.innerText');
 try {
+  // Нерабочий флаг языка скрыт в реальном режиме.
+  await b.nav('/onboarding?step=1');
+  assert.ok(!(await b.has('Язык: русский', 300)), 'Флаг языка скрыт');
+
   await b.nav('/onboarding?step=17');
   await b.click('Продолжить настройку');
   await b.click('Блокировать на работе');

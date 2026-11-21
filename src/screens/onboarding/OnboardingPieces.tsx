@@ -69,6 +69,7 @@ export function OnboardingNav({
   localeSize?: number;
 }) {
   const insets = useSafeAreaInsets();
+  const { live } = useAppState();
   const top = Math.max(70, insets.top + 11);
   return (
     <>
@@ -80,7 +81,8 @@ export function OnboardingNav({
       >
         <Icon name="lock-back" width={22} height={18} color={c.ink} style={{ transform: [{ rotate: '180deg' }] }} />
       </PressScale>
-      {locale && (
+      {/* Флаг выбора языка не нажимается, а язык один — в реальном режиме скрыт (аудит 2026-11-21). */}
+      {locale && !live && (
         <View accessibilityLabel="Язык: русский" style={[styles.nav, { right: 20, top }]}>
           <T size={localeSize} weight={400} ls={0}>
             🇺🇸
