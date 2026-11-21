@@ -8,7 +8,25 @@ export const appIcons = [
   { id: 'spooky', title: 'Жуть', image: art.picker_reference_spooky },
   { id: 'ghostly', title: 'Призрак', image: art.picker_reference_ghostly },
 ] as const;
-export type AppIconId = typeof appIcons[number]['id'];
-export const initialNotifications = () => ({ diary: false, sessionStart: true, sessionEnd: true, unlockWarning: true, unlockEnd: true, allOff: false });
+export type AppIconId = (typeof appIcons)[number]['id'];
+export const initialNotifications = () => ({
+  diary: false,
+  sessionStart: true,
+  sessionEnd: true,
+  unlockWarning: true,
+  unlockEnd: true,
+  allOff: false,
+});
 export type NotificationPreferences = ReturnType<typeof initialNotifications>;
-export const languages = [ ['🇷🇺','Русский'], ['🇫🇷','Français'], ['🇨🇳','简体中文'], ['🇩🇪','Deutsch'], ['🇳🇱','Nederlands'], ['🇪🇸','Español'], ['🇮🇹','Italiano'], ['🇧🇷','Português brasileiro'], ['🇰🇷','한국어'], ['🇵🇱','Polski'] ];
+export const languages = [
+  ['🇷🇺', 'Русский'],
+  ['🇫🇷', 'Français'],
+  ['🇨🇳', '简体中文'],
+  ['🇩🇪', 'Deutsch'],
+  ['🇳🇱', 'Nederlands'],
+  ['🇪🇸', 'Español'],
+  ['🇮🇹', 'Italiano'],
+  ['🇧🇷', 'Português brasileiro'],
+  ['🇰🇷', '한국어'],
+  ['🇵🇱', 'Polski'],
+];

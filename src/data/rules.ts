@@ -18,7 +18,17 @@ export type Meta =
   | { kind: 'schedule'; time: string; days?: string }
   | { kind: 'ring'; text: string; progress: number; tone: 'accent' | 'blocking' };
 
-export type LockRule = { id: string; app: string; name: string; unlocks: string; count?: number; minutes?: number; strict?: boolean; strictSettings?: StrictSettings; unlockSettings?: UnlockSettings };
+export type LockRule = {
+  id: string;
+  app: string;
+  name: string;
+  unlocks: string;
+  count?: number;
+  minutes?: number;
+  strict?: boolean;
+  strictSettings?: StrictSettings;
+  unlockSettings?: UnlockSettings;
+};
 
 export type RuleDetailChanges = { title: string; strict: boolean; strictSettings: StrictSettings };
 export type SessionRule = {
@@ -93,9 +103,40 @@ const limitAllDay: LimitRule = {
 const routine: RoutineRule = { id: 'routine', title: 'Рутина' };
 
 export const rulesVariants: Record<RulesVariant, RulesData> = {
-  onboarding: { active:0,locks:[],sessions:[],limits:[],routines:[],templates:'classic' },
-  strict: { active: 3, locks: [{ id: 'music', app: 'apple-music', name: 'Apple Music', unlocks: '(3/3)', strict: true, strictSettings: { strictScope: 'session', strictDays: 1 } }], sessions: [workHours], limits: [limitAllDay], routines: [routine], templates: 'classic' },
-  reason: { active: 3, locks: [{ id: 'music', app: 'apple-music', name: 'Apple Music', unlocks: '(3/3)', unlockSettings: { unlockMethod: 'reason', waitAutomatic: true, waitSeconds: 3, copyText: '', scanType: 'qr' } }], sessions: [workHours], limits: [limitAllDay], routines: [routine], templates: 'classic' },
+  onboarding: { active: 0, locks: [], sessions: [], limits: [], routines: [], templates: 'classic' },
+  strict: {
+    active: 3,
+    locks: [
+      {
+        id: 'music',
+        app: 'apple-music',
+        name: 'Apple Music',
+        unlocks: '(3/3)',
+        strict: true,
+        strictSettings: { strictScope: 'session', strictDays: 1 },
+      },
+    ],
+    sessions: [workHours],
+    limits: [limitAllDay],
+    routines: [routine],
+    templates: 'classic',
+  },
+  reason: {
+    active: 3,
+    locks: [
+      {
+        id: 'music',
+        app: 'apple-music',
+        name: 'Apple Music',
+        unlocks: '(3/3)',
+        unlockSettings: { unlockMethod: 'reason', waitAutomatic: true, waitSeconds: 3, copyText: '', scanType: 'qr' },
+      },
+    ],
+    sessions: [workHours],
+    limits: [limitAllDay],
+    routines: [routine],
+    templates: 'classic',
+  },
   // 37-rules__01
   full: {
     active: 3,
@@ -200,17 +241,50 @@ export const activeLabel = (n: number) => {
 };
 
 // Один счётчик для заголовка Правил и таббара, включая приостановленные сессии.
-export function activeRuleCount(base: RulesData, state: { createdRoutines: readonly RoutineRule[]; createdLimits: readonly LimitRule[]; createdLocks: readonly LockRule[]; createdSessions: readonly SessionRule[]; pausedSessions: Readonly<Record<string, 'next' | 'manual'>>; deletedRuleIds?: readonly string[] }) {
+export function activeRuleCount(
+  base: RulesData,
+  state: {
+    createdRoutines: readonly RoutineRule[];
+    createdLimits: readonly LimitRule[];
+    createdLocks: readonly LockRule[];
+    createdSessions: readonly SessionRule[];
+    pausedSessions: Readonly<Record<string, 'next' | 'manual'>>;
+    deletedRuleIds?: readonly string[];
+  },
+) {
   const deleted = new Set(state.deletedRuleIds);
-  const removedBase = [...base.locks, ...base.limits, ...base.routines].filter(x => deleted.has(x.id)).length + base.sessions.filter(x => x.status.kind === 'blocking' && deleted.has(x.id)).length;
-  const pausedBase = base.sessions.filter(rule => !deleted.has(rule.id) && rule.status.kind === 'blocking' && state.pausedSessions[rule.id]).length;
-  const activeSessions = state.createdSessions.filter(rule => !deleted.has(rule.id) && rule.status.kind === 'blocking' && !state.pausedSessions[rule.id]).length;
-  return Math.max(0, base.active - pausedBase - removedBase) + [...state.createdRoutines, ...state.createdLimits, ...state.createdLocks].filter(x => !deleted.has(x.id)).length + activeSessions;
+  const removedBase =
+    [...base.locks, ...base.limits, ...base.routines].filter(x => deleted.has(x.id)).length +
+    base.sessions.filter(x => x.status.kind === 'blocking' && deleted.has(x.id)).length;
+  const pausedBase = base.sessions.filter(
+    rule => !deleted.has(rule.id) && rule.status.kind === 'blocking' && state.pausedSessions[rule.id],
+  ).length;
+  const activeSessions = state.createdSessions.filter(
+    rule => !deleted.has(rule.id) && rule.status.kind === 'blocking' && !state.pausedSessions[rule.id],
+  ).length;
+  return (
+    Math.max(0, base.active - pausedBase - removedBase) +
+    [...state.createdRoutines, ...state.createdLimits, ...state.createdLocks].filter(x => !deleted.has(x.id)).length +
+    activeSessions
+  );
 }
 
 // Одна презентационная база для заголовка и таббара демо207; реальные правила не меняются.
 export function rulesForPresentation(variant: RulesVariant, earned = false): RulesData {
   if (!earned) return rulesVariants[variant];
   const base = rulesVariants.limitProgress;
-  return {...base, active: 2, locks: [], sessions: [], limits: base.limits.map(rule => ({...rule, value: '2ч15', status: {kind: 'upcoming'}, meta: {kind: 'schedule', time: 'Весь день', days: 'пн, ср, пт, вс'}, progress: null, linkedApps: false}))};
+  return {
+    ...base,
+    active: 2,
+    locks: [],
+    sessions: [],
+    limits: base.limits.map(rule => ({
+      ...rule,
+      value: '2ч15',
+      status: { kind: 'upcoming' },
+      meta: { kind: 'schedule', time: 'Весь день', days: 'пн, ср, пт, вс' },
+      progress: null,
+      linkedApps: false,
+    })),
+  };
 }

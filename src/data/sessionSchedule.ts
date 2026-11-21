@@ -3,8 +3,7 @@ import type { Meta, SessionRule, Status } from './rules';
 // APP-06: статус сессии считается из расписания и текущего времени, а не хранится строкой.
 // Внутри приложения; автоматическое начало защиты без открытого screen-time-blocker требует DeviceActivity (dev-сборка).
 export type SessionSchedule =
-  | { kind: 'now'; startedAt: number; minutes: number }
-  | { kind: 'weekly'; start: number; end: number; days: number[] }; // минуты от полуночи, дни 0 = пн
+  { kind: 'now'; startedAt: number; minutes: number } | { kind: 'weekly'; start: number; end: number; days: number[] }; // минуты от полуночи, дни 0 = пн
 
 const DAY = 1440;
 const weekday = (date: Date) => (date.getDay() + 6) % 7;
@@ -15,13 +14,17 @@ const clock = (m: number) => `${Math.floor(m / 60) % 24}:${String(m % 60).padSta
 export function remainingLabel(total: number) {
   // Формат как durationLabel в редакторе: «1 д 2 ч 45 мин».
   const m = Math.max(1, Math.ceil(total));
-  const d = Math.floor(m / 1440), h = Math.floor(m / 60) % 24, rest = m % 60;
+  const d = Math.floor(m / 1440),
+    h = Math.floor(m / 60) % 24,
+    rest = m % 60;
   return [d ? `${d} д` : '', h ? `${h} ч` : '', rest ? `${rest} мин` : ''].filter(Boolean).join(' ');
 }
 
 /** Сколько минут осталось до конца активного окна; null — окно сейчас не активно. */
 export function weeklyRemaining(s: Extract<SessionSchedule, { kind: 'weekly' }>, now: Date): number | null {
-  const t = minuteOfDay(now) + now.getSeconds() / 60, today = weekday(now), yesterday = (today + 6) % 7;
+  const t = minuteOfDay(now) + now.getSeconds() / 60,
+    today = weekday(now),
+    yesterday = (today + 6) % 7;
   const allDay = s.start === s.end;
   if (allDay) return s.days.includes(today) ? DAY - t : null;
   if (s.end > s.start) return s.days.includes(today) && t >= s.start && t < s.end ? s.end - t : null;
@@ -34,7 +37,8 @@ export function weeklyRemaining(s: Extract<SessionSchedule, { kind: 'weekly' }>,
 /** Ближайший запуск: «Сегодня в 9:00», «Завтра в 9:00», «пн в 9:00». */
 export function nextStartLabel(s: Extract<SessionSchedule, { kind: 'weekly' }>, now: Date): string | null {
   if (!s.days.length) return null;
-  const t = minuteOfDay(now), today = weekday(now);
+  const t = minuteOfDay(now),
+    today = weekday(now);
   for (let offset = 0; offset < 8; offset++) {
     const day = (today + offset) % 7;
     if (!s.days.includes(day) || (offset === 0 && t >= s.start)) continue;
@@ -50,11 +54,27 @@ export function liveSession(rule: SessionRule, now: Date): SessionRule {
   const strict = rule.strict;
   if (s.kind === 'now') {
     const left = s.startedAt + s.minutes * 60000 - now.getTime();
-    if (left <= 0) return { ...rule, status: { kind: 'upcoming', text: 'Завершена' }, meta: { kind: 'ring', text: 'Завершена', progress: 1, tone: 'blocking' }, nextStart: null };
-    const meta: Meta = { kind: 'ring', text: `Осталось ${remainingLabel(left / 60000)}`, progress: Math.min(1, 1 - left / (s.minutes * 60000)), tone: 'blocking' };
+    if (left <= 0)
+      return {
+        ...rule,
+        status: { kind: 'upcoming', text: 'Завершена' },
+        meta: { kind: 'ring', text: 'Завершена', progress: 1, tone: 'blocking' },
+        nextStart: null,
+      };
+    const meta: Meta = {
+      kind: 'ring',
+      text: `Осталось ${remainingLabel(left / 60000)}`,
+      progress: Math.min(1, 1 - left / (s.minutes * 60000)),
+      tone: 'blocking',
+    };
     return { ...rule, status: { kind: 'blocking', strict }, meta, nextStart: null };
   }
   const left = weeklyRemaining(s, now);
   const status: Status = left !== null ? { kind: 'blocking', strict } : { kind: 'upcoming' };
-  return { ...rule, status, remaining: left === null ? null : remainingLabel(left), nextStart: left === null ? nextStartLabel(s, now) : null };
+  return {
+    ...rule,
+    status,
+    remaining: left === null ? null : remainingLabel(left),
+    nextStart: left === null ? nextStartLabel(s, now) : null,
+  };
 }

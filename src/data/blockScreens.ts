@@ -10,10 +10,18 @@ export const screenApps = [
   { id: 'ground-news', title: 'Ground News', image: art.screenSearchApp7 },
   { id: 'nerdish', title: 'Nerdish', image: art.screenSearchApp8 },
 ];
-export type ScreenApp = typeof screenApps[number];
-export type CustomBlockScreen = { id: string; kind: 'app'; appId: string } | { id: string; kind: 'message'; title: string; subtitle: string; button: string };
+export type ScreenApp = (typeof screenApps)[number];
+export type CustomBlockScreen =
+  | { id: string; kind: 'app'; appId: string }
+  | { id: string; kind: 'message'; title: string; subtitle: string; button: string };
 export type MessageBlockScreen = Extract<CustomBlockScreen, { kind: 'message' }>;
-export const newMessageScreen = (): MessageBlockScreen => ({ id: `screen-message-${Date.now()}`, kind: 'message', title: '', subtitle: '', button: '' });
+export const newMessageScreen = (): MessageBlockScreen => ({
+  id: `screen-message-${Date.now()}`,
+  kind: 'message',
+  title: '',
+  subtitle: '',
+  button: '',
+});
 export const findScreenApp = (id: string) => screenApps.find(app => app.id === id);
 // Рекомендации из локального макета, без запроса App Store.
 export function searchScreenApps(query: string) {

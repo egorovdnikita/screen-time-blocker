@@ -110,13 +110,46 @@ const appsRegular: AppRow[] = [
   { id: 'block', name: 'screen-time-blocker', time: '35 мин', ratio: 1, icon: 'block', state: 'ask' },
   { id: 'photos', name: 'Фото', time: '7 мин', ratio: 0.2, icon: 'photos', state: 'ask' },
   { id: 'phia', name: 'Phia', time: '1 мин', ratio: 0.03, icon: 'phia', state: 'ask' },
-  { id: 'other', name: 'Другое', time: '1 мин', ratio: 0, icon: 'other', state: 'ask', others: 'apps-other', othersCount: 1 },
+  {
+    id: 'other',
+    name: 'Другое',
+    time: '1 мин',
+    ratio: 0,
+    icon: 'other',
+    state: 'ask',
+    others: 'apps-other',
+    othersCount: 1,
+  },
 ];
 
 const activities: ActivityRow[] = [
-  { id: 'work', name: 'Работа', time: '1ч40', ratio: 1, icon: 'work', quality: 'productive', apps: ['block', 'flight'] },
-  { id: 'inspiration', name: 'Ищу вдохновение', time: '24 мин', ratio: 0.245, icon: 'inspiration', quality: 'productive', apps: ['photos'] },
-  { id: 'procrastinate', name: 'Откладываю', time: '7 мин', ratio: 0.074, icon: 'procrastinate', quality: 'distracting', apps: ['store'] },
+  {
+    id: 'work',
+    name: 'Работа',
+    time: '1ч40',
+    ratio: 1,
+    icon: 'work',
+    quality: 'productive',
+    apps: ['block', 'flight'],
+  },
+  {
+    id: 'inspiration',
+    name: 'Ищу вдохновение',
+    time: '24 мин',
+    ratio: 0.245,
+    icon: 'inspiration',
+    quality: 'productive',
+    apps: ['photos'],
+  },
+  {
+    id: 'procrastinate',
+    name: 'Откладываю',
+    time: '7 мин',
+    ratio: 0.074,
+    icon: 'procrastinate',
+    quality: 'distracting',
+    apps: ['store'],
+  },
 ];
 
 // Реальный режим: данные появятся вместе с нативным слоем (APP-16), до него — честно пусто.
@@ -128,7 +161,12 @@ export const dayLive: Day = {
   goal: { kind: 'target', text: 'Не больше 4ч20' },
   stats: { saved: '—', pickups: '—', notifications: '—' },
   chart: emptyChart,
-  quality: { word: '—', pct: [0, 0, 0], stats: { screenTime: '—', pickups: '—', notifications: '—' }, chart: emptyChart },
+  quality: {
+    word: '—',
+    pct: [0, 0, 0],
+    stats: { screenTime: '—', pickups: '—', notifications: '—' },
+    chart: emptyChart,
+  },
   apps: [],
   activities: [],
 };
