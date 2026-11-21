@@ -106,24 +106,27 @@ export function Welcome({ onStart, bleed = 0 }: { onStart: () => void; bleed?: n
         <T size={27} center ls={0} style={{ marginTop: 17, lineHeight: 33 }}>
           {live ? 'Прототип для настройки\nэкранного времени' : 'Помогаем сократить\nэкранное время'}
         </T>
-        <T
-          size={12}
-          weight={400}
-          color={c.muted}
-          center
-          ls={0}
-          style={{ marginTop: 14, marginHorizontal: 32, lineHeight: 15 }}
-        >
-          Продолжая, вы соглашаетесь с{' '}
-          <T size={12} weight={400} color={c.muted} ls={0} style={{ textDecorationLine: 'underline' }}>
-            Условиями использования
-          </T>{' '}
-          и{' '}
-          <T size={12} weight={400} color={c.muted} ls={0} style={{ textDecorationLine: 'underline' }}>
-            Политикой конфиденциальности
-          </T>{' '}
-          screen-time-blocker.
-        </T>
+        {/* Документов условий и политики нет, ссылки не нажимаются — в реальном режиме строка скрыта (аудит 2026-11-21). */}
+        {!live && (
+          <T
+            size={12}
+            weight={400}
+            color={c.muted}
+            center
+            ls={0}
+            style={{ marginTop: 14, marginHorizontal: 32, lineHeight: 15 }}
+          >
+            Продолжая, вы соглашаетесь с{' '}
+            <T size={12} weight={400} color={c.muted} ls={0} style={{ textDecorationLine: 'underline' }}>
+              Условиями использования
+            </T>{' '}
+            и{' '}
+            <T size={12} weight={400} color={c.muted} ls={0} style={{ textDecorationLine: 'underline' }}>
+              Политикой конфиденциальности
+            </T>{' '}
+            screen-time-blocker.
+          </T>
+        )}
       </View>
       <OnboardingButton onPress={onStart} style={{ bottom: live ? 39 : 108.667 }}>
         Начать
