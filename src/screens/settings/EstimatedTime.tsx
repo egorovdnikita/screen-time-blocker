@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { SheetScrollView as ScrollView } from '@/components/SheetModal';
 import { DarkButtonSurface } from '@/components/DarkButtonSurface';
 import { useEffect, useState } from 'react';
@@ -27,9 +28,15 @@ export function EstimatedTime({ onClose }: { onClose: () => void }) {
       <ScrollView
         accessibilityLabel="История расчётного времени"
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 32 }}
+        contentContainerStyle={{ paddingBottom: box.spacing['32'] }}
       >
-        <T size={20} color={colors.black} center ls={0} style={{ marginTop: 44, lineHeight: 26 }}>
+        <T
+          size={box.fontSize['20']}
+          color={colors.black}
+          center
+          ls={0}
+          style={{ marginTop: box.spacing['44'], lineHeight: 26 }}
+        >
           Расчётное время экрана
         </T>
         <View style={[styles.learn, { height: expanded ? 365.333 : 60 }]}>
@@ -47,16 +54,30 @@ export function EstimatedTime({ onClose }: { onClose: () => void }) {
               color={e.blue}
               style={{ transform: [{ rotate: expanded ? '180deg' : '0deg' }] }}
             />
-            <T size={15} weight={600} color={e.blue} ls={0}>
+            <T size={15} weight={box.fontWeight['semibold']} color={e.blue} ls={0}>
               Подробнее
             </T>
           </PressScale>
           {expanded && (
             <View style={styles.explanation}>
-              <T size={13.25} variant="text" weight={400} color={colors.black} ls={0} style={styles.paragraph}>
+              <T
+                size={13.25}
+                variant="text"
+                weight={box.fontWeight['regular']}
+                color={colors.black}
+                ls={0}
+                style={styles.paragraph}
+              >
                 screen-time-blocker использует два вида экранного времени:
               </T>
-              <T size={13.25} variant="text" weight={400} color={colors.black} ls={0} style={styles.paragraph}>
+              <T
+                size={13.25}
+                variant="text"
+                weight={box.fontWeight['regular']}
+                color={colors.black}
+                ls={0}
+                style={styles.paragraph}
+              >
                 {'— '}
                 <T size={13.25} variant="text" color={colors.black} ls={0}>
                   Фактическое время:
@@ -68,7 +89,14 @@ export function EstimatedTime({ onClose }: { onClose: () => void }) {
                   {'Эти данные конфиденциальны: их нельзя\nиспользовать в правилах\nи виджетах.'}
                 </T>
               </T>
-              <T size={13.25} variant="text" weight={400} color={colors.black} ls={0} style={styles.paragraph}>
+              <T
+                size={13.25}
+                variant="text"
+                weight={box.fontWeight['regular']}
+                color={colors.black}
+                ls={0}
+                style={styles.paragraph}
+              >
                 {'— '}
                 <T size={13.25} variant="text" color={colors.black} ls={0}>
                   Расчётное время:
@@ -79,7 +107,14 @@ export function EstimatedTime({ onClose }: { onClose: () => void }) {
                 </T>
                 {' Его преимущество:\nможно использовать в правилах, виджетах\nи других функциях screen-time-blocker.'}
               </T>
-              <T size={13.25} variant="text" weight={400} color={colors.black} ls={0} style={{ lineHeight: 16.667 }}>
+              <T
+                size={13.25}
+                variant="text"
+                weight={box.fontWeight['regular']}
+                color={colors.black}
+                ls={0}
+                style={{ lineHeight: 16.667 }}
+              >
                 {'Обычно значения близки, это нормально.\n'}
                 <T size={13.25} variant="text" color={colors.black} ls={0}>
                   {'Если они расходятся, откройте «Историю»,\nчтобы исправить расчёт.'}
@@ -89,23 +124,36 @@ export function EstimatedTime({ onClose }: { onClose: () => void }) {
           )}
         </View>
         <T
-          size={20}
+          size={box.fontSize['20']}
           color={e.section}
           ls={0}
-          style={{ marginTop: expanded ? 32.334 : 32, marginHorizontal: 20, lineHeight: 25 }}
+          style={{ marginTop: expanded ? 32.334 : 32, marginHorizontal: box.spacing['20'], lineHeight: 25 }}
         >
           История
         </T>
         <View style={styles.dates}>
-          <View style={{ width: 51, height: 48 }}>
-            <T size={13} weight={400} color={e.dateInk} ls={0} style={{ position: 'absolute', top: 5, left: 2 }}>
+          <View style={{ width: 51, height: box.size['48'] }}>
+            <T
+              size={13}
+              weight={box.fontWeight['regular']}
+              color={e.dateInk}
+              ls={0}
+              style={{ position: 'absolute', top: 5, left: 2 }}
+            >
               {week.year}
             </T>
             <T size={18} color={colors.black} ls={0} style={{ position: 'absolute', top: 22 }}>
               {week.month}
             </T>
             <View
-              style={{ position: 'absolute', right: 6, top: 20, width: 1.333, height: 12, backgroundColor: e.border }}
+              style={{
+                position: 'absolute',
+                right: 6,
+                top: 20,
+                width: 1.333,
+                height: box.size['12'],
+                backgroundColor: e.border,
+              }}
             />
           </View>
           {week.days.map((day, i) => (
@@ -118,8 +166,8 @@ export function EstimatedTime({ onClose }: { onClose: () => void }) {
               ]}
             >
               <T
-                size={12}
-                weight={500}
+                size={box.fontSize['12']}
+                weight={box.fontWeight['medium']}
                 color={i === 4 ? colors.white : e.dateInk}
                 center
                 ls={0}
@@ -140,19 +188,19 @@ export function EstimatedTime({ onClose }: { onClose: () => void }) {
           ))}
         </View>
         <View style={styles.stats}>
-          <View style={[styles.stat, { height: 56, borderBottomWidth: 1, borderBottomColor: c.border }]}>
-            <T size={14} weight={400} variant="text" color={colors.black} ls={0}>
+          <View style={[styles.stat, { height: box.size['56'], borderBottomWidth: 1, borderBottomColor: c.border }]}>
+            <T size={box.fontSize['14']} weight={box.fontWeight['regular']} variant="text" color={colors.black} ls={0}>
               Фактическое время
             </T>
-            <T size={14} color={e.value} ls={0}>
+            <T size={box.fontSize['14']} color={e.value} ls={0}>
               {app.day.screenTime}
             </T>
           </View>
           <View style={[styles.stat, { height: 50.667 }]}>
-            <T size={14} weight={400} variant="text" color={colors.black} ls={0}>
+            <T size={box.fontSize['14']} weight={box.fontWeight['regular']} variant="text" color={colors.black} ls={0}>
               Расчётное время
             </T>
-            <T size={14} color={e.value} ls={0}>
+            <T size={box.fontSize['14']} color={e.value} ls={0}>
               {app.live ? '—' : goalTimeLabel(app.estimatedMinutes)}
             </T>
           </View>
@@ -177,15 +225,20 @@ export function EstimatedTime({ onClose }: { onClose: () => void }) {
         {!expanded && !app.live && (
           <>
             <T
-              size={12}
-              weight={500}
+              size={box.fontSize['12']}
+              weight={box.fontWeight['medium']}
               color={e.hint}
               ls={0}
-              style={{ marginTop: 8.333, marginHorizontal: 20, lineHeight: 15 }}
+              style={{ marginTop: 8.333, marginHorizontal: box.spacing['20'], lineHeight: 15 }}
             >
               {'Если расчёт за сегодня сильно отличается\nот фактического времени (больше 10 мин).'}
             </T>
-            <T size={20} color={e.section} ls={0} style={{ marginTop: 31, marginHorizontal: 20, lineHeight: 25 }}>
+            <T
+              size={box.fontSize['20']}
+              color={e.section}
+              ls={0}
+              style={{ marginTop: 31, marginHorizontal: box.spacing['20'], lineHeight: 25 }}
+            >
               Неверный расчёт?
             </T>
             <View style={styles.problems}>
@@ -203,11 +256,24 @@ export function EstimatedTime({ onClose }: { onClose: () => void }) {
                 ]}
               >
                 <View>
-                  <T size={14} variant="text" weight={400} color={colors.black} ls={0}>
+                  <T
+                    size={box.fontSize['14']}
+                    variant="text"
+                    weight={box.fontWeight['regular']}
+                    color={colors.black}
+                    ls={0}
+                  >
                     Повысить точность расчёта
                   </T>
                   {!app.estimatedAccuracy && (
-                    <T size={13.5} variant="text" weight={400} color={e.value} ls={0} style={{ lineHeight: 17 }}>
+                    <T
+                      size={13.5}
+                      variant="text"
+                      weight={box.fontWeight['regular']}
+                      color={e.value}
+                      ls={0}
+                      style={{ lineHeight: 17 }}
+                    >
                       {'Выполните быстрый шаг настройки,\nчтобы повысить точность расчёта\nэкранного времени.'}
                     </T>
                   )}
@@ -227,8 +293,14 @@ export function EstimatedTime({ onClose }: { onClose: () => void }) {
                   style={{ position: 'absolute', right: 16, top: app.estimatedAccuracy ? 16 : 40 }}
                 />
               </View>
-              <View accessibilityState={{ disabled: true }} style={[styles.problem, { height: 52 }]}>
-                <T size={14} variant="text" weight={400} color={colors.black} ls={0}>
+              <View accessibilityState={{ disabled: true }} style={[styles.problem, { height: box.size['52'] }]}>
+                <T
+                  size={box.fontSize['14']}
+                  variant="text"
+                  weight={box.fontWeight['regular']}
+                  color={colors.black}
+                  ls={0}
+                >
                   Руководство по ошибкам
                 </T>
                 <Icon name="activity-row-chevron" width={13} height={20} style={{ position: 'absolute', right: 16 }} />
@@ -247,10 +319,22 @@ export function EstimatedTime({ onClose }: { onClose: () => void }) {
             style={{ position: 'absolute', left: 16, top: 71 }}
           />
           <View style={{ position: 'absolute', top: 17, left: 50, right: 12 }}>
-            <T size={14} weight={600} color={colors.white} ls={0} style={{ lineHeight: 18, marginBottom: 15 }}>
+            <T
+              size={box.fontSize['14']}
+              weight={box.fontWeight['semibold']}
+              color={colors.white}
+              ls={0}
+              style={{ lineHeight: box.lineHeight['18'], marginBottom: 15 }}
+            >
               {'Расчёт обновится! Это может занять\nнесколько минут.'}
             </T>
-            <T size={14} weight={600} color={colors.white} ls={0} style={{ lineHeight: 18 }}>
+            <T
+              size={box.fontSize['14']}
+              weight={box.fontWeight['semibold']}
+              color={colors.white}
+              ls={0}
+              style={{ lineHeight: box.lineHeight['18'] }}
+            >
               {
                 'Если «Расчётное время» остаётся 0с,\nхотя вы пользовались приложениями:\n1. Подождите немного и повторите.\n2. Перезапустите устройство.'
               }
@@ -262,39 +346,62 @@ export function EstimatedTime({ onClose }: { onClose: () => void }) {
   );
 }
 const styles = StyleSheet.create({
-  learn: { marginTop: 31, marginHorizontal: 20, borderRadius: 20, backgroundColor: e.learn, overflow: 'hidden' },
-  learnHeader: { height: 60, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, gap: 8 },
+  learn: {
+    marginTop: 31,
+    marginHorizontal: box.spacing['20'],
+    borderRadius: box.radius['20'],
+    backgroundColor: e.learn,
+    overflow: 'hidden',
+  },
+  learnHeader: {
+    height: box.size['60'],
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: box.spacing['16'],
+    gap: box.spacing['8'],
+  },
   explanation: { position: 'absolute', top: 50, left: 16, right: 16 },
   paragraph: { lineHeight: 16.667, marginBottom: 16.667 },
-  dates: { marginTop: 19, marginHorizontal: 20, height: 48, flexDirection: 'row', gap: 4 },
-  date: { width: 39, height: 48, borderWidth: 1, borderColor: e.border, borderRadius: 14 },
+  dates: {
+    marginTop: 19,
+    marginHorizontal: box.spacing['20'],
+    height: box.size['48'],
+    flexDirection: 'row',
+    gap: box.spacing['4'],
+  },
+  date: { width: 39, height: box.size['48'], borderWidth: 1, borderColor: e.border, borderRadius: box.radius['14'] },
   stats: {
     marginTop: 28.333,
-    marginHorizontal: 20,
-    borderRadius: 20,
+    marginHorizontal: box.spacing['20'],
+    borderRadius: box.radius['20'],
     backgroundColor: colors.white,
     overflow: 'hidden',
   },
-  stat: { paddingHorizontal: 16, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  stat: {
+    paddingHorizontal: box.spacing['16'],
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
   refresh: {
     marginTop: 20.667,
-    marginHorizontal: 20,
+    marginHorizontal: box.spacing['20'],
     height: 41,
-    borderRadius: 24,
+    borderRadius: box.radius['24'],
     backgroundColor: c.dark,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 4,
+    gap: box.spacing['4'],
   },
   problems: {
     marginTop: 11.333,
-    marginHorizontal: 20,
+    marginHorizontal: box.spacing['20'],
     backgroundColor: colors.white,
-    borderRadius: 20,
+    borderRadius: box.radius['20'],
     overflow: 'hidden',
   },
-  problem: { flexDirection: 'row', alignItems: 'center', paddingLeft: 16, paddingRight: 65 },
+  problem: { flexDirection: 'row', alignItems: 'center', paddingLeft: box.spacing['16'], paddingRight: 65 },
   toast: {
     position: 'absolute',
     zIndex: 10,
@@ -302,7 +409,7 @@ const styles = StyleSheet.create({
     left: 16,
     right: 16,
     height: 157,
-    borderRadius: 24,
+    borderRadius: box.radius['24'],
     backgroundColor: e.toast,
     boxShadow: e.toastShadow,
   },

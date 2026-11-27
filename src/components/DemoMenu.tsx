@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { router } from 'expo-router';
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -96,7 +97,7 @@ export function DemoMenu({ visible, onClose }: { visible: boolean; onClose: () =
                 })
               }
             />
-            <T size={12} ls={TRACK_SMALL} color={colors.section} style={styles.caption}>
+            <T size={box.fontSize['12']} ls={TRACK_SMALL} color={colors.section} style={styles.caption}>
               ДЕМО · СЦЕНАРИЙ
             </T>
             {SCENARIOS.map(s => (
@@ -113,7 +114,12 @@ export function DemoMenu({ visible, onClose }: { visible: boolean; onClose: () =
                 }
               />
             ))}
-            <T size={12} ls={TRACK_SMALL} color={colors.section} style={[styles.caption, { marginTop: 18 }]}>
+            <T
+              size={box.fontSize['12']}
+              ls={TRACK_SMALL}
+              color={colors.section}
+              style={[styles.caption, { marginTop: box.spacing['18'] }]}
+            >
               ДЕМО · ПРАВИЛА
             </T>
             {RULES.map(r => (
@@ -159,7 +165,13 @@ function Row({
           {title}
         </T>
         {hint && (
-          <T size={12} weight={500} ls={TRACK_SMALL} color={colors.meta} style={{ marginTop: 2 }}>
+          <T
+            size={box.fontSize['12']}
+            weight={box.fontWeight['medium']}
+            ls={TRACK_SMALL}
+            color={colors.meta}
+            style={{ marginTop: box.spacing['2'] }}
+          >
             {hint}
           </T>
         )}
@@ -178,22 +190,22 @@ const styles = StyleSheet.create({
     maxHeight: '80%',
     borderRadius: 34,
     backgroundColor: colors.white,
-    paddingHorizontal: 16,
-    paddingTop: 8,
+    paddingHorizontal: box.spacing['16'],
+    paddingTop: box.spacing['8'],
   },
   grabber: {
     alignSelf: 'center',
-    width: 36,
+    width: box.size['36'],
     height: 5,
     borderRadius: 3,
     backgroundColor: colors.dash,
-    marginBottom: 12,
+    marginBottom: box.spacing['12'],
   },
-  caption: { marginLeft: 4, marginBottom: 6 },
+  caption: { marginLeft: box.spacing['4'], marginBottom: box.spacing['6'] },
   row: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 14,
+    paddingHorizontal: box.spacing['14'],
     paddingVertical: 11,
     borderRadius: radii.ruleCard,
   },

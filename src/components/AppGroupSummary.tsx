@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { View, StyleSheet } from 'react-native';
 import { groupSummary, hasGroupExtras, selectedWebsites, type AppGroupDraft } from '@/data/appGroup';
 import { colors, appGroupTheme as c } from '@/theme/tokens';
@@ -11,7 +12,7 @@ export function GroupExtraGlyphs({ group, sitesFirst = false }: { group: AppGrou
     ...(group.adultContent
       ? [
           <View key="adult" style={styles.badge}>
-            <T size={7} weight={600} color={colors.white} ls={0}>
+            <T size={7} weight={box.fontWeight['semibold']} color={colors.white} ls={0}>
               18
             </T>
           </View>,
@@ -20,7 +21,7 @@ export function GroupExtraGlyphs({ group, sitesFirst = false }: { group: AppGrou
     ...(group.purchases
       ? [
           <View key="purchases" style={styles.badge}>
-            <T size={7} weight={600} color={colors.white} ls={0}>
+            <T size={7} weight={box.fontWeight['semibold']} color={colors.white} ls={0}>
               $
             </T>
           </View>,
@@ -33,7 +34,7 @@ export function GroupExtraGlyphs({ group, sitesFirst = false }: { group: AppGrou
   const site = sites ? (
     <View key="sites" style={styles.inline}>
       <Icon name="group-globe" width={14} height={14} color={colors.black} />
-      <T size={12} weight={600} ls={0}>
+      <T size={box.fontSize['12']} weight={box.fontWeight['semibold']} ls={0}>
         {sites}
       </T>
     </View>
@@ -46,7 +47,7 @@ export function GroupExtraGlyphs({ group, sitesFirst = false }: { group: AppGrou
     entries.unshift(
       <View key="categories" style={styles.inline}>
         <Icon name="apps-grid" width={13} height={13} color={colors.black} />
-        <T size={12} weight={600} ls={0}>
+        <T size={box.fontSize['12']} weight={box.fontWeight['semibold']} ls={0}>
           {group.categories.length}
         </T>
       </View>,
@@ -56,7 +57,7 @@ export function GroupExtraGlyphs({ group, sitesFirst = false }: { group: AppGrou
       {entries.map((entry, i) => (
         <View key={entry.key} style={styles.inline}>
           {i > 0 && (
-            <T size={12} weight={600} ls={0}>
+            <T size={box.fontSize['12']} weight={box.fontWeight['semibold']} ls={0}>
               ·
             </T>
           )}
@@ -71,14 +72,14 @@ export function AppGroupSummary({ group }: { group: AppGroupDraft }) {
   return (
     <View accessibilityLabel={`Группа: ${groupSummary(group)}`} style={styles.root}>
       {group.mode === 'except' && (
-        <T size={10} weight={600} ls={0}>
+        <T size={box.fontSize['10']} weight={box.fontWeight['semibold']} ls={0}>
           {group.selectedApps.some(Boolean) || group.categories.length ? 'Кроме' : 'Все приложения'}
         </T>
       )}
       {group.selectedApps.some(Boolean) && (
         <>
           <SessionApps selected={group.selectedApps} bare reverse={false} />
-          <T size={12} color={c.secondary} ls={0}>
+          <T size={box.fontSize['12']} color={c.secondary} ls={0}>
             ·
           </T>
         </>
@@ -102,8 +103,8 @@ const styles = StyleSheet.create({
   glyphs: { flexDirection: 'row', alignItems: 'center', gap: 5.5 },
   inline: { flexDirection: 'row', alignItems: 'center', gap: 5.5 },
   badge: {
-    width: 14,
-    height: 14,
+    width: box.size['14'],
+    height: box.size['14'],
     borderRadius: 7,
     alignItems: 'center',
     justifyContent: 'center',

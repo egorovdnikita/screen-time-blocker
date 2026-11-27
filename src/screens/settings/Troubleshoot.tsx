@@ -1,3 +1,5 @@
+import { box } from '@/theme/box-ui.generated';
+import { localMaterials, colors, troubleshootTheme as c } from '@/theme/tokens';
 import { SheetScrollView as ScrollView } from '@/components/SheetModal';
 import { useRef, useState, type ComponentRef } from 'react';
 import { StyleSheet, View } from 'react-native';
@@ -12,7 +14,6 @@ import { art } from '@/data/art';
 import { troubleshootSteps } from '@/data/troubleshoot';
 import { useAppState } from '@/state/app';
 import { T } from '@/theme/typography';
-import { colors, troubleshootTheme as c } from '@/theme/tokens';
 
 const issues = [
   [art.troubleshootUnlocked, 'Приложения не блокируются'],
@@ -44,9 +45,14 @@ export function Troubleshoot({ onClose }: { onClose: () => void }) {
         scrollEventThrottle={32}
         onScroll={e => setOptions(e.nativeEvent.contentOffset.y > settingsTop.current - 391)}
         style={styles.scroll}
-        contentContainerStyle={{ paddingTop: 2, paddingBottom: app.live ? 40 : 115 }}
+        contentContainerStyle={{ paddingTop: box.spacing['2'], paddingBottom: app.live ? 40 : 115 }}
       >
-        <T size={20} color={c.section} ls={0} style={{ marginHorizontal: 20, lineHeight: 24 }}>
+        <T
+          size={box.fontSize['20']}
+          color={c.section}
+          ls={0}
+          style={{ marginHorizontal: box.spacing['20'], lineHeight: box.lineHeight['24'] }}
+        >
           {'Сбой блокировки? Попробуйте\n4 шага'}
         </T>
         <View testID="troubleshoot-panel" style={[styles.panel, { height: data.height }]}>
@@ -55,7 +61,7 @@ export function Troubleshoot({ onClose }: { onClose: () => void }) {
               ref={tabs}
               horizontal
               showsHorizontalScrollIndicator={false}
-              contentContainerStyle={{ gap: 4, minWidth: 394 }}
+              contentContainerStyle={{ gap: box.spacing['4'], minWidth: 394 }}
             >
               {troubleshootSteps.map((_, index) => (
                 <PressScale
@@ -79,37 +85,59 @@ export function Troubleshoot({ onClose }: { onClose: () => void }) {
             </ScrollView>
             <LinearGradient
               pointerEvents="none"
-              colors={['#ffffff00', colors.white]}
+              colors={[localMaterials.whiteFade, colors.white]}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 0 }}
-              style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: 20 }}
+              style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: box.size['20'] }}
             />
           </View>
-          <T size={20} ls={-0.25} style={{ position: 'absolute', top: 78, left: 16, right: 16, lineHeight: 24 }}>
+          <T
+            size={box.fontSize['20']}
+            ls={-0.25}
+            style={{ position: 'absolute', top: 78, left: 16, right: 16, lineHeight: box.lineHeight['24'] }}
+          >
             {data.title}
           </T>
           <T
             variant="text"
-            weight={400}
+            weight={box.fontWeight['regular']}
             size={14.25}
             ls={0}
-            style={{ position: 'absolute', left: 16, right: 16, top: step === 0 ? 110 : 134, lineHeight: 18 }}
+            style={{
+              position: 'absolute',
+              left: 16,
+              right: 16,
+              top: step === 0 ? 110 : 134,
+              lineHeight: box.lineHeight['18'],
+            }}
           >
             {data.p1}
           </T>
           {!!data.p2 && (
             <T
               variant="text"
-              weight={400}
+              weight={box.fontWeight['regular']}
               size={14.25}
               ls={0}
-              style={{ position: 'absolute', left: 16, right: 8, top: step === 0 ? 164 : 224, lineHeight: 18 }}
+              style={{
+                position: 'absolute',
+                left: 16,
+                right: 8,
+                top: step === 0 ? 164 : 224,
+                lineHeight: box.lineHeight['18'],
+              }}
             >
               {step === 0 ? (
                 data.p2
               ) : (
                 <>
-                  <T variant="text" weight={600} size={14.25} ls={0} style={{ lineHeight: 18 }}>
+                  <T
+                    variant="text"
+                    weight={box.fontWeight['semibold']}
+                    size={14.25}
+                    ls={0}
+                    style={{ lineHeight: box.lineHeight['18'] }}
+                  >
                     {data.p2.slice(0, step === 1 ? data.p2.indexOf('\nНапример') : data.p2.indexOf(' Проверьте'))}
                   </T>
                   {data.p2.slice(step === 1 ? data.p2.indexOf('\nНапример') : data.p2.indexOf(' Проверьте'))}
@@ -123,11 +151,11 @@ export function Troubleshoot({ onClose }: { onClose: () => void }) {
               <SystemAction title="Подключить" icon="help-reconnect" top={315} muted />
               <T
                 size={11.75}
-                weight={500}
+                weight={box.fontWeight['medium']}
                 color={c.caption}
                 ls={0}
                 center
-                style={{ position: 'absolute', left: 12, right: 12, top: 365, lineHeight: 16 }}
+                style={{ position: 'absolute', left: 12, right: 12, top: 365, lineHeight: box.lineHeight['16'] }}
               >
                 Строгий режим. Подключение — после его окончания.
               </T>
@@ -143,14 +171,14 @@ export function Troubleshoot({ onClose }: { onClose: () => void }) {
         {!app.live && (
           <>
             <T
-              size={20}
+              size={box.fontSize['20']}
               color={c.section}
               ls={0}
-              style={{ marginTop: step === 2 ? 33 : 32, marginLeft: 20, lineHeight: 25 }}
+              style={{ marginTop: step === 2 ? 33 : 32, marginLeft: box.spacing['20'], lineHeight: 25 }}
             >
               Не исправилось?
             </T>
-            <View style={{ marginTop: 11, marginHorizontal: 20, gap: 8 }}>
+            <View style={{ marginTop: 11, marginHorizontal: box.spacing['20'], gap: box.spacing['8'] }}>
               {issues.map(([image, title], index) => (
                 <View
                   key={title}
@@ -158,7 +186,13 @@ export function Troubleshoot({ onClose }: { onClose: () => void }) {
                   style={[styles.issue, { height: index === 7 ? 68 : 56 }]}
                 >
                   <Image source={image} contentFit="contain" style={{ width: 22, height: 22 }} />
-                  <T variant="text" weight={400} size={14.25} ls={0} style={{ flex: 1, lineHeight: 18 }}>
+                  <T
+                    variant="text"
+                    weight={box.fontWeight['regular']}
+                    size={14.25}
+                    ls={0}
+                    style={{ flex: 1, lineHeight: box.lineHeight['18'] }}
+                  >
                     {title}
                   </T>
                   <Icon name="activity-row-chevron" width={13} height={20} />
@@ -174,10 +208,10 @@ export function Troubleshoot({ onClose }: { onClose: () => void }) {
               onLayout={e => {
                 settingsTop.current = e.nativeEvent.layout.y;
               }}
-              size={20}
+              size={box.fontSize['20']}
               color={c.section}
               ls={0}
-              style={{ marginTop: app.live ? 32 : 31, marginLeft: 20, lineHeight: 25 }}
+              style={{ marginTop: app.live ? 32 : 31, marginLeft: box.spacing['20'], lineHeight: 25 }}
             >
               Другие настройки
             </T>
@@ -204,10 +238,23 @@ export function Troubleshoot({ onClose }: { onClose: () => void }) {
                 >
                   <Icon name={row.icon} width={20} height={21} />
                   <View style={{ flex: 1 }}>
-                    <T size={14.25} variant="text" weight={400} ls={0} style={{ lineHeight: 18 }}>
+                    <T
+                      size={14.25}
+                      variant="text"
+                      weight={box.fontWeight['regular']}
+                      ls={0}
+                      style={{ lineHeight: box.lineHeight['18'] }}
+                    >
                       {row.title}
                     </T>
-                    <T size={13} color={c.caption} variant="text" weight={400} ls={0} style={{ lineHeight: 17 }}>
+                    <T
+                      size={13}
+                      color={c.caption}
+                      variant="text"
+                      weight={box.fontWeight['regular']}
+                      ls={0}
+                      style={{ lineHeight: 17 }}
+                    >
                       {row.note}
                     </T>
                   </View>
@@ -226,17 +273,21 @@ export function Troubleshoot({ onClose }: { onClose: () => void }) {
           <>
             <View accessibilityState={{ disabled: true }} style={styles.contact}>
               <Icon name="help-contact" width={12} height={12} />
-              <T size={14} ls={0}>
+              <T size={box.fontSize['14']} ls={0}>
                 Написать нам
               </T>
             </View>
             <T
               size={11.5}
-              weight={500}
+              weight={box.fontWeight['medium']}
               color={c.caption}
               center
               ls={0}
-              style={{ marginTop: 12, marginHorizontal: 20, lineHeight: 14 }}
+              style={{
+                marginTop: box.spacing['12'],
+                marginHorizontal: box.spacing['20'],
+                lineHeight: box.lineHeight['14'],
+              }}
             >
               {
                 'Нас двое, мы работаем из Франции 🇫🇷.\nЧитаем и отвечаем всем, но из-за разницы во времени\nответ может прийти с задержкой.'
@@ -281,7 +332,7 @@ const styles = StyleSheet.create({
   scroll: { position: 'absolute', left: 0, right: 0, top: 100, bottom: 0 },
   panel: {
     marginTop: 11,
-    marginHorizontal: 20,
+    marginHorizontal: box.spacing['20'],
     borderRadius: 34,
     backgroundColor: colors.white,
     boxShadow: c.panelShadow,
@@ -290,11 +341,11 @@ const styles = StyleSheet.create({
   tabs: { position: 'absolute', left: 16, right: 16, top: 16, height: 42 },
   tab: {
     height: 42,
-    borderRadius: 24,
+    borderRadius: box.radius['24'],
     borderWidth: 1,
     borderColor: c.border,
     flexDirection: 'row',
-    gap: 4,
+    gap: box.spacing['4'],
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -303,38 +354,44 @@ const styles = StyleSheet.create({
     left: 16,
     right: 16,
     height: 42,
-    borderRadius: 24,
+    borderRadius: box.radius['24'],
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     gap: 5,
   },
   issue: {
-    borderRadius: 20,
+    borderRadius: box.radius['20'],
     backgroundColor: colors.white,
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 12,
-    paddingHorizontal: 16,
+    gap: box.spacing['12'],
+    paddingHorizontal: box.spacing['16'],
   },
   settings: {
     marginTop: 11,
-    marginHorizontal: 20,
+    marginHorizontal: box.spacing['20'],
     height: 169,
-    borderRadius: 24,
+    borderRadius: box.radius['24'],
     backgroundColor: colors.white,
     overflow: 'hidden',
   },
-  setting: { height: 84.5, paddingHorizontal: 16, flexDirection: 'row', alignItems: 'center', gap: 12 },
+  setting: {
+    height: 84.5,
+    paddingHorizontal: box.spacing['16'],
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: box.spacing['12'],
+  },
   contact: {
-    marginTop: 52,
+    marginTop: box.spacing['52'],
     alignSelf: 'center',
     height: 33,
-    borderRadius: 20,
+    borderRadius: box.radius['20'],
     paddingHorizontal: 13,
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 4,
+    gap: box.spacing['4'],
     backgroundColor: colors.white,
     boxShadow: c.contactShadow,
   },

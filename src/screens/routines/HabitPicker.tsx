@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { SheetScrollView as ScrollView, SheetGrabber, SheetModal } from '@/components/SheetModal';
 import { useAppState } from '@/state/app';
 import { HabitForm } from './HabitForm';
@@ -69,7 +70,7 @@ function HabitPickerBody({
           >
             <View style={styles.sheet} accessibilityViewIsModal>
               <SheetGrabber style={styles.handle} />
-              <T size={20} center ls={0} color={settingsTheme.title} style={styles.title}>
+              <T size={box.fontSize['20']} center ls={0} color={settingsTheme.title} style={styles.title}>
                 Все привычки
               </T>
               <View style={styles.search}>
@@ -87,7 +88,7 @@ function HabitPickerBody({
               </View>
               <ScrollView
                 ref={scroll}
-                contentContainerStyle={{ paddingBottom: 40 }}
+                contentContainerStyle={{ paddingBottom: box.spacing['40'] }}
                 contentOffset={{ x: 0, y: library ? 165 : 0 }}
                 keyboardShouldPersistTaps="handled"
                 showsVerticalScrollIndicator={false}
@@ -95,20 +96,23 @@ function HabitPickerBody({
               >
                 {!needle && !app.live && (
                   <>
-                    <T size={20} color={c.group} ls={0} style={{ lineHeight: 24 }}>
+                    <T size={box.fontSize['20']} color={c.group} ls={0} style={{ lineHeight: box.lineHeight['24'] }}>
                       Полезные приложения
                     </T>
-                    <T size={14} color={c.note} ls={0} style={styles.example}>
+                    <T size={box.fontSize['14']} color={c.note} ls={0} style={styles.example}>
                       Например, «Читать 15 минут»
                     </T>
-                    <View accessibilityState={{ disabled: true }} style={[styles.row, { height: 65, marginTop: 10 }]}>
+                    <View
+                      accessibilityState={{ disabled: true }}
+                      style={[styles.row, { height: 65, marginTop: box.spacing['10'] }]}
+                    >
                       <Image source={art.habitPhone} style={styles.emoji} />
                       <View style={{ flex: 1 }}>
-                        <T size={15} weight={400} variant="display" ls={0}>
+                        <T size={15} weight={box.fontWeight['regular']} variant="display" ls={0}>
                           Полезное приложение
                         </T>
-                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 2 }}>
-                          <T size={14} weight={400} color={c.muted} ls={0}>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: box.spacing['2'] }}>
+                          <T size={box.fontSize['14']} weight={box.fontWeight['regular']} color={c.muted} ls={0}>
                             Проверка
                           </T>
                           <Icon name="habit-block" width={14} height={14} />
@@ -119,10 +123,10 @@ function HabitPickerBody({
                   </>
                 )}
                 <View style={{ marginTop: needle ? 0 : 48 }}>
-                  <T size={20} color={c.group} ls={0} style={{ lineHeight: 24 }}>
+                  <T size={box.fontSize['20']} color={c.group} ls={0} style={{ lineHeight: box.lineHeight['24'] }}>
                     Проверка по фото (ИИ)
                   </T>
-                  <T size={14} color={c.note} ls={0} style={styles.example}>
+                  <T size={box.fontSize['14']} color={c.note} ls={0} style={styles.example}>
                     Напр., «Выпить воды» — подтвердить фото
                   </T>
                   {visible.map((habit, i) => (
@@ -139,7 +143,7 @@ function HabitPickerBody({
                       style={[styles.row, { marginTop: i ? 12 : 9 }]}
                     >
                       <Image source={habit.image} style={styles.emoji} />
-                      <T size={15} weight={400} variant="display" ls={0} style={{ flex: 1 }}>
+                      <T size={15} weight={box.fontWeight['regular']} variant="display" ls={0} style={{ flex: 1 }}>
                         {habit.label}
                       </T>
                       <PressScale
@@ -149,7 +153,7 @@ function HabitPickerBody({
                           event.stopPropagation();
                           setEditor(habit);
                         }}
-                        style={{ marginRight: 16 }}
+                        style={{ marginRight: box.spacing['16'] }}
                         hitSlop={8}
                       >
                         <Icon name="pencil" width={15} height={17} color={c.edit} />
@@ -167,7 +171,13 @@ function HabitPickerBody({
                     </PressScale>
                   ))}
                   {!visible.length && (
-                    <T size={14} weight={400} color={c.note} center style={{ marginTop: 20 }}>
+                    <T
+                      size={box.fontSize['14']}
+                      weight={box.fontWeight['regular']}
+                      color={c.note}
+                      center
+                      style={{ marginTop: box.spacing['20'] }}
+                    >
                       Ничего не найдено
                     </T>
                   )}
@@ -187,10 +197,10 @@ function HabitPickerBody({
                 </PressScale>
                 {!needle && (
                   <View style={{ marginTop: 42 }}>
-                    <T size={20} color={c.group} ls={0}>
+                    <T size={box.fontSize['20']} color={c.group} ls={0}>
                       Выполнить задачу
                     </T>
-                    <T size={14} color={c.note} ls={0} style={styles.example}>
+                    <T size={box.fontSize['14']} color={c.note} ls={0} style={styles.example}>
                       Напр., «Маникюр» — отметить вручную
                     </T>
                     {catalog
@@ -209,7 +219,7 @@ function HabitPickerBody({
                           style={[styles.row, { marginTop: i ? 12 : 9 }]}
                         >
                           <Image source={habit.image} style={styles.emoji} />
-                          <T size={15} weight={400} variant="display" ls={0} style={{ flex: 1 }}>
+                          <T size={15} weight={box.fontWeight['regular']} variant="display" ls={0} style={{ flex: 1 }}>
                             {habit.label}
                           </T>
                           <PressScale
@@ -219,7 +229,7 @@ function HabitPickerBody({
                               event.stopPropagation();
                               setEditor(habit);
                             }}
-                            style={{ marginRight: 16 }}
+                            style={{ marginRight: box.spacing['16'] }}
                             hitSlop={8}
                           >
                             <Icon name="pencil" width={15} height={17} color={c.edit} />
@@ -287,63 +297,71 @@ const styles = StyleSheet.create({
   handle: {
     position: 'absolute',
     top: 12,
-    width: 64,
+    width: box.size['64'],
     height: 5,
     borderRadius: 5,
     alignSelf: 'center',
     backgroundColor: l.handle,
   },
-  title: { position: 'absolute', top: 44, left: 0, right: 0, lineHeight: 24 },
+  title: { position: 'absolute', top: 44, left: 0, right: 0, lineHeight: box.lineHeight['24'] },
   search: {
     position: 'absolute',
     top: 97,
     left: 20,
     right: 20,
     height: 54,
-    paddingHorizontal: 20,
-    gap: 12,
+    paddingHorizontal: box.spacing['20'],
+    gap: box.spacing['12'],
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1,
     borderColor: l.searchBorder,
     borderRadius: l.searchRadius,
   },
-  input: { flex: 1, height: 52, padding: 0, outlineWidth: 0, color: l.ink, fontSize: 15, fontWeight: '400' },
+  input: {
+    flex: 1,
+    height: box.size['52'],
+    padding: 0,
+    outlineWidth: 0,
+    color: l.ink,
+    fontSize: 15,
+    fontWeight: '400',
+  },
   create: {
-    marginTop: 12,
+    marginTop: box.spacing['12'],
     height: 42,
     borderWidth: 1.3,
     borderStyle: 'dashed',
     borderColor: f.createBorder,
-    borderRadius: 24,
-    paddingHorizontal: 12,
+    borderRadius: box.radius['24'],
+    paddingHorizontal: box.spacing['12'],
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 12,
+    gap: box.spacing['12'],
   },
   createPlus: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
+    width: box.size['24'],
+    height: box.size['24'],
+    borderRadius: box.radius['12'],
     backgroundColor: f.createFill,
     alignItems: 'center',
     justifyContent: 'center',
   },
   list: { position: 'absolute', top: 175, left: 20, right: 20, bottom: 114 },
-  example: { marginTop: 8, lineHeight: 17 },
+  example: { marginTop: box.spacing['8'], lineHeight: 17 },
   row: {
     height: 55,
     borderRadius: c.cardRadius,
     backgroundColor: colors.white,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 16,
+    paddingHorizontal: box.spacing['16'],
   },
-  emoji: { width: 24, height: 24, marginRight: 10 },
+  emoji: { width: box.size['24'], height: box.size['24'], marginRight: box.spacing['10'] },
   circle: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
+    width: box.size['24'],
+    height: box.size['24'],
+    borderRadius: box.radius['12'],
     borderWidth: 2,
     borderColor: c.border,
     justifyContent: 'center',
@@ -353,7 +371,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 20,
     right: 20,
-    height: 60,
+    height: box.size['60'],
     borderRadius: l.buttonRadius,
     alignItems: 'center',
     justifyContent: 'center',

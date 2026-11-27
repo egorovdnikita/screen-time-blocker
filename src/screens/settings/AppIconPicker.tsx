@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { floatingSheetTop } from '@/components/sheetLayout';
 import { useState } from 'react';
@@ -61,7 +62,12 @@ export function AppIconPicker({ onClose, demoAlert = false }: { onClose: () => v
                   <Icon name="checkmark" width={9} height={10} color={colors.white} />
                 </View>
               )}
-              <T size={14} center ls={0} style={{ lineHeight: 18, marginTop: 12, width: 82, marginLeft: -10 }}>
+              <T
+                size={box.fontSize['14']}
+                center
+                ls={0}
+                style={{ lineHeight: box.lineHeight['18'], marginTop: box.spacing['12'], width: 82, marginLeft: -10 }}
+              >
                 {item.title}
               </T>
             </PressScale>
@@ -90,11 +96,18 @@ export function AppIconPicker({ onClose, demoAlert = false }: { onClose: () => v
               <MaterialBlur blurPx={20} nativeIntensity={75} tint="light" style={StyleSheet.absoluteFill} />
               <Image
                 source={appIcons[5].image}
-                style={{ position: 'absolute', left: 8, top: 19, width: 60, height: 60, borderRadius: 15 }}
+                style={{
+                  position: 'absolute',
+                  left: 8,
+                  top: 19,
+                  width: box.size['60'],
+                  height: box.size['60'],
+                  borderRadius: 15,
+                }}
               />
               <T
                 size={16.25}
-                weight={400}
+                weight={box.fontWeight['regular']}
                 variant="text"
                 ls={0}
                 style={{ position: 'absolute', left: 77, right: 8, top: 27, lineHeight: 21 }}
@@ -107,7 +120,7 @@ export function AppIconPicker({ onClose, demoAlert = false }: { onClose: () => v
                 onPress={() => close()}
                 style={styles.ok}
               >
-                <T size={17} weight={400} variant="text" ls={0}>
+                <T size={17} weight={box.fontWeight['regular']} variant="text" ls={0}>
                   ОК
                 </T>
               </PressScale>
@@ -127,14 +140,14 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     rowGap: 13.333,
   },
-  tile: { width: 62, height: 92 },
-  image: { width: 62, height: 62, borderRadius: 18 },
+  tile: { width: 62, height: box.size['92'] },
+  image: { width: 62, height: 62, borderRadius: box.radius['18'] },
   check: {
     position: 'absolute',
     right: -5,
     top: 48,
-    width: 18,
-    height: 18,
+    width: box.size['18'],
+    height: box.size['18'],
     borderRadius: 9,
     borderWidth: 1,
     borderColor: c.surface,
@@ -159,7 +172,7 @@ const styles = StyleSheet.create({
     left: 15,
     right: 15,
     bottom: 15,
-    height: 48,
+    height: box.size['48'],
     borderRadius: 27,
     backgroundColor: c.alertButton,
     alignItems: 'center',

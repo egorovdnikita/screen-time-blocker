@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { View } from 'react-native';
 import { SettingsStack } from './SettingsStack';
 import { SheetScrollView } from '@/components/SheetModal';
@@ -49,12 +50,18 @@ export function NotificationSettings({ onClose }: { onClose: () => void }) {
       accessibilityRole="button"
       accessibilityLabel="Разрешить уведомления screen-time-blocker"
       onPress={request}
-      style={{ marginBottom: 24, borderRadius: 20, backgroundColor: colors.white, padding: 16, gap: 4 }}
+      style={{
+        marginBottom: box.spacing['24'],
+        borderRadius: box.radius['20'],
+        backgroundColor: colors.white,
+        padding: box.spacing['16'],
+        gap: box.spacing['4'],
+      }}
     >
-      <T size={14.25} weight={600} variant="text" ls={0}>
+      <T size={14.25} weight={box.fontWeight['semibold']} variant="text" ls={0}>
         Уведомления выключены
       </T>
-      <T size={13} weight={400} variant="text" color={c.value} ls={0} style={{ lineHeight: 17 }}>
+      <T size={13} weight={box.fontWeight['regular']} variant="text" color={c.value} ls={0} style={{ lineHeight: 17 }}>
         {permission === 'blocked'
           ? 'Разрешите их в Настройках iOS → screen-time-blocker → Уведомления.'
           : 'Нажмите, чтобы разрешить уведомления.'}
@@ -74,7 +81,7 @@ export function NotificationSettings({ onClose }: { onClose: () => void }) {
         borderColor: c.line,
       }}
     >
-      <View style={{ width: 22, height: 24, alignItems: 'center', justifyContent: 'center' }}>
+      <View style={{ width: 22, height: box.size['24'], alignItems: 'center', justifyContent: 'center' }}>
         <Icon
           name={icon}
           width={key === 'sessionStart' ? 16 : key === 'sessionEnd' ? 15 : 22}
@@ -83,11 +90,24 @@ export function NotificationSettings({ onClose }: { onClose: () => void }) {
         />
       </View>
       <View style={{ flex: 1 }}>
-        <T size={14.25} weight={400} variant="text" ls={0} style={{ lineHeight: 20 }}>
+        <T
+          size={14.25}
+          weight={box.fontWeight['regular']}
+          variant="text"
+          ls={0}
+          style={{ lineHeight: box.lineHeight['20'] }}
+        >
           {label}
         </T>
         {sub && (
-          <T size={13} weight={400} variant="text" color={c.value} ls={0} style={{ lineHeight: 17, marginTop: -2 }}>
+          <T
+            size={13}
+            weight={box.fontWeight['regular']}
+            variant="text"
+            color={c.value}
+            ls={0}
+            style={{ lineHeight: 17, marginTop: -2 }}
+          >
             {sub}
           </T>
         )}
@@ -102,24 +122,29 @@ export function NotificationSettings({ onClose }: { onClose: () => void }) {
   );
   return (
     <SettingsStack onClose={onClose} radius={44} surface={c.surface}>
-      <T size={20} center ls={0} style={{ position: 'absolute', top: 44, left: 20, right: 20, lineHeight: 26 }}>
+      <T
+        size={box.fontSize['20']}
+        center
+        ls={0}
+        style={{ position: 'absolute', top: 44, left: 20, right: 20, lineHeight: 26 }}
+      >
         Уведомления
       </T>
       <SheetScrollView
         accessibilityLabel="Настройки уведомлений"
         style={{ marginTop: 100 }}
-        contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 40 }}
+        contentContainerStyle={{ paddingHorizontal: box.spacing['20'], paddingBottom: box.spacing['40'] }}
       >
         {banner}
         {groups.map(group => (
           <View key={group.title} style={{ marginTop: group.gap }}>
-            <T size={20} color={c.section} ls={0} style={{ lineHeight: 26 }}>
+            <T size={box.fontSize['20']} color={c.section} ls={0} style={{ lineHeight: 26 }}>
               {group.title}
             </T>
             <View
               style={{
                 marginTop: group.cardGap ?? 11,
-                borderRadius: 20,
+                borderRadius: box.radius['20'],
                 backgroundColor: colors.white,
                 overflow: 'hidden',
               }}
@@ -128,7 +153,14 @@ export function NotificationSettings({ onClose }: { onClose: () => void }) {
             </View>
           </View>
         ))}
-        <View style={{ marginTop: 32.367, borderRadius: 20, backgroundColor: colors.white, overflow: 'hidden' }}>
+        <View
+          style={{
+            marginTop: 32.367,
+            borderRadius: box.radius['20'],
+            backgroundColor: colors.white,
+            overflow: 'hidden',
+          }}
+        >
           {row('allOff', 'Отключить все уведомления', 'notify-muted')}
         </View>
       </SheetScrollView>

@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { SheetGrabber, SheetModal } from '@/components/SheetModal';
 import { GlassDialog } from '@/components/GlassDialog';
 import { useState } from 'react';
@@ -50,7 +51,7 @@ export function Reminders({
               >
                 <Icon name="reflection-close" width={18} height={18} />
               </PressScale>
-              <T size={20} color={c.title} ls={0}>
+              <T size={box.fontSize['20']} color={c.title} ls={0}>
                 Напоминания
               </T>
               <PressScale
@@ -84,10 +85,17 @@ export function Reminders({
                   accessibilityLabel={`Интервал ${row.title}`}
                   style={[styles.row, i === 0 && { borderBottomWidth: 1, borderBottomColor: c.border }]}
                 >
-                  <T size={14} weight={400} variant="text" color={c.title} ls={0}>
+                  <T size={box.fontSize['14']} weight={box.fontWeight['regular']} variant="text" color={c.title} ls={0}>
                     {row.title}
                   </T>
-                  <T size={14} weight={600} variant="text" color={c.note} ls={0} style={{ marginLeft: 'auto' }}>
+                  <T
+                    size={box.fontSize['14']}
+                    weight={box.fontWeight['semibold']}
+                    variant="text"
+                    color={c.note}
+                    ls={0}
+                    style={{ marginLeft: 'auto' }}
+                  >
                     {draft[row.id] ? `${draft[row.id]}мин` : 'Нет'}
                   </T>
                   <View style={styles.stepper}>
@@ -103,7 +111,7 @@ export function Reminders({
                           setDraft(xs => ({ ...xs, [row.id]: boundedReminder(xs[row.id] + delta, row.max) }))
                         }
                         style={{
-                          width: 44,
+                          width: box.size['44'],
                           height: 30,
                           alignItems: 'center',
                           justifyContent: 'center',
@@ -145,11 +153,11 @@ function ReminderBeta({ onCancel, onContinue }: { onCancel: () => void; onContin
     >
       <T
         size={15}
-        weight={400}
+        weight={box.fontWeight['regular']}
         variant="text"
         color={r.alertInk}
         ls={0}
-        style={{ position: 'absolute', left: 30, right: 25, top: 51, lineHeight: 20 }}
+        style={{ position: 'absolute', left: 30, right: 25, top: 51, lineHeight: box.lineHeight['20'] }}
       >
         {'Функция ещё тестируется. Иногда\nнапоминания могут работать\nнепредсказуемо.'}
       </T>
@@ -158,7 +166,14 @@ function ReminderBeta({ onCancel, onContinue }: { onCancel: () => void; onContin
 }
 
 const styles = StyleSheet.create({
-  sheet: { position: 'absolute', left: 8, right: 8, bottom: 8, borderRadius: 44, backgroundColor: c.front },
+  sheet: {
+    position: 'absolute',
+    left: 8,
+    right: 8,
+    bottom: 8,
+    borderRadius: box.radius['44'],
+    backgroundColor: c.front,
+  },
   handle: {
     position: 'absolute',
     top: 11,
@@ -173,22 +188,40 @@ const styles = StyleSheet.create({
     top: 42.667,
     left: 20,
     right: 20,
-    height: 44,
+    height: box.size['44'],
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  round: { width: 44, height: 44, borderRadius: 22, alignItems: 'center', justifyContent: 'center' },
+  round: {
+    width: box.size['44'],
+    height: box.size['44'],
+    borderRadius: 22,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   rows: {
     position: 'absolute',
     left: 20,
     right: 20,
     top: 104.667,
     backgroundColor: colors.white,
-    borderRadius: 20,
+    borderRadius: box.radius['20'],
     overflow: 'hidden',
   },
-  row: { height: 62, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 12, gap: 10 },
-  stepper: { width: 88, height: 30, borderRadius: 16, backgroundColor: r.stepper, flexDirection: 'row' },
+  row: {
+    height: 62,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: box.spacing['12'],
+    gap: box.spacing['10'],
+  },
+  stepper: {
+    width: box.size['88'],
+    height: 30,
+    borderRadius: box.radius['16'],
+    backgroundColor: r.stepper,
+    flexDirection: 'row',
+  },
   separator: { position: 'absolute', left: 44, top: 4, width: 1, height: 22, backgroundColor: r.separator },
 });

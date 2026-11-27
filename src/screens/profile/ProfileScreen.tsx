@@ -1,3 +1,5 @@
+import { box } from '@/theme/box-ui.generated';
+import { localMaterials, colors, insetBorder, radii, shadows, remainingTheme } from '@/theme/tokens';
 import { useLocalSearchParams } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useAppState } from '@/state/app';
@@ -18,7 +20,6 @@ import { daysWithBlock, reportDaysLeft } from '@/data/profileStats';
 import { bestStreak } from '@/data/streak';
 import { strictDaysLabel } from '../session/StrictSettingsSheet';
 import { T, TRACK_SMALL } from '@/theme/typography';
-import { colors, insetBorder, radii, shadows, remainingTheme } from '@/theme/tokens';
 
 const SKY_RATIO = 2556 / 1179;
 
@@ -65,7 +66,7 @@ export function ProfileScreen({ recap: recapProp = false }: { recap?: boolean })
 
         <View style={styles.identity}>
           <View style={styles.avatar}>
-            <T size={32} weight={800} ls={0} color={colors.avatarInk}>
+            <T size={box.fontSize['32']} weight={box.fontWeight['extrabold']} ls={0} color={colors.avatarInk}>
               {app.profileName.slice(0, 2).toUpperCase()}
             </T>
           </View>
@@ -87,10 +88,15 @@ export function ProfileScreen({ recap: recapProp = false }: { recap?: boolean })
               )
             }
           >
-            <T size={24} color={colors.white} onSky>
+            <T size={box.fontSize['24']} color={colors.white} onSky>
               {app.profileName}
             </T>
-            <Icon name="pencil" width={16.5} color={colors.pencil} style={{ marginLeft: 6, marginTop: 2 }} />
+            <Icon
+              name="pencil"
+              width={16.5}
+              color={colors.pencil}
+              style={{ marginLeft: box.spacing['6'], marginTop: box.spacing['2'] }}
+            />
           </Pressable>
         </View>
 
@@ -103,15 +109,27 @@ export function ProfileScreen({ recap: recapProp = false }: { recap?: boolean })
                 marginHorizontal: -20,
                 marginTop: -22.5,
                 overflow: 'hidden',
-                borderTopLeftRadius: 40,
-                borderTopRightRadius: 40,
+                borderTopLeftRadius: box.radius['40'],
+                borderTopRightRadius: box.radius['40'],
               }}
             >
               <LinearGradient colors={remainingTheme.recapGradient} style={StyleSheet.absoluteFill} />
-              <T size={20} center color={remainingTheme.recap} ls={0} style={{ marginTop: 82, lineHeight: 24 }}>
+              <T
+                size={box.fontSize['20']}
+                center
+                color={remainingTheme.recap}
+                ls={0}
+                style={{ marginTop: 82, lineHeight: box.lineHeight['24'] }}
+              >
                 {'Что покажет о прогрессе\nваш отчёт?'}
               </T>
-              <T size={14} center color={remainingTheme.recapDate} ls={0} style={{ marginTop: 8, lineHeight: 18 }}>
+              <T
+                size={box.fontSize['14']}
+                center
+                color={remainingTheme.recapDate}
+                ls={0}
+                style={{ marginTop: box.spacing['8'], lineHeight: box.lineHeight['18'] }}
+              >
                 {waiting}
               </T>
             </View>
@@ -131,7 +149,7 @@ export function ProfileScreen({ recap: recapProp = false }: { recap?: boolean })
                       name="arrow-down-circle-fill"
                       width={27}
                       color={colors.now}
-                      style={{ marginLeft: -1.4, marginRight: 2 }}
+                      style={{ marginLeft: -1.4, marginRight: box.spacing['2'] }}
                     />
                     <T size={28.5} ls={0}>
                       {profile.nowMinutes}
@@ -178,23 +196,29 @@ export function ProfileScreen({ recap: recapProp = false }: { recap?: boolean })
           <View style={styles.gtiles}>
             <View style={styles.gtile}>
               <View style={styles.glabel}>
-                <Icon name="cake" width={16} height={15.5} color={colors.section} style={{ marginRight: 2 }} />
-                <T size={12.25} weight={600} ls={TRACK_SMALL} color={colors.section}>
+                <Icon
+                  name="cake"
+                  width={16}
+                  height={15.5}
+                  color={colors.section}
+                  style={{ marginRight: box.spacing['2'] }}
+                />
+                <T size={12.25} weight={box.fontWeight['semibold']} ls={TRACK_SMALL} color={colors.section}>
                   С нами уже
                 </T>
               </View>
-              <T size={20} style={styles.gval}>
+              <T size={box.fontSize['20']} style={styles.gval}>
                 {recap ? strictDaysLabel(days) : profile.daysWithBlock}
               </T>
             </View>
             <View style={styles.gtile}>
               <View style={styles.glabel}>
                 <Icon name="drop" width={12.5} height={14.5} color={colors.section} style={{ marginRight: 3.5 }} />
-                <T size={12.25} weight={600} ls={TRACK_SMALL} color={colors.section}>
+                <T size={12.25} weight={box.fontWeight['semibold']} ls={TRACK_SMALL} color={colors.section}>
                   Лучшая серия
                 </T>
               </View>
-              <T size={20} ls={0} style={styles.gval}>
+              <T size={box.fontSize['20']} ls={0} style={styles.gval}>
                 {recap ? bestStreak(app.completedDays) : profile.bestStreak}
               </T>
             </View>
@@ -216,15 +240,15 @@ export function ProfileScreen({ recap: recapProp = false }: { recap?: boolean })
         {/* Статей пока нет: карточки макета ни к чему не ведут. */}
         {!app.live && (
           <View style={styles.band}>
-            <T size={20} color={colors.section} style={{ marginLeft: 20 }}>
+            <T size={box.fontSize['20']} color={colors.section} style={{ marginLeft: box.spacing['20'] }}>
               Подробнее
             </T>
             <T
               size={12.5}
-              weight={500}
+              weight={box.fontWeight['medium']}
               ls={TRACK_SMALL}
               color={colors.written}
-              style={{ marginLeft: 21, marginTop: 2 }}
+              style={{ marginLeft: 21, marginTop: box.spacing['2'] }}
             >
               От команды screen-time-blocker
             </T>
@@ -253,13 +277,13 @@ function Article({ image, title }: { image: ImageSource; title: string }) {
           color={colors.white}
           style={{ position: 'absolute', left: 6.5, top: 5.5 }}
         />
-        <T size={12.5} weight={600} color={colors.white}>
+        <T size={12.5} weight={box.fontWeight['semibold']} color={colors.white}>
           5 мин
         </T>
       </View>
       <View style={styles.artTitle}>
         {title.split('\n').map(line => (
-          <T key={line} size={18} color={colors.white} numberOfLines={1} style={{ lineHeight: 20 }}>
+          <T key={line} size={18} color={colors.white} numberOfLines={1} style={{ lineHeight: box.lineHeight['20'] }}>
             {line}
           </T>
         ))}
@@ -276,7 +300,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'flex-start',
     paddingLeft: 19.333,
-    paddingRight: 20,
+    paddingRight: box.spacing['20'],
   },
   identity: {
     flexDirection: 'row',
@@ -284,12 +308,12 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     marginTop: 46.25,
     gap: 16.25,
-    paddingRight: 32,
+    paddingRight: box.spacing['32'],
   },
   avatar: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
+    width: box.size['80'],
+    height: box.size['80'],
+    borderRadius: box.radius['40'],
     backgroundColor: colors.white,
     alignItems: 'center',
     justifyContent: 'center',
@@ -298,7 +322,7 @@ const styles = StyleSheet.create({
   card: {
     marginTop: 51.4,
     marginHorizontal: 19.667,
-    paddingHorizontal: 20,
+    paddingHorizontal: box.spacing['20'],
     paddingTop: 22.5,
     paddingBottom: 17.8,
     borderRadius: radii.card,
@@ -309,7 +333,7 @@ const styles = StyleSheet.create({
   tile: { flex: 1, height: 149.5, borderRadius: radii.tile, paddingLeft: 19.5, paddingTop: 17.8 },
   tpill: {
     alignSelf: 'flex-start',
-    height: 28,
+    height: box.size['28'],
     paddingHorizontal: 8.3,
     borderRadius: radii.pill,
     justifyContent: 'center',
@@ -317,7 +341,7 @@ const styles = StyleSheet.create({
   tileValue: { flexDirection: 'row', alignItems: 'center' },
   tileSub: { position: 'absolute', left: 19.5, top: 113.8 },
   lifeRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 19.7 },
-  gtiles: { flexDirection: 'row', gap: 8.8, marginTop: 20 },
+  gtiles: { flexDirection: 'row', gap: 8.8, marginTop: box.spacing['20'] },
   gtile: {
     flex: 1,
     height: 62.5,
@@ -326,10 +350,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingTop: 8.2,
   },
-  glabel: { flexDirection: 'row', alignItems: 'center', height: 16 },
+  glabel: { flexDirection: 'row', alignItems: 'center', height: box.size['16'] },
   gval: { marginTop: 7.4 },
   refresh: {
-    marginTop: 20,
+    marginTop: box.spacing['20'],
     height: 45,
     borderRadius: radii.pill,
     backgroundColor: colors.white,
@@ -338,8 +362,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  band: { marginTop: 42.8, backgroundColor: colors.white, paddingTop: 32, paddingBottom: 31.3 },
-  articles: { paddingLeft: 20, paddingRight: 0, gap: 8.5, marginTop: 15.7 },
+  band: { marginTop: 42.8, backgroundColor: colors.white, paddingTop: box.spacing['32'], paddingBottom: 31.3 },
+  articles: { paddingLeft: box.spacing['20'], paddingRight: 0, gap: 8.5, marginTop: 15.7 },
   article: { width: 170, height: 221.333, borderRadius: radii.art, overflow: 'hidden' },
   artPill: {
     position: 'absolute',
@@ -347,10 +371,10 @@ const styles = StyleSheet.create({
     top: 12.5,
     height: 22.5,
     paddingLeft: 21.5,
-    paddingRight: 8,
+    paddingRight: box.spacing['8'],
     borderRadius: radii.pill,
     backgroundColor: colors.artPill,
-    boxShadow: 'inset 0px 0px 0px 1px rgba(255, 255, 255, 0.12)',
+    boxShadow: localMaterials.profileBorder,
     justifyContent: 'center',
   },
   artTitle: { position: 'absolute', left: 12.5, right: 8, top: 148.5 },

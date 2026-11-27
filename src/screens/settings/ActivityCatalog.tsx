@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { SheetScrollView as ScrollView, SheetGrabber, SheetModal } from '@/components/SheetModal';
 import { DarkButtonSurface } from '@/components/DarkButtonSurface';
 import { Image } from 'expo-image';
@@ -23,7 +24,7 @@ export function ActivityCatalog({ onClose }: { onClose: () => void }) {
   return (
     <SettingsStack onClose={onClose}>
       <T
-        size={20}
+        size={box.fontSize['20']}
         color={c.title}
         center
         ls={0}
@@ -32,11 +33,11 @@ export function ActivityCatalog({ onClose }: { onClose: () => void }) {
         Занятия
       </T>
       <T
-        size={14}
-        weight={600}
+        size={box.fontSize['14']}
+        weight={box.fontWeight['semibold']}
         color={c.description}
         ls={0}
-        style={{ position: 'absolute', top: 101, left: 20, right: 20, lineHeight: 18 }}
+        style={{ position: 'absolute', top: 101, left: 20, right: 20, lineHeight: box.lineHeight['18'] }}
       >
         {'Создайте занятия: зачем вам нужны приложения\nи сайты? Отмечайте их как теги на Главной.'}
       </T>
@@ -44,7 +45,7 @@ export function ActivityCatalog({ onClose }: { onClose: () => void }) {
         accessibilityLabel="Список занятий"
         showsVerticalScrollIndicator={false}
         style={{ position: 'absolute', top: 167, left: 20, right: 20, bottom: 112 }}
-        contentContainerStyle={{ gap: 8, paddingBottom: 8 }}
+        contentContainerStyle={{ gap: box.spacing['8'], paddingBottom: box.spacing['8'] }}
       >
         {catalog
           .filter(item => item.id !== 'care')
@@ -59,11 +60,17 @@ export function ActivityCatalog({ onClose }: { onClose: () => void }) {
               {item.image ? (
                 <Image source={item.image} contentFit="contain" style={styles.emoji} />
               ) : (
-                <T size={24} style={styles.emoji}>
+                <T size={box.fontSize['24']} style={styles.emoji}>
                   🧘
                 </T>
               )}
-              <T size={14.25} color={colors.black} ls={0} numberOfLines={1} style={{ flex: 1, paddingRight: 16 }}>
+              <T
+                size={14.25}
+                color={colors.black}
+                ls={0}
+                numberOfLines={1}
+                style={{ flex: 1, paddingRight: box.spacing['16'] }}
+              >
                 {item.title}
               </T>
               <Icon name="activity-row-chevron" width={13} height={20} style={{ position: 'absolute', right: 16 }} />
@@ -177,7 +184,14 @@ function ActivityForm({
                   maxLength={80}
                   returnKeyType="done"
                   onSubmitEditing={() => Keyboard.dismiss()}
-                  style={{ flex: 1, height: 52, padding: 0, fontSize: 14, color: colors.black, outlineWidth: 0 }}
+                  style={{
+                    flex: 1,
+                    height: box.size['52'],
+                    padding: 0,
+                    fontSize: box.fontSize['14'],
+                    color: colors.black,
+                    outlineWidth: 0,
+                  }}
                 />
                 <Icon name="pencil" width={16} height={16} color={c.pencil} />
               </View>
@@ -201,29 +215,35 @@ function ActivityForm({
 }
 const styles = StyleSheet.create({
   row: {
-    height: 56,
-    borderRadius: 24,
+    height: box.size['56'],
+    borderRadius: box.radius['24'],
     backgroundColor: colors.white,
-    paddingLeft: 14,
-    paddingRight: 20,
+    paddingLeft: box.spacing['14'],
+    paddingRight: box.spacing['20'],
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 12,
+    gap: box.spacing['12'],
   },
-  emoji: { width: 24, height: 26 },
+  emoji: { width: box.size['24'], height: 26 },
   add: {
     position: 'absolute',
     left: 20,
     right: 20,
-    height: 60,
-    borderRadius: 32,
+    height: box.size['60'],
+    borderRadius: box.radius['32'],
     backgroundColor: c.dark,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    gap: 4,
+    gap: box.spacing['4'],
   },
-  form: { height: 212, marginHorizontal: 8, marginBottom: 8, borderRadius: c.formRadius, backgroundColor: c.front },
+  form: {
+    height: 212,
+    marginHorizontal: box.spacing['8'],
+    marginBottom: box.spacing['8'],
+    borderRadius: c.formRadius,
+    backgroundColor: c.front,
+  },
   handle: {
     position: 'absolute',
     top: 11,
@@ -237,8 +257,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 20,
     top: 43.333,
-    width: 44,
-    height: 44,
+    width: box.size['44'],
+    height: box.size['44'],
     borderRadius: 22,
     justifyContent: 'center',
     alignItems: 'center',
@@ -251,10 +271,10 @@ const styles = StyleSheet.create({
     height: 54,
     borderWidth: 1,
     borderColor: c.field,
-    borderRadius: 28,
-    paddingHorizontal: 18,
+    borderRadius: box.radius['28'],
+    paddingHorizontal: box.spacing['18'],
     flexDirection: 'row',
-    gap: 12,
+    gap: box.spacing['12'],
     alignItems: 'center',
   },
 });

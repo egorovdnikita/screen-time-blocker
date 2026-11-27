@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { useId, type ReactNode } from 'react';
 import { StyleSheet, View } from 'react-native';
 import Svg, { Defs, LinearGradient, Path, Stop } from 'react-native-svg';
@@ -10,7 +11,12 @@ export function UnlockCard({ ready, children }: { ready: boolean; children: Reac
   const id = useId().replace(/[^a-zA-Z0-9]/g, '');
   return (
     <View
-      style={{ width: 333.333, height: 233.333, borderRadius: 60, boxShadow: ready ? c.greenShadow : c.blueShadow }}
+      style={{
+        width: 333.333,
+        height: 233.333,
+        borderRadius: box.radius['60'],
+        boxShadow: ready ? c.greenShadow : c.blueShadow,
+      }}
     >
       <Svg width="100%" height="100%" viewBox="0 0 333.333 233.333">
         <Defs>

@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { ReflectionSheet } from './ReflectionSheet';
 import { AppIcon } from './AppIcon';
 import { reflectionKey, reflectionMoods } from '@/data/reflection';
@@ -53,7 +54,7 @@ export function MostUsed({ day, onOpenMenu }: Props) {
   return (
     <View>
       <View style={styles.header}>
-        <T size={20} color={colors.sectionLight}>
+        <T size={box.fontSize['20']} color={colors.sectionLight}>
           Чаще всего
         </T>
         <View ref={pillRef} collapsable={false}>
@@ -94,7 +95,7 @@ export function MostUsed({ day, onOpenMenu }: Props) {
             <>
               <DashedLine
                 color={colors.separator}
-                style={{ marginHorizontal: 20, marginTop: -10.5, marginBottom: 38 }}
+                style={{ marginHorizontal: box.spacing['20'], marginTop: -10.5, marginBottom: 38 }}
               />
               {excluded.map(a => (
                 <AppItem
@@ -200,7 +201,7 @@ function AppItem({
         <View style={styles.rowTop}>
           <T size={nameSize}>{app.name}</T>
           {!excluded && (
-            <T size={14.25} weight={400}>
+            <T size={14.25} weight={box.fontWeight['regular']}>
               {app.time}
             </T>
           )}
@@ -208,7 +209,7 @@ function AppItem({
         {excluded ? (
           <View style={[styles.chip, styles.excludedChip]}>
             <Icon name="eye-slash" width={12} color={colors.excludedInk} style={{ marginRight: 3 }} />
-            <T size={12} color={colors.excludedInk}>
+            <T size={box.fontSize['12']} color={colors.excludedInk}>
               Исключено
             </T>
           </View>
@@ -222,7 +223,7 @@ function AppItem({
               }}
             />
             {app.othersCount ? (
-              <T size={12.25} ls={TRACK_SMALL} color={colors.plusMore} style={{ marginLeft: 2 }}>
+              <T size={12.25} ls={TRACK_SMALL} color={colors.plusMore} style={{ marginLeft: box.spacing['2'] }}>
                 +{app.othersCount}
               </T>
             ) : null}
@@ -262,7 +263,7 @@ function AppItem({
                 accessibilityLabel={`Оценить время ${app.name}`}
               >
                 <Icon name="plus-chip" width={13} height={12} color={colors.chipInk} style={{ marginRight: 3.2 }} />
-                <T size={12.25} weight={600} ls={TRACK_SMALL} color={colors.chipInk}>
+                <T size={12.25} weight={box.fontWeight['semibold']} ls={TRACK_SMALL} color={colors.chipInk}>
                   Время с пользой?
                 </T>
               </PressScale>
@@ -285,15 +286,15 @@ function ActivityAppGlyph({ icon }: { icon: ActivityAppIcon }) {
     case 'block':
       return <Icon name="ogonek-app-icon" width={20} />;
     case 'flight':
-      return <Image source={art.activityFlight} style={{ width: 22, height: 24 }} />;
+      return <Image source={art.activityFlight} style={{ width: 22, height: box.size['24'] }} />;
     case 'photos':
-      return <Image source={art.activityPhotos} style={{ width: 23, height: 24 }} />;
+      return <Image source={art.activityPhotos} style={{ width: 23, height: box.size['24'] }} />;
     case 'phia':
     case 'substack':
     case 'other':
       return <AppIcon icon={icon} size={20} />;
     case 'store':
-      return <Image source={art.activityStore} style={{ width: 24, height: 25 }} />;
+      return <Image source={art.activityStore} style={{ width: box.size['24'], height: 25 }} />;
   }
 }
 
@@ -303,19 +304,19 @@ function ActivityItem({ activity }: { activity: ActivityRow }) {
   return (
     <View
       accessibilityLabel={`Активность ${activity.name}: ${activity.quality}`}
-      style={[styles.row, { height: 88, paddingLeft: 22 }]}
+      style={[styles.row, { height: box.size['88'], paddingLeft: 22 }]}
     >
       {activity.emoji ? (
-        <T size={28} style={{ width: 32, marginRight: 14 }}>
+        <T size={box.fontSize['28']} style={{ width: box.size['32'], marginRight: box.spacing['14'] }}>
           {activity.emoji}
         </T>
       ) : (
-        <Image source={activity.image ?? a.src} style={{ width: a.w, height: a.h, marginRight: 14 }} />
+        <Image source={activity.image ?? a.src} style={{ width: a.w, height: a.h, marginRight: box.spacing['14'] }} />
       )}
       <View style={{ flex: 1 }}>
         <View style={styles.rowTop}>
           <T size={15.25}>{activity.name}</T>
-          <T size={14.25} weight={400}>
+          <T size={14.25} weight={box.fontWeight['regular']}>
             {activity.time}
           </T>
         </View>
@@ -327,7 +328,9 @@ function ActivityItem({ activity }: { activity: ActivityRow }) {
             {good ? 'С пользой' : activity.quality === 'neutral' ? 'Норма' : 'Отвлекает'}
           </T>
           <View style={styles.metaSep} />
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 2, marginLeft: 8 }}>
+          <View
+            style={{ flexDirection: 'row', alignItems: 'center', gap: box.spacing['2'], marginLeft: box.spacing['8'] }}
+          >
             {activity.apps.map(i => (
               <ActivityAppGlyph key={i} icon={i} />
             ))}
@@ -343,10 +346,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingLeft: 20,
+    paddingLeft: box.spacing['20'],
     paddingRight: 19,
     marginTop: 39.8,
-    marginBottom: 24,
+    marginBottom: box.spacing['24'],
   },
   pill: {
     height: 33.167,
@@ -358,11 +361,17 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     boxShadow: shadows.pillSoft,
   },
-  row: { flexDirection: 'row', paddingLeft: 20, paddingRight: 20.5, height: 90.5 },
-  rowIcon: { width: 28, height: 28, marginRight: 12, alignItems: 'center', justifyContent: 'center' },
+  row: { flexDirection: 'row', paddingLeft: box.spacing['20'], paddingRight: 20.5, height: 90.5 },
+  rowIcon: {
+    width: box.size['28'],
+    height: box.size['28'],
+    marginRight: box.spacing['12'],
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   rowTop: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline' },
-  barTrack: { marginTop: 6, height: 6, marginRight: -0.5 },
-  bar: { height: 6, borderRadius: 3, backgroundColor: colors.muBar },
+  barTrack: { marginTop: box.spacing['6'], height: box.size['6'], marginRight: -0.5 },
+  bar: { height: box.size['6'], borderRadius: 3, backgroundColor: colors.muBar },
   chip: {
     alignSelf: 'flex-start',
     flexDirection: 'row',
@@ -374,16 +383,16 @@ const styles = StyleSheet.create({
     borderRadius: radii.pill,
     backgroundColor: colors.chip,
   },
-  excludedChip: { height: 22, paddingLeft: 8, backgroundColor: colors.excludedBg, marginTop: 5 },
+  excludedChip: { height: 22, paddingLeft: box.spacing['8'], backgroundColor: colors.excludedBg, marginTop: 5 },
   otherIcon: {
-    width: 28,
-    height: 28,
-    borderRadius: 8,
+    width: box.size['28'],
+    height: box.size['28'],
+    borderRadius: box.radius['8'],
     backgroundColor: colors.otherBg,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  otherApps: { flexDirection: 'row', alignItems: 'center', marginTop: 5, marginLeft: 2 },
+  otherApps: { flexDirection: 'row', alignItems: 'center', marginTop: 5, marginLeft: box.spacing['2'] },
   activityMeta: { flexDirection: 'row', alignItems: 'center', marginTop: 11 },
   metaSep: { width: 1.333, height: 17, backgroundColor: colors.separator },
   empty: { alignItems: 'center', marginTop: 34 },

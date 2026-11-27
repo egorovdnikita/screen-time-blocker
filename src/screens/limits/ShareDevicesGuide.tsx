@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { DarkButtonSurface } from '@/components/DarkButtonSurface';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
@@ -32,18 +33,36 @@ export function ShareDevicesGuide() {
         >
           <Icon name="reflection-close" width={18} height={18} />
         </PressScale>
-        <T size={27} color={g.ink} ls={-0.4} style={{ marginTop: 157, marginHorizontal: 20, lineHeight: 33 }}>
+        <T
+          size={27}
+          color={g.ink}
+          ls={-0.4}
+          style={{ marginTop: 157, marginHorizontal: box.spacing['20'], lineHeight: 33 }}
+        >
           {'Выключите общий доступ\nв Экранном времени'}
         </T>
-        <T size={14} weight={400} color={g.ink} ls={0} style={{ marginTop: 7, marginHorizontal: 20, lineHeight: 17 }}>
+        <T
+          size={box.fontSize['14']}
+          weight={box.fontWeight['regular']}
+          color={g.ink}
+          ls={0}
+          style={{ marginTop: 7, marginHorizontal: box.spacing['20'], lineHeight: 17 }}
+        >
           {'screen-time-blocker нужна эта настройка для учёта времени. '}
-          <T size={14} color={g.ink} ls={0}>
+          <T size={box.fontSize['14']} color={g.ink} ls={0}>
             Нет других устройств Apple? Пропустите шаг.
           </T>
         </T>
         <View style={styles.setting}>
           <View style={styles.settingRow}>
-            <T size={14} weight={400} variant="display" color={g.ink} ls={-0.3} style={{ flexShrink: 1 }}>
+            <T
+              size={box.fontSize['14']}
+              weight={box.fontWeight['regular']}
+              variant="display"
+              color={g.ink}
+              ls={-0.3}
+              style={{ flexShrink: 1 }}
+            >
               Общий доступ на устройствах
             </T>
             <View
@@ -63,11 +82,15 @@ export function ShareDevicesGuide() {
           </View>
           <T
             size={11.5}
-            weight={400}
+            weight={box.fontWeight['regular']}
             variant="display"
             color={g.copy}
             ls={-0.15}
-            style={{ marginTop: 8, marginHorizontal: 14, lineHeight: 14 }}
+            style={{
+              marginTop: box.spacing['8'],
+              marginHorizontal: box.spacing['14'],
+              lineHeight: box.lineHeight['14'],
+            }}
           >
             {'Настройка доступна на любом устройстве с iCloud\nдля синхронизации Экранного времени.'}
           </T>
@@ -109,8 +132,8 @@ const styles = StyleSheet.create({
   close: {
     position: 'absolute',
     right: 20,
-    width: 44,
-    height: 44,
+    width: box.size['44'],
+    height: box.size['44'],
     borderRadius: 22,
     backgroundColor: colors.white,
     boxShadow: g.closeShadow,
@@ -123,8 +146,8 @@ const styles = StyleSheet.create({
     left: 23,
     right: 23,
     height: 115,
-    paddingVertical: 18,
-    paddingHorizontal: 14,
+    paddingVertical: box.spacing['18'],
+    paddingHorizontal: box.spacing['14'],
     borderWidth: 1,
     borderColor: g.border,
     borderRadius: 19,
@@ -132,14 +155,14 @@ const styles = StyleSheet.create({
   },
   settingRow: {
     height: 39,
-    borderRadius: 10,
-    paddingHorizontal: 14,
+    borderRadius: box.radius['10'],
+    paddingHorizontal: box.spacing['14'],
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 6,
+    gap: box.spacing['6'],
     backgroundColor: colors.white,
   },
-  steps: { position: 'absolute', top: 522, left: 80, right: 20, gap: 16 },
+  steps: { position: 'absolute', top: 522, left: 80, right: 20, gap: box.spacing['16'] },
   step: { height: 30, justifyContent: 'center' },
   number: {
     position: 'absolute',
@@ -155,8 +178,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 20,
     right: 20,
-    height: 60,
-    borderRadius: 32,
+    height: box.size['60'],
+    borderRadius: box.radius['32'],
     backgroundColor: c.dark,
     alignItems: 'center',
     justifyContent: 'center',

@@ -1,3 +1,4 @@
+import { localMaterials } from '@/theme/tokens';
 import { useState } from 'react';
 import { BlockingMenu } from './BlockingMenu';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -26,7 +27,7 @@ export function BottomChrome({ start }: Props) {
       <BlockingMenu visible={menuOpen} onClose={() => setMenuOpen(false)} />
       <LinearGradient
         pointerEvents="none"
-        colors={['rgba(244, 246, 248, 0)', 'rgba(244, 246, 248, 0.55)', 'rgba(244, 246, 248, 0.55)']}
+        colors={[localMaterials.bottomFade, localMaterials.bottomFill, localMaterials.bottomFill]}
         locations={[0, 0.3, 1]}
         style={[styles.edge, { height: 104 + (start ? 0 : -40) }]}
       />

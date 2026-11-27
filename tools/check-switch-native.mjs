@@ -4,7 +4,11 @@ import { createRequire } from 'node:module';
 import ts from 'typescript';
 const require = createRequire(import.meta.url);
 const compile = file => ts.transpileModule(fs.readFileSync(new URL(file, import.meta.url), 'utf8'), { compilerOptions: { module: ts.ModuleKind.CommonJS, jsx: ts.JsxEmit.ReactJSX, target: ts.ScriptTarget.ES2020 } }).outputText;
-const tokens = {}; new Function('exports', compile('../src/theme/tokens.ts'))(tokens);
+const generated = {}; new Function('exports', compile('../src/theme/box-ui.generated.ts'))(generated);
+const tokens = {}; new Function('exports', 'require', compile('../src/theme/tokens.ts'))(tokens, id => {
+  assert.equal(id, './box-ui.generated');
+  return generated;
+});
 const js = compile('../src/components/SessionPrimitives.tsx');
 function component(os) {
   const exports = {};
@@ -12,6 +16,7 @@ function component(os) {
     if (id === 'react' || id === 'react/jsx-runtime') return require(id);
     if (id === 'react-native') return { Platform: { OS: os }, Switch: 'SystemSwitch', StyleSheet: { create: x => x }, Animated: {} };
     if (id === '@/theme/tokens') return tokens;
+    if (id === '@/theme/box-ui.generated') return generated;
     return {};
   });
   return exports.FlowSwitch;

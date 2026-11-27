@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { useState } from 'react';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -35,7 +36,7 @@ export function Commit({ onNext }: { onNext: () => void }) {
             style={{ marginTop: 151, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 5 }}
           >
             <Icon name="onboarding-rating-laurel" width={14} height={29} color={c.award} />
-            <T size={25} weight={800} color={c.award} ls={0} style={{ lineHeight: 30 }}>
+            <T size={25} weight={box.fontWeight['extrabold']} color={c.award} ls={0} style={{ lineHeight: 30 }}>
               Выбор App Store
             </T>
             <Icon
@@ -46,7 +47,14 @@ export function Commit({ onNext }: { onNext: () => void }) {
               style={{ transform: [{ scaleX: -1 }] }}
             />
           </View>
-          <T size={12} weight={600} color={c.award} center ls={0} style={{ marginTop: 3, lineHeight: 16 }}>
+          <T
+            size={box.fontSize['12']}
+            weight={box.fontWeight['semibold']}
+            color={c.award}
+            center
+            ls={0}
+            style={{ marginTop: 3, lineHeight: box.lineHeight['16'] }}
+          >
              App Store
           </T>
         </>
@@ -56,10 +64,10 @@ export function Commit({ onNext }: { onNext: () => void }) {
         contentFit="contain"
         style={{ width: 204, height: 140, alignSelf: 'center', marginTop: live ? 200 : 32 }}
       />
-      <T size={28} ls={-0.2} center style={{ marginTop: 28, lineHeight: 34 }}>
+      <T size={box.fontSize['28']} ls={-0.2} center style={{ marginTop: box.spacing['28'], lineHeight: 34 }}>
         Готовы пообещать?
       </T>
-      <View style={{ marginTop: 27, gap: 18 }}>
+      <View style={{ marginTop: 27, gap: box.spacing['18'] }}>
         {[
           // В реальном режиме блокировки нет, а «14 лет» ни из чего не считается (аудит 2026-11-21).
           {
@@ -81,10 +89,17 @@ export function Commit({ onNext }: { onNext: () => void }) {
           <View key={row.title} style={{ height: 74, marginTop: i === 2 ? 2 : 0, alignItems: 'center' }}>
             {/* в HTML шаг строк 92 и 94pt */}
             <Icon name={row.icon as IconName} width={24} height={24} color={c.muted} />
-            <T size={17} ls={0} center style={{ marginTop: 14, lineHeight: 20 }}>
+            <T size={17} ls={0} center style={{ marginTop: box.spacing['14'], lineHeight: box.lineHeight['20'] }}>
               {row.title}
             </T>
-            <T size={12} weight={400} color={c.note} ls={0} center style={{ lineHeight: 16 }}>
+            <T
+              size={box.fontSize['12']}
+              weight={box.fontWeight['regular']}
+              color={c.note}
+              ls={0}
+              center
+              style={{ lineHeight: box.lineHeight['16'] }}
+            >
               {row.copy}
             </T>
           </View>
@@ -103,7 +118,16 @@ export function ConnectScreenTime({ onNext }: { onNext: () => void }) {
         <OnboardingTitle top={164} size={25} color={c.ink}>
           Это прототип
         </OnboardingTitle>
-        <T size={17} center ls={0} style={{ marginTop: 24, marginHorizontal: 24, lineHeight: 24 }}>
+        <T
+          size={17}
+          center
+          ls={0}
+          style={{
+            marginTop: box.spacing['24'],
+            marginHorizontal: box.spacing['24'],
+            lineHeight: box.lineHeight['24'],
+          }}
+        >
           screen-time-blocker сохраняет правила на устройстве. Блокировка приложений и доступ к данным Экранного времени
           пока не подключены.
         </T>
@@ -125,12 +149,16 @@ export function ConnectScreenTime({ onNext }: { onNext: () => void }) {
           gap: 15,
         }}
       >
-        <Image source={art.originalIcon} contentFit="cover" style={{ width: 64, height: 64, borderRadius: 19 }} />
+        <Image
+          source={art.originalIcon}
+          contentFit="cover"
+          style={{ width: box.size['64'], height: box.size['64'], borderRadius: 19 }}
+        />
         <Icon name="onboarding-arrows-left-right" width={28} height={30} color={c.arrows} />
         <View
           style={{
-            width: 64,
-            height: 64,
+            width: box.size['64'],
+            height: box.size['64'],
             borderRadius: 19,
             backgroundColor: c.screenTime,
             alignItems: 'center',
@@ -142,21 +170,36 @@ export function ConnectScreenTime({ onNext }: { onNext: () => void }) {
       </View>
       <View accessibilityLabel="Пример запроса доступа к экранному времени" style={styles.prompt}>
         <LinearGradient colors={c.prompt} style={StyleSheet.absoluteFill} />
-        <T size={16} weight={600} variant="system" ls={-0.2} style={{ lineHeight: 20 }}>
+        <T
+          size={box.fontSize['16']}
+          weight={box.fontWeight['semibold']}
+          variant="system"
+          ls={-0.2}
+          style={{ lineHeight: box.lineHeight['20'] }}
+        >
           {'«screen-time-blocker» запрашивает доступ\nк экранному времени'}
         </T>
-        <T size={14} weight={400} variant="system" color={c.promptInk} ls={0} style={{ marginTop: 8, lineHeight: 19 }}>
+        <T
+          size={box.fontSize['14']}
+          weight={box.fontWeight['regular']}
+          variant="system"
+          color={c.promptInk}
+          ls={0}
+          style={{ marginTop: box.spacing['8'], lineHeight: 19 }}
+        >
           Доступ позволит screen-time-blocker видеть активность, ограничивать контент и использование приложений и
           сайтов.
         </T>
-        <View style={{ position: 'absolute', left: 13, right: 13, bottom: 14, flexDirection: 'row', gap: 8 }}>
+        <View
+          style={{ position: 'absolute', left: 13, right: 13, bottom: 14, flexDirection: 'row', gap: box.spacing['8'] }}
+        >
           <View style={styles.promptButton}>
-            <T size={16} weight={500} variant="system" ls={0}>
+            <T size={box.fontSize['16']} weight={box.fontWeight['medium']} variant="system" ls={0}>
               Продолжить
             </T>
           </View>
           <View style={[styles.promptButton, { backgroundColor: c.promptBlue }]}>
-            <T size={16} weight={500} variant="system" color={c.white} ls={0}>
+            <T size={box.fontSize['16']} weight={box.fontWeight['medium']} variant="system" color={c.white} ls={0}>
               Не разрешать
             </T>
           </View>
@@ -165,14 +208,21 @@ export function ConnectScreenTime({ onNext }: { onNext: () => void }) {
       <Image
         source={art.arrow}
         contentFit="contain"
-        style={{ position: 'absolute', top: 528, left: 39, width: 90, height: 60 }}
+        style={{ position: 'absolute', top: 528, left: 39, width: 90, height: box.size['60'] }}
       />
       <View style={{ position: 'absolute', top: 654, left: 20, right: 20, alignItems: 'center' }}>
         <Icon name="shield-check" width={24} height={24} color={c.muted} />
-        <T size={17} center ls={0} style={{ marginTop: 13, lineHeight: 20 }}>
+        <T size={17} center ls={0} style={{ marginTop: 13, lineHeight: box.lineHeight['20'] }}>
           Защищено Apple
         </T>
-        <T size={12} weight={400} color={c.note} center ls={0} style={{ marginTop: 1, lineHeight: 16 }}>
+        <T
+          size={box.fontSize['12']}
+          weight={box.fontWeight['regular']}
+          color={c.note}
+          center
+          ls={0}
+          style={{ marginTop: 1, lineHeight: box.lineHeight['16'] }}
+        >
           Данные конфиденциальны и остаются на iPhone
         </T>
       </View>
@@ -193,7 +243,7 @@ export function Preferences({
     <>
       <OnboardingNav onBack={onBack} progress={0.375} backLeft={34} />
       <OnboardingTitle ls={0}>Что вы предпочитаете?</OnboardingTitle>
-      <View style={{ marginTop: 32, marginHorizontal: 20, gap: 9 }}>
+      <View style={{ marginTop: box.spacing['32'], marginHorizontal: box.spacing['20'], gap: 9 }}>
         {onboardingPreferences.map(row => (
           <PressScale
             key={row.id}
@@ -204,10 +254,16 @@ export function Preferences({
           >
             <Icon name={row.icon} width={22} height={25} color={c.muted} />
             <View style={{ flex: 1 }}>
-              <T size={16} weight={400} color={c.black} ls={0} style={{ lineHeight: 19 }}>
+              <T
+                size={box.fontSize['16']}
+                weight={box.fontWeight['regular']}
+                color={c.black}
+                ls={0}
+                style={{ lineHeight: 19 }}
+              >
                 {row.title}
               </T>
-              <T size={15} weight={400} color={c.prefCopy} ls={0} style={{ lineHeight: 19 }}>
+              <T size={15} weight={box.fontWeight['regular']} color={c.prefCopy} ls={0} style={{ lineHeight: 19 }}>
                 {row.copy}
               </T>
             </View>
@@ -217,10 +273,23 @@ export function Preferences({
       </View>
       <View style={{ position: 'absolute', top: 745, left: 20, right: 20, alignItems: 'center' }}>
         <Icon name="onboarding-heart-fill" width={24} height={24} color={c.muted} />
-        <T size={17} color={c.black} center ls={0} style={{ marginTop: 14, lineHeight: 20 }}>
+        <T
+          size={17}
+          color={c.black}
+          center
+          ls={0}
+          style={{ marginTop: box.spacing['14'], lineHeight: box.lineHeight['20'] }}
+        >
           Начните с простого
         </T>
-        <T size={13} weight={400} color={c.note} center ls={0} style={{ marginTop: 1, lineHeight: 17 }}>
+        <T
+          size={13}
+          weight={box.fontWeight['regular']}
+          color={c.note}
+          center
+          ls={0}
+          style={{ marginTop: 1, lineHeight: 17 }}
+        >
           Другие варианты блокировки найдутся позже
         </T>
       </View>
@@ -254,14 +323,14 @@ export function OnboardingPicker({
       <OnboardingTitle top={164} size={25} ls={-0.4} color={c.ink}>
         До 3 приложений
       </OnboardingTitle>
-      <T size={17} center ls={0} style={{ marginTop: 4, lineHeight: 21 }}>
+      <T size={17} center ls={0} style={{ marginTop: box.spacing['4'], lineHeight: 21 }}>
         Которые отвлекают сильнее
       </T>
       <View style={styles.appList}>
         <ScrollView
           accessibilityLabel="Приложения знакомства"
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ paddingBottom: 20 }}
+          contentContainerStyle={{ paddingBottom: box.spacing['20'] }}
         >
           {!search && (
             <>
@@ -296,9 +365,9 @@ export function OnboardingPicker({
                 <Image
                   source={lockPickerImage(app.id as LockAppId)}
                   contentFit="contain"
-                  style={{ width: 30, height: 30, borderRadius: 6 }}
+                  style={{ width: 30, height: 30, borderRadius: box.radius['6'] }}
                 />
-                <T size={17} weight={400} variant="system" ls={0} style={{ lineHeight: 21 }}>
+                <T size={17} weight={box.fontWeight['regular']} variant="system" ls={0} style={{ lineHeight: 21 }}>
                   {app.id === 'bereal' ? 'BeReal.' : app.name}
                 </T>
               </PressScale>
@@ -328,7 +397,7 @@ export function OnboardingPicker({
           placeholderTextColor={c.searchInk}
           style={{
             flex: 1,
-            height: 48,
+            height: box.size['48'],
             fontSize: 17,
             fontFamily: rounded,
             color: c.ink,
@@ -349,9 +418,9 @@ function PickerCircle({ checked = false }: { checked?: boolean }) {
   return (
     <View
       style={{
-        width: 24,
-        height: 24,
-        borderRadius: 12,
+        width: box.size['24'],
+        height: box.size['24'],
+        borderRadius: box.radius['12'],
         borderWidth: checked ? 0 : 2,
         borderColor: c.pickerRadio,
         backgroundColor: checked ? c.pickerBlue : 'transparent',
@@ -360,7 +429,14 @@ function PickerCircle({ checked = false }: { checked?: boolean }) {
       }}
     >
       {checked && (
-        <T size={21} weight={400} variant="system" color={c.white} ls={0} style={{ top: 2, lineHeight: 24 }}>
+        <T
+          size={21}
+          weight={box.fontWeight['regular']}
+          variant="system"
+          color={c.white}
+          ls={0}
+          style={{ top: 2, lineHeight: box.lineHeight['24'] }}
+        >
           ✓
         </T>
       )}
@@ -392,18 +468,25 @@ function PickerCategory({
       style={styles.pickerRow}
     >
       <View pointerEvents="none" style={styles.pickerLine} />
-      {circle ? <PickerCircle /> : <View style={{ width: 24 }} />}
+      {circle ? <PickerCircle /> : <View style={{ width: box.size['24'] }} />}
       <Image source={image} contentFit="contain" style={{ width: 30, height: 30 }} />
-      <T size={17} weight={400} variant="system" ls={0} style={{ flex: 1, lineHeight: 21 }}>
+      <T size={17} weight={box.fontWeight['regular']} variant="system" ls={0} style={{ flex: 1, lineHeight: 21 }}>
         {title}
       </T>
       {!!count && (
-        <T size={17} weight={400} variant="system" color={c.pickerCount} ls={0} style={{ lineHeight: 21 }}>
+        <T
+          size={17}
+          weight={box.fontWeight['regular']}
+          variant="system"
+          color={c.pickerCount}
+          ls={0}
+          style={{ lineHeight: 21 }}
+        >
           {count}
         </T>
       )}
       {title !== 'Приложения и категории' && (
-        <View style={{ width: 12, marginLeft: count ? 8 : 0, alignItems: 'center' }}>
+        <View style={{ width: box.size['12'], marginLeft: count ? 8 : 0, alignItems: 'center' }}>
           <Icon
             name="chevron-right"
             width={8}
@@ -449,21 +532,21 @@ export function OnboardingUnlocks({
           top: 265,
           left: 0,
           right: 0,
-          height: 44,
+          height: box.size['44'],
           flexDirection: 'row',
           justifyContent: 'center',
           alignItems: 'center',
-          gap: 8,
+          gap: box.spacing['8'],
         }}
       >
         <SessionApps appIds={selected} reverse={false} size="large" />
-        <T size={28} ls={0}>
+        <T size={box.fontSize['28']} ls={0}>
           ?
         </T>
       </View>
       <T
         size={15}
-        weight={400}
+        weight={box.fontWeight['regular']}
         color={c.note}
         center
         ls={0}
@@ -484,11 +567,11 @@ export function OnboardingUnlocks({
           onPress={() => change(-1)}
           style={styles.counterButton}
         >
-          <T size={27} weight={400} ls={0}>
+          <T size={27} weight={box.fontWeight['regular']} ls={0}>
             −
           </T>
         </PressScale>
-        <T size={40} ls={-0.5} style={{ lineHeight: 44 }}>
+        <T size={box.fontSize['40']} ls={-0.5} style={{ lineHeight: box.lineHeight['44'] }}>
           {draft.unlocks} {draft.unlocks === 1 ? 'раз' : draft.unlocks >= 2 && draft.unlocks <= 4 ? 'раза' : 'раз'}
         </T>
         <PressScale
@@ -510,16 +593,16 @@ export function OnboardingUnlocks({
           top: 573,
           left: 20,
           right: 20,
-          height: 20,
+          height: box.size['20'],
           flexDirection: 'row',
           justifyContent: 'center',
           alignItems: 'center',
         }}
       >
-        <T size={15} weight={600} color={c.unlockHint} ls={0}>
+        <T size={15} weight={box.fontWeight['semibold']} color={c.unlockHint} ls={0}>
           На{' '}
         </T>
-        <T size={15} weight={900} ls={0}>
+        <T size={15} weight={box.fontWeight['black']} ls={0}>
           {draft.unlockMinutes} мин
         </T>
         <Icon
@@ -529,7 +612,7 @@ export function OnboardingUnlocks({
           color={c.black}
           style={{ marginHorizontal: 3, opacity: 0.25 }}
         />
-        <T size={15} weight={600} color={c.unlockHint} ls={0}>
+        <T size={15} weight={box.fontWeight['semibold']} color={c.unlockHint} ls={0}>
           {' '}
           за разблокировку
         </T>
@@ -560,7 +643,7 @@ export function OnboardingMethod({ onBack, onNext }: { onBack: () => void; onNex
       <OnboardingNav onBack={onBack} progress={0.875} />
       <OnboardingTitle ls={-0.5}>{'Что вы хотите сделать\nперед разблокировкой\nприложений?'}</OnboardingTitle>
       <T
-        size={24}
+        size={box.fontSize['24']}
         color={c.black}
         ls={0}
         center
@@ -570,7 +653,7 @@ export function OnboardingMethod({ onBack, onNext }: { onBack: () => void; onNex
       </T>
       <T
         size={15}
-        weight={400}
+        weight={box.fontWeight['regular']}
         variant="system"
         ls={-0.1}
         center
@@ -584,20 +667,20 @@ export function OnboardingMethod({ onBack, onNext }: { onBack: () => void; onNex
         style={{ position: 'absolute', top: 430, width: 274, height: 224, alignSelf: 'center' }}
       />
       <View style={{ position: 'absolute', top: 447, left: 90, right: 90 }}>
-        <T size={16} color={c.methodNote} ls={0} center>
+        <T size={box.fontSize['16']} color={c.methodNote} ls={0} center>
           Время подумать
         </T>
         <View
           style={{
             marginTop: 19,
             height: 118,
-            borderRadius: 24,
+            borderRadius: box.radius['24'],
             boxShadow: c.timerShadow,
             alignItems: 'center',
             justifyContent: 'center',
           }}
         >
-          <LinearGradient colors={c.codeBlue} style={[StyleSheet.absoluteFill, { borderRadius: 24 }]} />
+          <LinearGradient colors={c.codeBlue} style={[StyleSheet.absoluteFill, { borderRadius: box.radius['24'] }]} />
           <T size={38} color={c.white} ls={0} style={{ lineHeight: 38 }}>
             00:46
           </T>
@@ -616,11 +699,19 @@ export function OnboardingMethod({ onBack, onNext }: { onBack: () => void; onNex
             right: 0,
             flexDirection: 'row',
             justifyContent: 'center',
-            gap: 4,
+            gap: box.spacing['4'],
           }}
         >
           {[0, 1, 2].map(i => (
-            <View key={i} style={{ width: 6, height: 6, borderRadius: 3, backgroundColor: i === 0 ? c.ink : c.line }} />
+            <View
+              key={i}
+              style={{
+                width: box.size['6'],
+                height: box.size['6'],
+                borderRadius: 3,
+                backgroundColor: i === 0 ? c.ink : c.line,
+              }}
+            />
           ))}
         </View>
       )}
@@ -648,7 +739,7 @@ export function OnboardingSchedule({
         onPress={() => onFinish(false)}
         style={{ position: 'absolute', top: 85, right: 20 }}
       >
-        <T size={16} color={c.skip} ls={0}>
+        <T size={box.fontSize['16']} color={c.skip} ls={0}>
           Пропустить
         </T>
       </PressScale>
@@ -669,24 +760,32 @@ export function OnboardingSchedule({
         {live ? (
           <SessionIcon id={initialSession().iconId} width={48} />
         ) : (
-          <T size={48} weight={400} ls={0} style={{ lineHeight: 51 }}>
+          <T size={box.fontSize['48']} weight={box.fontWeight['regular']} ls={0} style={{ lineHeight: 51 }}>
             💼
           </T>
         )}
       </View>
-      <View style={{ marginTop: 15, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 12 }}>
-        <T size={28} ls={-0.2} style={{ lineHeight: 34 }}>
+      <View
+        style={{
+          marginTop: 15,
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center',
+          gap: box.spacing['12'],
+        }}
+      >
+        <T size={box.fontSize['28']} ls={-0.2} style={{ lineHeight: 34 }}>
           {schedule.name}
         </T>
         <Icon name="pencil" width={16} height={16} color={c.muted} />
       </View>
-      <View style={{ marginTop: 24, marginHorizontal: 20, gap: 14 }}>
+      <View style={{ marginTop: box.spacing['24'], marginHorizontal: box.spacing['20'], gap: box.spacing['14'] }}>
         {[
           { label: 'Блокировать', content: <SessionApps appIds={selected} reverse={false} size="setup" /> },
           {
             label: 'Активно',
             content: (
-              <T size={14} weight={400} ls={0}>
+              <T size={box.fontSize['14']} weight={box.fontWeight['regular']} ls={0}>
                 {schedule.hours} · По будням
               </T>
             ),
@@ -694,7 +793,7 @@ export function OnboardingSchedule({
           {
             label: 'Разблокировки',
             content: (
-              <T size={14} weight={400} ls={0}>
+              <T size={box.fontSize['14']} weight={box.fontWeight['regular']} ls={0}>
                 {draft.unlocks} · Ожидание
               </T>
             ),
@@ -702,7 +801,7 @@ export function OnboardingSchedule({
         ].map(row => (
           <View key={row.label} style={styles.scheduleRow}>
             <Icon name="chevron-down-section" width={12} height={10} color={c.setupChevron} />
-            <T size={14} weight={600} color={c.setupLabel} ls={0}>
+            <T size={box.fontSize['14']} weight={box.fontWeight['semibold']} color={c.setupLabel} ls={0}>
               {row.label}
             </T>
             <View style={{ marginLeft: 'auto' }}>{row.content}</View>
@@ -711,10 +810,17 @@ export function OnboardingSchedule({
       </View>
       <View style={{ position: 'absolute', top: 668, left: 20, right: 20, alignItems: 'center' }}>
         <Icon name="checkmark" width={24} height={24} color={c.muted} />
-        <T size={17} ls={0} center style={{ marginTop: 14, lineHeight: 20 }}>
+        <T size={17} ls={0} center style={{ marginTop: box.spacing['14'], lineHeight: box.lineHeight['20'] }}>
           {live ? 'Сохранится на устройстве' : 'Начнётся автоматически'}
         </T>
-        <T size={12} weight={400} color={c.note} ls={0} center style={{ marginTop: 1, lineHeight: 16 }}>
+        <T
+          size={box.fontSize['12']}
+          weight={box.fontWeight['regular']}
+          color={c.note}
+          ls={0}
+          center
+          style={{ marginTop: 1, lineHeight: box.lineHeight['16'] }}
+        >
           {live ? 'Блокировка приложений пока недоступна.' : 'Вы сможете изменить его позже.'}
         </T>
       </View>
@@ -730,7 +836,7 @@ const styles = StyleSheet.create({
     left: 44,
     right: 44,
     height: 222,
-    paddingVertical: 18,
+    paddingVertical: box.spacing['18'],
     paddingHorizontal: 26,
     borderRadius: 30,
     overflow: 'hidden',
@@ -748,10 +854,10 @@ const styles = StyleSheet.create({
     height: 66,
     borderRadius: 25,
     backgroundColor: c.surface,
-    paddingHorizontal: 16,
+    paddingHorizontal: box.spacing['16'],
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 12,
+    gap: box.spacing['12'],
   },
   appList: {
     position: 'absolute',
@@ -759,38 +865,38 @@ const styles = StyleSheet.create({
     left: 16,
     right: 16,
     height: 490,
-    borderRadius: 28,
+    borderRadius: box.radius['28'],
     overflow: 'hidden',
     backgroundColor: c.white,
   },
   pickerRow: {
     height: 56.6,
-    paddingHorizontal: 16,
-    paddingTop: 4,
+    paddingHorizontal: box.spacing['16'],
+    paddingTop: box.spacing['4'],
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+    gap: box.spacing['8'],
   } /* в HTML содержимое строки на 2pt ниже центра */,
   search: {
     position: 'absolute',
     top: 674,
     left: 28,
     right: 28,
-    height: 48,
+    height: box.size['48'],
     borderRadius: 30,
     backgroundColor: c.searchFill,
     boxShadow: c.searchShadow,
-    paddingHorizontal: 18,
+    paddingHorizontal: box.spacing['18'],
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+    gap: box.spacing['8'],
   },
   target: {
     position: 'absolute',
     top: 444,
     alignSelf: 'center',
     paddingVertical: 9,
-    paddingHorizontal: 14,
+    paddingHorizontal: box.spacing['14'],
     borderRadius: 22,
     backgroundColor: c.white,
     boxShadow: c.circleShadow,
@@ -800,7 +906,7 @@ const styles = StyleSheet.create({
     top: 502,
     left: 62,
     right: 62,
-    height: 44,
+    height: box.size['44'],
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -819,8 +925,8 @@ const styles = StyleSheet.create({
     top: 615,
     alignSelf: 'center',
     backgroundColor: c.badge,
-    borderRadius: 18,
-    paddingVertical: 4,
+    borderRadius: box.radius['18'],
+    paddingVertical: box.spacing['4'],
     paddingHorizontal: 11,
   },
   scheduleRow: {

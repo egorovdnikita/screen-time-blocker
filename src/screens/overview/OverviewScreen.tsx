@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -13,12 +14,12 @@ export function OverviewScreen() {
   useDarkStatusBar();
   return (
     <View style={[styles.root, { paddingTop: Math.max(insets.top, 20) + 12.67 }]}>
-      <T variant="display" size={28.5} ls={0} style={{ marginLeft: 20 }}>
+      <T variant="display" size={28.5} ls={0} style={{ marginLeft: box.spacing['20'] }}>
         Обзор
       </T>
       <View style={styles.empty}>
         <Icon name="hands-clap" width={50} height={48} color={colors.section} />
-        <T size={17} color={colors.section} style={{ marginTop: 12 }}>
+        <T size={17} color={colors.section} style={{ marginTop: box.spacing['12'] }}>
           Скоро здесь будет обзор
         </T>
       </View>

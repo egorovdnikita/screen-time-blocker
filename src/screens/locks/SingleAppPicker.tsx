@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { SheetScrollView as ScrollView, SheetGrabber, SheetModal } from '@/components/SheetModal';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -107,7 +108,10 @@ function SingleAppPickerBody({
                         Какое из них
                       </T>
                       {chosen && (
-                        <Image source={lockPickerImage(chosen.id)} style={{ width: 24, height: 24, borderRadius: 7 }} />
+                        <Image
+                          source={lockPickerImage(chosen.id)}
+                          style={{ width: box.size['24'], height: box.size['24'], borderRadius: 7 }}
+                        />
                       )}
                       <T size={19} color={colors.black} ls={0}>
                         ?
@@ -145,7 +149,7 @@ function SingleAppPickerBody({
                       Для точного отображения подтвердите приложение,{'\n'}которое вы выбрали для блокировки.
                     </T>
                     {!needle && (
-                      <T size={20} color={c.section} ls={0} style={styles.section}>
+                      <T size={box.fontSize['20']} color={c.section} ls={0} style={styles.section}>
                         Популярные приложения
                       </T>
                     )}
@@ -163,8 +167,11 @@ function SingleAppPickerBody({
                           onPress={() => setConfirmed(app.id)}
                           style={styles.confirmRow}
                         >
-                          <Image source={app.image} style={{ width: 24, height: 24, borderRadius: 6 }} />
-                          <T size={15} weight={400} color={colors.black} ls={0}>
+                          <Image
+                            source={app.image}
+                            style={{ width: box.size['24'], height: box.size['24'], borderRadius: box.radius['6'] }}
+                          />
+                          <T size={15} weight={box.fontWeight['regular']} color={colors.black} ls={0}>
                             {app.name}
                           </T>
                           {confirmed === app.id && (
@@ -182,12 +189,12 @@ function SingleAppPickerBody({
                     <LinearGradient
                       pointerEvents="none"
                       colors={[c.confirmFade, c.surface]}
-                      style={{ position: 'absolute', left: 20, right: 20, bottom: bottom + 75, height: 12 }}
+                      style={{ position: 'absolute', left: 20, right: 20, bottom: bottom + 75, height: box.size['12'] }}
                     />
                   </>
                 ) : (
                   <>
-                    <T size={20} center ls={0} style={styles.title}>
+                    <T size={box.fontSize['20']} center ls={0} style={styles.title}>
                       1 приложение
                     </T>
                     <ScrollView
@@ -309,16 +316,23 @@ export function AppCatalog({
                   <View style={styles.radio} />
                 )}
                 <Image source={image} style={{ width: 30, height: 30 }} />
-                <T size={17} weight={400} variant="display" ls={0} numberOfLines={1} style={{ flex: 1 }}>
+                <T
+                  size={17}
+                  weight={box.fontWeight['regular']}
+                  variant="display"
+                  ls={0}
+                  numberOfLines={1}
+                  style={{ flex: 1 }}
+                >
                   {title}
                 </T>
                 {id === 'social' && selected.length > 0 && (
-                  <T size={17} weight={400} color={c.placeholder} ls={0}>
+                  <T size={17} weight={box.fontWeight['regular']} color={c.placeholder} ls={0}>
                     {selected.filter(id => social.some(app => app.id === id)).length || ''}
                   </T>
                 )}
                 {id === 'social' && categories.includes(id) && (
-                  <T size={17} weight={400} color={c.placeholder} ls={0}>
+                  <T size={17} weight={box.fontWeight['regular']} color={c.placeholder} ls={0}>
                     Все
                   </T>
                 )}
@@ -345,14 +359,20 @@ export function AppCatalog({
                     />
                   ))
                 ) : (
-                  <T size={14} weight={400} color={c.note} ls={0} style={{ padding: 16 }}>
+                  <T
+                    size={box.fontSize['14']}
+                    weight={box.fontWeight['regular']}
+                    color={c.note}
+                    ls={0}
+                    style={{ padding: box.spacing['16'] }}
+                  >
                     Нет приложений
                   </T>
                 ))}
             </View>
           ))}
       {needle && !matches.length && (
-        <T size={15} color={c.note} center style={{ padding: 20 }}>
+        <T size={15} color={c.note} center style={{ padding: box.spacing['20'] }}>
           Ничего не найдено
         </T>
       )}
@@ -386,7 +406,7 @@ function AppRow({
         {selected && <Icon name="period-check" width={18} height={20} color={colors.white} />}
       </View>
       <Image source={lockPickerImage(app.id)} style={{ width: 30, height: 30 }} />
-      <T size={17} weight={400} variant="display" ls={0}>
+      <T size={17} weight={box.fontWeight['regular']} variant="display" ls={0}>
         {app.name}
         {id === 'bereal' ? '.' : ''}
       </T>
@@ -398,13 +418,13 @@ const styles = StyleSheet.create({
   handle: {
     position: 'absolute',
     top: 12,
-    width: 64,
+    width: box.size['64'],
     height: 5,
     alignSelf: 'center',
     borderRadius: 5,
     backgroundColor: c.handle,
   },
-  title: { position: 'absolute', top: 44, left: 16, right: 16, lineHeight: 24 },
+  title: { position: 'absolute', top: 44, left: 16, right: 16, lineHeight: box.lineHeight['24'] },
   categoryList: {
     position: 'absolute',
     top: 128,
@@ -416,19 +436,19 @@ const styles = StyleSheet.create({
   },
   categoryRow: {
     height: 56.6,
-    paddingHorizontal: 16,
+    paddingHorizontal: box.spacing['16'],
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
-    paddingTop: 4,
+    gap: box.spacing['8'],
+    paddingTop: box.spacing['4'],
   },
   separator: { position: 'absolute', left: 86, right: 8, bottom: 0, height: 1, backgroundColor: c.line },
   radio: {
-    width: 24,
-    height: 24,
+    width: box.size['24'],
+    height: box.size['24'],
     borderWidth: 2,
     borderColor: c.radio,
-    borderRadius: 12,
+    borderRadius: box.radius['12'],
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -438,12 +458,12 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 28,
     right: 28,
-    height: 48,
+    height: box.size['48'],
     backgroundColor: c.searchFill,
     borderRadius: c.searchRadius,
     boxShadow: c.searchShadow,
-    paddingHorizontal: 18,
-    gap: 8,
+    paddingHorizontal: box.spacing['18'],
+    gap: box.spacing['8'],
     flexDirection: 'row',
     alignItems: 'center',
   },
@@ -452,7 +472,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 20,
     right: 20,
-    height: 60,
+    height: box.size['60'],
     borderRadius: c.buttonRadius,
     justifyContent: 'center',
     alignItems: 'center',
@@ -461,8 +481,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 20,
     top: 45,
-    width: 44,
-    height: 44,
+    width: box.size['44'],
+    height: box.size['44'],
     borderRadius: 22,
     backgroundColor: colors.white,
     boxShadow: c.backShadow,
@@ -490,10 +510,10 @@ const styles = StyleSheet.create({
     borderRadius: c.searchRadius,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 20,
-    gap: 12,
+    paddingHorizontal: box.spacing['20'],
+    gap: box.spacing['12'],
   },
-  note: { position: 'absolute', top: 196, left: 24, right: 24, lineHeight: 14 },
+  note: { position: 'absolute', top: 196, left: 24, right: 24, lineHeight: box.lineHeight['14'] },
   section: { position: 'absolute', top: 249, left: 20, lineHeight: 26 },
   confirmList: {
     position: 'absolute',
@@ -504,8 +524,8 @@ const styles = StyleSheet.create({
   },
   confirmRow: {
     height: 57,
-    paddingHorizontal: 16,
-    gap: 12,
+    paddingHorizontal: box.spacing['16'],
+    gap: box.spacing['12'],
     flexDirection: 'row',
     alignItems: 'center',
     borderBottomWidth: 1,

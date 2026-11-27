@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { useState } from 'react';
 import { TemplateDetails } from './SessionDetails';
 import { routineReward } from '@/data/routine';
@@ -54,15 +55,15 @@ export function SavedTemplateCard({
         )}
         <View pointerEvents="none" style={styles.pill}>
           <Icon name="lock-fill" width={13} height={14} color={colors.black} />
-          <T size={12} weight={400} ls={0}>
+          <T size={box.fontSize['12']} weight={box.fontWeight['regular']} ls={0}>
             {time}
           </T>
         </View>
         <View pointerEvents="none" style={styles.zap}>
           {routine ? (
-            <Image source={art.routinePlant} style={{ width: 20, height: 27 }} />
+            <Image source={art.routinePlant} style={{ width: box.size['20'], height: 27 }} />
           ) : limit ? (
-            <Image source={art.timeLimitHourglass} style={{ width: 20, height: 27 }} />
+            <Image source={art.timeLimitHourglass} style={{ width: box.size['20'], height: 27 }} />
           ) : (
             <SessionIcon id={template.iconId || 'zap'} width={20} height={27} />
           )}
@@ -70,7 +71,14 @@ export function SavedTemplateCard({
         <T pointerEvents="none" size={17} ls={0} numberOfLines={1} style={styles.title}>
           {template.title}
         </T>
-        <T pointerEvents="none" size={12.5} weight={400} ls={0} numberOfLines={3} style={styles.copy}>
+        <T
+          pointerEvents="none"
+          size={12.5}
+          weight={box.fontWeight['regular']}
+          ls={0}
+          numberOfLines={3}
+          style={styles.copy}
+        >
           {description}
         </T>
         <PressScale
@@ -80,7 +88,7 @@ export function SavedTemplateCard({
           style={styles.add}
         >
           <Icon name={action === 'start' ? 'play-fill' : 'plus'} width={11} height={12} color={colors.black} />
-          <T size={14} ls={0}>
+          <T size={box.fontSize['14']} ls={0}>
             {action === 'start' ? 'Начать' : 'Добавить'}
           </T>
         </PressScale>
@@ -110,7 +118,7 @@ const styles = StyleSheet.create({
     backgroundColor: s.pill,
     boxShadow: s.pillShadow,
   },
-  zap: { position: 'absolute', left: 12, top: 86, width: 20, height: 27 },
+  zap: { position: 'absolute', left: 12, top: 86, width: box.size['20'], height: 27 },
   title: { position: 'absolute', left: 12, right: 8, top: 112 },
   copy: { position: 'absolute', left: 12, right: 8, top: 138, lineHeight: 15.333 },
   add: {
@@ -123,7 +131,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     boxShadow: s.buttonShadow,
     flexDirection: 'row',
-    gap: 4,
+    gap: box.spacing['4'],
     alignItems: 'center',
     justifyContent: 'center',
   },

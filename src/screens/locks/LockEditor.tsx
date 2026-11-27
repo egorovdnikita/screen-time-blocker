@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { SheetScrollView as ScrollView, SheetTransition, SheetGrabber } from '@/components/SheetModal';
 import { useDarkStatusBar } from '@/components/useStatusBar';
 import { Image } from 'expo-image';
@@ -99,15 +100,18 @@ function LockEditorBody() {
               onPress={() => setPicker('app')}
               style={styles.use}
             >
-              <T size={24} color={c.hint} ls={0}>
+              <T size={box.fontSize['24']} color={c.hint} ls={0}>
                 Для
               </T>
               {selected ? (
-                <Image source={selected.image} style={{ width: 24, height: 24, borderRadius: 7 }} />
+                <Image
+                  source={selected.image}
+                  style={{ width: box.size['24'], height: box.size['24'], borderRadius: 7 }}
+                />
               ) : (
                 <View style={styles.placeholder} />
               )}
-              <T size={24} weight={900} ls={0}>
+              <T size={box.fontSize['24']} weight={box.fontWeight['black']} ls={0}>
                 {selected?.name ?? 'прил.'}
               </T>
               <Icon name="lock-up-down" width={12} height={16} color={c.hint} />
@@ -122,11 +126,22 @@ function LockEditorBody() {
                 onPress={() => patch({ count: draft.count - 1 })}
                 style={styles.counterButton}
               >
-                <T size={25} weight={400} color={draft.count <= 1 ? colors.counterOff : colors.black} ls={0}>
+                <T
+                  size={25}
+                  weight={box.fontWeight['regular']}
+                  color={draft.count <= 1 ? colors.counterOff : colors.black}
+                  ls={0}
+                >
                   −
                 </T>
               </PressScale>
-              <T size={40} color={colors.black} ls={0} style={{ lineHeight: 48 }} accessibilityLiveRegion="polite">
+              <T
+                size={box.fontSize['40']}
+                color={colors.black}
+                ls={0}
+                style={{ lineHeight: box.lineHeight['48'] }}
+                accessibilityLiveRegion="polite"
+              >
                 {unlockCountLabel(draft.count)}
               </T>
               <PressScale
@@ -141,11 +156,11 @@ function LockEditorBody() {
                 <Icon name="plus" width={16} height={16} color={c.ink} />
               </PressScale>
             </View>
-            <T size={24} color={c.max} center ls={0} style={styles.max}>
+            <T size={box.fontSize['24']} color={c.max} center ls={0} style={styles.max}>
               макс. в день
             </T>
             <View style={styles.duration}>
-              <T size={14} weight={600} color={c.muted} ls={0}>
+              <T size={box.fontSize['14']} weight={box.fontWeight['semibold']} color={c.muted} ls={0}>
                 На
               </T>
               <PressScale
@@ -154,12 +169,12 @@ function LockEditorBody() {
                 onPress={() => setPicker('duration')}
                 style={styles.inline}
               >
-                <T size={14} weight={900} ls={0}>
+                <T size={box.fontSize['14']} weight={box.fontWeight['black']} ls={0}>
                   {durationLabel(draft.minutes)}
                 </T>
                 <Icon name="lock-up-down" width={12} height={16} color={c.hint} />
               </PressScale>
-              <T size={14} weight={600} color={c.muted} ls={0}>
+              <T size={box.fontSize['14']} weight={box.fontWeight['semibold']} color={c.muted} ls={0}>
                 каждый раз
               </T>
             </View>
@@ -170,12 +185,12 @@ function LockEditorBody() {
                 onPress={() => setPicker('method')}
                 style={styles.inline}
               >
-                <T size={14} weight={900} ls={0}>
+                <T size={box.fontSize['14']} weight={box.fontWeight['black']} ls={0}>
                   {unlockMethodLabel[draft.unlockMethod]}
                 </T>
                 <Icon name="lock-up-down" width={12} height={16} color={c.hint} />
               </PressScale>
-              <T size={14} weight={600} color={c.muted} ls={0}>
+              <T size={box.fontSize['14']} weight={box.fontWeight['semibold']} color={c.muted} ls={0}>
                 для входа
               </T>
             </View>
@@ -194,14 +209,14 @@ function LockEditorBody() {
               style={styles.extra}
             >
               <Icon name="rule-detail-trash" width={14} height={17} />
-              <T size={14} color={ruleDetailTheme.orange} ls={0}>
+              <T size={box.fontSize['14']} color={ruleDetailTheme.orange} ls={0}>
                 Удалить
               </T>
             </PressScale>
           ) : (
             !app.live && (
               <View accessibilityState={{ disabled: true }} style={styles.extra}>
-                <T size={14} color={c.note} ls={0}>
+                <T size={box.fontSize['14']} color={c.note} ls={0}>
                   Дни и другие приложения
                 </T>
                 <Icon name="chevron-right" width={9} height={13} color={c.note} />
@@ -223,7 +238,7 @@ function LockEditorBody() {
             }
             onOpen={() => setPicker('strict')}
             onChange={strict => (strict ? setPicker('strict') : patch({ strict: false }))}
-            style={{ marginLeft: 5, marginRight: 2 }}
+            style={{ marginLeft: 5, marginRight: box.spacing['2'] }}
           />
           <PressScale
             accessibilityRole="button"
@@ -315,14 +330,14 @@ const styles = StyleSheet.create({
   handle: {
     position: 'absolute',
     top: 12,
-    width: 64,
+    width: box.size['64'],
     height: 5,
     borderRadius: 5,
     alignSelf: 'center',
     backgroundColor: c.handle,
     zIndex: 1,
   },
-  card: { marginHorizontal: 20, height: 368, borderRadius: c.radius, backgroundColor: colors.white },
+  card: { marginHorizontal: box.spacing['20'], height: 368, borderRadius: c.radius, backgroundColor: colors.white },
   use: {
     position: 'absolute',
     top: 50,
@@ -330,14 +345,14 @@ const styles = StyleSheet.create({
     right: 10,
     height: 29,
     flexDirection: 'row',
-    gap: 8,
+    gap: box.spacing['8'],
     alignItems: 'center',
     justifyContent: 'center',
   },
   placeholder: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
+    width: box.size['24'],
+    height: box.size['24'],
+    borderRadius: box.radius['12'],
     borderWidth: 2,
     borderStyle: 'dashed',
     borderColor: c.confirmLine,
@@ -347,30 +362,30 @@ const styles = StyleSheet.create({
     left: 42,
     right: 42,
     top: 92,
-    height: 48,
+    height: box.size['48'],
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
   },
   counterButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: box.size['40'],
+    height: box.size['40'],
+    borderRadius: box.radius['20'],
     backgroundColor: colors.white,
     boxShadow: c.counterShadow,
     alignItems: 'center',
     justifyContent: 'center',
   },
   max: { position: 'absolute', top: 153, left: 0, right: 0, lineHeight: 29 },
-  inline: { flexDirection: 'row', alignItems: 'center', gap: 6 },
+  inline: { flexDirection: 'row', alignItems: 'center', gap: box.spacing['6'] },
   duration: {
     position: 'absolute',
     left: 10,
     right: 10,
     top: 212,
-    height: 20,
+    height: box.size['20'],
     flexDirection: 'row',
-    gap: 6,
+    gap: box.spacing['6'],
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -379,9 +394,9 @@ const styles = StyleSheet.create({
     left: 10,
     right: 10,
     top: 244,
-    height: 20,
+    height: box.size['20'],
     flexDirection: 'row',
-    gap: 6,
+    gap: box.spacing['6'],
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -390,19 +405,26 @@ const styles = StyleSheet.create({
     top: 296,
     alignSelf: 'center',
     paddingVertical: 3,
-    paddingHorizontal: 10,
-    borderRadius: 20,
+    paddingHorizontal: box.spacing['10'],
+    borderRadius: box.radius['20'],
     backgroundColor: c.sumFill,
   },
-  extra: { marginTop: 23, height: 20, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 12 },
-  footer: { paddingHorizontal: 20, paddingTop: ruleEditorSpacing.footerTop, backgroundColor: c.surface },
+  extra: {
+    marginTop: 23,
+    height: box.size['20'],
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: box.spacing['12'],
+  },
+  footer: { paddingHorizontal: box.spacing['20'], paddingTop: ruleEditorSpacing.footerTop, backgroundColor: c.surface },
   add: {
-    height: 60,
+    height: box.size['60'],
     marginTop: 25,
     borderRadius: c.buttonRadius,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 6,
+    gap: box.spacing['6'],
   },
 });

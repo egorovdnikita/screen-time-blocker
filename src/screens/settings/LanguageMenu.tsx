@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { BlurView } from 'expo-blur';
 import { Pressable, StyleSheet, View, useWindowDimensions } from 'react-native';
 import { SheetModal } from '@/components/SheetModal';
@@ -32,7 +33,7 @@ export function LanguageMenu({ onClose }: { onClose: () => void }) {
             backgroundColor: c.menu,
             boxShadow: c.menuShadow,
             overflow: 'hidden',
-            paddingTop: 8,
+            paddingTop: box.spacing['8'],
           }}
         >
           <BlurView intensity={70} tint="light" style={StyleSheet.absoluteFill} />
@@ -54,14 +55,19 @@ export function LanguageMenu({ onClose }: { onClose: () => void }) {
               }}
             >
               {i === 0 && (
-                <T size={16} weight={400} ls={0} style={{ position: 'absolute', left: 27 }}>
+                <T
+                  size={box.fontSize['16']}
+                  weight={box.fontWeight['regular']}
+                  ls={0}
+                  style={{ position: 'absolute', left: 27 }}
+                >
                   ✓
                 </T>
               )}
-              <T size={18} weight={400} ls={0}>
+              <T size={18} weight={box.fontWeight['regular']} ls={0}>
                 {flag}
               </T>
-              <T size={16.25} weight={400} variant="text" ls={0}>
+              <T size={16.25} weight={box.fontWeight['regular']} variant="text" ls={0}>
                 {name}
               </T>
             </PressScale>

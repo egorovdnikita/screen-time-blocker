@@ -1,3 +1,5 @@
+import { box } from '@/theme/box-ui.generated';
+import { localMaterials, colors } from '@/theme/tokens';
 import { chartHourFromPress } from '@/data/chartInteraction';
 import { Image } from 'expo-image';
 import { useEffect, useMemo, useState } from 'react';
@@ -8,7 +10,6 @@ import { PopIn, spring } from '@/components/motion';
 import { art } from '@/data/art';
 import type { BarTone, ChartData } from '@/data/home';
 import { T, TRACK_SMALL } from '@/theme/typography';
-import { colors } from '@/theme/tokens';
 
 type Props = {
   data: ChartData;
@@ -144,23 +145,23 @@ export function UsageChart({ data, onInsight, interactive = true }: Props) {
           />
 
           <View pointerEvents="none" style={[styles.axisY, { left: GRID_LEFT + gridW + 3.67, top: TOP - 5.67 }]}>
-            <T size={10} weight={500} color={colors.chartLabel}>
+            <T size={box.fontSize['10']} weight={box.fontWeight['medium']} color={colors.chartLabel}>
               {data.axis[0]}
             </T>
           </View>
           <View pointerEvents="none" style={[styles.axisY, { left: GRID_LEFT + gridW + 3.67, top: TOP + 36.33 }]}>
-            <T size={10} weight={500} color={colors.chartLabel}>
+            <T size={box.fontSize['10']} weight={box.fontWeight['medium']} color={colors.chartLabel}>
               {data.axis[1]}
             </T>
           </View>
           <View pointerEvents="none" style={[styles.axisY, { left: GRID_LEFT + gridW + 3.67, top: TOP + 78.67 }]}>
-            <T size={10} weight={500} color={colors.chartLabel}>
+            <T size={box.fontSize['10']} weight={box.fontWeight['medium']} color={colors.chartLabel}>
               {data.axis[2]}
             </T>
           </View>
           {TICKS.map(h => (
             <View key={h} pointerEvents="none" style={[styles.axisX, { left: GRID_LEFT + h * slot + 4.33 }]}>
-              <T size={9.75} weight={500} ls={TRACK_SMALL} color={colors.chartLabel}>
+              <T size={9.75} weight={box.fontWeight['medium']} ls={TRACK_SMALL} color={colors.chartLabel}>
                 {hh(h)}
               </T>
             </View>
@@ -186,7 +187,7 @@ export function UsageChart({ data, onInsight, interactive = true }: Props) {
                     {bb.kind === 'app' ? (
                       <Icon name="ogonek-app-icon" width={41.7} />
                     ) : (
-                      <Image source={art.activityLeaf} style={{ width: 28, height: 29 }} />
+                      <Image source={art.activityLeaf} style={{ width: box.size['28'], height: 29 }} />
                     )}
                   </View>
                 </Pressable>
@@ -213,9 +214,9 @@ const styles = StyleSheet.create({
     top: 0,
     width: 51.4,
     height: 51.4,
-    borderRadius: 16,
+    borderRadius: box.radius['16'],
     backgroundColor: colors.white,
-    boxShadow: '0px 2px 10px rgba(30, 60, 120, 0.12)',
+    boxShadow: localMaterials.chartShadow,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -225,7 +226,7 @@ const styles = StyleSheet.create({
     top: 46,
     width: 11,
     height: 11,
-    borderRadius: 2,
+    borderRadius: box.radius['2'],
     backgroundColor: colors.white,
     transform: [{ rotate: '45deg' }],
   },

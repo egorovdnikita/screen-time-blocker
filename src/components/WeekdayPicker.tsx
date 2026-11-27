@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { useState } from 'react';
 import { StyleSheet, View, type StyleProp, type ViewStyle } from 'react-native';
 import { PressScale } from './motion';
@@ -34,7 +35,7 @@ export function WeekdayPicker({
             onPress={() => onChange(on ? value.filter(d => d !== i) : [...value, i].sort())}
             style={[styles.day, { backgroundColor: on ? c.ink : colors.white, borderColor: on ? c.ink : c.dayBorder }]}
           >
-            <T size={14} weight={weight} color={on ? colors.white : c.dayOff} ls={0}>
+            <T size={box.fontSize['14']} weight={weight} color={on ? colors.white : c.dayOff} ls={0}>
               {label}
             </T>
           </PressScale>
@@ -45,5 +46,12 @@ export function WeekdayPicker({
 }
 const styles = StyleSheet.create({
   days: { flexDirection: 'row', justifyContent: 'space-between' },
-  day: { width: 39, height: 39, borderRadius: 20, borderWidth: 1, alignItems: 'center', justifyContent: 'center' },
+  day: {
+    width: 39,
+    height: 39,
+    borderRadius: box.radius['20'],
+    borderWidth: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });

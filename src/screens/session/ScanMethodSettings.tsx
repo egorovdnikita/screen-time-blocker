@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { QrPass } from './QrPass';
 import { Image } from 'expo-image';
 import { Pressable, StyleSheet, View } from 'react-native';
@@ -26,14 +27,28 @@ export function ScanMethodSettings({
         <Image source={nfc ? art.scanNfcDevice : art.scanQrDevice} style={{ width: 248, height: 218 }} />
       </View>
       {nfc ? (
-        <T size={14} weight={600} color={m.scanHint} ls={0} center style={styles.nfcCopy}>
+        <T
+          size={box.fontSize['14']}
+          weight={box.fontWeight['semibold']}
+          color={m.scanHint}
+          ls={0}
+          center
+          style={styles.nfcCopy}
+        >
           Сканируйте{' '}
-          <T size={14} weight={900} color={m.scanLink} ls={0}>
+          <T size={box.fontSize['14']} weight={box.fontWeight['black']} color={m.scanLink} ls={0}>
             AirTag
           </T>
         </T>
       ) : (
-        <T size={12} weight={600} color={colors.white} ls={0} center style={styles.scanCopy}>
+        <T
+          size={box.fontSize['12']}
+          weight={box.fontWeight['semibold']}
+          color={colors.white}
+          ls={0}
+          center
+          style={styles.scanCopy}
+        >
           Сканируйте для входа
         </T>
       )}
@@ -45,7 +60,7 @@ export function ScanMethodSettings({
           onPress={() => setMenu(v => !v)}
           style={[styles.option, styles.first]}
         >
-          <T size={15} weight={400} ls={0}>
+          <T size={15} weight={box.fontWeight['regular']} ls={0}>
             Сканирование
           </T>
           <T size={15} color={m.scanValue} ls={0} style={{ marginLeft: 'auto' }}>
@@ -61,12 +76,12 @@ export function ScanMethodSettings({
           accessibilityState={{ disabled: nfc }}
           style={styles.option}
         >
-          <T size={15} weight={400} ls={0}>
+          <T size={15} weight={box.fontWeight['regular']} ls={0}>
             {nfc ? 'Метка' : 'Экспорт QR-кода'}
           </T>
           {nfc ? (
             <View style={styles.pill}>
-              <T size={12} color={m.scanWarning} ls={0}>
+              <T size={box.fontSize['12']} color={m.scanWarning} ls={0}>
                 ❕ Сканировать
               </T>
             </View>
@@ -77,7 +92,7 @@ export function ScanMethodSettings({
       </View>
       {pass && <QrPass onClose={() => setPass(false)} />}
       {nfc && (
-        <T size={12} weight={600} color={m.scanNote} ls={0} style={styles.note}>
+        <T size={box.fontSize['12']} weight={box.fontWeight['semibold']} color={m.scanNote} ls={0} style={styles.note}>
           Где найти NFC-метку? ↗
         </T>
       )}
@@ -109,7 +124,7 @@ export function ScanMethodSettings({
                 style={styles.menuRow}
               >
                 <Icon name={value === 'qr' ? 'scan-qr' : 'scan-nfc'} width={20} height={20} color={colors.black} />
-                <T size={17} weight={400} ls={0}>
+                <T size={17} weight={box.fontWeight['regular']} ls={0}>
                   {value === 'qr' ? 'QR-код' : 'NFC-метка'}
                 </T>
               </PressScale>
@@ -122,8 +137,8 @@ export function ScanMethodSettings({
 }
 const styles = StyleSheet.create({
   illustration: { position: 'absolute', left: 52, top: 58, width: 248, height: 218 },
-  scanCopy: { position: 'absolute', top: 208, left: 50, right: 50, lineHeight: 16 },
-  nfcCopy: { position: 'absolute', top: 90, left: 50, right: 50, lineHeight: 18 },
+  scanCopy: { position: 'absolute', top: 208, left: 50, right: 50, lineHeight: box.lineHeight['16'] },
+  nfcCopy: { position: 'absolute', top: 90, left: 50, right: 50, lineHeight: box.lineHeight['18'] },
   options: {
     position: 'absolute',
     left: 16,
@@ -134,7 +149,13 @@ const styles = StyleSheet.create({
     backgroundColor: m.scanGrid,
     overflow: 'hidden',
   },
-  option: { height: 51, paddingHorizontal: 16, flexDirection: 'row', alignItems: 'center', gap: 8 },
+  option: {
+    height: 51,
+    paddingHorizontal: box.spacing['16'],
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: box.spacing['8'],
+  },
   first: { borderBottomWidth: 1, borderBottomColor: m.scanLine },
   pill: {
     marginLeft: 'auto',
@@ -143,7 +164,7 @@ const styles = StyleSheet.create({
     borderRadius: m.scanPillRadius,
     backgroundColor: m.scanWarningFill,
   },
-  note: { position: 'absolute', top: 397, left: 16, right: 16, lineHeight: 16 },
+  note: { position: 'absolute', top: 397, left: 16, right: 16, lineHeight: box.lineHeight['16'] },
   menu: {
     position: 'absolute',
     top: 213,
@@ -159,5 +180,12 @@ const styles = StyleSheet.create({
     boxShadow: m.scanMenuShadow,
     overflow: 'hidden',
   },
-  menuRow: { height: 42, flexDirection: 'row', alignItems: 'center', gap: 14, position: 'relative', zIndex: 1 },
+  menuRow: {
+    height: 42,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: box.spacing['14'],
+    position: 'relative',
+    zIndex: 1,
+  },
 });

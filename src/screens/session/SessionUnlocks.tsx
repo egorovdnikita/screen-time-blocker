@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { SheetGrabber, SheetModal } from '@/components/SheetModal';
 import { useState } from 'react';
 import { Pressable, StyleSheet, View, useWindowDimensions } from 'react-native';
@@ -68,7 +69,12 @@ export function SessionUnlocks({ draft, patch, waitLabel, entryLabel = 'пере
               onPress={() => patch({ unlocks: draft.unlocks - 1 })}
               style={styles.countButton}
             >
-              <T size={25} weight={400} color={draft.unlocks <= 1 ? colors.counterOff : colors.black} ls={0}>
+              <T
+                size={25}
+                weight={box.fontWeight['regular']}
+                color={draft.unlocks <= 1 ? colors.counterOff : colors.black}
+                ls={0}
+              >
                 −
               </T>
             </PressScale>
@@ -89,7 +95,7 @@ export function SessionUnlocks({ draft, patch, waitLabel, entryLabel = 'пере
           </View>
           <View style={styles.settings}>
             <View style={styles.setting}>
-              <T size={15} weight={600} color={u.muted} ls={0}>
+              <T size={15} weight={box.fontWeight['semibold']} color={u.muted} ls={0}>
                 На
               </T>
               <PressScale
@@ -99,12 +105,12 @@ export function SessionUnlocks({ draft, patch, waitLabel, entryLabel = 'пере
                 onPress={() => setDurationOpen(true)}
                 style={styles.setting}
               >
-                <T size={15} weight={600} color={c.unlockInk} ls={0}>
+                <T size={15} weight={box.fontWeight['semibold']} color={c.unlockInk} ls={0}>
                   {durationLabel(draft.unlockMinutes)}
                 </T>
                 <Icon name="session-up-down" width={12} height={16} color={u.muted} />
               </PressScale>
-              <T size={15} weight={600} color={u.muted} ls={0}>
+              <T size={15} weight={box.fontWeight['semibold']} color={u.muted} ls={0}>
                 каждый раз
               </T>
             </View>
@@ -116,21 +122,21 @@ export function SessionUnlocks({ draft, patch, waitLabel, entryLabel = 'пере
                 onPress={() => setMethodOpen(true)}
                 style={styles.setting}
               >
-                <T size={15} weight={600} color={c.unlockInk} ls={0}>
+                <T size={15} weight={box.fontWeight['semibold']} color={c.unlockInk} ls={0}>
                   {draft.unlockMethod === 'wait' && waitLabel ? waitLabel : unlockMethodLabel[draft.unlockMethod]}
                 </T>
                 <Icon name="session-up-down" width={12} height={16} color={u.muted} />
               </PressScale>
-              <T size={15} weight={600} color={u.muted} ls={0}>
+              <T size={15} weight={box.fontWeight['semibold']} color={u.muted} ls={0}>
                 {entryLabel}
               </T>
             </View>
             <View style={styles.setting}>
-              <T size={15} weight={600} color={c.unlockInk} ls={0}>
+              <T size={15} weight={box.fontWeight['semibold']} color={c.unlockInk} ls={0}>
                 Без задержки
               </T>
               <Icon name="session-up-down" width={12} height={16} color={u.muted} />
-              <T size={15} weight={600} color={u.muted} ls={0}>
+              <T size={15} weight={box.fontWeight['semibold']} color={u.muted} ls={0}>
                 между входами
               </T>
             </View>
@@ -234,7 +240,7 @@ function UnlockDurationBody({
                 </View>
                 <T
                   size={17}
-                  weight={600}
+                  weight={box.fontWeight['semibold']}
                   ls={0}
                   style={{ position: 'absolute', left: maxHours === 24 ? 159 : 144, top: 87 }}
                 >
@@ -255,13 +261,18 @@ function UnlockDurationBody({
                     fade={u.durationFade}
                   />
                 </View>
-                <T size={17} weight={600} ls={0} style={{ position: 'absolute', left: 218, top: 87 }}>
+                <T
+                  size={17}
+                  weight={box.fontWeight['semibold']}
+                  ls={0}
+                  style={{ position: 'absolute', left: 218, top: 87 }}
+                >
                   мин
                 </T>
               </View>
               <T
                 size={13}
-                weight={400}
+                weight={box.fontWeight['regular']}
                 color={u.durationHelp}
                 center
                 ls={0}
@@ -288,9 +299,9 @@ function UnlockDurationBody({
 const styles = StyleSheet.create({
   choices: { flexDirection: 'row', gap: 7, paddingHorizontal: 17 },
   choice: {
-    height: 40,
+    height: box.size['40'],
     minWidth: 61,
-    paddingHorizontal: 14,
+    paddingHorizontal: box.spacing['14'],
     borderWidth: 1,
     borderColor: p.segmentBorder,
     borderRadius: u.choiceRadius,
@@ -303,7 +314,7 @@ const styles = StyleSheet.create({
     top: 70,
     left: 42,
     right: 42,
-    height: 48,
+    height: box.size['48'],
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -317,8 +328,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  settings: { position: 'absolute', top: 150, left: 0, right: 0, alignItems: 'center', gap: 12 },
-  setting: { flexDirection: 'row', alignItems: 'center', gap: 6 },
+  settings: { position: 'absolute', top: 150, left: 0, right: 0, alignItems: 'center', gap: box.spacing['12'] },
+  setting: { flexDirection: 'row', alignItems: 'center', gap: box.spacing['6'] },
   maximum: {
     position: 'absolute',
     alignSelf: 'center',
@@ -343,7 +354,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     width: 61,
     height: 5,
-    borderRadius: 4,
+    borderRadius: box.radius['4'],
     backgroundColor: c.handle,
   },
   wheel: { position: 'absolute', top: 94, width: 377, height: 200, alignSelf: 'center' },
@@ -352,8 +363,8 @@ const styles = StyleSheet.create({
     top: 84,
     left: 44,
     right: 44,
-    height: 32,
-    borderRadius: 18,
+    height: box.size['32'],
+    borderRadius: box.radius['18'],
     backgroundColor: u.durationHighlight,
   },
   confirm: {

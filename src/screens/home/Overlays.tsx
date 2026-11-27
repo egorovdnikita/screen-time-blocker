@@ -1,3 +1,5 @@
+import { box } from '@/theme/box-ui.generated';
+import { localMaterials, colors, gradients, shadows } from '@/theme/tokens';
 import { MaterialBlur } from '@/components/MaterialBlur';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -10,7 +12,6 @@ import { art } from '@/data/art';
 import { insights, periodOptions } from '@/data/home';
 import type { PeriodId } from '@/state/app';
 import { T } from '@/theme/typography';
-import { colors, gradients, shadows } from '@/theme/tokens';
 
 export type Anchor = { x: number; y: number; width: number; height: number };
 
@@ -62,12 +63,12 @@ export function PeriodMenu({
         </View>
         <View style={styles.segment}>
           <View style={[styles.segmentItem, styles.segmentOn]}>
-            <T size={14} ls={0} style={SYSTEM}>
+            <T size={box.fontSize['14']} ls={0} style={SYSTEM}>
               День
             </T>
           </View>
           <View style={styles.segmentItem}>
-            <T size={14} ls={0} style={SYSTEM}>
+            <T size={box.fontSize['14']} ls={0} style={SYSTEM}>
               Неделя
             </T>
           </View>
@@ -86,7 +87,13 @@ export function PeriodMenu({
                 pressed && !selected && { backgroundColor: colors.periodSegment },
               ]}
             >
-              <T size={15} weight={400} ls={0} color={selected ? colors.bar : colors.text} style={SYSTEM}>
+              <T
+                size={15}
+                weight={box.fontWeight['regular']}
+                ls={0}
+                color={selected ? colors.bar : colors.text}
+                style={SYSTEM}
+              >
                 {o.label}
               </T>
               {selected && <Icon name="period-check" width={15} color={colors.bar} style={{ marginLeft: 9 }} />}
@@ -158,7 +165,7 @@ export function MostUsedMenu({
                   color={colors.menuInk}
                   style={{ position: 'absolute', left: m === 'apps' ? 30 : 29 }}
                 />
-                <T size={17} weight={400} ls={0} color={colors.menuInk} style={SYSTEM}>
+                <T size={17} weight={box.fontWeight['regular']} ls={0} color={colors.menuInk} style={SYSTEM}>
                   {m === 'apps' ? 'Приложения' : 'Активности'}
                 </T>
               </>
@@ -185,7 +192,7 @@ export function InsightSheet({ kind, onClose }: { kind: 'glued' | 'offline' | nu
 
   return (
     <Modal transparent visible animationType="none" onRequestClose={onClose} statusBarTranslucent>
-      <Animated.View style={[StyleSheet.absoluteFill, { backgroundColor: 'rgba(0, 0, 0, 0.6)', opacity: progress }]}>
+      <Animated.View style={[StyleSheet.absoluteFill, { backgroundColor: localMaterials.overlay, opacity: progress }]}>
         <Pressable style={StyleSheet.absoluteFill} onPress={onClose} accessibilityLabel="Закрыть" />
       </Animated.View>
       <View pointerEvents="box-none" style={[styles.sheetWrap, { paddingTop: insets.top }]}>
@@ -205,7 +212,7 @@ export function InsightSheet({ kind, onClose }: { kind: 'glued' | 'offline' | nu
             <Icon name="ogonek-focused" width={65} height={90} style={{ alignSelf: 'center', marginTop: 39 }} />
           ) : (
             <View style={{ alignSelf: 'center', width: 134, height: 82, marginTop: 39 }}>
-              <Image source={art.propMountain} style={{ position: 'absolute', width: 134, height: 80 }} />
+              <Image source={art.propMountain} style={{ position: 'absolute', width: 134, height: box.size['80'] }} />
               <Icon name="ogonek-resting" width={58} height={60} style={{ position: 'absolute', left: 38, top: 0 }} />
             </View>
           )}
@@ -220,9 +227,13 @@ export function InsightSheet({ kind, onClose }: { kind: 'glued' | 'offline' | nu
           {k === 'glued' && <Icon name="ogonek-app-icon" width={34} style={{ alignSelf: 'center', marginTop: 21 }} />}
           <T
             size={15.25}
-            weight={400}
+            weight={box.fontWeight['regular']}
             center
-            style={{ lineHeight: 20, marginTop: k === 'glued' ? 20.3 : 19.7, paddingHorizontal: 32 }}
+            style={{
+              lineHeight: box.lineHeight['20'],
+              marginTop: k === 'glued' ? 20.3 : 19.7,
+              paddingHorizontal: box.spacing['32'],
+            }}
           >
             <T size={15.25}>Подумайте: </T>
             {copy.hint}
@@ -255,7 +266,12 @@ export function NewStart({ onClose }: { onClose: () => void }) {
         <T size={23.5} center style={{ marginTop: 19.7 }}>
           Новое начало
         </T>
-        <T size={15.25} weight={400} center style={{ lineHeight: 18.333, marginTop: 8 }}>
+        <T
+          size={15.25}
+          weight={box.fontWeight['regular']}
+          center
+          style={{ lineHeight: 18.333, marginTop: box.spacing['8'] }}
+        >
           {
             'screen-time-blocker поможет начать заново.\nОставьте прошлое позади. Следите\nза экранным временем, замечайте\nсвои привычки и постепенно\nсокращайте время у экрана.'
           }
@@ -280,15 +296,23 @@ export function NewStart({ onClose }: { onClose: () => void }) {
 export function LoadingScene() {
   return (
     <View style={{ alignItems: 'center' }}>
-      <View style={{ width: 140, height: 95, marginLeft: 14 }}>
+      <View style={{ width: 140, height: 95, marginLeft: box.spacing['14'] }}>
         <Icon name="ogonek-scene" width={78} height={87} style={{ position: 'absolute', left: 0, top: 1 }} />
         <Icon name="ogonek-scene-green" width={53} height={55} style={{ position: 'absolute', left: 79, top: 44 }} />
-        <Image source={art.propNet} style={{ position: 'absolute', left: 44, top: 3, width: 45, height: 60 }} />
+        <Image
+          source={art.propNet}
+          style={{ position: 'absolute', left: 44, top: 3, width: 45, height: box.size['60'] }}
+        />
       </View>
       <T size={17.25} center style={{ marginTop: 21 }}>
         Загрузка…
       </T>
-      <T size={15.25} weight={400} center style={{ lineHeight: 18.333, marginTop: 8 }}>
+      <T
+        size={15.25}
+        weight={box.fontWeight['regular']}
+        center
+        style={{ lineHeight: 18.333, marginTop: box.spacing['8'] }}
+      >
         {'Пока пусто? Попробуйте немного\nпопользоваться приложениями.'}
       </T>
     </View>
@@ -301,19 +325,25 @@ const styles = StyleSheet.create({
     height: 183,
     borderRadius: 34,
     backgroundColor: colors.white,
-    padding: 16,
+    padding: box.spacing['16'],
   },
   tip: { position: 'absolute', top: -14 },
   segment: {
     flexDirection: 'row',
     height: 34,
-    borderRadius: 18,
+    borderRadius: box.radius['18'],
     backgroundColor: colors.periodSegment,
-    padding: 4,
+    padding: box.spacing['4'],
   },
-  segmentItem: { flex: 1, alignItems: 'center', justifyContent: 'center', borderRadius: 14 },
-  segmentOn: { backgroundColor: colors.white, boxShadow: '0px 1px 3px rgba(0, 0, 0, 0.12)' },
-  option: { height: 38, borderRadius: 18, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' },
+  segmentItem: { flex: 1, alignItems: 'center', justifyContent: 'center', borderRadius: box.radius['14'] },
+  segmentOn: { backgroundColor: colors.white, boxShadow: localMaterials.segmentShadow },
+  option: {
+    height: 38,
+    borderRadius: box.radius['18'],
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   optionSelected: { height: 33, backgroundColor: colors.periodSelected, marginBottom: 2.5 },
   menu: {
     position: 'absolute',
@@ -323,8 +353,8 @@ const styles = StyleSheet.create({
     paddingVertical: 9,
     overflow: 'hidden',
   },
-  menuRow: { height: 42, justifyContent: 'center', paddingLeft: 64 },
-  menuHighlight: { position: 'absolute', left: 15, right: 15, top: 7, height: 28, borderRadius: 9 },
+  menuRow: { height: 42, justifyContent: 'center', paddingLeft: box.spacing['64'] },
+  menuHighlight: { position: 'absolute', left: 15, right: 15, top: 7, height: box.size['28'], borderRadius: 9 },
   sheetWrap: {
     position: 'absolute',
     top: 0,
@@ -332,22 +362,22 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     justifyContent: 'center',
-    paddingHorizontal: 20,
-    paddingBottom: 60,
+    paddingHorizontal: box.spacing['20'],
+    paddingBottom: box.spacing['60'],
   },
   sheet: {
     borderRadius: 34,
     backgroundColor: colors.bgPage,
-    boxShadow: 'inset 0px 0px 0px 1px rgba(255, 255, 255, 0.5)',
+    boxShadow: localMaterials.glassBorder,
     paddingBottom: 19.3,
   },
   sheetButton: {
     marginTop: 26,
-    marginHorizontal: 20,
-    height: 60,
-    borderRadius: 40,
-    backgroundColor: 'rgba(255, 255, 255, 0.6)',
-    boxShadow: '0px 10px 30px rgba(30, 45, 60, 0.06)',
+    marginHorizontal: box.spacing['20'],
+    height: box.size['60'],
+    borderRadius: box.radius['40'],
+    backgroundColor: localMaterials.glassFill,
+    boxShadow: localMaterials.glassShadow,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -364,10 +394,10 @@ const styles = StyleSheet.create({
   newStartButton: {
     marginTop: 26,
     height: 41,
-    paddingHorizontal: 16,
+    paddingHorizontal: box.spacing['16'],
     borderRadius: 25,
     backgroundColor: colors.seeMore,
-    boxShadow: '0px 10px 30px rgba(20, 30, 40, 0.08)',
+    boxShadow: localMaterials.panelShadow,
     justifyContent: 'center',
   },
 });

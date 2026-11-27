@@ -1,3 +1,5 @@
+import { box } from '@/theme/box-ui.generated';
+import { localMaterials, colors, insetBorder, radii, shadows } from '@/theme/tokens';
 import { Troubleshoot } from '../settings/Troubleshoot';
 import { RuleSettings } from './RuleSettings';
 import { TemplateGallery } from './TemplateGallery';
@@ -55,7 +57,6 @@ import {
 } from '@/data/rules';
 import { devMenu, useAppState } from '@/state/app';
 import { T, TRACK_SMALL, type TProps } from '@/theme/typography';
-import { colors, insetBorder, radii, shadows } from '@/theme/tokens';
 
 export function RulesScreen() {
   const { earned } = useLocalSearchParams<{ earned?: string }>();
@@ -195,7 +196,7 @@ export function RulesScreen() {
       {/* Неподвижная шапка */}
       <LinearGradient
         pointerEvents="none"
-        colors={[colors.hdrBlur, colors.hdrBlur, 'rgba(249, 249, 249, 0)']}
+        colors={[colors.hdrBlur, colors.hdrBlur, localMaterials.headerFade]}
         locations={[0, 0.94, 1]}
         style={[styles.hdrBg, { height: top + 69 }]}
       />
@@ -204,7 +205,12 @@ export function RulesScreen() {
           <T variant="display" size={28.5} ls={0}>
             Правила
           </T>
-          <T size={12} weight={500} ls={TRACK_SMALL} style={{ marginTop: -1.5, marginLeft: -0.3 }}>
+          <T
+            size={box.fontSize['12']}
+            weight={box.fontWeight['medium']}
+            ls={TRACK_SMALL}
+            style={{ marginTop: -1.5, marginLeft: -0.3 }}
+          >
             {activeLabel(data.active)}
           </T>
         </View>
@@ -279,7 +285,7 @@ function LockCard({ rule }: { rule: LockRule }) {
       </PressScale>
       <Image
         source={rule.app === 'bereal' ? art.appBereal : (lockApp(rule.app)?.image ?? art.appAppleMusic)}
-        style={{ width: 52, height: 58, marginLeft: -5.2, marginTop: 10.3 }}
+        style={{ width: box.size['52'], height: 58, marginLeft: -5.2, marginTop: 10.3 }}
       />
       <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 2.3 }}>
         <Icon
@@ -308,7 +314,12 @@ function LockCard({ rule }: { rule: LockRule }) {
             : 'Открыть'}
         </T>
         {!remaining && (
-          <T size={9.5} weight={500} color={colors.unlockCount} style={{ marginLeft: 5, marginTop: 2 }}>
+          <T
+            size={9.5}
+            weight={box.fontWeight['medium']}
+            color={colors.unlockCount}
+            style={{ marginLeft: 5, marginTop: box.spacing['2'] }}
+          >
             ({available}/{count})
           </T>
         )}
@@ -368,7 +379,7 @@ function AddBlockCard() {
 const sessionEmoji = {
   laptop: <Image source={art.emojiLaptop} style={{ width: 26, height: 27, marginLeft: -2 }} />,
   briefcase: <Image source={art.emojiBriefcase} style={{ width: 23, height: 23 }} />,
-  zap: <Image source={art.emojiZap} style={{ width: 18, height: 25, marginLeft: 1 }} />,
+  zap: <Image source={art.emojiZap} style={{ width: box.size['18'], height: 25, marginLeft: 1 }} />,
 };
 
 function SessionCard({ rule }: { rule: SessionRule }) {
@@ -417,7 +428,12 @@ function SessionCard({ rule }: { rule: SessionRule }) {
             style={styles.firstUnlock}
           >
             <T size={14.25}>Открыть</T>
-            <T size={9.5} weight={500} color={colors.unlockCount} style={{ marginLeft: 5, marginTop: 2 }}>
+            <T
+              size={9.5}
+              weight={box.fontWeight['medium']}
+              color={colors.unlockCount}
+              style={{ marginLeft: 5, marginTop: box.spacing['2'] }}
+            >
               {rule.unlock}
             </T>
           </PressScale>
@@ -433,13 +449,15 @@ function LimitCard({ rule }: { rule: LimitRule }) {
   const [details, setDetails] = useState(false);
   const title = app.ruleChanges[rule.id]?.title ?? rule.title;
   return (
-    <RuleCard style={[styles.wideCard, { marginTop: 10, paddingBottom: rule.progress === null ? 17 : 18.3 }]}>
+    <RuleCard
+      style={[styles.wideCard, { marginTop: box.spacing['10'], paddingBottom: rule.progress === null ? 17 : 18.3 }]}
+    >
       <RuleHeader
         emoji={
           rule.emoji === 'hourglass' ? (
-            <Image source={art.emojiHourglass} style={{ width: 20, height: 32 }} />
+            <Image source={art.emojiHourglass} style={{ width: box.size['20'], height: box.size['32'] }} />
           ) : (
-            <Image source={art.emojiLimitHourglass} style={{ width: 24, height: 28 }} />
+            <Image source={art.emojiLimitHourglass} style={{ width: box.size['24'], height: box.size['28'] }} />
           )
         }
         title={title}
@@ -454,7 +472,9 @@ function LimitCard({ rule }: { rule: LimitRule }) {
       <View style={[styles.bottomRow, { marginTop: 15.7 }]}>
         <Lock />
         <AppsCount count={rule.appCount ?? 1} />
-        {rule.linkedApps && <Image source={art.limitLinkedApps} style={{ width: 29, height: 23, marginLeft: 4 }} />}
+        {rule.linkedApps && (
+          <Image source={art.limitLinkedApps} style={{ width: 29, height: 23, marginLeft: box.spacing['4'] }} />
+        )}
         <T size={17} style={{ marginLeft: 'auto', marginRight: -15.5 }}>
           {rule.value}
         </T>
@@ -512,7 +532,7 @@ function RoutineCard({ rule, demoEarned = false }: { rule: RoutineRule; demoEarn
   const canClaim = demoEarned || (allDone && !progress.claimed);
   const appCount = config ? config.appGroup.selectedApps.filter(Boolean).length + config.appGroup.categories.length : 1;
   return (
-    <RuleCard style={[styles.wideCard, { marginTop: 10, paddingBottom: 8 }]}>
+    <RuleCard style={[styles.wideCard, { marginTop: box.spacing['10'], paddingBottom: box.spacing['8'] }]}>
       <RuleHeader
         emoji={<Image source={art.emojiPlant} style={{ width: 21, height: 31 }} />}
         title={rule.title}
@@ -552,7 +572,13 @@ function RoutineCard({ rule, demoEarned = false }: { rule: RoutineRule; demoEarn
                 {task.title}
               </T>
               {!done && (
-                <T size={11.75} weight={500} ls={TRACK_SMALL} color={colors.taskSub} style={{ marginTop: 1 }}>
+                <T
+                  size={11.75}
+                  weight={box.fontWeight['medium']}
+                  ls={TRACK_SMALL}
+                  color={colors.taskSub}
+                  style={{ marginTop: 1 }}
+                >
                   {manual ? 'Нажмите, чтобы отметить' : config ? 'Проверить с ИИ' : 'Нажмите, чтобы проверить с ИИ'}
                 </T>
               )}
@@ -584,10 +610,10 @@ function RoutineCard({ rule, demoEarned = false }: { rule: RoutineRule; demoEarn
             onPress={() => (demoEarned ? router.setParams({ earned: '0' }) : app.claimRoutineReward(rule.id, earned))}
             style={{
               marginLeft: 'auto',
-              marginRight: 8,
+              marginRight: box.spacing['8'],
               width: 114,
               height: 33,
-              borderRadius: 24,
+              borderRadius: box.radius['24'],
               backgroundColor: colors.white,
               boxShadow: shadows.pillSoft,
               alignItems: 'center',
@@ -599,7 +625,7 @@ function RoutineCard({ rule, demoEarned = false }: { rule: RoutineRule; demoEarn
             </T>
           </Pressable>
         )}
-        <T size={24} style={{ marginLeft: canClaim ? 0 : 'auto' }}>
+        <T size={box.fontSize['24']} style={{ marginLeft: canClaim ? 0 : 'auto' }}>
           {earned ? `${earned}мин` : '0с'}
         </T>
       </View>
@@ -623,7 +649,7 @@ function StatusPill({ status, blockingText = 'Активно' }: { status: Statu
     return (
       <View style={styles.upcoming}>
         <Icon name="snoozed" width={13.5} height={11.5} color={colors.meta} style={{ marginRight: 2.7 }} />
-        <T size={12} weight={600} color={colors.meta}>
+        <T size={box.fontSize['12']} weight={box.fontWeight['semibold']} color={colors.meta}>
           На паузе
         </T>
       </View>
@@ -645,7 +671,7 @@ function StatusPill({ status, blockingText = 'Активно' }: { status: Statu
     return (
       <View style={styles.ongoing}>
         <Icon name="ongoing" width={13} height={13} color={colors.accentIco} style={{ marginRight: 3.2 }} />
-        <T size={12} weight={500} ls={TRACK_SMALL} color={colors.accentText}>
+        <T size={box.fontSize['12']} weight={box.fontWeight['medium']} ls={TRACK_SMALL} color={colors.accentText}>
           Идёт
         </T>
       </View>
@@ -707,7 +733,14 @@ function MetaView({ meta }: { meta: Meta }) {
   return (
     <>
       <View style={styles.metaSepTall} />
-      <T size={11.75} weight={600} ls={TRACK_SMALL} color={colors.meta} numberOfLines={1} style={{ flexShrink: 1 }}>
+      <T
+        size={11.75}
+        weight={box.fontWeight['semibold']}
+        ls={TRACK_SMALL}
+        color={colors.meta}
+        numberOfLines={1}
+        style={{ flexShrink: 1 }}
+      >
         {meta.time}
       </T>
       {meta.days && (
@@ -715,7 +748,7 @@ function MetaView({ meta }: { meta: Meta }) {
           <View style={styles.bullet} />
           <T
             size={locks ? 12 : 11.75}
-            weight={500}
+            weight={box.fontWeight['medium']}
             ls={TRACK_SMALL}
             color={colors.meta}
             numberOfLines={1}
@@ -736,7 +769,7 @@ function TemplatesShell({ children }: { children: React.ReactNode }) {
   const [gallery, setGallery] = useState(false);
   return (
     <>
-      <View style={[styles.tplBand, app.savedTemplates.length > 0 && { paddingTop: 24 }]}>
+      <View style={[styles.tplBand, app.savedTemplates.length > 0 && { paddingTop: box.spacing['24'] }]}>
         <SectionHeader
           title="Шаблоны"
           right={
@@ -756,7 +789,7 @@ function TemplatesShell({ children }: { children: React.ReactNode }) {
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
-          contentContainerStyle={[styles.tplRow, app.savedTemplates.length > 0 && { gap: 8 }]}
+          contentContainerStyle={[styles.tplRow, app.savedTemplates.length > 0 && { gap: box.spacing['8'] }]}
           decelerationRate="fast"
           snapToInterval={171.333 + 17.3}
         >
@@ -841,11 +874,14 @@ function ClassicTemplates() {
             ]}
           >
             <Icon name="lock-fill" width={13} height={15} color={colors.black} style={styles.tplPillIcon} />
-            <T size={12} weight={600}>
+            <T size={box.fontSize['12']} weight={box.fontWeight['semibold']}>
               30 мин
             </T>
           </View>
-          <Image source={art.emojiZap} style={{ position: 'absolute', left: 14.7, top: 87.3, width: 18, height: 25 }} />
+          <Image
+            source={art.emojiZap}
+            style={{ position: 'absolute', left: 14.7, top: 87.3, width: box.size['18'], height: 25 }}
+          />
           <TemplateText
             title="Сессия"
             desc={'Блокировать на 30 мин,\nначиная сейчас.'}
@@ -853,7 +889,13 @@ function ClassicTemplates() {
             top={112.7}
           />
           <View style={[styles.tplStart, { backgroundColor: colors.white, boxShadow: shadows.pillSoft, top: 176.3 }]}>
-            <Icon name="play-fill" width={11} height={12} color={colors.black} style={{ marginRight: 4 }} />
+            <Icon
+              name="play-fill"
+              width={11}
+              height={12}
+              color={colors.black}
+              style={{ marginRight: box.spacing['4'] }}
+            />
             <T size={14.5}>Начать</T>
           </View>
         </DashedBox>
@@ -936,7 +978,13 @@ function ImageTemplate({
       />
       {withStart && (
         <Glass tone="template" radius={radii.pill} style={[styles.tplStart, { top: 177.3, left: 13.7, width: 144.3 }]}>
-          <Icon name="play-fill" width={11} height={12} color={colors.white} style={{ marginRight: 4 }} />
+          <Icon
+            name="play-fill"
+            width={11}
+            height={12}
+            color={colors.white}
+            style={{ marginRight: box.spacing['4'] }}
+          />
           <T size={14.5} color={colors.white}>
             Начать
           </T>
@@ -1029,10 +1077,15 @@ function Tips({
             color={colors.black}
             style={[styles.tutorialTip, { top: -14 }]}
           />
-          <T size={15.25} color={colors.white} style={{ marginRight: 56 }}>
+          <T size={15.25} color={colors.white} style={{ marginRight: box.spacing['56'] }}>
             Первое правило добавлено!
           </T>
-          <T size={15.25} weight={400} color={colors.white} style={{ lineHeight: 18.333, marginTop: 15.3 }}>
+          <T
+            size={15.25}
+            weight={box.fontWeight['regular']}
+            color={colors.white}
+            style={{ lineHeight: 18.333, marginTop: 15.3 }}
+          >
             Нажмите на карточку для настройки.
           </T>
           <PressScale onPress={onNext} style={styles.tutorialNext} accessibilityLabel="Далее">
@@ -1055,10 +1108,15 @@ function Tips({
             color={colors.black}
             style={[styles.tutorialTip, { bottom: -14, transform: [{ rotate: '180deg' }] }]}
           />
-          <T size={15.25} color={colors.white} style={{ marginRight: 56 }}>
+          <T size={15.25} color={colors.white} style={{ marginRight: box.spacing['56'] }}>
             Добавьте ещё!
           </T>
-          <T size={15.25} weight={400} color={colors.white} style={{ lineHeight: 18.333, marginTop: 15.3 }}>
+          <T
+            size={15.25}
+            weight={box.fontWeight['regular']}
+            color={colors.white}
+            style={{ lineHeight: 18.333, marginTop: 15.3 }}
+          >
             {'Создавайте свои правила или используйте\nнаши шаблоны.'}
           </T>
           <PressScale onPress={onNext} style={styles.tutorialNext} accessibilityLabel="Понятно">
@@ -1074,9 +1132,9 @@ const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: colors.bgPage },
   hdrBg: { position: 'absolute', left: 0, right: 0, top: 0 },
   hdr: { position: 'absolute', left: 20, right: 20, flexDirection: 'row', alignItems: 'flex-start' },
-  hdrButtons: { marginLeft: 'auto', flexDirection: 'row', gap: 8, marginTop: 2.3 },
-  section: { marginTop: 32 },
-  blocksRow: { flexDirection: 'row', gap: 11.667, paddingHorizontal: 20, marginTop: 10 },
+  hdrButtons: { marginLeft: 'auto', flexDirection: 'row', gap: box.spacing['8'], marginTop: 2.3 },
+  section: { marginTop: box.spacing['32'] },
+  blocksRow: { flexDirection: 'row', gap: 11.667, paddingHorizontal: box.spacing['20'], marginTop: box.spacing['10'] },
   blockCard: { width: 150, height: 196.5, paddingTop: 15.3, paddingLeft: 15.2, paddingRight: 16.75 },
   unlock: {
     position: 'absolute',
@@ -1092,14 +1150,19 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   addCard: { width: 150.333, height: 197.667, padding: 16.3, paddingBottom: 22 },
-  wideCard: { marginHorizontal: 20, paddingTop: 11.7, paddingHorizontal: 16, paddingBottom: 17 },
-  cardGap: { marginTop: 10 },
+  wideCard: {
+    marginHorizontal: box.spacing['20'],
+    paddingTop: 11.7,
+    paddingHorizontal: box.spacing['16'],
+    paddingBottom: 17,
+  },
+  cardGap: { marginTop: box.spacing['10'] },
   metaRow: { flexDirection: 'row', alignItems: 'center' },
   upcoming: {
     flexDirection: 'row',
     alignItems: 'center',
     height: 18.5,
-    paddingLeft: 8,
+    paddingLeft: box.spacing['8'],
     paddingRight: 2.17, // HTML 186: ширина плашки 91.33pt
     borderRadius: radii.pill,
     backgroundColor: colors.white,
@@ -1108,7 +1171,7 @@ const styles = StyleSheet.create({
   },
   metaSepTall: {
     width: 1.333,
-    height: 10,
+    height: box.size['10'],
     borderRadius: 1,
     backgroundColor: colors.metaSep,
     marginLeft: 6.8,
@@ -1135,7 +1198,7 @@ const styles = StyleSheet.create({
   firstUnlock: {
     marginLeft: 'auto',
     height: 30,
-    paddingHorizontal: 12,
+    paddingHorizontal: box.spacing['12'],
     borderRadius: radii.pill,
     backgroundColor: colors.white,
     boxShadow: shadows.pillSoft,
@@ -1156,7 +1219,7 @@ const styles = StyleSheet.create({
     height: 4.333,
     borderRadius: 2.167,
     backgroundColor: colors.progressTrack,
-    marginTop: 8,
+    marginTop: box.spacing['8'],
     overflow: 'hidden',
   },
   blockingPill: {
@@ -1193,18 +1256,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     height: 33,
-    paddingLeft: 12,
-    paddingRight: 12,
+    paddingLeft: box.spacing['12'],
+    paddingRight: box.spacing['12'],
     borderRadius: radii.pill,
     backgroundColor: colors.seeMore,
   },
-  tplRow: { paddingLeft: 19.333, paddingRight: 20, gap: 17.3, marginTop: 14 },
+  tplRow: { paddingLeft: 19.333, paddingRight: box.spacing['20'], gap: 17.3, marginTop: box.spacing['14'] },
   tplCard: { width: 171.333, height: 221.333 },
   tplPill: {
     position: 'absolute',
     height: 22.5,
     paddingLeft: 23.667,
-    paddingRight: 8,
+    paddingRight: box.spacing['8'],
     borderRadius: radii.pill,
     flexDirection: 'row',
     alignItems: 'center',
@@ -1226,7 +1289,7 @@ const styles = StyleSheet.create({
     right: 10,
     borderRadius: 34,
     backgroundColor: colors.black,
-    padding: 20,
+    padding: box.spacing['20'],
   },
   tutorialTip: { position: 'absolute', left: '50%', marginLeft: -14 },
   tutorialNext: {
@@ -1234,8 +1297,8 @@ const styles = StyleSheet.create({
     right: 20,
     top: 20,
     width: 46,
-    height: 24,
-    borderRadius: 20,
+    height: box.size['24'],
+    borderRadius: box.radius['20'],
     backgroundColor: colors.white,
     alignItems: 'center',
     justifyContent: 'center',

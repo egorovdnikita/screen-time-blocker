@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
@@ -43,15 +44,20 @@ export function DataSettings({ onClose }: { onClose: () => void }) {
   };
   return (
     <SettingsStack onClose={onClose} surface={c.surface} radius={44}>
-      <T size={20} center ls={0} style={{ position: 'absolute', top: 44, left: 20, right: 20, lineHeight: 26 }}>
+      <T
+        size={box.fontSize['20']}
+        center
+        ls={0}
+        style={{ position: 'absolute', top: 44, left: 20, right: 20, lineHeight: 26 }}
+      >
         Данные на устройстве
       </T>
       <SheetScrollView
         accessibilityLabel="Данные на устройстве"
         style={{ marginTop: 100 }}
-        contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 32 }}
+        contentContainerStyle={{ paddingHorizontal: box.spacing['20'], paddingBottom: box.spacing['32'] }}
       >
-        <T size={20} color={c.section} ls={0} style={{ lineHeight: 26 }}>
+        <T size={box.fontSize['20']} color={c.section} ls={0} style={{ lineHeight: 26 }}>
           Хранится на iPhone
         </T>
         <View style={[styles.group, { marginTop: 11 }]}>
@@ -61,7 +67,7 @@ export function DataSettings({ onClose }: { onClose: () => void }) {
               accessibilityLabel={`${row.title}: ${row.value}`}
               style={[styles.row, index < rows.length - 1 && { borderBottomWidth: 1, borderColor: c.line }]}
             >
-              <T size={14.25} weight={400} variant="text" ls={0}>
+              <T size={14.25} weight={box.fontWeight['regular']} variant="text" ls={0}>
                 {row.title}
               </T>
               <T size={17} color={c.value} ls={0} style={{ marginLeft: 'auto' }}>
@@ -72,11 +78,11 @@ export function DataSettings({ onClose }: { onClose: () => void }) {
         </View>
         <T
           size={13}
-          weight={400}
+          weight={box.fontWeight['regular']}
           variant="text"
           color={c.value}
           ls={0}
-          style={{ marginTop: 10, marginHorizontal: 4, lineHeight: 17 }}
+          style={{ marginTop: box.spacing['10'], marginHorizontal: box.spacing['4'], lineHeight: 17 }}
         >
           Также сохраняются профиль, цель, напоминания и настройки. Аккаунта и облака нет: данные не покидают устройство
           и удаляются вместе с приложением.
@@ -84,7 +90,7 @@ export function DataSettings({ onClose }: { onClose: () => void }) {
         {status && (
           <View accessibilityRole="alert" style={[styles.group, styles.status]}>
             <Icon name="shield-check" width={19} height={21} color={c.icon} />
-            <T size={13} weight={400} variant="text" ls={0} style={{ flex: 1, lineHeight: 17 }}>
+            <T size={13} weight={box.fontWeight['regular']} variant="text" ls={0} style={{ flex: 1, lineHeight: 17 }}>
               {status}
             </T>
           </View>
@@ -99,7 +105,7 @@ export function DataSettings({ onClose }: { onClose: () => void }) {
           style={[styles.group, styles.row, { marginTop: 30, justifyContent: 'center' }]}
         >
           <Icon name="reflection-trash" width={17} height={19} color={mainSettingsTheme.danger} />
-          <T size={14.25} weight={500} variant="text" color={mainSettingsTheme.danger} ls={0}>
+          <T size={14.25} weight={box.fontWeight['medium']} variant="text" color={mainSettingsTheme.danger} ls={0}>
             Удалить все данные
           </T>
         </PressScale>
@@ -128,12 +134,12 @@ export function DataSettings({ onClose }: { onClose: () => void }) {
           onConfirm={reset}
         >
           <T
-            size={14}
-            weight={400}
+            size={box.fontSize['14']}
+            weight={box.fontWeight['regular']}
             variant="text"
             color={c.alertInk}
             ls={0}
-            style={{ position: 'absolute', top: 48, left: 29, right: 29, lineHeight: 20 }}
+            style={{ position: 'absolute', top: 48, left: 29, right: 29, lineHeight: box.lineHeight['20'] }}
           >
             {failed
               ? 'Данные остались на устройстве без изменений. Попробуйте ещё раз.'
@@ -145,7 +151,19 @@ export function DataSettings({ onClose }: { onClose: () => void }) {
   );
 }
 const styles = StyleSheet.create({
-  group: { borderRadius: 20, backgroundColor: colors.white, overflow: 'hidden' },
-  row: { height: 53.333, paddingHorizontal: 16, flexDirection: 'row', alignItems: 'center', gap: 10 },
-  status: { marginTop: 16, padding: 16, flexDirection: 'row', alignItems: 'center', gap: 13 },
+  group: { borderRadius: box.radius['20'], backgroundColor: colors.white, overflow: 'hidden' },
+  row: {
+    height: 53.333,
+    paddingHorizontal: box.spacing['16'],
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: box.spacing['10'],
+  },
+  status: {
+    marginTop: box.spacing['16'],
+    padding: box.spacing['16'],
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 13,
+  },
 });

@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { Image } from 'expo-image';
 import { useState } from 'react';
 import { ScrollView, StyleSheet, TextInput, View, type StyleProp, type ViewStyle } from 'react-native';
@@ -61,7 +62,14 @@ export function RuleEditorHeader({
           <Icon name="pencil" width={18} height={18} color={colors.chevronCompact} />
         </PressScale>
       )}
-      <T size={14} weight={400} color={subtitleColor ?? c.subtitle} center ls={0} style={styles.subtitle}>
+      <T
+        size={box.fontSize['14']}
+        weight={box.fontWeight['regular']}
+        color={subtitleColor ?? c.subtitle}
+        center
+        ls={0}
+        style={styles.subtitle}
+      >
         {subtitle}
       </T>
     </View>
@@ -87,10 +95,16 @@ export function RuleSuggestions({ items, style }: { items: EditorSuggestion[]; s
           style={styles.suggestion}
         >
           <Image source={item.image} style={StyleSheet.absoluteFill} />
-          <T size={12} weight={400} color={colors.white} ls={0} style={{ marginLeft: 22, marginTop: 21 }}>
+          <T
+            size={box.fontSize['12']}
+            weight={box.fontWeight['regular']}
+            color={colors.white}
+            ls={0}
+            style={{ marginLeft: 22, marginTop: 21 }}
+          >
             {item.caption}
           </T>
-          <T size={15} color={colors.white} ls={0} style={{ marginLeft: 8, marginTop: 7 }}>
+          <T size={15} color={colors.white} ls={0} style={{ marginLeft: box.spacing['8'], marginTop: 7 }}>
             {item.title}
           </T>
         </PressScale>
@@ -100,9 +114,16 @@ export function RuleSuggestions({ items, style }: { items: EditorSuggestion[]; s
 }
 const styles = StyleSheet.create({
   header: { height: 234, alignItems: 'center', backgroundColor: colors.white },
-  title: { marginTop: 18, height: 33, flexDirection: 'row', alignItems: 'center', gap: 3, maxWidth: '90%' },
+  title: {
+    marginTop: box.spacing['18'],
+    height: 33,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 3,
+    maxWidth: '90%',
+  },
   titleInput: {
-    marginTop: 18,
+    marginTop: box.spacing['18'],
     height: 33,
     width: '90%',
     textAlign: 'center',
@@ -111,9 +132,9 @@ const styles = StyleSheet.create({
     fontFamily: rounded,
     color: c.ink,
   },
-  subtitle: { marginTop: 9, marginHorizontal: 24, lineHeight: 18 },
-  suggestions: { paddingHorizontal: 20, gap: 8 },
-  suggestion: { width: 160, height: 80, borderRadius: 20, overflow: 'hidden' },
+  subtitle: { marginTop: 9, marginHorizontal: box.spacing['24'], lineHeight: box.lineHeight['18'] },
+  suggestions: { paddingHorizontal: box.spacing['20'], gap: box.spacing['8'] },
+  suggestion: { width: 160, height: box.size['80'], borderRadius: box.radius['20'], overflow: 'hidden' },
 });
 
 // Неподвижная область ручки: содержимое остаётся частью настоящего списка под ней.
@@ -121,7 +142,7 @@ export function RuleEditorScrollCap({ active }: { active: boolean }) {
   return active ? (
     <View
       pointerEvents="none"
-      style={{ position: 'absolute', left: 0, right: 0, top: 0, height: 64, backgroundColor: colors.white }}
+      style={{ position: 'absolute', left: 0, right: 0, top: 0, height: box.size['64'], backgroundColor: colors.white }}
     />
   ) : null;
 }

@@ -1,15 +1,16 @@
+import { box } from './box-ui.generated';
 // Перенесено из block-screens/*/styles/tokens.css. Имена совпадают с CSS-переменными без префикса --c-.
 
 export const colors = {
   ringText: '#5080da',
   bg: '#f4f6f8',
   bgPage: '#f6f8fa',
-  card: '#ffffff',
-  white: '#ffffff',
-  black: '#000000',
+  card: box.raised,
+  white: box.white,
+  black: box.black,
   counterOff: '#b7bbc0',
   templateInk: '#111111',
-  text: '#000000',
+  text: box.black,
   textSecondary: '#717479',
   chartLabel: '#747679',
   separator: '#e4e6e7',
@@ -129,7 +130,7 @@ export const radii = {
   card: 31,
   ruleCard: 26,
   tile: 26,
-  gtile: 20,
+  gtile: box.radius['20'],
   art: 25,
   pill: 999,
 } as const;
@@ -188,9 +189,9 @@ export const sessionTheme = {
   buttonDisabledInk: '#cdced2',
   buttonDisabledSecondary: '#a9aaae',
   focusGradient: ['#21265e', '#9630a7'],
-  sheetRadius: 40,
+  sheetRadius: box.radius['40'],
   rowRadius: 22,
-  suggestionRadius: 20,
+  suggestionRadius: box.radius['20'],
   side: 20,
 } as const;
 
@@ -217,7 +218,7 @@ export const sessionPickerTheme = {
   inactiveDay: '#858b95',
   activityRadius: 25,
   gridRadius: 22,
-  clockRadius: 28,
+  clockRadius: box.radius['28'],
   clockWidth: 234,
   clockHeight: 204,
   clockCenter: 103,
@@ -236,7 +237,7 @@ export const sessionUnlockTheme = {
   maxBackground: '#eff6fe',
   maxInk: '#3983d8',
   muted: '#c5c7ca',
-  durationRadius: 44,
+  durationRadius: box.radius['44'],
   durationSurface: '#f7f9fb',
   durationFade: 'rgba(247,249,251,0)',
   durationBackdrop: 'rgba(20,22,27,.16)',
@@ -252,8 +253,8 @@ export const savedTemplateTheme = {
   width: 170.667,
   height: 221,
   radius: 25.5,
-  pillRadius: 14,
-  buttonRadius: 18,
+  pillRadius: box.radius['14'],
+  buttonRadius: box.radius['18'],
   pill: '#fcfcfc',
   pillShadow: '0px 6px 20px #141e3c04',
   buttonShadow: '0px 6px 20px #171b2605',
@@ -268,10 +269,10 @@ export const sessionIconTheme = {
   searchBorder: '#dedfe2',
   placeholder: '#b9bdc3',
   searchIcon: '#c2c5c9',
-  sheetTopRadius: 52,
-  sheetBottomRadius: 64,
+  sheetTopRadius: box.radius['52'],
+  sheetBottomRadius: box.radius['64'],
   searchRadius: 30,
-  tileRadius: 16,
+  tileRadius: box.radius['16'],
 } as const;
 
 // Настройки перед открытием080–082/084.
@@ -310,11 +311,11 @@ export const unlockMethodTheme = {
   scanMenuBorder: '#ffffffb0',
   scanMenuShadow: '0px 8px 26px #27334515',
   scanMenuRadius: 35,
-  scanPillRadius: 14,
-  panelRadius: 44,
+  scanPillRadius: box.radius['14'],
+  panelRadius: box.radius['44'],
   cardRadius: 21,
   gridRadius: 19,
-  stepperRadius: 20,
+  stepperRadius: box.radius['20'],
 } as const;
 
 export const strictTheme = {
@@ -379,17 +380,17 @@ export const appGroupTheme = {
   extraShadow: '0px 2px 8px #1018280c',
   surfaceFade: 'rgba(242,242,248,0)',
   sheetRadius: 34,
-  sheetBottomRadius: 40,
-  segmentRadius: 18,
+  sheetBottomRadius: box.radius['40'],
+  segmentRadius: box.radius['18'],
   segmentInnerRadius: 15,
   listRadius: 25,
-  extraRadius: 20,
+  extraRadius: box.radius['20'],
   searchRadius: 26,
-  badgeRadius: 16,
-  optionsTopRadius: 36,
-  optionsBottomRadius: 52,
-  inputRadius: 28,
-  websiteRadius: 20,
+  badgeRadius: box.radius['16'],
+  optionsTopRadius: box.radius['36'],
+  optionsBottomRadius: box.radius['52'],
+  inputRadius: box.radius['28'],
+  websiteRadius: box.radius['20'],
 } as const;
 
 // Лимит запусков103–111: lock-rule-summary.css / single-app-picker.css / app-confirmation.css.
@@ -428,12 +429,12 @@ export const lockTheme = {
   searchShadow: '0px 12px 35px #26232e0a',
   counterShadow: '0px 6px 18px #00000007',
   backShadow: '0px 10px 25px #00000008',
-  radius: 40,
-  panelRadius: 44,
-  categoryRadius: 28,
+  radius: box.radius['40'],
+  panelRadius: box.radius['44'],
+  categoryRadius: box.radius['28'],
   searchRadius: 30,
   confirmRadius: 21,
-  buttonRadius: 32,
+  buttonRadius: box.radius['32'],
 } as const;
 
 // Лимит времени114–130: time-limit-editor/fixes, limit-detail-states.
@@ -462,8 +463,8 @@ export const timeLimitTheme = {
   stepperLine: '#c7c9cd',
   surfaceFade: 'rgba(246,248,250,0)',
   panelRadius: 22,
-  gridRadius: 18,
-  stepperRadius: 18,
+  gridRadius: box.radius['18'],
+  stepperRadius: box.radius['18'],
 } as const;
 
 // Рутины131–139: routine-editor-fixes / habit-picker / routine-selected-states.
@@ -488,7 +489,7 @@ export const routineTheme = {
   earned: '#4386e2',
   line: '#eff0f2',
   badgeBorder: '#e5e6e9',
-  pickerRadius: 44,
+  pickerRadius: box.radius['44'],
   cardRadius: 21,
 } as const;
 
@@ -554,8 +555,8 @@ export const settingsTheme = {
   dim: '#00000021',
   dark: '#17191a',
   buttonShadow: '0 12px 25px #16202a0a',
-  stackRadius: 44,
-  formRadius: 44,
+  stackRadius: box.radius['44'],
+  formRadius: box.radius['44'],
 };
 
 export const dailyGoalTheme = {
@@ -673,7 +674,7 @@ export const namedGroupTheme = {
   disabled: '#a1c2f7',
   toast: '#58c36c',
   toastShadow: '0 12px 25px #17202a0a',
-  formRadius: 44,
+  formRadius: box.radius['44'],
 };
 export const ruleSettingsTheme = { caption: '#7d8797', section: '#959eab', collapsed: '#c4cad2', line: '#f0f2f4' };
 
@@ -763,7 +764,7 @@ export const legacyLimitsTheme = {
 export const homeSkyTheme = { top: '#0878ff', fade: ['#f4f6f800', '#f4f6f8'] as const } as const;
 
 // Общий зазор между прокруткой редакторов и закреплёнными действиями.
-export const ruleEditorSpacing = { footerTop: 20, scrollBottom: 32 } as const;
+export const ruleEditorSpacing = { footerTop: box.spacing['20'], scrollBottom: box.spacing['32'] } as const;
 
 // HTML287–302, styles/state-components.css и settings-reference.css.
 export const emergencyTheme = {
@@ -813,9 +814,9 @@ export const interfaceTheme = {
 
 // HTML000–025: измерения сохранены в отчёте онбординга.
 export const onboardingTheme = {
-  white: '#ffffff',
+  white: box.white,
   ink: '#111111',
-  black: '#000000',
+  black: box.black,
   surface: '#f7f7f8',
   picker: '#f4f3fa',
   pickerRadio: '#d1d1d6',
@@ -913,7 +914,7 @@ export const remainingTheme = {
   setupInk: '#85878e',
   recap: '#169cff',
   recapDate: '#69b6ff',
-  recapGradient: ['#a6dcff', '#e9f6ff', '#ffffff'] as const,
+  recapGradient: ['#a6dcff', '#e9f6ff', box.white] as const,
   lockGradient: ['#c7c7c7', '#cbcbcb', '#bfbfbf', '#c0c0c0', '#c5c5c5'] as const,
   system: '#d5d5d5',
   live: '#171717',
@@ -925,7 +926,25 @@ export const remainingTheme = {
   widgetApprox: '#777777',
   widgetTrack: '#e9e7e8',
   widgetProgress: '#dcd8da',
-  limitGradient: ['#ffffff', '#ffffff', '#f7d7c8'] as const,
+  limitGradient: [box.white, box.white, '#f7d7c8'] as const,
   tip: '#050505',
   tipDim: 'rgba(20,22,27,.13)',
 };
+
+// Локальные материалы HTML-макета: в Box UI нет идентичных составных теней/градиентов.
+export const localMaterials = {
+  skyText: 'rgba(10, 30, 120, 0.7)',
+  goalFade: 'rgba(0, 195, 80, 0)',
+  chartShadow: '0px 2px 10px rgba(30, 60, 120, 0.12)',
+  overlay: 'rgba(0, 0, 0, 0.6)',
+  segmentShadow: '0px 1px 3px rgba(0, 0, 0, 0.12)',
+  glassBorder: 'inset 0px 0px 0px 1px rgba(255, 255, 255, 0.5)',
+  glassFill: 'rgba(255, 255, 255, 0.6)',
+  glassShadow: '0px 10px 30px rgba(30, 45, 60, 0.06)',
+  panelShadow: '0px 10px 30px rgba(20, 30, 40, 0.08)',
+  profileBorder: 'inset 0px 0px 0px 1px rgba(255, 255, 255, 0.12)',
+  bottomFade: 'rgba(244, 246, 248, 0)',
+  bottomFill: 'rgba(244, 246, 248, 0.55)',
+  headerFade: 'rgba(249, 249, 249, 0)',
+  whiteFade: '#ffffff00',
+} as const;

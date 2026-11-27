@@ -1,7 +1,6 @@
+import { localMaterials, colors } from '@/theme/tokens';
 import { Children, createContext, useContext, type ReactNode } from 'react';
 import { Platform, Text, type TextProps, type TextStyle } from 'react-native';
-
-import { colors } from './tokens';
 
 // В макете SF Pro Rounded. На iOS это системный шрифт с дизайном rounded,
 // на вебе — ui-rounded, на Android — системный (Roboto).
@@ -38,7 +37,7 @@ export type TProps = TextProps & {
 };
 
 export const skyShadow: TextStyle = {
-  textShadowColor: 'rgba(10, 30, 120, 0.7)',
+  textShadowColor: localMaterials.skyText,
   textShadowRadius: 1.5,
   textShadowOffset: { width: 0, height: 0 },
 };

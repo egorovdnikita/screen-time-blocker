@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { useEffect, useRef, useState } from 'react';
 import {
   Keyboard,
@@ -93,12 +94,17 @@ function PasscodeContent({
           <EmergencyRoundButton label="Назад к созданию код-пароля" back onPress={() => close(onBack)} />
         </View>
       )}
-      <View style={{ marginTop: 160, marginHorizontal: 20 }}>
-        <T size={20} ls={0} style={{ lineHeight: 24 }}>
+      <View style={{ marginTop: 160, marginHorizontal: box.spacing['20'] }}>
+        <T size={box.fontSize['20']} ls={0} style={{ lineHeight: box.lineHeight['24'] }}>
           {title}
         </T>
         {subtitle && (
-          <T size={13} weight={400} ls={0} style={{ marginTop: 4, lineHeight: 17 }}>
+          <T
+            size={13}
+            weight={box.fontWeight['regular']}
+            ls={0}
+            style={{ marginTop: box.spacing['4'], lineHeight: 17 }}
+          >
             {subtitle}
           </T>
         )}
@@ -139,13 +145,13 @@ function PasscodeContent({
               {key === 'delete' ? (
                 <Icon name="backspace" width={32} height={27} color={c.ink} />
               ) : (
-                <T size={29} weight={600} ls={0}>
+                <T size={29} weight={box.fontWeight['semibold']} ls={0}>
                   {key}
                 </T>
               )}
             </PressScale>
           ) : (
-            <View key="spacer" style={{ width: 64, height: 64 }} />
+            <View key="spacer" style={{ width: box.size['64'], height: box.size['64'] }} />
           ),
         )}
       </View>
@@ -185,11 +191,16 @@ function CopyCodeContent({ code, changing = true, onComplete, close }: CopyCodeP
         <EmergencyRoundButton label="Отменить перепечатывание кода" onPress={() => close()} />
       </View>
       {(!focused || done) && (
-        <View style={{ marginTop: 160, marginHorizontal: 20 }}>
-          <T size={20} ls={0} style={{ lineHeight: 24 }}>
+        <View style={{ marginTop: 160, marginHorizontal: box.spacing['20'] }}>
+          <T size={box.fontSize['20']} ls={0} style={{ lineHeight: box.lineHeight['24'] }}>
             {changing ? 'Перепишите текст для смены кода' : 'Перепишите текст для экстренного режима'}
           </T>
-          <T size={13} weight={400} ls={0} style={{ marginTop: 6, lineHeight: 17 }}>
+          <T
+            size={13}
+            weight={box.fontWeight['regular']}
+            ls={0}
+            style={{ marginTop: box.spacing['6'], lineHeight: 17 }}
+          >
             {changing
               ? 'Вы или близкий человек сможете задать 4-значный код для экстренного режима.'
               : 'Отключите строгий режим, если это действительно нужно.'}
@@ -203,7 +214,7 @@ function CopyCodeContent({ code, changing = true, onComplete, close }: CopyCodeP
           </View>
         </View>
       ) : (
-        <View style={{ marginTop: focused ? 182 : 76, marginHorizontal: 20 }}>
+        <View style={{ marginTop: focused ? 182 : 76, marginHorizontal: box.spacing['20'] }}>
           <View style={[styles.code, { height: focused ? 150 : 200 }]}>
             <LinearGradient colors={c.blue} style={StyleSheet.absoluteFill} />
             <T
@@ -250,7 +261,14 @@ function CopyCodeContent({ code, changing = true, onComplete, close }: CopyCodeP
             ]}
           />
           {text.length > 0 && !code.startsWith(text) && (
-            <T accessibilityRole="alert" size={12} color={c.actionOrangeInk} ls={0} center style={{ marginTop: 8 }}>
+            <T
+              accessibilityRole="alert"
+              size={box.fontSize['12']}
+              color={c.actionOrangeInk}
+              ls={0}
+              center
+              style={{ marginTop: box.spacing['8'] }}
+            >
               Текст не совпадает с кодом
             </T>
           )}
@@ -262,8 +280,8 @@ function CopyCodeContent({ code, changing = true, onComplete, close }: CopyCodeP
 const styles = StyleSheet.create({
   full: { flex: 1, backgroundColor: c.surface },
   round: {
-    width: 44,
-    height: 44,
+    width: box.size['44'],
+    height: box.size['44'],
     borderRadius: 22,
     backgroundColor: colors.white,
     boxShadow: c.keyShadow,
@@ -272,23 +290,23 @@ const styles = StyleSheet.create({
   },
   close: { position: 'absolute', right: 20, top: 79, zIndex: 2 },
   back: { position: 'absolute', left: 20, zIndex: 2 },
-  dots: { position: 'absolute', alignSelf: 'center', flexDirection: 'row', gap: 12 },
-  dot: { width: 16, height: 16, borderRadius: 8, backgroundColor: c.dot },
+  dots: { position: 'absolute', alignSelf: 'center', flexDirection: 'row', gap: box.spacing['12'] },
+  dot: { width: box.size['16'], height: box.size['16'], borderRadius: box.radius['8'], backgroundColor: c.dot },
   keys: { position: 'absolute', width: 233, alignSelf: 'center', flexDirection: 'row', flexWrap: 'wrap', gap: 20.5 },
   key: {
-    width: 64,
-    height: 64,
-    borderRadius: 32,
+    width: box.size['64'],
+    height: box.size['64'],
+    borderRadius: box.radius['32'],
     backgroundColor: c.key,
     boxShadow: c.keyShadow,
     justifyContent: 'center',
     alignItems: 'center',
   },
   code: {
-    borderRadius: 44,
+    borderRadius: box.radius['44'],
     overflow: 'hidden',
     justifyContent: 'center',
-    paddingHorizontal: 16,
+    paddingHorizontal: box.spacing['16'],
     borderWidth: 2,
     borderColor: c.border,
     boxShadow: c.codeShadow,
@@ -296,11 +314,11 @@ const styles = StyleSheet.create({
   input: {
     borderWidth: 0,
     marginTop: 3,
-    borderRadius: 44,
+    borderRadius: box.radius['44'],
     backgroundColor: c.input,
     textAlign: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 20,
+    paddingHorizontal: box.spacing['16'],
+    paddingVertical: box.spacing['20'],
     fontFamily: rounded,
     fontSize: 22,
     fontWeight: '700',
@@ -309,17 +327,17 @@ const styles = StyleSheet.create({
   },
   success: {
     marginTop: 155,
-    marginHorizontal: 20,
+    marginHorizontal: box.spacing['20'],
     height: 238,
-    borderRadius: 44,
+    borderRadius: box.radius['44'],
     backgroundColor: c.success,
     boxShadow: c.successShadow,
     justifyContent: 'center',
     alignItems: 'center',
   },
   successCheck: {
-    width: 60,
-    height: 60,
+    width: box.size['60'],
+    height: box.size['60'],
     borderRadius: 30,
     borderWidth: 1,
     borderColor: c.border,

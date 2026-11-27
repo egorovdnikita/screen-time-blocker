@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { Image } from 'expo-image';
 import { useEffect, useState } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
@@ -44,10 +45,17 @@ export function EmergencyMode({ onClose }: { onClose: () => void }) {
           contentFit="contain"
           style={{ width: 110, height: 170 }}
         />
-        <T size={24} ls={0} center style={{ marginTop: 7, lineHeight: 29 }}>
+        <T size={box.fontSize['24']} ls={0} center style={{ marginTop: 7, lineHeight: 29 }}>
           Экстренный режим
         </T>
-        <T size={15} weight={400} color={settingsTheme.title} ls={0} center style={{ marginTop: 8, lineHeight: 18 }}>
+        <T
+          size={15}
+          weight={box.fontWeight['regular']}
+          color={settingsTheme.title}
+          ls={0}
+          center
+          style={{ marginTop: box.spacing['8'], lineHeight: box.lineHeight['18'] }}
+        >
           Экстренный случай? Ошибка? Бывает. Отключите строгий режим, если это действительно нужно.
         </T>
       </View>
@@ -114,7 +122,7 @@ function Toast({ text, compact = false }: { text: string; compact?: boolean }) {
       style={[styles.toast, compact && { minHeight: 50, backgroundColor: c.ruleToast }]}
     >
       <Icon name="checkmark" width={15} height={15} color={colors.white} />
-      <T size={15} weight={600} color={colors.white} ls={0} style={{ flex: 1, lineHeight: 19 }}>
+      <T size={15} weight={box.fontWeight['semibold']} color={colors.white} ls={0} style={{ flex: 1, lineHeight: 19 }}>
         {text}
       </T>
     </View>
@@ -142,7 +150,12 @@ function EmergencySettings({ onClose }: { onClose: () => void }) {
     <PlainSettingsSheet ink={colors.black} title="" surface={c.surface} onClose={onClose}>
       {close => (
         <>
-          <T size={20} center ls={0} style={{ position: 'absolute', top: 57, left: 70, right: 70, lineHeight: 24 }}>
+          <T
+            size={box.fontSize['20']}
+            center
+            ls={0}
+            style={{ position: 'absolute', top: 57, left: 70, right: 70, lineHeight: box.lineHeight['24'] }}
+          >
             Настройки
           </T>
           <View style={styles.back}>
@@ -179,11 +192,13 @@ function EmergencySettings({ onClose }: { onClose: () => void }) {
           <View style={styles.setting}>
             {settings.method === 'random' ? (
               <>
-                <T size={16} weight={400} ls={0}>
+                <T size={box.fontSize['16']} weight={box.fontWeight['regular']} ls={0}>
                   Длина кода
                 </T>
-                <View style={{ marginLeft: 'auto', flexDirection: 'row', alignItems: 'center', gap: 16 }}>
-                  <T size={16} color={c.muted} ls={0}>
+                <View
+                  style={{ marginLeft: 'auto', flexDirection: 'row', alignItems: 'center', gap: box.spacing['16'] }}
+                >
+                  <T size={box.fontSize['16']} color={c.muted} ls={0}>
                     {length}
                   </T>
                   <PressScale
@@ -205,17 +220,17 @@ function EmergencySettings({ onClose }: { onClose: () => void }) {
                 onPress={requestPasscode}
                 style={{ flex: 1, height: 62, flexDirection: 'row', alignItems: 'center' }}
               >
-                <T size={16} weight={400} ls={0}>
+                <T size={box.fontSize['16']} weight={box.fontWeight['regular']} ls={0}>
                   Код-пароль
                 </T>
-                <T size={18} color={c.muted} ls={0} style={{ marginLeft: 'auto', marginRight: 16 }}>
+                <T size={18} color={c.muted} ls={0} style={{ marginLeft: 'auto', marginRight: box.spacing['16'] }}>
                   ••••
                 </T>
                 <Icon name="chevron-right" width={6} height={9} color={c.muted} />
               </PressScale>
             )}
           </View>
-          <T size={14} weight={400} ls={0} color={c.muted} style={styles.detail}>
+          <T size={box.fontSize['14']} weight={box.fontWeight['regular']} ls={0} color={c.muted} style={styles.detail}>
             {settings.method === 'random'
               ? `Вам нужно будет ввести ${length}-значный случайный текст, чтобы получить доступ к экстренному режиму.`
               : 'Введите пароль, чтобы получить доступ к экстренному режиму.'}
@@ -311,11 +326,11 @@ function EmergencyRules({ onClose }: { onClose: () => void }) {
           </View>
           <View style={styles.info}>
             <T
-              size={14}
-              weight={400}
+              size={box.fontSize['14']}
+              weight={box.fontWeight['regular']}
               color={selected || toast ? c.infoInkActive : c.infoInk}
               ls={0}
-              style={{ lineHeight: 18 }}
+              style={{ lineHeight: box.lineHeight['18'] }}
             >
               {selected || toast
                 ? 'Для этих правил можно отключить строгий режим или удалить их.'
@@ -325,14 +340,18 @@ function EmergencyRules({ onClose }: { onClose: () => void }) {
           <SheetScrollView
             accessibilityLabel="Строгие правила"
             style={{ marginTop: 211 }}
-            contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 40, gap: 12 }}
+            contentContainerStyle={{
+              paddingHorizontal: box.spacing['20'],
+              paddingBottom: box.spacing['40'],
+              gap: box.spacing['12'],
+            }}
           >
             {strict.map(x => (
               <View key={x.id} style={styles.rule}>
-                <T size={16} ls={0}>
+                <T size={box.fontSize['16']} ls={0}>
                   🔒
                 </T>
-                <T size={16} weight={400} ls={0} style={{ flex: 1 }}>
+                <T size={box.fontSize['16']} weight={box.fontWeight['regular']} ls={0} style={{ flex: 1 }}>
                   {app.ruleChanges[x.id]?.title ?? x.title}
                 </T>
                 <FlowSwitch
@@ -366,7 +385,13 @@ function EmergencyRules({ onClose }: { onClose: () => void }) {
             >
               {dismiss => (
                 <View style={styles.actions}>
-                  <T size={16} weight={400} ls={0} center style={{ lineHeight: 24, marginBottom: 12 }}>
+                  <T
+                    size={box.fontSize['16']}
+                    weight={box.fontWeight['regular']}
+                    ls={0}
+                    center
+                    style={{ lineHeight: box.lineHeight['24'], marginBottom: box.spacing['12'] }}
+                  >
                     Что вы хотите сделать?
                   </T>
                   {[
@@ -403,7 +428,7 @@ function EmergencyRules({ onClose }: { onClose: () => void }) {
                       onPress={() => dismiss(action.run)}
                       style={[styles.action, { backgroundColor: action.color }]}
                     >
-                      <T size={16} color={action.ink} ls={0}>
+                      <T size={box.fontSize['16']} color={action.ink} ls={0}>
                         {action.title}
                       </T>
                     </PressScale>
@@ -422,14 +447,14 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 20,
     top: 44,
-    width: 44,
-    height: 44,
+    width: box.size['44'],
+    height: box.size['44'],
     borderRadius: 22,
     backgroundColor: colors.white,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  intro: { marginTop: 266, marginHorizontal: 20, alignItems: 'center' },
+  intro: { marginTop: 266, marginHorizontal: box.spacing['20'], alignItems: 'center' },
   bottomButton: {
     position: 'absolute',
     left: 20,
@@ -443,42 +468,42 @@ const styles = StyleSheet.create({
   back: { position: 'absolute', top: 44, left: 20 },
   segment: {
     marginTop: 121,
-    marginHorizontal: 20,
-    height: 32,
+    marginHorizontal: box.spacing['20'],
+    height: box.size['32'],
     padding: 3,
-    borderRadius: 18,
+    borderRadius: box.radius['18'],
     backgroundColor: c.segment,
     flexDirection: 'row',
   },
-  segmentItem: { flex: 1, borderRadius: 16, justifyContent: 'center', alignItems: 'center' },
+  segmentItem: { flex: 1, borderRadius: box.radius['16'], justifyContent: 'center', alignItems: 'center' },
   setting: {
     marginTop: 25,
-    marginHorizontal: 20,
+    marginHorizontal: box.spacing['20'],
     height: 62,
     borderRadius: 17,
-    paddingHorizontal: 16,
+    paddingHorizontal: box.spacing['16'],
     backgroundColor: colors.white,
     flexDirection: 'row',
     alignItems: 'center',
   },
   increment: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
+    width: box.size['32'],
+    height: box.size['32'],
+    borderRadius: box.radius['16'],
     backgroundColor: c.dot,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  detail: { marginTop: 11, marginHorizontal: 20, lineHeight: 18 },
+  detail: { marginTop: 11, marginHorizontal: box.spacing['20'], lineHeight: box.lineHeight['18'] },
   ruleHeader: {
     position: 'absolute',
     left: 20,
     right: 20,
     top: 44,
-    height: 44,
+    height: box.size['44'],
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 16,
+    gap: box.spacing['16'],
   },
   info: {
     position: 'absolute',
@@ -488,16 +513,16 @@ const styles = StyleSheet.create({
     height: 66,
     backgroundColor: c.info,
     paddingVertical: 17,
-    paddingHorizontal: 20,
+    paddingHorizontal: box.spacing['20'],
   },
   rule: {
-    height: 60,
-    borderRadius: 16,
+    height: box.size['60'],
+    borderRadius: box.radius['16'],
     backgroundColor: colors.white,
     paddingHorizontal: 15,
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 10,
+    gap: box.spacing['10'],
   },
   actions: {
     position: 'absolute',
@@ -505,23 +530,29 @@ const styles = StyleSheet.create({
     right: 8,
     bottom: 8,
     height: 281,
-    padding: 20,
-    borderRadius: 40,
+    padding: box.spacing['20'],
+    borderRadius: box.radius['40'],
     backgroundColor: c.actionSurface,
   },
-  action: { height: 57, borderRadius: 32, marginBottom: 10, justifyContent: 'center', alignItems: 'center' },
+  action: {
+    height: 57,
+    borderRadius: box.radius['32'],
+    marginBottom: box.spacing['10'],
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   toast: {
     position: 'absolute',
     left: 16,
     right: 15,
     top: 12,
     minHeight: 69,
-    borderRadius: 16,
+    borderRadius: box.radius['16'],
     backgroundColor: c.toast,
-    paddingHorizontal: 14,
+    paddingHorizontal: box.spacing['14'],
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+    gap: box.spacing['8'],
     boxShadow: c.successShadow,
   },
 });

@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import type { ReactNode } from 'react';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -85,7 +86,7 @@ export function OnboardingNav({
       {/* Флаг выбора языка не нажимается, а язык один — в реальном режиме скрыт (аудит 2026-11-21). */}
       {locale && !live && (
         <View accessibilityLabel="Язык: русский" style={[styles.nav, { right: 20, top }]}>
-          <T size={localeSize} weight={400} ls={0}>
+          <T size={localeSize} weight={box.fontWeight['regular']} ls={0}>
             🇺🇸
           </T>
         </View>
@@ -95,7 +96,9 @@ export function OnboardingNav({
           accessibilityLabel={`Настройка: ${Math.round(progress * 100)}%`}
           style={[styles.progress, { top: top + 20 }]}
         >
-          <View style={{ height: 6, borderRadius: 5, backgroundColor: c.blue, width: `${progress * 100}%` }} />
+          <View
+            style={{ height: box.size['6'], borderRadius: 5, backgroundColor: c.blue, width: `${progress * 100}%` }}
+          />
         </View>
       )}
     </>
@@ -139,16 +142,22 @@ export function OnboardingHint({
           ×
         </T>
       </View>
-      <T size={17} color={ink} ls={0} center style={{ marginTop: instruction ? 11 : 14, lineHeight: 20 }}>
+      <T
+        size={17}
+        color={ink}
+        ls={0}
+        center
+        style={{ marginTop: instruction ? 11 : 14, lineHeight: box.lineHeight['20'] }}
+      >
         Это не блокирует приложения
       </T>
       <T
         size={instruction ? 13 : 12}
-        weight={400}
+        weight={box.fontWeight['regular']}
         ls={0}
         color={c.note}
         center
-        style={{ marginTop: instruction ? 5 : 0, lineHeight: 16 }}
+        style={{ marginTop: instruction ? 5 : 0, lineHeight: box.lineHeight['16'] }}
       >
         {instruction ? 'Это только инструкция' : 'Это только ориентир.'}
       </T>
@@ -173,11 +182,11 @@ export function OnboardingStory({
         />
         <T
           size={17}
-          weight={600}
+          weight={box.fontWeight['semibold']}
           color={c.ink}
           ls={0}
           center
-          style={{ marginTop: 28, lineHeight: 21, transform: [{ translateX: 20 }] }}
+          style={{ marginTop: box.spacing['28'], lineHeight: 21, transform: [{ translateX: 20 }] }}
         >
           Теперь ваша очередь
         </T>
@@ -215,15 +224,15 @@ export function OnboardingStory({
         <T size={17} ls={0} center style={{ marginTop: 43, lineHeight: 21 }}>
           При таком темпе
         </T>
-        <T size={28} ls={0} center style={{ marginTop: 6, lineHeight: 34 }}>
+        <T size={box.fontSize['28']} ls={0} center style={{ marginTop: box.spacing['6'], lineHeight: 34 }}>
           Вы проведёте
         </T>
-        <View style={{ alignSelf: 'center', marginTop: 18 }}>
-          <T size={51} color={c.purple[0]} ls={0} style={{ lineHeight: 68 }}>
+        <View style={{ alignSelf: 'center', marginTop: box.spacing['18'] }}>
+          <T size={51} color={c.purple[0]} ls={0} style={{ lineHeight: box.lineHeight['68'] }}>
             {live ? yearsLabel(phoneYears(onboardingDraft.time)) : '28 лет'}
           </T>
         </View>
-        <T size={28} ls={0} center style={{ marginTop: 25, lineHeight: 34 }}>
+        <T size={box.fontSize['28']} ls={0} center style={{ marginTop: 25, lineHeight: 34 }}>
           {'своей жизни\nв телефоне'}
         </T>
         <OnboardingButton onPress={onNext}>Продолжить</OnboardingButton>
@@ -255,9 +264,11 @@ export function Rating({ welcome = false }: { welcome?: boolean }) {
       </View>
       {!welcome && (
         <>
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4, marginTop: 2 }}>
+          <View
+            style={{ flexDirection: 'row', alignItems: 'center', gap: box.spacing['4'], marginTop: box.spacing['2'] }}
+          >
             <Icon name="onboarding-rating-laurel" width={17} height={33} color={c.gold} />
-            <T size={32} color={c.gold} ls={-0.4} style={{ lineHeight: 38 }}>
+            <T size={box.fontSize['32']} color={c.gold} ls={-0.4} style={{ lineHeight: 38 }}>
               7000+
             </T>
             <Icon
@@ -268,7 +279,13 @@ export function Rating({ welcome = false }: { welcome?: boolean }) {
               style={{ transform: [{ scaleX: -1 }] }}
             />
           </View>
-          <T size={16} weight={400} color={c.gold} ls={0} style={{ lineHeight: 21 }}>
+          <T
+            size={box.fontSize['16']}
+            weight={box.fontWeight['regular']}
+            color={c.gold}
+            ls={0}
+            style={{ lineHeight: 21 }}
+          >
             Высших оценок
           </T>
         </>
@@ -287,7 +304,7 @@ export function OnboardingFriction({ onBack, onNext }: { onBack: () => void; onN
         <Image source={art.friction} contentFit="fill" style={StyleSheet.absoluteFill} />
       </View>
       <T
-        size={16}
+        size={box.fontSize['16']}
         ls={0}
         center
         color={c.white}
@@ -302,7 +319,7 @@ export function OnboardingFriction({ onBack, onNext }: { onBack: () => void; onN
           left: 30,
           right: 30,
           height: 58,
-          borderRadius: 32,
+          borderRadius: box.radius['32'],
           overflow: 'hidden',
           alignItems: 'center',
           justifyContent: 'center',
@@ -319,8 +336,8 @@ export function OnboardingFriction({ onBack, onNext }: { onBack: () => void; onN
         </T>
       </View>
       <T
-        size={14}
-        weight={600}
+        size={box.fontSize['14']}
+        weight={box.fontWeight['semibold']}
         color={c.white}
         center
         ls={0}
@@ -335,11 +352,18 @@ export function OnboardingFriction({ onBack, onNext }: { onBack: () => void; onN
   );
 }
 const styles = StyleSheet.create({
-  button: { position: 'absolute', left: 20, right: 20, height: 60, alignItems: 'center', justifyContent: 'center' },
+  button: {
+    position: 'absolute',
+    left: 20,
+    right: 20,
+    height: box.size['60'],
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   nav: {
     position: 'absolute',
-    width: 44,
-    height: 44,
+    width: box.size['44'],
+    height: box.size['44'],
     borderRadius: 22,
     backgroundColor: c.white,
     boxShadow: c.navShadow,
@@ -351,14 +375,14 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 84,
     right: 40,
-    height: 6,
+    height: box.size['6'],
     borderRadius: 5,
     backgroundColor: c.progress,
     overflow: 'hidden',
   },
   hintIcon: {
-    width: 18,
-    height: 18,
+    width: box.size['18'],
+    height: box.size['18'],
     borderRadius: 5,
     backgroundColor: c.muted,
     justifyContent: 'center',

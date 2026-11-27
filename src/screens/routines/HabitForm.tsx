@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { SheetScrollView as ScrollView, SheetGrabber, SheetModal } from '@/components/SheetModal';
 import { Image } from 'expo-image';
 import { useRef, useState, type ComponentRef } from 'react';
@@ -138,11 +139,11 @@ function HabitFormBody({
                   )}
                 </View>
                 <View style={styles.body}>
-                  <T size={20} color={c.label} ls={0} style={styles.label}>
+                  <T size={box.fontSize['20']} color={c.label} ls={0} style={styles.label}>
                     Действие
                   </T>
                   <View style={styles.action}>
-                    <T size={15} weight={400} ls={0}>
+                    <T size={15} weight={box.fontWeight['regular']} ls={0}>
                       {draft.kind === 'manual' ? 'Отметить вручную' : 'Фото в подтверждение…'}
                     </T>
                   </View>
@@ -172,7 +173,7 @@ function HabitFormBody({
                       </View>
                       <View style={[styles.ai, nameFocused && { opacity: 0.3 }]}>
                         <Icon name="habit-block" width={14} height={14} />
-                        <T size={12} weight={400} color={c.muted} ls={0}>
+                        <T size={box.fontSize['12']} weight={box.fontWeight['regular']} color={c.muted} ls={0}>
                           Проверяет ИИ
                         </T>
                       </View>
@@ -180,7 +181,7 @@ function HabitFormBody({
                   )}
                   {!nameFocused && (
                     <View style={{ marginTop: 39 }}>
-                      <T size={20} color={c.label} ls={0} style={styles.label}>
+                      <T size={box.fontSize['20']} color={c.label} ls={0} style={styles.label}>
                         Награда
                       </T>
                       <PressScale
@@ -189,15 +190,28 @@ function HabitFormBody({
                         onPress={() => setDuration(true)}
                         style={styles.action}
                       >
-                        <T size={15} weight={400} ls={0}>
+                        <T size={15} weight={box.fontWeight['regular']} ls={0}>
                           Длительность
                         </T>
-                        <T size={14} color={c.muted} ls={0} style={{ marginLeft: 'auto' }}>
+                        <T size={box.fontSize['14']} color={c.muted} ls={0} style={{ marginLeft: 'auto' }}>
                           {durationLabel(draft.minutes)}
                         </T>
-                        <Icon name="chevron-right" width={9} height={13} color={c.edit} style={{ marginLeft: 12 }} />
+                        <Icon
+                          name="chevron-right"
+                          width={9}
+                          height={13}
+                          color={c.edit}
+                          style={{ marginLeft: box.spacing['12'] }}
+                        />
                       </PressScale>
-                      <T size={12} weight={400} color={c.muted} center ls={0} style={{ marginTop: 14, lineHeight: 16 }}>
+                      <T
+                        size={box.fontSize['12']}
+                        weight={box.fontWeight['regular']}
+                        color={c.muted}
+                        center
+                        ls={0}
+                        style={{ marginTop: box.spacing['14'], lineHeight: box.lineHeight['16'] }}
+                      >
                         Это время вы получите в заблокированных приложениях.
                       </T>
                     </View>
@@ -227,18 +241,18 @@ const styles = StyleSheet.create({
     top: 184,
     left: 18,
     right: 18,
-    height: 36,
+    height: box.size['36'],
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 6,
+    gap: box.spacing['6'],
   },
   sheet: { flex: 1, borderRadius: l.panelRadius, backgroundColor: l.surface, overflow: 'hidden' },
   header: { height: 235, backgroundColor: colors.white },
   handle: {
     position: 'absolute',
     top: 12,
-    width: 64,
+    width: box.size['64'],
     height: 5,
     borderRadius: 5,
     alignSelf: 'center',
@@ -247,8 +261,8 @@ const styles = StyleSheet.create({
   round: {
     position: 'absolute',
     top: 45,
-    width: 44,
-    height: 44,
+    width: box.size['44'],
+    height: box.size['44'],
     borderRadius: 22,
     justifyContent: 'center',
     alignItems: 'center',
@@ -259,7 +273,7 @@ const styles = StyleSheet.create({
     top: 184,
     left: 18,
     right: 18,
-    height: 36,
+    height: box.size['36'],
     padding: 0,
     textAlign: 'center',
     fontFamily: rounded,
@@ -269,17 +283,23 @@ const styles = StyleSheet.create({
     color: c.ink,
     outlineWidth: 0,
   },
-  body: { paddingTop: 22, paddingHorizontal: 20 },
-  label: { lineHeight: 24, marginBottom: 13 },
+  body: { paddingTop: 22, paddingHorizontal: box.spacing['20'] },
+  label: { lineHeight: box.lineHeight['24'], marginBottom: 13 },
   action: {
     height: 49,
     borderRadius: c.sectionRadius,
     backgroundColor: colors.white,
-    paddingHorizontal: 16,
+    paddingHorizontal: box.spacing['16'],
     flexDirection: 'row',
     alignItems: 'center',
   },
-  description: { marginTop: 12, height: 91, borderRadius: c.descriptionRadius, borderWidth: 1, borderColor: c.border },
+  description: {
+    marginTop: box.spacing['12'],
+    height: 91,
+    borderRadius: c.descriptionRadius,
+    borderWidth: 1,
+    borderColor: c.border,
+  },
   descriptionInput: {
     flex: 1,
     paddingTop: 17,
@@ -292,14 +312,14 @@ const styles = StyleSheet.create({
     outlineWidth: 0,
   },
   ai: {
-    marginTop: 12,
+    marginTop: box.spacing['12'],
     height: 22,
     alignSelf: 'center',
     borderWidth: 1,
     borderColor: c.badgeBorder,
-    borderRadius: 18,
+    borderRadius: box.radius['18'],
     backgroundColor: colors.white,
-    paddingHorizontal: 8,
+    paddingHorizontal: box.spacing['8'],
     gap: 3,
     flexDirection: 'row',
     alignItems: 'center',

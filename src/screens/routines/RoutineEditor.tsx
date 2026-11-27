@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { RuleEditorScrollView, RuleEditorScrollAnchor } from '@/components/RuleEditorScroll';
 import { SheetTransition, SheetGrabber } from '@/components/SheetModal';
 import { HabitForm } from './HabitForm';
@@ -97,8 +98,8 @@ function RoutineEditorBody() {
     <View style={[styles.warning, { flexDirection: 'row', alignItems: 'center', gap: 3 }]}>
       <View
         style={{
-          width: 10,
-          height: 10,
+          width: box.size['10'],
+          height: box.size['10'],
           borderRadius: 5,
           backgroundColor: c.warningDot,
           alignItems: 'center',
@@ -109,7 +110,7 @@ function RoutineEditorBody() {
           !
         </T>
       </View>
-      <T size={12} color={c.warning} ls={0}>
+      <T size={box.fontSize['12']} color={c.warning} ls={0}>
         Выбрать
       </T>
     </View>
@@ -117,7 +118,7 @@ function RoutineEditorBody() {
   const badge = hasGroupSelection(draft.appGroup) ? (
     <View style={styles.badge}>
       <Icon name="apps-grid" width={14} height={14} color={l.ink} />
-      <T size={14} weight={600} color={l.ink} ls={0}>
+      <T size={box.fontSize['14']} weight={box.fontWeight['semibold']} color={l.ink} ls={0}>
         {count || 'Все'}
       </T>
     </View>
@@ -170,7 +171,7 @@ function RoutineEditorBody() {
           />
           <View style={[styles.recommendation, { marginTop: 23 }]}>
             <Icon name="chevron-down-section" width={10} height={8} color={c.muted} />
-            <T size={20} color={c.muted} ls={0}>
+            <T size={box.fontSize['20']} color={c.muted} ls={0}>
               Рекомендации
             </T>
           </View>
@@ -183,7 +184,7 @@ function RoutineEditorBody() {
               ]}
             />
           </View>
-          <RuleEditorScrollAnchor style={{ paddingHorizontal: 20 }}>
+          <RuleEditorScrollAnchor style={{ paddingHorizontal: box.spacing['20'] }}>
             <View style={{ marginTop: completion ? 21 : after && selected ? 22 : 20 }}>
               <EditorRow title="Разблокировать" value={badge} onPress={() => setModal('apps')} />
             </View>
@@ -211,11 +212,11 @@ function RoutineEditorBody() {
                     color={c.muted}
                     style={{ transform: [{ rotate: '180deg' }] }}
                   />
-                  <T size={20} ls={0}>
+                  <T size={box.fontSize['20']} ls={0}>
                     После
                   </T>
                 </PressScale>
-                <View style={[styles.segments, completion && { gap: 4 }]}>
+                <View style={[styles.segments, completion && { gap: box.spacing['4'] }]}>
                   {(['time', 'completion'] as const).map(mode => (
                     <PressScale
                       key={mode}
@@ -256,13 +257,19 @@ function RoutineEditorBody() {
                           <T size={15} ls={0}>
                             {h.title}
                           </T>
-                          <T size={12} weight={400} color={c.muted} ls={0} style={{ marginTop: 2 }}>
+                          <T
+                            size={box.fontSize['12']}
+                            weight={box.fontWeight['regular']}
+                            color={c.muted}
+                            ls={0}
+                            style={{ marginTop: box.spacing['2'] }}
+                          >
                             ИИ-проверка
                           </T>
                         </View>
                         {!completion && (
                           <View style={styles.reward}>
-                            <T size={12} color={c.muted} ls={0}>
+                            <T size={box.fontSize['12']} color={c.muted} ls={0}>
                               + {h.minutes} мин
                             </T>
                           </View>
@@ -286,13 +293,13 @@ function RoutineEditorBody() {
                     selected
                       ? {
                           width: 174,
-                          height: 40,
+                          height: box.size['40'],
                           marginTop: completion ? 7 : 0,
                           alignSelf: 'center',
                           justifyContent: 'center',
                           paddingHorizontal: 0,
                         }
-                      : { marginTop: 20 },
+                      : { marginTop: box.spacing['20'] },
                   ]}
                 >
                   {!selected && (
@@ -302,10 +309,12 @@ function RoutineEditorBody() {
                   )}
                   {selected ? (
                     <>
-                      <T size={13} weight={400} color={c.muted} ls={0}>
+                      <T size={13} weight={box.fontWeight['regular']} color={c.muted} ls={0}>
                         Добавить ещё
                       </T>
-                      <View style={[styles.plus, { width: 23, height: 23, marginLeft: 10, marginRight: 0 }]}>
+                      <View
+                        style={[styles.plus, { width: 23, height: 23, marginLeft: box.spacing['10'], marginRight: 0 }]}
+                      >
                         <Icon name="plus" width={12} height={14} color={c.muted} />
                       </View>
                     </>
@@ -314,7 +323,7 @@ function RoutineEditorBody() {
                       <T size={15} color={c.muted} ls={0}>
                         Добавить привычку
                       </T>
-                      <T size={11} weight={400} color={c.muted} ls={0}>
+                      <T size={11} weight={box.fontWeight['regular']} color={c.muted} ls={0}>
                         Приложения, прогулка, уборка и другое.
                       </T>
                     </View>
@@ -323,19 +332,19 @@ function RoutineEditorBody() {
                 {!completion && (
                   <View style={[styles.earn, { marginTop: selected ? 20 : 19, paddingTop: selected ? 15 : 13 }]}>
                     <View accessibilityState={{ disabled: true }} style={styles.start}>
-                      <T size={12} color={c.earned} ls={0}>
+                      <T size={box.fontSize['12']} color={c.earned} ls={0}>
                         Начать с: {draft.startingMinutes ? durationLabel(draft.startingMinutes) : '0 с'}
                       </T>
                       {!app.live && <Icon name="lock-up-down" width={10} height={16} color={c.earned} />}
                     </View>
-                    <T size={24} ls={0}>
+                    <T size={box.fontSize['24']} ls={0}>
                       Даст {selected ? durationLabel(routineReward(draft)) : '0 с'}
                     </T>
                   </View>
                 )}
               </View>
             ) : (
-              <View style={{ marginTop: 14 }}>
+              <View style={{ marginTop: box.spacing['14'] }}>
                 <EditorRow
                   title="После"
                   onPress={() => toggle('after')}
@@ -351,7 +360,7 @@ function RoutineEditorBody() {
                           justifyContent: 'space-between',
                         }}
                       >
-                        <T size={14} weight={400} ls={0}>
+                        <T size={box.fontSize['14']} weight={box.fontWeight['regular']} ls={0}>
                           За привычки
                         </T>
                         {warning}
@@ -367,7 +376,7 @@ function RoutineEditorBody() {
                   accessibilityRole="button"
                   accessibilityLabel="Свернуть дни рутины"
                   onPress={() => toggle('days')}
-                  style={[styles.panelTitle, { height: 24 }]}
+                  style={[styles.panelTitle, { height: box.size['24'] }]}
                 >
                   <Icon
                     name="chevron-down-section"
@@ -376,12 +385,12 @@ function RoutineEditorBody() {
                     color={c.muted}
                     style={{ transform: [{ rotate: '180deg' }] }}
                   />
-                  <T size={20} ls={0}>
+                  <T size={box.fontSize['20']} ls={0}>
                     Активно
                   </T>
                 </PressScale>
                 <View style={styles.allDay}>
-                  <T size={15} weight={400} ls={0}>
+                  <T size={15} weight={box.fontWeight['regular']} ls={0}>
                     Весь день
                   </T>
                   <FlowSwitch label="Рутина весь день" value={draft.allDay} onChange={allDay => patch({ allDay })} />
@@ -391,9 +400,9 @@ function RoutineEditorBody() {
                   onChange={days => patch({ days })}
                   labelPrefix="День рутины"
                   weight={700}
-                  style={{ marginTop: 10 }}
+                  style={{ marginTop: box.spacing['10'] }}
                 />
-                <T size={11} weight={400} color={c.muted} center ls={0} style={{ marginTop: 7 }}>
+                <T size={11} weight={box.fontWeight['regular']} color={c.muted} center ls={0} style={{ marginTop: 7 }}>
                   Активно по дням недели ({draft.days.length}/7)
                 </T>
               </View>
@@ -505,31 +514,42 @@ function RoutineEditorBody() {
   );
 }
 const styles = StyleSheet.create({
-  sheet: { flex: 1, borderRadius: 40, overflow: 'hidden', backgroundColor: l.surface },
+  sheet: { flex: 1, borderRadius: box.radius['40'], overflow: 'hidden', backgroundColor: l.surface },
   handle: {
     position: 'absolute',
     zIndex: 5,
     top: 12,
-    width: 64,
+    width: box.size['64'],
     height: 5,
-    borderRadius: 4,
+    borderRadius: box.radius['4'],
     alignSelf: 'center',
     backgroundColor: l.handle,
   },
-  recommendation: { height: 26, marginHorizontal: 20, flexDirection: 'row', gap: 7, alignItems: 'center' },
-  warning: { borderRadius: 18, backgroundColor: c.warningFill, paddingHorizontal: 8, paddingVertical: 3 },
-  badge: {
-    borderRadius: 18,
-    backgroundColor: l.badge,
-    paddingVertical: 5,
-    paddingHorizontal: 10,
+  recommendation: {
+    height: 26,
+    marginHorizontal: box.spacing['20'],
     flexDirection: 'row',
-    gap: 4,
+    gap: 7,
     alignItems: 'center',
   },
-  after: { padding: 16, borderRadius: l.panelRadius, backgroundColor: colors.white },
-  panelTitle: { height: 26, flexDirection: 'row', gap: 10, alignItems: 'center' },
-  segments: { marginTop: 12, flexDirection: 'row', gap: 5 },
+  warning: {
+    borderRadius: box.radius['18'],
+    backgroundColor: c.warningFill,
+    paddingHorizontal: box.spacing['8'],
+    paddingVertical: 3,
+  },
+  badge: {
+    borderRadius: box.radius['18'],
+    backgroundColor: l.badge,
+    paddingVertical: 5,
+    paddingHorizontal: box.spacing['10'],
+    flexDirection: 'row',
+    gap: box.spacing['4'],
+    alignItems: 'center',
+  },
+  after: { padding: box.spacing['16'], borderRadius: l.panelRadius, backgroundColor: colors.white },
+  panelTitle: { height: 26, flexDirection: 'row', gap: box.spacing['10'], alignItems: 'center' },
+  segments: { marginTop: box.spacing['12'], flexDirection: 'row', gap: 5 },
   segment: {
     height: 41,
     paddingHorizontal: 15,
@@ -540,14 +560,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   addHabit: {
-    height: 52,
-    borderRadius: 28,
+    height: box.size['52'],
+    borderRadius: box.radius['28'],
     borderWidth: 1,
     borderStyle: 'dashed',
     borderColor: c.addBorder,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 12,
+    paddingHorizontal: box.spacing['12'],
   },
   plus: {
     width: 26,
@@ -558,15 +578,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginRight: 11,
   },
-  selectedHabit: { height: 52, flexDirection: 'row', alignItems: 'flex-start' },
+  selectedHabit: { height: box.size['52'], flexDirection: 'row', alignItems: 'flex-start' },
   reward: {
     marginLeft: 'auto',
     marginRight: 15,
-    marginTop: 4,
+    marginTop: box.spacing['4'],
     borderWidth: 1,
     borderColor: c.badgeBorder,
     borderRadius: 17,
-    paddingVertical: 4,
+    paddingVertical: box.spacing['4'],
     paddingHorizontal: 9,
   },
   earn: {
@@ -578,8 +598,8 @@ const styles = StyleSheet.create({
   },
   start: {
     paddingVertical: 5,
-    paddingHorizontal: 10,
-    borderRadius: 18,
+    paddingHorizontal: box.spacing['10'],
+    borderRadius: box.radius['18'],
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: c.earnedFill,
@@ -588,13 +608,13 @@ const styles = StyleSheet.create({
   allDay: {
     marginTop: 17,
     height: 55,
-    borderRadius: 18,
+    borderRadius: box.radius['18'],
     backgroundColor: l.grid,
-    paddingHorizontal: 14,
+    paddingHorizontal: box.spacing['14'],
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  footer: { paddingHorizontal: 20, paddingTop: ruleEditorSpacing.footerTop, backgroundColor: l.surface },
-  actions: { flexDirection: 'row', gap: 8 },
+  footer: { paddingHorizontal: box.spacing['20'], paddingTop: ruleEditorSpacing.footerTop, backgroundColor: l.surface },
+  actions: { flexDirection: 'row', gap: box.spacing['8'] },
 });

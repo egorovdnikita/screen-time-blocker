@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { SheetScrollView as ScrollView, SheetGrabber, SheetModal } from '@/components/SheetModal';
 import { NamedAppGroups } from '../rules/NamedAppGroups';
 import { namedGroupSummary } from '@/data/namedGroups';
@@ -129,12 +130,12 @@ function AppGroupSheetBody({ value, onCancel, onConfirm, purpose = 'group', name
           >
             <View pointerEvents="none" style={{ height: groupTop }} />
             <View
-              style={[styles.sheet, (routine || named) && { borderRadius: 44 }]}
+              style={[styles.sheet, (routine || named) && { borderRadius: box.radius['44'] }]}
               onLayout={event => setSheetHeight(event.nativeEvent.layout.height)}
               accessibilityViewIsModal
             >
               <SheetGrabber style={[styles.handle, named && { width: 63, top: 12 }]} />
-              <View style={[styles.header, compact && { marginTop: 20 }]}>
+              <View style={[styles.header, compact && { marginTop: box.spacing['20'] }]}>
                 <PressScale
                   accessibilityRole="button"
                   accessibilityLabel="Отменить группу приложений"
@@ -147,7 +148,7 @@ function AppGroupSheetBody({ value, onCancel, onConfirm, purpose = 'group', name
                   accessibilityRole="button"
                   accessibilityLabel={named ? 'Переименовать группу' : 'Выбрать сохранённую группу'}
                   onPress={() => (named ? onRename?.() : setCatalogOpen(true))}
-                  style={[styles.title, named && { paddingTop: 2 }]}
+                  style={[styles.title, named && { paddingTop: box.spacing['2'] }]}
                 >
                   {named ? (
                     <Image source={art.namedGroupForbidden} style={{ width: 22, height: 22 }} />
@@ -160,11 +161,11 @@ function AppGroupSheetBody({ value, onCancel, onConfirm, purpose = 'group', name
                     />
                   )}
                   <T
-                    size={20}
+                    size={box.fontSize['20']}
                     color={named ? settingsTheme.title : routine ? lockTheme.note : c.title}
                     ls={0}
                     numberOfLines={1}
-                    style={{ lineHeight: 28 }}
+                    style={{ lineHeight: box.lineHeight['28'] }}
                   >
                     {named ? name : routine ? 'Связать группу' : 'Группа приложений'}
                   </T>
@@ -201,7 +202,7 @@ function AppGroupSheetBody({ value, onCancel, onConfirm, purpose = 'group', name
                         }}
                         style={[styles.mode, draft.mode === mode && styles.modeOn]}
                       >
-                        <T color={colors.black} size={14} ls={0}>
+                        <T color={colors.black} size={box.fontSize['14']} ls={0}>
                           {mode === 'only' ? (named ? 'Только' : 'Только эти') : 'Все, кроме'}
                         </T>
                       </PressScale>
@@ -219,10 +220,10 @@ function AppGroupSheetBody({ value, onCancel, onConfirm, purpose = 'group', name
                   >
                     <T
                       size={named ? 13 : 14}
-                      weight={400}
+                      weight={box.fontWeight['regular']}
                       color={c.summaryInk}
                       ls={0}
-                      style={extra ? { lineHeight: 17 } : named ? { lineHeight: 18 } : undefined}
+                      style={extra ? { lineHeight: 17 } : named ? { lineHeight: box.lineHeight['18'] } : undefined}
                     >
                       {summary}
                     </T>
@@ -241,11 +242,11 @@ function AppGroupSheetBody({ value, onCancel, onConfirm, purpose = 'group', name
                 <ScrollView
                   keyboardShouldPersistTaps="handled"
                   showsVerticalScrollIndicator={false}
-                  contentContainerStyle={{ paddingHorizontal: 10, paddingBottom: 80 }}
+                  contentContainerStyle={{ paddingHorizontal: box.spacing['10'], paddingBottom: box.spacing['80'] }}
                 >
                   {!needle && (
                     <View style={styles.row}>
-                      <View style={{ marginLeft: 6 }}>
+                      <View style={{ marginLeft: box.spacing['6'] }}>
                         <AppGroupCheck
                           tint={routine ? routineTheme.radioOn : undefined}
                           checked={all}
@@ -261,7 +262,14 @@ function AppGroupSheetBody({ value, onCancel, onConfirm, purpose = 'group', name
                         onPress={toggleAll}
                         style={styles.rowName}
                       >
-                        <T size={17} weight={400} variant="display" ls={0} numberOfLines={1} style={{ lineHeight: 21 }}>
+                        <T
+                          size={17}
+                          weight={box.fontWeight['regular']}
+                          variant="display"
+                          ls={0}
+                          numberOfLines={1}
+                          style={{ lineHeight: 21 }}
+                        >
                           Приложения и категории
                         </T>
                       </PressScale>
@@ -271,7 +279,7 @@ function AppGroupSheetBody({ value, onCancel, onConfirm, purpose = 'group', name
                     <Fragment key={category.id}>
                       <View style={styles.row}>
                         <View style={styles.separator} />
-                        <View style={{ marginLeft: 6 }}>
+                        <View style={{ marginLeft: box.spacing['6'] }}>
                           <AppGroupCheck
                             tint={routine ? routineTheme.radioOn : undefined}
                             checked={draft.categories.includes(category.id)}
@@ -293,7 +301,7 @@ function AppGroupSheetBody({ value, onCancel, onConfirm, purpose = 'group', name
                         >
                           <T
                             size={17}
-                            weight={400}
+                            weight={box.fontWeight['regular']}
                             variant="display"
                             ls={0}
                             numberOfLines={1}
@@ -305,7 +313,7 @@ function AppGroupSheetBody({ value, onCancel, onConfirm, purpose = 'group', name
                         {(named || (routine && category.id === 'social')) && draft.categories.includes(category.id) && (
                           <T
                             size={named ? 17 : 18}
-                            weight={400}
+                            weight={box.fontWeight['regular']}
                             variant={named ? 'display' : 'rounded'}
                             color={c.count}
                             ls={0}
@@ -314,7 +322,7 @@ function AppGroupSheetBody({ value, onCancel, onConfirm, purpose = 'group', name
                           </T>
                         )}
                         {category.id === 'social' && draft.selectedApps.some(Boolean) && (
-                          <T size={18} weight={400} color={c.count} ls={0}>
+                          <T size={18} weight={box.fontWeight['regular']} color={c.count} ls={0}>
                             {draft.selectedApps.filter(Boolean).length}
                           </T>
                         )}
@@ -324,8 +332,8 @@ function AppGroupSheetBody({ value, onCancel, onConfirm, purpose = 'group', name
                           height={16}
                           color={c.chevron}
                           style={{
-                            marginRight: 4,
-                            marginLeft: 6,
+                            marginRight: box.spacing['4'],
+                            marginLeft: box.spacing['6'],
                             transform: [{ rotate: expanded === category.id ? '90deg' : '0deg' }],
                           }}
                         />
@@ -341,13 +349,19 @@ function AppGroupSheetBody({ value, onCancel, onConfirm, purpose = 'group', name
                                 onPress={() => toggleApp(index)}
                               />
                               <Image source={app.image} style={styles.categoryIcon} />
-                              <T size={16} weight={400} ls={0}>
+                              <T size={box.fontSize['16']} weight={box.fontWeight['regular']} ls={0}>
                                 {app.name}
                               </T>
                             </View>
                           ))
                         ) : (
-                          <T size={14} weight={400} color={c.secondary} ls={0} style={{ padding: 16 }}>
+                          <T
+                            size={box.fontSize['14']}
+                            weight={box.fontWeight['regular']}
+                            color={c.secondary}
+                            ls={0}
+                            style={{ padding: box.spacing['16'] }}
+                          >
                             Нет приложений
                           </T>
                         ))}
@@ -356,7 +370,7 @@ function AppGroupSheetBody({ value, onCancel, onConfirm, purpose = 'group', name
                   {!!needle &&
                     apps.map(app => (
                       <View key={app.id} style={styles.row}>
-                        <View style={{ marginLeft: 6 }}>
+                        <View style={{ marginLeft: box.spacing['6'] }}>
                           <AppGroupCheck
                             tint={routine ? routineTheme.radioOn : undefined}
                             checked={draft.selectedApps[app.index]}
@@ -365,13 +379,19 @@ function AppGroupSheetBody({ value, onCancel, onConfirm, purpose = 'group', name
                           />
                         </View>
                         <Image source={app.image} style={styles.categoryIcon} />
-                        <T size={17} weight={400} variant="display" ls={0}>
+                        <T size={17} weight={box.fontWeight['regular']} variant="display" ls={0}>
                           {app.name}
                         </T>
                       </View>
                     ))}
                   {!!needle && !apps.length && !categories.length && (
-                    <T size={14} weight={400} color={c.secondary} center style={{ paddingVertical: 24 }}>
+                    <T
+                      size={box.fontSize['14']}
+                      weight={box.fontWeight['regular']}
+                      color={c.secondary}
+                      center
+                      style={{ paddingVertical: box.spacing['24'] }}
+                    >
                       Ничего не найдено
                     </T>
                   )}
@@ -409,7 +429,7 @@ function AppGroupSheetBody({ value, onCancel, onConfirm, purpose = 'group', name
                     accessibilityRole="button"
                     accessibilityLabel="Очистить поиск приложений"
                     onPress={() => setQuery('')}
-                    style={{ width: 20, height: 40, justifyContent: 'center' }}
+                    style={{ width: box.size['20'], height: box.size['40'], justifyContent: 'center' }}
                   >
                     <Icon name="session-clear" width={14} height={14} color={c.secondary} />
                   </PressScale>
@@ -429,13 +449,19 @@ function AppGroupSheetBody({ value, onCancel, onConfirm, purpose = 'group', name
                 >
                   {extra ? (
                     <>
-                      <T size={14} weight={400} variant="display" ls={0} style={{ width: 172, lineHeight: 18 }}>
+                      <T
+                        size={box.fontSize['14']}
+                        weight={box.fontWeight['regular']}
+                        variant="display"
+                        ls={0}
+                        style={{ width: 172, lineHeight: box.lineHeight['18'] }}
+                      >
                         Другие параметры{'\n'}и сайты
                       </T>
                       <GroupExtraGlyphs group={draft} />
                     </>
                   ) : (
-                    <T size={14} weight={400} variant="display" ls={0}>
+                    <T size={box.fontSize['14']} weight={box.fontWeight['regular']} variant="display" ls={0}>
                       {named ? 'Другие настройки и сайты' : 'Дополнительные параметры и сайты'}
                     </T>
                   )}
@@ -481,33 +507,46 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 11,
     alignSelf: 'center',
-    width: 60,
+    width: box.size['60'],
     height: 5,
-    borderRadius: 4,
+    borderRadius: box.radius['4'],
     backgroundColor: c.handle,
   },
-  header: { marginTop: 45, height: 44, marginHorizontal: 20, flexDirection: 'row', alignItems: 'center' },
+  header: {
+    marginTop: 45,
+    height: box.size['44'],
+    marginHorizontal: box.spacing['20'],
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   close: {
-    width: 44,
-    height: 44,
+    width: box.size['44'],
+    height: box.size['44'],
     borderRadius: 22,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: colors.white,
   },
   confirm: {
-    width: 44,
-    height: 44,
+    width: box.size['44'],
+    height: box.size['44'],
     borderRadius: 22,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: c.blue,
   },
-  title: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingTop: 8, gap: 6 },
+  title: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingTop: box.spacing['8'],
+    gap: box.spacing['6'],
+  },
   modes: {
-    marginTop: 28,
+    marginTop: box.spacing['28'],
     height: 33,
-    marginHorizontal: 20,
+    marginHorizontal: box.spacing['20'],
     borderRadius: c.segmentRadius,
     padding: 3,
     backgroundColor: c.segment,
@@ -515,26 +554,42 @@ const styles = StyleSheet.create({
   },
   mode: { flex: 1, borderRadius: c.segmentInnerRadius, alignItems: 'center', justifyContent: 'center' },
   modeOn: { backgroundColor: colors.white, boxShadow: c.segmentShadow },
-  summary: { marginTop: 15, paddingLeft: 20, paddingRight: 18, backgroundColor: c.summary },
-  listClip: { marginHorizontal: 16, borderRadius: c.listRadius, backgroundColor: colors.white, overflow: 'hidden' },
+  summary: {
+    marginTop: 15,
+    paddingLeft: box.spacing['20'],
+    paddingRight: box.spacing['18'],
+    backgroundColor: c.summary,
+  },
+  listClip: {
+    marginHorizontal: box.spacing['16'],
+    borderRadius: c.listRadius,
+    backgroundColor: colors.white,
+    overflow: 'hidden',
+  },
   listFade: { position: 'absolute', bottom: 0, left: 0, right: 0, height: 100 },
-  row: { height: 56.333, flexDirection: 'row', alignItems: 'center', gap: 8 },
+  row: { height: 56.333, flexDirection: 'row', alignItems: 'center', gap: box.spacing['8'] },
   separator: { position: 'absolute', left: 76, right: 0, top: 0, height: 1, backgroundColor: c.divider },
   categoryIcon: { width: 30, height: 30 },
   rowName: { flex: 1, height: 56.333, justifyContent: 'center' },
-  appRow: { height: 52, flexDirection: 'row', alignItems: 'center', gap: 10, paddingLeft: 42 },
+  appRow: {
+    height: box.size['52'],
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: box.spacing['10'],
+    paddingLeft: 42,
+  },
   search: {
     position: 'absolute',
     left: 28,
     right: 28,
-    height: 48,
+    height: box.size['48'],
     borderRadius: c.searchRadius,
     boxShadow: c.searchShadow,
     overflow: 'hidden',
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
-    paddingHorizontal: 16,
+    gap: box.spacing['8'],
+    paddingHorizontal: box.spacing['16'],
   },
   input: {
     position: 'relative',
@@ -543,7 +598,7 @@ const styles = StyleSheet.create({
     minWidth: 0,
     height: 46,
     padding: 0,
-    fontSize: 16,
+    fontSize: box.fontSize['16'],
     fontWeight: '400',
     color: colors.black,
     outlineWidth: 0,
@@ -557,7 +612,7 @@ const styles = StyleSheet.create({
     borderRadius: c.extraRadius,
     backgroundColor: colors.white,
     boxShadow: c.extraShadow,
-    paddingLeft: 16,
+    paddingLeft: box.spacing['16'],
     paddingRight: 50,
     flexDirection: 'row',
     alignItems: 'center',

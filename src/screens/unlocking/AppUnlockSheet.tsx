@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { SheetScrollView as ScrollView, SheetGrabber, SheetModal } from '@/components/SheetModal';
 import { Image } from 'expo-image';
 import { useEffect, useRef, useState } from 'react';
@@ -97,7 +98,7 @@ function AppUnlockSheetBody({
             <Image
               source={lockApp(rule.app)?.image ?? art.appAppleMusic}
               contentFit="contain"
-              style={{ width: 18, height: 18 }}
+              style={{ width: box.size['18'], height: box.size['18'] }}
             />
             <Icon name="app-unlock-lock" width={15} height={18} />
             <T size={14.25} ls={0}>
@@ -115,13 +116,13 @@ function AppUnlockSheetBody({
                 size={14.25}
                 center
                 ls={0}
-                style={{ position: 'absolute', top: 216, left: 20, right: 20, lineHeight: 18 }}
+                style={{ position: 'absolute', top: 216, left: 20, right: 20, lineHeight: box.lineHeight['18'] }}
               >
                 Точно хотите разблокировать?
               </T>
             )}
             <T
-              size={28}
+              size={box.fontSize['28']}
               center
               ls={-0.3}
               style={{ position: 'absolute', top: ready ? 201 : 235, left: 15, right: 15, lineHeight: 34 }}
@@ -170,7 +171,7 @@ function AppUnlockSheetBody({
                     style={styles.reason}
                   />
                 ) : method === 'text' ? (
-                  <View style={{ width: '100%', paddingHorizontal: 20, gap: 8 }}>
+                  <View style={{ width: '100%', paddingHorizontal: box.spacing['20'], gap: box.spacing['8'] }}>
                     <T size={15} color={colors.white} center ls={0} numberOfLines={4} style={{ lineHeight: 19 }}>
                       {target}
                     </T>
@@ -184,11 +185,17 @@ function AppUnlockSheetBody({
                       autoCapitalize="none"
                       contextMenuHidden
                       multiline
-                      style={[styles.reason, { fontSize: 15, lineHeight: 19, height: 44 }]}
+                      style={[styles.reason, { fontSize: 15, lineHeight: 19, height: box.size['44'] }]}
                     />
                   </View>
                 ) : (
-                  <T size={56} color={colors.white} center ls={0} style={{ lineHeight: 68 }}>
+                  <T
+                    size={box.fontSize['56']}
+                    color={colors.white}
+                    center
+                    ls={0}
+                    style={{ lineHeight: box.lineHeight['68'] }}
+                  >
                     {Math.floor(remaining / 60)}:{String(remaining % 60).padStart(2, '0')}
                   </T>
                 )}
@@ -263,7 +270,7 @@ function AppUnlockSheetBody({
   );
 }
 const styles = StyleSheet.create({
-  sheet: { flex: 1, borderRadius: 44, backgroundColor: c.surface, overflow: 'hidden' },
+  sheet: { flex: 1, borderRadius: box.radius['44'], backgroundColor: c.surface, overflow: 'hidden' },
   handle: {
     position: 'absolute',
     top: 11,
@@ -279,8 +286,8 @@ const styles = StyleSheet.create({
     top: 38,
     alignSelf: 'center',
     height: 39,
-    borderRadius: 24,
-    paddingHorizontal: 14,
+    borderRadius: box.radius['24'],
+    paddingHorizontal: box.spacing['14'],
     backgroundColor: c.badge,
     boxShadow: c.badgeShadow,
     flexDirection: 'row',
@@ -289,8 +296,8 @@ const styles = StyleSheet.create({
     gap: 7,
   },
   success: {
-    width: 60,
-    height: 60,
+    width: box.size['60'],
+    height: box.size['60'],
     borderRadius: 30,
     backgroundColor: c.success,
     boxShadow: c.successRim,
@@ -312,17 +319,24 @@ const styles = StyleSheet.create({
   choices: { position: 'absolute', top: 624.667, left: 0, right: 0, height: 42 },
   choice: {
     height: 42,
-    borderRadius: 24,
+    borderRadius: box.radius['24'],
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     gap: 3,
   },
-  actions: { position: 'absolute', left: 20, right: 20, height: 60, flexDirection: 'row', gap: 8 },
+  actions: {
+    position: 'absolute',
+    left: 20,
+    right: 20,
+    height: box.size['60'],
+    flexDirection: 'row',
+    gap: box.spacing['8'],
+  },
   action: {
     flex: 1,
-    height: 60,
-    borderRadius: 32,
+    height: box.size['60'],
+    borderRadius: box.radius['32'],
     backgroundColor: c.action,
     boxShadow: c.actionShadow,
     flexDirection: 'row',

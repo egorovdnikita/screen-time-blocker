@@ -6,6 +6,8 @@ import path from 'node:path';
 
 const dir = path.dirname(fileURLToPath(import.meta.url));
 const checks = [
+  'tokens/sync.mjs',
+  'tokens/check-values.mjs',
   'check-chart-interaction.mjs',
   'check-app-name.mjs',
   'check-block-screen-data.mjs',
@@ -29,7 +31,7 @@ const checks = [
 
 let failed = 0;
 for (const name of checks) {
-  const run = spawnSync(process.execPath, ['--disable-warning=MODULE_TYPELESS_PACKAGE_JSON', path.join(dir, name)], {
+  const run = spawnSync(process.execPath, ['--disable-warning=MODULE_TYPELESS_PACKAGE_JSON', path.join(dir, name), ...(name === 'tokens/sync.mjs' ? ['--check'] : [])], {
     encoding: 'utf8',
   });
   const ok = run.status === 0;

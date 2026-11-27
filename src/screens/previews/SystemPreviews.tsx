@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { Image } from 'expo-image';
 import { StyleSheet, View } from 'react-native';
 import Svg, { Line, Rect } from 'react-native-svg';
@@ -20,7 +21,7 @@ export function SystemPreviews({ id }: { id: number }) {
           <LinearGradient colors={c.lockGradient} locations={[0, 0.25, 0.5, 0.75, 1]} style={StyleSheet.absoluteFill} />
           <T
             size={22}
-            weight={600}
+            weight={box.fontWeight['semibold']}
             color={colors.white}
             center
             ls={0}
@@ -30,7 +31,7 @@ export function SystemPreviews({ id }: { id: number }) {
           </T>
           <T
             size={120}
-            weight={600}
+            weight={box.fontWeight['semibold']}
             color={colors.white}
             center
             ls={-5}
@@ -51,15 +52,15 @@ export function SystemPreviews({ id }: { id: number }) {
             height: 37.333,
             borderRadius: 22,
             backgroundColor: colors.black,
-            paddingLeft: 18,
+            paddingLeft: box.spacing['18'],
             paddingRight: 9,
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
           }}
         >
-          <Image source={art.island_zap} style={{ width: 20, height: 26 }} />
-          <T size={15} weight={400} variant="display" color={colors.white} ls={0}>
+          <Image source={art.island_zap} style={{ width: box.size['20'], height: 26 }} />
+          <T size={15} weight={box.fontWeight['regular']} variant="display" color={colors.white} ls={0}>
             28:23
           </T>
         </View>
@@ -101,16 +102,23 @@ function LiveCard({ island, unlock }: { island: boolean; unlock: boolean }) {
         height: island ? (unlock ? 135.333 : 122.333) : unlock ? 147 : 137,
         borderRadius: island ? 44 : 24,
         backgroundColor: island ? colors.black : c.live,
-        paddingHorizontal: 20,
-        paddingTop: 18,
+        paddingHorizontal: box.spacing['20'],
+        paddingTop: box.spacing['18'],
       }}
     >
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: 7 }}>
         <Icon name="settings-phone" width={12} height={16} color={colors.white} />
-        <T size={13} weight={400} variant="display" color={c.liveMeta} ls={0}>
+        <T size={13} weight={box.fontWeight['regular']} variant="display" color={c.liveMeta} ls={0}>
           screen-time-blocker
         </T>
-        <T size={12} weight={400} variant="display" color={c.liveMeta} ls={0} style={{ marginLeft: 'auto' }}>
+        <T
+          size={box.fontSize['12']}
+          weight={box.fontWeight['regular']}
+          variant="display"
+          color={c.liveMeta}
+          ls={0}
+          style={{ marginLeft: 'auto' }}
+        >
           {unlock ? (island ? 'Открытие №1' : 'Разблокировка №1') : '23:11 – 23:41'}
         </T>
       </View>
@@ -123,13 +131,16 @@ function LiveCard({ island, unlock }: { island: boolean; unlock: boolean }) {
           height: 38,
           flexDirection: 'row',
           alignItems: 'center',
-          gap: 6,
+          gap: box.spacing['6'],
         }}
       >
-        <Image source={unlock ? art.island_lock : art.island_zap} style={{ width: 20, height: unlock ? 22 : 28 }} />
+        <Image
+          source={unlock ? art.island_lock : art.island_zap}
+          style={{ width: box.size['20'], height: unlock ? 22 : 28 }}
+        />
         <T
-          size={20}
-          weight={400}
+          size={box.fontSize['20']}
+          weight={box.fontWeight['regular']}
           variant="display"
           color={colors.white}
           ls={0}
@@ -143,7 +154,7 @@ function LiveCard({ island, unlock }: { island: boolean; unlock: boolean }) {
           color={colors.white}
           variant={island ? 'display' : 'rounded'}
           ls={0}
-          style={{ lineHeight: 40 }}
+          style={{ lineHeight: box.lineHeight['40'] }}
         >
           {unlock ? (island ? '4:22' : '4:42') : island ? '28:18' : '28:08'}
         </T>
@@ -151,12 +162,18 @@ function LiveCard({ island, unlock }: { island: boolean; unlock: boolean }) {
       {unlock ? (
         <T
           size={island ? 13 : 14}
-          weight={400}
+          weight={box.fontWeight['regular']}
           variant="display"
           color={colors.white}
           center
           ls={0}
-          style={{ position: 'absolute', left: 20, right: 20, bottom: island ? 17 : 19, lineHeight: 18 }}
+          style={{
+            position: 'absolute',
+            left: 20,
+            right: 20,
+            bottom: island ? 17 : 19,
+            lineHeight: box.lineHeight['18'],
+          }}
         >
           Хорошего отдыха!
         </T>
@@ -167,12 +184,14 @@ function LiveCard({ island, unlock }: { island: boolean; unlock: boolean }) {
             left: 22,
             right: 22,
             bottom: island ? 22.333 : 24,
-            height: 8,
+            height: box.size['8'],
             borderRadius: 5,
             backgroundColor: c.liveTrack,
           }}
         >
-          <View style={{ width: 18, height: 8, borderRadius: 5, backgroundColor: colors.white }} />
+          <View
+            style={{ width: box.size['18'], height: box.size['8'], borderRadius: 5, backgroundColor: colors.white }}
+          />
         </View>
       )}
     </View>
@@ -183,16 +202,16 @@ function WidgetHead() {
     <View
       style={{
         height: 46,
-        paddingHorizontal: 16,
+        paddingHorizontal: box.spacing['16'],
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
       }}
     >
-      <T size={20} ls={0} style={{ lineHeight: 24 }}>
+      <T size={box.fontSize['20']} ls={0} style={{ lineHeight: box.lineHeight['24'] }}>
         Правила
       </T>
-      <T size={10} ls={0} color={c.widgetMeta}>
+      <T size={box.fontSize['10']} ls={0} color={c.widgetMeta}>
         screen-time-blocker
       </T>
     </View>
@@ -204,36 +223,36 @@ function WidgetRule({ index, compact = false }: { index: number; compact?: boole
     <View
       style={{
         height: compact ? 58 : 65,
-        marginHorizontal: 16,
+        marginHorizontal: box.spacing['16'],
         paddingTop: compact ? 10 : 14,
         flexDirection: 'row',
-        gap: 10,
+        gap: box.spacing['10'],
         borderBottomWidth: 1,
         borderStyle: 'dashed',
         borderColor: colors.dash,
       }}
     >
-      <T size={20} ls={0} style={{ width: 20, marginTop: 4 }}>
+      <T size={box.fontSize['20']} ls={0} style={{ width: box.size['20'], marginTop: box.spacing['4'] }}>
         {row.icon}
       </T>
       <View style={{ flex: 1 }}>
-        <T size={13} ls={0} numberOfLines={1} style={{ lineHeight: 16 }}>
+        <T size={13} ls={0} numberOfLines={1} style={{ lineHeight: box.lineHeight['16'] }}>
           {row.title}
         </T>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}>
           {index === 2 ? (
-            <T size={12} color={c.widgetBlue} ls={0}>
+            <T size={box.fontSize['12']} color={c.widgetBlue} ls={0}>
               ✓ Идёт
             </T>
           ) : (
             <>
               <Icon name="shield-check" width={11} height={12} color={c.widgetBlue} />
-              <T size={12} color={c.widgetBlue} ls={0}>
+              <T size={box.fontSize['12']} color={c.widgetBlue} ls={0}>
                 Блокировка
               </T>
             </>
           )}
-          <T size={12} weight={500} ls={0}>
+          <T size={box.fontSize['12']} weight={box.fontWeight['medium']} ls={0}>
             {'· ' + row.sub}
           </T>
         </View>
@@ -283,7 +302,7 @@ function WidgetChart({ small = false }: { small?: boolean }) {
         }}
       >
         {['В', 'П', 'В', 'С', 'Ч', 'П', 'С'].map((d, i) => (
-          <T key={i} size={small ? 6 : 8} weight={400} color={c.widgetMeta} ls={0}>
+          <T key={i} size={small ? 6 : 8} weight={box.fontWeight['regular']} color={c.widgetMeta} ls={0}>
             {d}
           </T>
         ))}
@@ -291,7 +310,7 @@ function WidgetChart({ small = false }: { small?: boolean }) {
       {!small && (
         <View style={{ position: 'absolute', right: 0, top: 0, gap: 25 }}>
           {['3 ч', '1ч30', '0 с'].map(t => (
-            <T key={t} size={8} weight={400} color={c.widgetMeta} ls={0}>
+            <T key={t} size={8} weight={box.fontWeight['regular']} color={c.widgetMeta} ls={0}>
               {t}
             </T>
           ))}
@@ -304,8 +323,8 @@ function TimeWidget({ small = false }: { small?: boolean }) {
   return (
     <View style={[styles.widget, { left: 24, top: small ? 263 : 81, width: small ? 162 : 345, height: 162 }]}>
       <T
-        size={14}
-        weight={600}
+        size={box.fontSize['14']}
+        weight={box.fontWeight['semibold']}
         ls={0}
         style={{ position: 'absolute', top: small ? 20 : 27, left: small ? 12 : 16, width: small ? 138 : 97 }}
       >
@@ -327,11 +346,11 @@ function TimeWidget({ small = false }: { small?: boolean }) {
           ['В среднем', '45мин'],
         ].map(([label, val]) => (
           <View key={label} style={{ flexDirection: small ? 'column-reverse' : 'column' }}>
-            <T size={10} weight={400} color={c.widgetMeta} ls={0}>
+            <T size={box.fontSize['10']} weight={box.fontWeight['regular']} color={c.widgetMeta} ls={0}>
               {label}
             </T>
             <T size={small ? 17 : 18} ls={0}>
-              <T size={12} weight={500} color={c.widgetApprox} ls={0}>
+              <T size={box.fontSize['12']} weight={box.fontWeight['medium']} color={c.widgetApprox} ls={0}>
                 ~{' '}
               </T>
               {val}
@@ -356,7 +375,7 @@ function Widgets({ time }: { time: boolean }) {
             <T size={13} ls={0} style={{ position: 'absolute', top: 42, left: 12 }}>
               ⌛ Лимит времени
             </T>
-            <T size={12} ls={0} style={{ position: 'absolute', top: 68, left: 12 }}>
+            <T size={box.fontSize['12']} ls={0} style={{ position: 'absolute', top: 68, left: 12 }}>
               ▣ 1 кат. · 1 прил.
             </T>
             <T size={26} ls={-0.5} style={{ position: 'absolute', top: 102, left: 12 }}>
@@ -394,19 +413,26 @@ function Widgets({ time }: { time: boolean }) {
           <View
             style={[
               styles.widget,
-              { left: 24, top: 642, width: 162, height: 162, paddingHorizontal: 12, paddingTop: 24 },
+              {
+                left: 24,
+                top: 642,
+                width: 162,
+                height: 162,
+                paddingHorizontal: box.spacing['12'],
+                paddingTop: box.spacing['24'],
+              },
             ]}
           >
-            <T size={12} weight={400} ls={0}>
+            <T size={box.fontSize['12']} weight={box.fontWeight['regular']} ls={0}>
               9:00 – 17:00
             </T>
             <T size={13} ls={0}>
               💻 Рабочее время
             </T>
-            <T size={12} ls={0}>
+            <T size={box.fontSize['12']} ls={0}>
               ▣ 3 приложения
             </T>
-            <T size={30} weight={600} ls={-1} style={{ marginTop: 16 }}>
+            <T size={30} weight={box.fontWeight['semibold']} ls={-1} style={{ marginTop: box.spacing['16'] }}>
               7:11:34
             </T>
             <Progress />
@@ -417,8 +443,8 @@ function Widgets({ time }: { time: boolean }) {
               Сессия
             </T>
             <T
-              size={10}
-              weight={400}
+              size={box.fontSize['10']}
+              weight={box.fontWeight['regular']}
               color={c.widgetMeta}
               center
               ls={0}
@@ -444,7 +470,7 @@ function Widgets({ time }: { time: boolean }) {
                   style={{
                     width: label === 'play' ? 38 : 28,
                     height: label === 'play' ? 38 : 28,
-                    borderRadius: 20,
+                    borderRadius: box.radius['20'],
                     backgroundColor: label === '‹' ? c.widgetMeta : colors.black,
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -453,7 +479,7 @@ function Widgets({ time }: { time: boolean }) {
                   {label === 'play' ? (
                     <Icon name="play-fill" width={20} height={20} color={colors.white} />
                   ) : (
-                    <T size={20} color={colors.white}>
+                    <T size={box.fontSize['20']} color={colors.white}>
                       {label}
                     </T>
                   )}
@@ -474,12 +500,14 @@ function Progress() {
         bottom: 24,
         left: 12,
         right: 12,
-        height: 8,
+        height: box.size['8'],
         borderRadius: 5,
         backgroundColor: c.widgetTrack,
       }}
     >
-      <View style={{ width: 14, height: 8, borderRadius: 5, backgroundColor: c.widgetProgress }} />
+      <View
+        style={{ width: box.size['14'], height: box.size['8'], borderRadius: 5, backgroundColor: c.widgetProgress }}
+      />
     </View>
   );
 }
@@ -494,5 +522,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  widget: { position: 'absolute', borderRadius: 28, backgroundColor: colors.white, overflow: 'hidden' },
+  widget: { position: 'absolute', borderRadius: box.radius['28'], backgroundColor: colors.white, overflow: 'hidden' },
 });

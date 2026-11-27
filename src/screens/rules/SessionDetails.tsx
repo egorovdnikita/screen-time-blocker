@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { SheetGrabber, SheetModal } from '@/components/SheetModal';
 import { DarkButtonSurface } from '@/components/DarkButtonSurface';
 import { GlassDialog } from '@/components/GlassDialog';
@@ -131,7 +132,7 @@ function RuleDetails({
             style={{
               flex: 1,
               marginTop: Math.max(59, insets.top),
-              borderRadius: 44,
+              borderRadius: box.radius['44'],
               backgroundColor: c.surface,
               overflow: 'hidden',
             }}
@@ -172,7 +173,7 @@ function RuleDetails({
                   styles.round,
                   {
                     right: 20,
-                    ...(template ? { width: 135, borderRadius: 24 } : {}),
+                    ...(template ? { width: 135, borderRadius: box.radius['24'] } : {}),
                     backgroundColor: changed ? c.blue : c.disabled,
                   },
                 ]}
@@ -195,7 +196,11 @@ function RuleDetails({
                 }}
               >
                 {limit ? (
-                  <Image source={art.ruleDetailHourglass} contentFit="contain" style={{ width: 44, height: 56 }} />
+                  <Image
+                    source={art.ruleDetailHourglass}
+                    contentFit="contain"
+                    style={{ width: box.size['44'], height: box.size['56'] }}
+                  />
                 ) : rule.iconId ? (
                   <SessionIcon id={rule.iconId} width={template ? 42 : 53} height={template ? 51 : 55} />
                 ) : (
@@ -247,11 +252,17 @@ function RuleDetails({
               )}
               <T
                 size={13}
-                weight={400}
+                weight={box.fontWeight['regular']}
                 color={c.muted}
                 center
                 ls={0}
-                style={{ position: 'absolute', top: limit ? 220 : 224, left: 10, right: 10, lineHeight: 18 }}
+                style={{
+                  position: 'absolute',
+                  top: limit ? 220 : 224,
+                  left: 10,
+                  right: 10,
+                  lineHeight: box.lineHeight['18'],
+                }}
               >
                 {template
                   ? `${rule.meta.kind === 'schedule' ? rule.meta.time : `Блокировать на ${rule.meta.text.replace('Осталось ', '')}, начиная сейчас.`}\n${rule.unlock?.match(/\d+/)?.[0] === '1' ? 'Разрешён 1 быстрый вход' : `Разрешено входов: ${rule.unlock?.match(/\d+/)?.[0] ?? '0'}`}.`
@@ -266,7 +277,7 @@ function RuleDetails({
                         : rule.nextStart
                           ? `Начнётся ${rule.nextStart.charAt(0).toLowerCase()}${rule.nextStart.slice(1)}. `
                           : 'Не активно. '}
-                <T size={13} weight={600} color={c.muted} ls={0}>
+                <T size={13} weight={box.fontWeight['semibold']} color={c.muted} ls={0}>
                   {template
                     ? ''
                     : paused || rule.status.kind !== 'blocking'
@@ -331,12 +342,12 @@ function RuleDetails({
               ).map(item => (
                 <View key={item.title} accessibilityState={{ disabled: true }} style={styles.row}>
                   {!app.live && <Icon name="chevron-down-section" width={11} height={8} color={c.chevron} />}
-                  <T size={14.25} weight={600} color={c.muted} ls={0}>
+                  <T size={14.25} weight={box.fontWeight['semibold']} color={c.muted} ls={0}>
                     {item.title}
                   </T>
                   <View style={{ marginLeft: 'auto' }}>
                     {typeof item.value === 'string' ? (
-                      <T size={13} weight={400} ls={0}>
+                      <T size={13} weight={box.fontWeight['regular']} ls={0}>
                         {item.value}
                       </T>
                     ) : (
@@ -383,14 +394,14 @@ function RuleDetails({
                   left: 20,
                   right: 20,
                   bottom: Math.max(37, insets.bottom + 3),
-                  height: 60,
-                  borderRadius: 32,
+                  height: box.size['60'],
+                  borderRadius: box.radius['32'],
                   alignItems: 'center',
                   justifyContent: 'center',
                 }}
               >
                 <DarkButtonSurface />
-                <T size={16} color={colors.white} ls={0}>
+                <T size={box.fontSize['16']} color={colors.white} ls={0}>
                   Начать
                 </T>
               </PressScale>
@@ -445,7 +456,13 @@ function RuleDetails({
                     style={StyleSheet.absoluteFill}
                   />
                   <LinearGradient colors={[c.menuTop, c.menuBottom]} style={StyleSheet.absoluteFill} />
-                  <T size={12} weight={400} color={c.menuCaption} ls={0} style={{ lineHeight: 18, marginBottom: 8 }}>
+                  <T
+                    size={box.fontSize['12']}
+                    weight={box.fontWeight['regular']}
+                    color={c.menuCaption}
+                    ls={0}
+                    style={{ lineHeight: box.lineHeight['18'], marginBottom: box.spacing['8'] }}
+                  >
                     Отключить правило…
                   </T>
                   <PressScale
@@ -455,7 +472,7 @@ function RuleDetails({
                     style={styles.menuRow}
                   >
                     <Icon name="rule-next-occurrence" width={18} height={23} />
-                    <T size={15} weight={400} ls={0}>
+                    <T size={15} weight={box.fontWeight['regular']} ls={0}>
                       На следующий запуск
                     </T>
                   </PressScale>
@@ -466,7 +483,7 @@ function RuleDetails({
                     style={styles.menuRow}
                   >
                     <Icon name="rule-reactivate" width={18} height={23} />
-                    <T size={15} weight={400} ls={0}>
+                    <T size={15} weight={box.fontWeight['regular']} ls={0}>
                       До включения вручную
                     </T>
                   </PressScale>
@@ -505,10 +522,10 @@ function RuleDetails({
             >
               <T
                 size={14.25}
-                weight={400}
+                weight={box.fontWeight['regular']}
                 color={a.ink}
                 ls={0}
-                style={{ position: 'absolute', left: 29, right: 29, top: 47, lineHeight: 20 }}
+                style={{ position: 'absolute', left: 29, right: 29, top: 47, lineHeight: box.lineHeight['20'] }}
               >
                 {'Шаблон будет удалён\nбез восстановления.'}
               </T>
@@ -545,10 +562,10 @@ function RuleDetails({
             >
               <T
                 size={14.25}
-                weight={400}
+                weight={box.fontWeight['regular']}
                 color={a.ink}
                 ls={0}
-                style={{ position: 'absolute', left: 29, right: 29, top: 47, lineHeight: 20 }}
+                style={{ position: 'absolute', left: 29, right: 29, top: 47, lineHeight: box.lineHeight['20'] }}
               >
                 {'Правило будет удалено\nбез восстановления.'}
               </T>
@@ -583,20 +600,20 @@ function RuleDetails({
               }}
             >
               <T
-                size={14}
-                weight={400}
+                size={box.fontSize['14']}
+                weight={box.fontWeight['regular']}
                 color={a.ink}
                 ls={0}
-                style={{ position: 'absolute', top: 67, left: 29, right: 29, lineHeight: 20 }}
+                style={{ position: 'absolute', top: 67, left: 29, right: 29, lineHeight: box.lineHeight['20'] }}
               >
                 {'Обновление пересчитает время\nза сегодня, но не сбросит его\nдо нуля!'}
               </T>
               <T
-                size={14}
-                weight={400}
+                size={box.fontSize['14']}
+                weight={box.fontWeight['regular']}
                 color={a.ink}
                 ls={0}
-                style={{ position: 'absolute', top: 147, left: 29, right: 29, lineHeight: 20 }}
+                style={{ position: 'absolute', top: 147, left: 29, right: 29, lineHeight: box.lineHeight['20'] }}
               >
                 {'💡 Частые ошибки? Правила → ?\n→ Другие настройки → отключите\n«Учёт в реальном времени».'}
               </T>
@@ -623,8 +640,8 @@ const styles = StyleSheet.create({
   round: {
     position: 'absolute',
     top: 45,
-    width: 44,
-    height: 44,
+    width: box.size['44'],
+    height: box.size['44'],
     borderRadius: 22,
     alignItems: 'center',
     justifyContent: 'center',
@@ -638,7 +655,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 8,
+    gap: box.spacing['8'],
   },
   nameInput: {
     position: 'absolute',
@@ -653,27 +670,27 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     outlineWidth: 0,
   },
-  rows: { position: 'absolute', top: 283, left: 20, right: 20, gap: 12 },
+  rows: { position: 'absolute', top: 283, left: 20, right: 20, gap: box.spacing['12'] },
   row: {
-    height: 60,
-    borderRadius: 24,
+    height: box.size['60'],
+    borderRadius: box.radius['24'],
     backgroundColor: colors.white,
     boxShadow: c.rowShadow,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 16,
+    paddingHorizontal: box.spacing['16'],
     gap: 9,
   },
-  actions: { position: 'absolute', left: 20, right: 20, height: 42, flexDirection: 'row', gap: 8 },
+  actions: { position: 'absolute', left: 20, right: 20, height: 42, flexDirection: 'row', gap: box.spacing['8'] },
   action: {
     flex: 1,
-    borderRadius: 24,
+    borderRadius: box.radius['24'],
     borderWidth: 1,
     borderColor: colors.white,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 4,
+    gap: box.spacing['4'],
   },
   handle: {
     position: 'absolute',
@@ -694,8 +711,8 @@ const styles = StyleSheet.create({
     borderColor: c.menuBorder,
     boxShadow: c.menuShadow,
     overflow: 'hidden',
-    paddingVertical: 10,
+    paddingVertical: box.spacing['10'],
     paddingHorizontal: 26,
   },
-  menuRow: { height: 42, flexDirection: 'row', alignItems: 'center', gap: 16 },
+  menuRow: { height: 42, flexDirection: 'row', alignItems: 'center', gap: box.spacing['16'] },
 });

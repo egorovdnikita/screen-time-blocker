@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { SheetScrollView as ScrollView } from '@/components/SheetModal';
 import { useEffect, useState } from 'react';
 import { MaterialBlur } from '@/components/MaterialBlur';
@@ -54,7 +55,7 @@ export function BlockScreens({ onClose }: { onClose: () => void }) {
         style={{ position: 'absolute', top: 82, left: 0, right: 0, bottom: 0 }}
         contentContainerStyle={{ height: app.live ? appearanceTop - 82 + 20 : Math.max(500, 503.333 + extra) }}
       >
-        <T size={20} color={c.section} ls={0} style={[styles.section, { top: 96.333 - 82 }]}>
+        <T size={box.fontSize['20']} color={c.section} ls={0} style={[styles.section, { top: 96.333 - 82 }]}>
           Экраны screen-time-blocker
         </T>
         <View style={styles.defaults}>
@@ -77,17 +78,23 @@ export function BlockScreens({ onClose }: { onClose: () => void }) {
             },
           ].map((item, index) => (
             <View key={item.title} style={[styles.option, { borderBottomWidth: index ? 0 : 1 }]}>
-              <Image source={item.image} style={{ width: 21, height: 24 }} />
+              <Image source={item.image} style={{ width: 21, height: box.size['24'] }} />
               <PressScale
                 accessibilityRole={item.preview ? 'button' : undefined}
                 accessibilityLabel={item.preview ? 'Предпросмотр советов экспертов' : undefined}
                 onPress={item.preview}
                 style={{ flex: 1 }}
               >
-                <T size={13} weight={400} variant="display" ls={0}>
+                <T size={13} weight={box.fontWeight['regular']} variant="display" ls={0}>
                   {item.title}
                 </T>
-                <T size={12} weight={400} color={c.caption} ls={0} style={{ lineHeight: 16 }}>
+                <T
+                  size={box.fontSize['12']}
+                  weight={box.fontWeight['regular']}
+                  color={c.caption}
+                  ls={0}
+                  style={{ lineHeight: box.lineHeight['16'] }}
+                >
                   {item.description}
                 </T>
               </PressScale>
@@ -103,7 +110,7 @@ export function BlockScreens({ onClose }: { onClose: () => void }) {
             </View>
           ))}
         </View>
-        <T size={20} color={c.section} ls={0} style={[styles.section, { top: 291.333 - 82 }]}>
+        <T size={box.fontSize['20']} color={c.section} ls={0} style={[styles.section, { top: 291.333 - 82 }]}>
           Свои экраны
         </T>
         {app.customBlockScreens.map((screen, index) => (
@@ -117,9 +124,9 @@ export function BlockScreens({ onClose }: { onClose: () => void }) {
               accessibilityRole="button"
               accessibilityLabel={`Предпросмотр своего экрана ${screen.kind === 'message' ? screen.title : findScreenApp(screen.appId)?.title}`}
               onPress={() => setPreview(screen)}
-              style={{ flex: 1, height: 60, justifyContent: 'center' }}
+              style={{ flex: 1, height: box.size['60'], justifyContent: 'center' }}
             >
-              <T size={14.25} weight={400} variant="display" ls={0} numberOfLines={1}>
+              <T size={14.25} weight={box.fontWeight['regular']} variant="display" ls={0} numberOfLines={1}>
                 {screen.kind === 'message' ? screen.title : findScreenApp(screen.appId)?.title}
               </T>
             </PressScale>
@@ -131,7 +138,12 @@ export function BlockScreens({ onClose }: { onClose: () => void }) {
                   : `Удалить экран ${findScreenApp(screen.appId)?.title}`
               }
               onPress={() => (screen.kind === 'message' ? setMessage(screen) : setDeletion(screen))}
-              style={{ minWidth: 24, height: 44, alignItems: 'center', justifyContent: 'center' }}
+              style={{
+                minWidth: box.size['24'],
+                height: box.size['44'],
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
             >
               <Icon
                 name={screen.kind === 'message' ? 'activity-row-chevron' : 'block-screen-remove'}
@@ -155,7 +167,7 @@ export function BlockScreens({ onClose }: { onClose: () => void }) {
               onPress={() => setMenu(true)}
               style={{
                 flex: 1,
-                paddingHorizontal: 12,
+                paddingHorizontal: box.spacing['12'],
                 flexDirection: 'row',
                 alignItems: 'center',
                 justifyContent: count ? 'center' : 'flex-start',
@@ -166,7 +178,7 @@ export function BlockScreens({ onClose }: { onClose: () => void }) {
                 style={{
                   width: count ? 23 : 24,
                   height: count ? 23 : 24,
-                  borderRadius: 12,
+                  borderRadius: box.radius['12'],
                   backgroundColor: c.createPlus,
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -185,7 +197,13 @@ export function BlockScreens({ onClose }: { onClose: () => void }) {
                   Создать экран
                 </T>
                 {!count && (
-                  <T size={12} weight={400} color={c.caption} ls={0} style={{ lineHeight: 16 }}>
+                  <T
+                    size={box.fontSize['12']}
+                    weight={box.fontWeight['regular']}
+                    color={c.caption}
+                    ls={0}
+                    style={{ lineHeight: box.lineHeight['16'] }}
+                  >
                     Приложения, контакты или свой текст
                   </T>
                 )}
@@ -195,15 +213,15 @@ export function BlockScreens({ onClose }: { onClose: () => void }) {
         </View>
         {!app.live && (
           <>
-            <T size={20} color={c.section} ls={0} style={[styles.section, { top: appearanceTop - 82 }]}>
+            <T size={box.fontSize['20']} color={c.section} ls={0} style={[styles.section, { top: appearanceTop - 82 }]}>
               Оформление
             </T>
             <View accessibilityState={{ disabled: true }} style={[styles.theme, { top: appearanceTop + 35.333 - 82 }]}>
               <Icon name="block-screens-theme" width={18} height={19} />
-              <T size={13} weight={400} variant="display" ls={0}>
+              <T size={13} weight={box.fontWeight['regular']} variant="display" ls={0}>
                 Тема
               </T>
-              <T size={16} color={c.caption} ls={0} style={{ marginLeft: 'auto' }}>
+              <T size={box.fontSize['16']} color={c.caption} ls={0} style={{ marginLeft: 'auto' }}>
                 Системная
               </T>
               <Icon name="settings-chevron-pair" width={12} height={17} style={{ opacity: 0.25 }} />
@@ -239,7 +257,7 @@ export function BlockScreens({ onClose }: { onClose: () => void }) {
                 style={styles.menuRow}
               >
                 <Icon name={item.icon as 'create-screen-app'} width={18} height={20} />
-                <T size={16} weight={400} variant="display" ls={0}>
+                <T size={box.fontSize['16']} weight={box.fontWeight['regular']} variant="display" ls={0}>
                   {item.label}
                 </T>
               </PressScale>
@@ -306,11 +324,11 @@ export function BlockScreens({ onClose }: { onClose: () => void }) {
         >
           <T
             size={14.25}
-            weight={400}
+            weight={box.fontWeight['regular']}
             variant="display"
             color={c.deleteCaption}
             ls={0}
-            style={{ position: 'absolute', left: 29, right: 29, top: 47, lineHeight: 20 }}
+            style={{ position: 'absolute', left: 29, right: 29, top: 47, lineHeight: box.lineHeight['20'] }}
           >
             {'Это действие нельзя отменить. Этот\nэкран будет удалён навсегда.'}
           </T>
@@ -327,41 +345,41 @@ const styles = StyleSheet.create({
     right: 20,
     top: 131.333 - 82,
     height: 128.667,
-    borderRadius: 24,
+    borderRadius: box.radius['24'],
     overflow: 'hidden',
     backgroundColor: colors.white,
   },
   option: {
     height: 64.333,
-    paddingHorizontal: 16,
+    paddingHorizontal: box.spacing['16'],
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 10,
+    gap: box.spacing['10'],
     borderBottomColor: c.line,
   },
   custom: {
     position: 'absolute',
     left: 20,
     right: 20,
-    height: 60,
-    borderRadius: 20,
+    height: box.size['60'],
+    borderRadius: box.radius['20'],
     backgroundColor: colors.white,
     paddingHorizontal: 15,
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 10,
+    gap: box.spacing['10'],
   },
   theme: {
     position: 'absolute',
     left: 20,
     right: 20,
     height: 50,
-    borderRadius: 20,
+    borderRadius: box.radius['20'],
     backgroundColor: colors.white,
-    paddingHorizontal: 16,
+    paddingHorizontal: box.spacing['16'],
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 12,
+    gap: box.spacing['12'],
   },
   menu: {
     position: 'absolute',
@@ -374,8 +392,8 @@ const styles = StyleSheet.create({
     borderColor: c.menuBorder,
     boxShadow: c.menuShadow,
     overflow: 'hidden',
-    paddingVertical: 10,
+    paddingVertical: box.spacing['10'],
     paddingHorizontal: 30,
   },
-  menuRow: { height: 42, flexDirection: 'row', alignItems: 'center', gap: 16 },
+  menuRow: { height: 42, flexDirection: 'row', alignItems: 'center', gap: box.spacing['16'] },
 });

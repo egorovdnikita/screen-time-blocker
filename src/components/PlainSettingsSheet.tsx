@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { TextInk, T } from '@/theme/typography';
 import { settingsTheme, ruleDetailTheme as c, modalTheme } from '@/theme/tokens';
 import { SheetGrabber } from '@/components/SheetModal';
@@ -70,7 +71,7 @@ export function PlainSettingsSheet({
                 marginTop: Math.max(top, insets.top),
                 marginHorizontal: inset,
                 marginBottom: bottom,
-                borderRadius: 44,
+                borderRadius: box.radius['44'],
                 backgroundColor: surface,
                 overflow: 'hidden',
               }}
@@ -86,7 +87,12 @@ export function PlainSettingsSheet({
                   backgroundColor: c.handle,
                 }}
               />
-              <T size={20} center ls={0} style={{ position: 'absolute', top: 44, left: 20, right: 20, lineHeight: 25 }}>
+              <T
+                size={box.fontSize['20']}
+                center
+                ls={0}
+                style={{ position: 'absolute', top: 44, left: 20, right: 20, lineHeight: 25 }}
+              >
                 {title}
               </T>
               {typeof children === 'function' ? children(close) : children}

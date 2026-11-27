@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { BlurView } from 'expo-blur';
 import { useContext, type ReactNode } from 'react';
 import { SheetModal } from './SheetModal';
@@ -120,7 +121,7 @@ export function GlassDialog({
                   right: buttonSide,
                   bottom: buttonBottom,
                   flexDirection: 'row',
-                  gap: 8,
+                  gap: box.spacing['8'],
                 }}
               >
                 <PressScale
@@ -129,14 +130,14 @@ export function GlassDialog({
                   onPress={() => close()}
                   style={{
                     flex: 1,
-                    height: 48,
+                    height: box.size['48'],
                     borderRadius: buttonRadius,
                     backgroundColor: cancelColor,
                     alignItems: 'center',
                     justifyContent: 'center',
                   }}
                 >
-                  <T size={16} weight={buttonWeight} variant={buttonVariant} ls={0}>
+                  <T size={box.fontSize['16']} weight={buttonWeight} variant={buttonVariant} ls={0}>
                     {cancelLabel}
                   </T>
                 </PressScale>
@@ -146,14 +147,14 @@ export function GlassDialog({
                   onPress={() => close(onConfirm)}
                   style={{
                     flex: 1,
-                    height: 48,
+                    height: box.size['48'],
                     borderRadius: buttonRadius,
                     backgroundColor: confirmColor,
                     alignItems: 'center',
                     justifyContent: 'center',
                   }}
                 >
-                  <T size={16} weight={buttonWeight} variant={buttonVariant} color={confirmInk} ls={0}>
+                  <T size={box.fontSize['16']} weight={buttonWeight} variant={buttonVariant} color={confirmInk} ls={0}>
                     {confirmLabel}
                   </T>
                 </PressScale>

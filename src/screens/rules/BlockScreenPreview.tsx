@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { StatusBar } from 'expo-status-bar';
@@ -57,25 +58,37 @@ export function BlockScreenPreview({ screen, onClose }: { screen: CustomBlockScr
           size={22}
           center
           ls={-0.4}
-          style={{ position: 'absolute', top: tips ? 291 : message ? 403 : 361, left: 20, right: 20, lineHeight: 28 }}
+          style={{
+            position: 'absolute',
+            top: tips ? 291 : message ? 403 : 361,
+            left: 20,
+            right: 20,
+            lineHeight: box.lineHeight['28'],
+          }}
         >
           {title}
         </T>
         <T
           size={tips ? 20 : 21}
           variant="display"
-          weight={400}
+          weight={box.fontWeight['regular']}
           center
           color={c.caption}
           ls={0}
-          style={{ position: 'absolute', top: tips ? 346 : message ? 459 : 444, left: 28, right: 28, lineHeight: 28 }}
+          style={{
+            position: 'absolute',
+            top: tips ? 346 : message ? 459 : 444,
+            left: 28,
+            right: 28,
+            lineHeight: box.lineHeight['28'],
+          }}
         >
           {text}
         </T>
         {tips && (
           <T
             size={18}
-            weight={400}
+            weight={box.fontWeight['regular']}
             variant="display"
             center
             color={c.caption}
@@ -94,14 +107,14 @@ export function BlockScreenPreview({ screen, onClose }: { screen: CustomBlockScr
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'center',
-            gap: 6,
+            gap: box.spacing['6'],
           }}
         >
-          <T size={21} weight={400} variant="display" color={c.caption} ls={0}>
+          <T size={21} weight={box.fontWeight['regular']} variant="display" color={c.caption} ls={0}>
             Блокирует:
           </T>
           <Image source={art.blockScreenQuotePlant} style={{ width: 23, height: 26 }} />
-          <T size={21} weight={400} variant="display" color={c.caption} ls={0}>
+          <T size={21} weight={box.fontWeight['regular']} variant="display" color={c.caption} ls={0}>
             Рутина
           </T>
         </View>
@@ -115,13 +128,13 @@ export function BlockScreenPreview({ screen, onClose }: { screen: CustomBlockScr
             right: 32,
             bottom: Math.max(42, insets.bottom + 8),
             height: 50,
-            borderRadius: 28,
+            borderRadius: box.radius['28'],
             backgroundColor: c.previewBlue,
             alignItems: 'center',
             justifyContent: 'center',
           }}
         >
-          <T size={17} weight={400} variant="display" color={colors.white} ls={0}>
+          <T size={17} weight={box.fontWeight['regular']} variant="display" color={colors.white} ls={0}>
             {message && screen.button.trim() ? resolveScreenText(screen.button, context) : 'Закрыть'}
           </T>
         </PressScale>

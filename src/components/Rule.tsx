@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { useAppState } from '@/state/app';
 import type { ReactNode } from 'react';
 import { Pressable, View, type StyleProp, type ViewStyle } from 'react-native';
@@ -14,7 +15,7 @@ import { Icon } from './Icon';
 
 export function SectionHeader({ title, right }: { title: string; right?: ReactNode }) {
   return (
-    <View style={{ flexDirection: 'row', alignItems: 'center', height: 26, paddingHorizontal: 20 }}>
+    <View style={{ flexDirection: 'row', alignItems: 'center', height: 26, paddingHorizontal: box.spacing['20'] }}>
       <Icon
         name="chevron-down-section"
         width={11}
@@ -22,7 +23,7 @@ export function SectionHeader({ title, right }: { title: string; right?: ReactNo
         color={colors.section}
         style={{ marginLeft: -0.5, marginRight: 7.5 }}
       />
-      <T size={20} color={colors.section} style={{ flex: 1 }}>
+      <T size={box.fontSize['20']} color={colors.section} style={{ flex: 1 }}>
         {title}
       </T>
       {right}
@@ -40,7 +41,7 @@ export function Streak({ count }: { count: number }) {
         flexDirection: 'row',
         alignItems: 'center',
         height: 23.333,
-        paddingLeft: 8,
+        paddingLeft: box.spacing['8'],
         paddingRight: 9,
         borderRadius: radii.pill,
         backgroundColor: colors.white,
@@ -48,7 +49,7 @@ export function Streak({ count }: { count: number }) {
       }}
     >
       <Icon name="flame" width={13} height={14.5} color={colors.streak} style={{ marginRight: 3 }} />
-      <T size={13.5} weight={600} ls={0} color={colors.streak}>
+      <T size={13.5} weight={box.fontWeight['semibold']} ls={0} color={colors.streak}>
         {count}
       </T>
     </View>
@@ -126,9 +127,9 @@ export function PlusCircle({ tone = 'light' }: { tone?: 'light' | 'hint' }) {
   return (
     <View
       style={{
-        width: 24,
-        height: 24,
-        borderRadius: 12,
+        width: box.size['24'],
+        height: box.size['24'],
+        borderRadius: box.radius['12'],
         backgroundColor: tone === 'light' ? colors.plusCircle : colors.plusCircle2,
         alignItems: 'center',
         justifyContent: 'center',
@@ -160,7 +161,13 @@ export function HintPill({ text, onPress }: { text: string; onPress: () => void 
           paddingRight: 13,
         }}
       >
-        <T size={14} weight={500} color={colors.hint} style={{ flex: 1 }} numberOfLines={1}>
+        <T
+          size={box.fontSize['14']}
+          weight={box.fontWeight['medium']}
+          color={colors.hint}
+          style={{ flex: 1 }}
+          numberOfLines={1}
+        >
           {text}
         </T>
         <PlusCircle tone="hint" />
@@ -199,8 +206,8 @@ export function MetaSep() {
   return (
     <View
       style={{
-        width: 2,
-        height: 8,
+        width: box.size['2'],
+        height: box.size['8'],
         borderRadius: 1,
         backgroundColor: colors.metaSep,
         marginLeft: 7.333,
@@ -236,7 +243,13 @@ export function AllDay() {
   return (
     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
       <DayRing />
-      <T size={12} weight={500} ls={TRACK_SMALL} color={colors.accentText} style={{ marginLeft: 6.5 }}>
+      <T
+        size={box.fontSize['12']}
+        weight={box.fontWeight['medium']}
+        ls={TRACK_SMALL}
+        color={colors.accentText}
+        style={{ marginLeft: 6.5 }}
+      >
         Весь день
       </T>
     </View>

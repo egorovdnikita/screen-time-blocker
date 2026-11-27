@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { MaterialBlur } from '@/components/MaterialBlur';
 import { useRef, useState, type ComponentRef } from 'react';
 import { Modal, Pressable, StyleSheet, View, useWindowDimensions } from 'react-native';
@@ -68,7 +69,7 @@ export function SessionActivity({ draft, patch }: Props) {
                 draft.scheduled === scheduled && styles.segmentOn,
               ]}
             >
-              <T size={14} color={draft.scheduled === scheduled ? colors.white : c.secondary} ls={0}>
+              <T size={box.fontSize['14']} color={draft.scheduled === scheduled ? colors.white : c.secondary} ls={0}>
                 {draft.scheduled === scheduled ? '✓ ' : ''}
                 {scheduled ? 'По графику' : 'Сразу'}
               </T>
@@ -76,7 +77,7 @@ export function SessionActivity({ draft, patch }: Props) {
           ))}
           {!app.live && (
             <View style={styles.segment} accessibilityLabel="Всегда" accessibilityState={{ disabled: true }}>
-              <T size={14} color={c.secondary} ls={0}>
+              <T size={box.fontSize['14']} color={c.secondary} ls={0}>
                 Всегда
               </T>
             </View>
@@ -87,7 +88,7 @@ export function SessionActivity({ draft, patch }: Props) {
         <>
           <View style={styles.grid}>
             <View style={styles.scheduleRow}>
-              <T size={15} weight={400} color={c.scheduleInk} ls={0}>
+              <T size={15} weight={box.fontWeight['regular']} color={c.scheduleInk} ls={0}>
                 Весь день
               </T>
               <FlowSwitch
@@ -101,7 +102,7 @@ export function SessionActivity({ draft, patch }: Props) {
             </View>
             {(['start', 'end'] as const).map(key => (
               <View key={key} style={[styles.scheduleRow, styles.line, draft.allDay && { opacity: 0.35 }]}>
-                <T size={15} weight={400} color={c.scheduleInk} ls={0}>
+                <T size={15} weight={box.fontWeight['regular']} color={c.scheduleInk} ls={0}>
                   {key === 'start' ? 'Начало' : 'Окончание'}
                 </T>
                 <View
@@ -118,7 +119,7 @@ export function SessionActivity({ draft, patch }: Props) {
                     onPress={() => openClock(key)}
                     style={styles.time}
                   >
-                    <T size={17} weight={400} color={c.scheduleInk} ls={0}>
+                    <T size={17} weight={box.fontWeight['regular']} color={c.scheduleInk} ls={0}>
                       {hourLabel(draft[key], draft[`${key}Minute`])}
                     </T>
                   </PressScale>
@@ -149,7 +150,14 @@ export function SessionActivity({ draft, patch }: Props) {
               </PressScale>
             ))}
           </View>
-          <T size={12} weight={400} color={p.note} center ls={0} style={styles.daysNote}>
+          <T
+            size={box.fontSize['12']}
+            weight={box.fontWeight['regular']}
+            color={p.note}
+            center
+            ls={0}
+            style={styles.daysNote}
+          >
             Дни недели активны ({draft.days.length}/7)
           </T>
         </>
@@ -167,7 +175,7 @@ export function SessionActivity({ draft, patch }: Props) {
               rowHeight={p.durationRow}
               highlight
             />
-            <T size={12} color={c.ink} ls={0} style={styles.unit}>
+            <T size={box.fontSize['12']} color={c.ink} ls={0} style={styles.unit}>
               день
             </T>
             <WheelColumn
@@ -181,7 +189,7 @@ export function SessionActivity({ draft, patch }: Props) {
               rowHeight={p.durationRow}
               highlight
             />
-            <T size={12} color={c.ink} ls={0} style={styles.unit}>
+            <T size={box.fontSize['12']} color={c.ink} ls={0} style={styles.unit}>
               час
             </T>
             <WheelColumn
@@ -195,11 +203,11 @@ export function SessionActivity({ draft, patch }: Props) {
               rowHeight={p.durationRow}
               highlight
             />
-            <T size={12} color={c.ink} ls={0} style={styles.unit}>
+            <T size={box.fontSize['12']} color={c.ink} ls={0} style={styles.unit}>
               мин
             </T>
           </View>
-          <T size={13} weight={400} color={p.note} ls={0} center style={styles.durationNote}>
+          <T size={13} weight={box.fontWeight['regular']} color={p.note} ls={0} center style={styles.durationNote}>
             Приложения будут заблокированы на {durationLabel(draft.minutes)}.
           </T>
         </>
@@ -258,17 +266,17 @@ export function SessionActivity({ draft, patch }: Props) {
   );
 }
 const styles = StyleSheet.create({
-  segmentClip: { height: 40, marginHorizontal: 17, overflow: 'hidden' },
+  segmentClip: { height: box.size['40'], marginHorizontal: 17, overflow: 'hidden' },
   segments: { flexDirection: 'row', gap: 5 },
   segment: {
     minWidth: 108,
-    height: 40,
+    height: box.size['40'],
     borderRadius: 23,
     borderWidth: 1,
     borderColor: p.segmentBorder,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: 12,
+    paddingHorizontal: box.spacing['12'],
   },
   segmentOn: { backgroundColor: c.blue, borderColor: c.blue },
   durationWheel: {
@@ -281,7 +289,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     justifyContent: 'space-between',
   },
-  unit: { marginTop: 88, marginLeft: -12 },
+  unit: { marginTop: box.spacing['88'], marginLeft: -12 },
   durationNote: { position: 'absolute', bottom: 15, left: 0, right: 0 },
   grid: {
     marginTop: 15,
@@ -292,18 +300,18 @@ const styles = StyleSheet.create({
   },
   scheduleRow: {
     height: 66,
-    paddingHorizontal: 16,
+    paddingHorizontal: box.spacing['16'],
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
   },
   line: { borderTopWidth: 1, borderColor: p.scheduleLine },
-  time: { borderRadius: 23, backgroundColor: p.scheduleTime, paddingVertical: 7, paddingHorizontal: 12 },
-  days: { marginTop: 12, marginHorizontal: 17, flexDirection: 'row', justifyContent: 'space-between' },
+  time: { borderRadius: 23, backgroundColor: p.scheduleTime, paddingVertical: 7, paddingHorizontal: box.spacing['12'] },
+  days: { marginTop: box.spacing['12'], marginHorizontal: 17, flexDirection: 'row', justifyContent: 'space-between' },
   day: {
     width: 39,
     height: 39,
-    borderRadius: 20,
+    borderRadius: box.radius['20'],
     borderWidth: 1,
     borderColor: p.segmentBorder,
     alignItems: 'center',
@@ -319,8 +327,8 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     flexDirection: 'row',
     justifyContent: 'center',
-    gap: 12,
-    paddingHorizontal: 12,
+    gap: box.spacing['12'],
+    paddingHorizontal: box.spacing['12'],
     boxShadow: p.clockShadow,
   },
   clockHighlight: {
@@ -329,7 +337,7 @@ const styles = StyleSheet.create({
     left: 12,
     right: 12,
     height: 34,
-    borderRadius: 18,
+    borderRadius: box.radius['18'],
     backgroundColor: p.scheduleTime,
   },
 });

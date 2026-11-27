@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { SheetScrollView as ScrollView } from '@/components/SheetModal';
 import { EstimatedTime } from './EstimatedTime';
 import { Reminders } from './Reminders';
@@ -31,11 +32,19 @@ export function ScreenTimeSettings({ onClose, nested = false }: { onClose: () =>
   const goalLabel = goalTimeLabel(goal);
   return (
     <SettingsStack root={!nested} surface={c.surface} onClose={onClose}>
-      <ScrollView contentContainerStyle={{ minHeight: 720, paddingBottom: 24 }} showsVerticalScrollIndicator={false}>
-        <T size={18} color={c.title} center ls={0} style={{ marginTop: 44, lineHeight: 25 }}>
+      <ScrollView
+        contentContainerStyle={{ minHeight: 720, paddingBottom: box.spacing['24'] }}
+        showsVerticalScrollIndicator={false}
+      >
+        <T size={18} color={c.title} center ls={0} style={{ marginTop: box.spacing['44'], lineHeight: 25 }}>
           Настройки времени
         </T>
-        <T size={20} color={c.section} ls={0} style={{ marginTop: 31, marginHorizontal: 20, lineHeight: 24 }}>
+        <T
+          size={box.fontSize['20']}
+          color={c.section}
+          ls={0}
+          style={{ marginTop: 31, marginHorizontal: box.spacing['20'], lineHeight: box.lineHeight['24'] }}
+        >
           Цель на день
         </T>
         <View style={styles.goal}>
@@ -47,7 +56,7 @@ export function ScreenTimeSettings({ onClose, nested = false }: { onClose: () =>
             onPress={() => app.setDailyGoalMinutes(goal - 5)}
             style={[styles.step, { left: 52 }, reminders && { backgroundColor: c.transparent, boxShadow: undefined }]}
           >
-            <T size={23} variant="text" weight={500} color={c.title} ls={0}>
+            <T size={23} variant="text" weight={box.fontWeight['medium']} color={c.title} ls={0}>
               −
             </T>
           </PressScale>
@@ -62,7 +71,7 @@ export function ScreenTimeSettings({ onClose, nested = false }: { onClose: () =>
             onPress={() => app.setDailyGoalMinutes(goal + 5)}
             style={[styles.step, { right: 52 }, reminders && { backgroundColor: c.transparent, boxShadow: undefined }]}
           >
-            <T size={23} variant="text" weight={500} color={c.title} ls={0}>
+            <T size={23} variant="text" weight={box.fontWeight['medium']} color={c.title} ls={0}>
               +
             </T>
           </PressScale>
@@ -74,14 +83,14 @@ export function ScreenTimeSettings({ onClose, nested = false }: { onClose: () =>
           onPress={() => setDaily(true)}
           style={{
             marginTop: 13,
-            height: 20,
+            height: box.size['20'],
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'center',
-            gap: 4,
+            gap: box.spacing['4'],
           }}
         >
-          <T size={14} color={c.title} ls={0}>
+          <T size={box.fontSize['14']} color={c.title} ls={0}>
             Настроить дни
           </T>
           <Icon name="chevron-right" width={9} height={12} color={c.chevron} />
@@ -92,13 +101,32 @@ export function ScreenTimeSettings({ onClose, nested = false }: { onClose: () =>
               accessibilityRole="button"
               accessibilityLabel="Настроить напоминания"
               onPress={() => setReminders(true)}
-              style={[styles.row, { marginHorizontal: 20, marginTop: 23, height: 52, borderRadius: 18 }]}
+              style={[
+                styles.row,
+                {
+                  marginHorizontal: box.spacing['20'],
+                  marginTop: 23,
+                  height: box.size['52'],
+                  borderRadius: box.radius['18'],
+                },
+              ]}
             >
               <Icon name="settings-bell" width={15} height={17} color={c.icon} />
-              <T size={14} weight={500} color={c.title} ls={0} style={{ marginLeft: 17 }}>
+              <T
+                size={box.fontSize['14']}
+                weight={box.fontWeight['medium']}
+                color={c.title}
+                ls={0}
+                style={{ marginLeft: 17 }}
+              >
                 Напоминания
               </T>
-              <T size={14} color={c.value} ls={0} style={{ marginLeft: 'auto', marginRight: 20 }}>
+              <T
+                size={box.fontSize['14']}
+                color={c.value}
+                ls={0}
+                style={{ marginLeft: 'auto', marginRight: box.spacing['20'] }}
+              >
                 {remindersEnabled(app.reminders) ? 'Вкл.' : 'Выкл.'}
               </T>
               <Icon name="chevron-right" width={8} height={13} color={c.chevron} />
@@ -107,16 +135,21 @@ export function ScreenTimeSettings({ onClose, nested = false }: { onClose: () =>
         )}
         <T
           size={11.5}
-          weight={600}
+          weight={box.fontWeight['semibold']}
           color={c.note}
           ls={0}
-          style={{ marginTop: 9, marginHorizontal: 20, lineHeight: 15 }}
+          style={{ marginTop: 9, marginHorizontal: box.spacing['20'], lineHeight: 15 }}
         >
           {app.live
             ? 'Прототип сохраняет цели и правила.\nБлокировка приложений пока недоступна.'
             : 'Цель за день не блокирует приложения.\nДля блокировки добавьте лимит времени. ↗'}
         </T>
-        <T size={18} color={c.section} ls={0} style={{ marginHorizontal: 20, marginTop: 29, lineHeight: 24, top: -1 }}>
+        <T
+          size={18}
+          color={c.section}
+          ls={0}
+          style={{ marginHorizontal: box.spacing['20'], marginTop: 29, lineHeight: box.lineHeight['24'], top: -1 }}
+        >
           Настройка
         </T>
         <View style={styles.rows}>
@@ -155,10 +188,21 @@ export function ScreenTimeSettings({ onClose, nested = false }: { onClose: () =>
                 style={[styles.row, i < list.length - 1 && { borderBottomWidth: 1, borderBottomColor: c.border }]}
               >
                 <Icon name={item.icon} width={16} height={16} color={c.icon} />
-                <T size={14} weight={500} color={c.title} ls={0} style={{ marginLeft: 16 }}>
+                <T
+                  size={box.fontSize['14']}
+                  weight={box.fontWeight['medium']}
+                  color={c.title}
+                  ls={0}
+                  style={{ marginLeft: box.spacing['16'] }}
+                >
                   {item.title}
                 </T>
-                <T size={14} color={c.value} ls={0} style={{ marginLeft: 'auto', marginRight: 24 }}>
+                <T
+                  size={box.fontSize['14']}
+                  color={c.value}
+                  ls={0}
+                  style={{ marginLeft: 'auto', marginRight: box.spacing['24'] }}
+                >
                   {item.value}
                 </T>
                 <Icon name="chevron-right" width={8} height={13} color={c.chevron} />
@@ -176,18 +220,18 @@ export function ScreenTimeSettings({ onClose, nested = false }: { onClose: () =>
             left: 16,
             right: 15,
             height: 50,
-            borderRadius: 16,
-            paddingHorizontal: 14,
+            borderRadius: box.radius['16'],
+            paddingHorizontal: box.spacing['14'],
             backgroundColor: g.toast,
             boxShadow: g.toastShadow,
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'flex-start',
-            gap: 14,
+            gap: box.spacing['14'],
           }}
         >
           <Icon name="reflection-confirm" width={18} height={20} color={colors.white} />
-          <T size={14} weight={600} color={colors.white} ls={0}>
+          <T size={box.fontSize['14']} weight={box.fontWeight['semibold']} color={colors.white} ls={0}>
             Изменения сохранены
           </T>
         </View>
@@ -230,14 +274,20 @@ const styles = StyleSheet.create({
   step: {
     position: 'absolute',
     top: 1,
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: box.size['40'],
+    height: box.size['40'],
+    borderRadius: box.radius['20'],
     backgroundColor: colors.white,
     boxShadow: c.stepShadow,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  row: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, height: 53, backgroundColor: colors.white },
-  rows: { marginTop: 11, marginHorizontal: 20, borderRadius: 18, overflow: 'hidden' },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: box.spacing['16'],
+    height: 53,
+    backgroundColor: colors.white,
+  },
+  rows: { marginTop: 11, marginHorizontal: box.spacing['20'], borderRadius: box.radius['18'], overflow: 'hidden' },
 });

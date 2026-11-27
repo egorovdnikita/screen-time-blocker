@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useState } from 'react';
 import { Image } from 'expo-image';
@@ -34,9 +35,9 @@ export function HabitPhoto({
           top: 37,
           alignSelf: 'center',
           height: 38,
-          borderRadius: 24,
+          borderRadius: box.radius['24'],
           backgroundColor: colors.white,
-          paddingHorizontal: 14,
+          paddingHorizontal: box.spacing['14'],
           flexDirection: 'row',
           alignItems: 'center',
           gap: 7,
@@ -48,7 +49,12 @@ export function HabitPhoto({
         <T size={14.25}>от «Рутина»</T>
       </View>
       {!good && (
-        <T size={14.25} center ls={0} style={{ position: 'absolute', top: 149, left: 15, right: 15, lineHeight: 18 }}>
+        <T
+          size={14.25}
+          center
+          ls={0}
+          style={{ position: 'absolute', top: 149, left: 15, right: 15, lineHeight: box.lineHeight['18'] }}
+        >
           Чтобы выполнить привычку
         </T>
       )}
@@ -77,7 +83,7 @@ export function HabitPhoto({
                   top: 184,
                   left: 0,
                   right: 0,
-                  height: 2,
+                  height: box.size['2'],
                   backgroundColor: c.scan,
                   boxShadow: '0 0 8px 3px ' + c.proof,
                 }}
@@ -92,11 +98,11 @@ export function HabitPhoto({
               right: 50,
               flexDirection: 'row',
               alignItems: 'center',
-              gap: 4,
+              gap: box.spacing['4'],
             }}
           >
             <Icon name="habit-photo-camera" width={12} height={11} color={c.photoHint} />
-            <T size={11.75} weight={600} color={c.photoHint} ls={0} numberOfLines={1}>
+            <T size={11.75} weight={box.fontWeight['semibold']} color={c.photoHint} ls={0} numberOfLines={1}>
               Чистая комната, без беспорядка. Если это…
             </T>
           </View>
@@ -105,7 +111,7 @@ export function HabitPhoto({
       {state === 'error' && (
         <View accessibilityRole="alert" style={styles.toast}>
           <Icon name="reflection-close" width={16} height={16} color={colors.white} />
-          <T size={14} color={colors.white} ls={0} style={{ flex: 1, lineHeight: 18.333 }}>
+          <T size={box.fontSize['14']} color={colors.white} ls={0} style={{ flex: 1, lineHeight: 18.333 }}>
             Фото не соответствует описанию. Попробуйте ещё раз!
           </T>
         </View>
@@ -124,7 +130,7 @@ export function HabitPhoto({
         style={styles.action}
       >
         {good && <Icon name="plus" width={14} height={15} color={colors.white} />}
-        <T size={16} color={colors.white} ls={0}>
+        <T size={box.fontSize['16']} color={colors.white} ls={0}>
           {good ? 'Получить 5мин' : state === 'analyzing' ? 'Анализируем фото…' : 'Сделать фото'}
         </T>
       </PressScale>
@@ -139,7 +145,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     width: 282.333,
     height: 282.333,
-    borderRadius: 28,
+    borderRadius: box.radius['28'],
     overflow: 'hidden',
   },
   success: {
@@ -148,9 +154,9 @@ const styles = StyleSheet.create({
     top: '50%',
     marginLeft: -24,
     marginTop: -24,
-    width: 48,
-    height: 48,
-    borderRadius: 24,
+    width: box.size['48'],
+    height: box.size['48'],
+    borderRadius: box.radius['24'],
     backgroundColor: c.proof,
     alignItems: 'center',
     justifyContent: 'center',
@@ -163,18 +169,18 @@ const styles = StyleSheet.create({
     height: 67.333,
     borderRadius: 25,
     backgroundColor: c.error,
-    paddingHorizontal: 18,
+    paddingHorizontal: box.spacing['18'],
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 16,
+    gap: box.spacing['16'],
   },
   action: {
     position: 'absolute',
     left: 20,
     right: 20,
     bottom: 41.667,
-    height: 60,
-    borderRadius: 32,
+    height: box.size['60'],
+    borderRadius: box.radius['32'],
     backgroundColor: c.dark,
     flexDirection: 'row',
     alignItems: 'center',

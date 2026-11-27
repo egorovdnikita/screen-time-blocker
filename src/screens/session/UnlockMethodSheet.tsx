@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { SheetScrollView as ScrollView, SheetGrabber, SheetModal } from '@/components/SheetModal';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -80,7 +81,7 @@ function UnlockMethodSheetBody({ value, onCancel, onSave }: Props) {
               <View style={[styles.panel, { marginTop: Math.max(69, insets.top + 10) }]} accessibilityViewIsModal>
                 <View style={styles.heading}>
                   <SheetGrabber style={styles.handle} />
-                  <T size={20} ls={0} center style={{ marginTop: 44 }}>
+                  <T size={box.fontSize['20']} ls={0} center style={{ marginTop: box.spacing['44'] }}>
                     {isScan ? 'Перед каждой разблокировкой…' : 'Перед открытием…'}
                   </T>
                 </View>
@@ -92,7 +93,7 @@ function UnlockMethodSheetBody({ value, onCancel, onSave }: Props) {
                   keyboardShouldPersistTaps="handled"
                   key={draft.unlockMethod + (isScan ? draft.scanType : '')}
                   showsVerticalScrollIndicator={false}
-                  contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 180 }}
+                  contentContainerStyle={{ paddingHorizontal: box.spacing['20'], paddingBottom: 180 }}
                 >
                   {unlockMethods.map(option => {
                     const selected = draft.unlockMethod === option.id;
@@ -175,8 +176,8 @@ function UnlockMethodSheetBody({ value, onCancel, onSave }: Props) {
                                 />
                                 {!isText && (
                                   <T
-                                    size={14}
-                                    weight={600}
+                                    size={box.fontSize['14']}
+                                    weight={box.fontWeight['semibold']}
                                     ls={0}
                                     color={m.deviceLabel}
                                     center
@@ -192,7 +193,7 @@ function UnlockMethodSheetBody({ value, onCancel, onSave }: Props) {
                                     </T>
                                     <T
                                       size={9.2}
-                                      weight={600}
+                                      weight={box.fontWeight['semibold']}
                                       color={m.copyPlaceholder}
                                       ls={0}
                                       style={styles.devicePlaceholder}
@@ -202,7 +203,14 @@ function UnlockMethodSheetBody({ value, onCancel, onSave }: Props) {
                                   </>
                                 )}
                                 {isReason && (
-                                  <T size={8.5} weight={500} ls={0} color={m.deviceIntent} center style={styles.intent}>
+                                  <T
+                                    size={8.5}
+                                    weight={box.fontWeight['medium']}
+                                    ls={0}
+                                    color={m.deviceIntent}
+                                    center
+                                    style={styles.intent}
+                                  >
                                     Введите причину
                                   </T>
                                 )}
@@ -252,7 +260,7 @@ function UnlockMethodSheetBody({ value, onCancel, onSave }: Props) {
                                 <>
                                   <View style={styles.settings}>
                                     <View style={styles.setting}>
-                                      <T size={15} weight={400} ls={0}>
+                                      <T size={15} weight={box.fontWeight['regular']} ls={0}>
                                         Автоматически
                                       </T>
                                       <FlowSwitch
@@ -263,7 +271,7 @@ function UnlockMethodSheetBody({ value, onCancel, onSave }: Props) {
                                     </View>
                                     {!draft.waitAutomatic && (
                                       <View style={[styles.setting, styles.fixed]}>
-                                        <T size={15} weight={400} ls={0}>
+                                        <T size={15} weight={box.fontWeight['regular']} ls={0}>
                                           Задержка
                                         </T>
                                         <T size={15} color={m.value} ls={0} style={{ marginLeft: 'auto' }}>
@@ -281,7 +289,7 @@ function UnlockMethodSheetBody({ value, onCancel, onSave }: Props) {
                                             onPress={() => patch({ waitSeconds: Math.max(30, draft.waitSeconds - 30) })}
                                             style={[styles.step, draft.waitSeconds <= 30 && { opacity: 0.35 }]}
                                           >
-                                            <T size={23} weight={400} ls={0}>
+                                            <T size={23} weight={box.fontWeight['regular']} ls={0}>
                                               −
                                             </T>
                                           </PressScale>
@@ -304,7 +312,14 @@ function UnlockMethodSheetBody({ value, onCancel, onSave }: Props) {
                                     )}
                                   </View>
                                   {draft.waitAutomatic && (
-                                    <T size={12} weight={400} color={m.note} ls={0} center style={styles.note}>
+                                    <T
+                                      size={box.fontSize['12']}
+                                      weight={box.fontWeight['regular']}
+                                      color={m.note}
+                                      ls={0}
+                                      center
+                                      style={styles.note}
+                                    >
                                       Пауза растёт с каждым открытием приложения.
                                     </T>
                                   )}
@@ -363,18 +378,24 @@ const styles = StyleSheet.create({
   handle: {
     position: 'absolute',
     top: 12,
-    width: 64,
+    width: box.size['64'],
     height: 5,
     alignSelf: 'center',
-    borderRadius: 4,
+    borderRadius: box.radius['4'],
     backgroundColor: m.handle,
   },
-  card: { height: 60, borderRadius: m.cardRadius, backgroundColor: colors.white, overflow: 'hidden' },
-  option: { height: 60, paddingHorizontal: 16, flexDirection: 'row', alignItems: 'center', gap: 12 },
+  card: { height: box.size['60'], borderRadius: m.cardRadius, backgroundColor: colors.white, overflow: 'hidden' },
+  option: {
+    height: box.size['60'],
+    paddingHorizontal: box.spacing['16'],
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: box.spacing['12'],
+  },
   radio: {
-    width: 28,
-    height: 28,
-    borderRadius: 14,
+    width: box.size['28'],
+    height: box.size['28'],
+    borderRadius: box.radius['14'],
     borderWidth: 2,
     borderColor: m.radioBorder,
     alignItems: 'center',
@@ -383,7 +404,7 @@ const styles = StyleSheet.create({
   radioOn: { backgroundColor: p.switchOn, borderWidth: 0 },
   illustration: { position: 'absolute', top: 58, alignSelf: 'center', width: 243, height: 220 },
   deviceLabel: { position: 'absolute', top: 31, left: 0, right: 0 },
-  intent: { position: 'absolute', top: 107, left: 40, right: 40, lineHeight: 12 },
+  intent: { position: 'absolute', top: 107, left: 40, right: 40, lineHeight: box.lineHeight['12'] },
   settings: {
     position: 'absolute',
     top: 293,
@@ -394,20 +415,26 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   setting: {
-    height: 60,
-    paddingHorizontal: 16,
+    height: box.size['60'],
+    paddingHorizontal: box.spacing['16'],
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    gap: 14,
+    gap: box.spacing['14'],
   },
   fixed: { height: 65, borderTopWidth: 1, borderColor: m.line },
-  stepper: { width: 94, height: 32, flexDirection: 'row', backgroundColor: m.stepper, borderRadius: m.stepperRadius },
-  step: { width: 47, height: 32, alignItems: 'center', justifyContent: 'center' },
+  stepper: {
+    width: 94,
+    height: box.size['32'],
+    flexDirection: 'row',
+    backgroundColor: m.stepper,
+    borderRadius: m.stepperRadius,
+  },
+  step: { width: 47, height: box.size['32'], alignItems: 'center', justifyContent: 'center' },
   stepperLine: { position: 'absolute', left: 47, top: 4, bottom: 4, width: 1, backgroundColor: m.stepperLine },
-  note: { position: 'absolute', top: 362, left: 16, right: 16, lineHeight: 16 },
+  note: { position: 'absolute', top: 362, left: 16, right: 16, lineHeight: box.lineHeight['16'] },
   quote: { position: 'absolute', left: 44, right: 44, top: 19, lineHeight: 14.8 },
-  devicePlaceholder: { position: 'absolute', left: 40, top: 124, lineHeight: 12 },
+  devicePlaceholder: { position: 'absolute', left: 40, top: 124, lineHeight: box.lineHeight['12'] },
   copyBox: {
     position: 'absolute',
     left: 16,
@@ -417,9 +444,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: m.copyBorder,
     borderRadius: m.copyRadius,
-    padding: 16,
+    padding: box.spacing['16'],
     fontSize: 15,
-    lineHeight: 18,
+    lineHeight: box.lineHeight['18'],
     fontWeight: '400',
     color: colors.black,
     outlineWidth: 0,
@@ -438,16 +465,23 @@ const styles = StyleSheet.create({
     top: 411,
     left: 0,
     right: 0,
-    height: 24,
+    height: box.size['24'],
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 8,
+    gap: box.spacing['8'],
   },
-  footer: { position: 'absolute', left: 0, right: 0, bottom: 0, paddingHorizontal: 20, backgroundColor: m.surface },
+  footer: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    paddingHorizontal: box.spacing['20'],
+    backgroundColor: m.surface,
+  },
   save: {
-    height: 60,
-    borderRadius: 32,
+    height: box.size['60'],
+    borderRadius: box.radius['32'],
     backgroundColor: c.dark,
     boxShadow: c.buttonShadow,
     alignItems: 'center',

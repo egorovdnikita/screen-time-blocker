@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { GlassDialog } from '@/components/GlassDialog';
 import { useAppState } from '@/state/app';
 import { BlockScreens } from './BlockScreens';
@@ -19,7 +20,12 @@ export function RuleSettings({ onClose, nested = false }: { onClose: () => void;
   const [advanced, setAdvanced] = useState(false);
   return (
     <PlainSettingsSheet title="Настройки" top={nested ? 69 : 59} onClose={onClose}>
-      <T size={20} color={c.section} ls={0} style={{ position: 'absolute', top: 101, left: 20, lineHeight: 25 }}>
+      <T
+        size={box.fontSize['20']}
+        color={c.section}
+        ls={0}
+        style={{ position: 'absolute', top: 101, left: 20, lineHeight: 25 }}
+      >
         Персонализация
       </T>
       <View style={styles.list}>
@@ -57,10 +63,17 @@ export function RuleSettings({ onClose, nested = false }: { onClose: () => void;
           >
             <Icon name={row.icon as 'rule-settings-groups'} width={20} height={21} />
             <View style={{ flex: 1 }}>
-              <T size={14.25} weight={400} variant="display" ls={0}>
+              <T size={14.25} weight={box.fontWeight['regular']} variant="display" ls={0}>
                 {row.title}
               </T>
-              <T size={13} weight={400} variant="display" color={c.caption} ls={0} style={{ lineHeight: 17 }}>
+              <T
+                size={13}
+                weight={box.fontWeight['regular']}
+                variant="display"
+                color={c.caption}
+                ls={0}
+                style={{ lineHeight: 17 }}
+              >
                 {row.text}
               </T>
             </View>
@@ -83,7 +96,7 @@ export function RuleSettings({ onClose, nested = false }: { onClose: () => void;
           color={advanced ? c.section : c.collapsed}
           style={{ transform: [{ rotate: advanced ? '0deg' : '-90deg' }] }}
         />
-        <T size={20} color={advanced ? c.section : c.collapsed} ls={0}>
+        <T size={box.fontSize['20']} color={advanced ? c.section : c.collapsed} ls={0}>
           Другие настройки
         </T>
       </PressScale>
@@ -91,10 +104,10 @@ export function RuleSettings({ onClose, nested = false }: { onClose: () => void;
         <View style={styles.legacy}>
           <Icon name="rule-settings-legacy" width={20} height={21} />
           <View style={{ flex: 1 }}>
-            <T size={14} weight={400} variant="display" ls={0}>
+            <T size={box.fontSize['14']} weight={box.fontWeight['regular']} variant="display" ls={0}>
               Старые лимиты входов
             </T>
-            <T size={12.5} weight={400} variant="display" color={c.caption} ls={0}>
+            <T size={12.5} weight={box.fontWeight['regular']} variant="display" color={c.caption} ls={0}>
               Через Быстрые команды Apple
             </T>
           </View>
@@ -136,10 +149,10 @@ export function RuleSettings({ onClose, nested = false }: { onClose: () => void;
         >
           <T
             size={14.25}
-            weight={400}
+            weight={box.fontWeight['regular']}
             color={legacy.text}
             ls={0}
-            style={{ position: 'absolute', left: 29, right: 29, top: 47, lineHeight: 20 }}
+            style={{ position: 'absolute', left: 29, right: 29, top: 47, lineHeight: box.lineHeight['20'] }}
           >
             {
               'Функция больше не поддерживается.\nОна может работать, но без гарантий.\nЕсли возникнут проблемы, мы\nне сможем помочь.'
@@ -164,23 +177,36 @@ const styles = StyleSheet.create({
     right: 20,
     top: 137.333,
     height: 218.333,
-    borderRadius: 24,
+    borderRadius: box.radius['24'],
     overflow: 'hidden',
     backgroundColor: colors.white,
   },
-  row: { paddingHorizontal: 16, flexDirection: 'row', alignItems: 'center', gap: 12, borderBottomColor: c.line },
-  advanced: { position: 'absolute', left: 20, top: 390.333, flexDirection: 'row', alignItems: 'center', gap: 8 },
+  row: {
+    paddingHorizontal: box.spacing['16'],
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: box.spacing['12'],
+    borderBottomColor: c.line,
+  },
+  advanced: {
+    position: 'absolute',
+    left: 20,
+    top: 390.333,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: box.spacing['8'],
+  },
   legacy: {
     position: 'absolute',
     top: 425.333,
     left: 20,
     right: 20,
     height: 66.667,
-    borderRadius: 24,
+    borderRadius: box.radius['24'],
     backgroundColor: colors.white,
-    paddingHorizontal: 16,
+    paddingHorizontal: box.spacing['16'],
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 12,
+    gap: box.spacing['12'],
   },
 });

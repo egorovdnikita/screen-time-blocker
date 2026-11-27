@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useEffect, useState } from 'react';
 import { Image } from 'expo-image';
@@ -62,7 +63,13 @@ export function NameEntry({
           accessibilityLabel="Очистить имя"
           disabled={!name}
           onPress={() => onChange('')}
-          style={{ width: 40, height: 51, marginRight: 6.5, alignItems: 'center', justifyContent: 'center' }}
+          style={{
+            width: box.size['40'],
+            height: 51,
+            marginRight: 6.5,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
         >
           <Icon name={name ? 'reflection-close' : 'pencil'} width={17} height={17} color={c.muted} />
         </PressScale>
@@ -97,7 +104,7 @@ export function OnboardingQuiz({
       {time && (
         <T
           size={15}
-          weight={400}
+          weight={box.fontWeight['regular']}
           color={c.quizNote}
           center
           ls={0}
@@ -106,7 +113,7 @@ export function OnboardingQuiz({
           В среднем за день
         </T>
       )}
-      <View style={{ marginTop: time ? 59 : 51, marginHorizontal: 20, gap: time ? 10 : 8 }}>
+      <View style={{ marginTop: time ? 59 : 51, marginHorizontal: box.spacing['20'], gap: time ? 10 : 8 }}>
         {(time ? onboardingTimes : onboardingIssues).map((label, i) => (
           <PressScale
             key={label}
@@ -116,7 +123,12 @@ export function OnboardingQuiz({
             style={[styles.option, time && styles.optionTime]}
           >
             {!time && <Icon name={`onboarding-quiz-${i + 1}` as IconName} width={28} height={28} color={c.muted} />}
-            <T size={16} weight={600} ls={0} style={{ flex: 1, lineHeight: 20 }}>
+            <T
+              size={box.fontSize['16']}
+              weight={box.fontWeight['semibold']}
+              ls={0}
+              style={{ flex: 1, lineHeight: box.lineHeight['20'] }}
+            >
               {label}
             </T>
             <Icon name="chevron-right" width={8} height={11} color={c.muted} />
@@ -144,12 +156,17 @@ export function GoalIntro({ onNext }: { onNext: () => void }) {
       <T size={8} ls={0} color={c.white} style={{ position: 'absolute', top: 211, left: 55 }}>
         screen-time-blocker
       </T>
-      <T size={10} ls={0} color={c.white} style={{ position: 'absolute', top: 215, left: 171, lineHeight: 13 }}>
+      <T
+        size={box.fontSize['10']}
+        ls={0}
+        color={c.white}
+        style={{ position: 'absolute', top: 215, left: 171, lineHeight: 13 }}
+      >
         18 апр.
       </T>
       <T
         size={13}
-        weight={600}
+        weight={box.fontWeight['semibold']}
         color={c.quoteName}
         center
         ls={0}
@@ -165,18 +182,24 @@ export function GoalIntro({ onNext }: { onNext: () => void }) {
         style={{ position: 'absolute', top: 391, left: 128 }}
       />
       <T
-        size={12}
+        size={box.fontSize['12']}
         color={c.white}
         center
         ls={0}
-        style={{ position: 'absolute', top: 391, left: 137, width: 138, lineHeight: 16 }}
+        style={{ position: 'absolute', top: 391, left: 137, width: 138, lineHeight: box.lineHeight['16'] }}
       >
         Ниже цели в 2 часа
       </T>
       <T size={17} color={c.ink} center ls={0} style={{ marginTop: 530, lineHeight: 21 }}>
         Поставим цель
       </T>
-      <T size={28} color={c.ink} center ls={-0.2} style={{ marginTop: 4, lineHeight: 34 }}>
+      <T
+        size={box.fontSize['28']}
+        color={c.ink}
+        center
+        ls={-0.2}
+        style={{ marginTop: box.spacing['4'], lineHeight: 34 }}
+      >
         {'Не превышайте свою цель\nдень за днём'}
       </T>
       <OnboardingHint style={{ marginTop: 29 }} />
@@ -207,12 +230,12 @@ export function GoalControls({
         Цель экранного времени
       </OnboardingTitle>
       <T
-        size={14}
-        weight={400}
+        size={box.fontSize['14']}
+        weight={box.fontWeight['regular']}
         color={c.note}
         center
         ls={0}
-        style={{ marginTop: value % 60 ? 0 : -1, marginHorizontal: 35, lineHeight: 20 }}
+        style={{ marginTop: value % 60 ? 0 : -1, marginHorizontal: 35, lineHeight: box.lineHeight['20'] }}
       >
         {`${live ? usualTimeText(onboardingDraft.time) : 'Обычно вы проводите около 7 часов в день'}\nна телефоне`}
       </T>
@@ -222,13 +245,13 @@ export function GoalControls({
             position: 'absolute',
             bottom: -5,
             alignSelf: 'center',
-            width: 10,
-            height: 10,
+            width: box.size['10'],
+            height: box.size['10'],
             backgroundColor: c.white,
             transform: [{ rotate: '45deg' }],
           }}
         />
-        <T size={15} ls={0} style={{ lineHeight: 20 }}>
+        <T size={15} ls={0} style={{ lineHeight: box.lineHeight['20'] }}>
           Смелая цель!
         </T>
       </View>
@@ -254,19 +277,19 @@ export function GoalControls({
         </View>
         <T
           size={value % 60 ? 15 : 16}
-          weight={400}
+          weight={box.fontWeight['regular']}
           color={c.muted}
           ls={0}
-          style={{ marginLeft: 'auto', marginRight: 18 }}
+          style={{ marginLeft: 'auto', marginRight: box.spacing['18'] }}
         >
           7 ч
         </T>
       </View>
       <View style={styles.caps}>
-        <T size={13} weight={600} color={c.cap} ls={0}>
+        <T size={13} weight={box.fontWeight['semibold']} color={c.cap} ls={0}>
           Ваша цель
         </T>
-        <T size={13} weight={400} color={c.muted} ls={0}>
+        <T size={13} weight={box.fontWeight['regular']} color={c.muted} ls={0}>
           {live ? 'Максимум' : 'Сегодня'}
         </T>
       </View>
@@ -278,11 +301,11 @@ export function GoalControls({
           onPress={() => change(-20)}
           style={styles.circle}
         >
-          <T size={29} weight={400} ls={0}>
+          <T size={29} weight={box.fontWeight['regular']} ls={0}>
             −
           </T>
         </PressScale>
-        <T size={40} ls={0} style={{ lineHeight: 48 }}>
+        <T size={box.fontSize['40']} ls={0} style={{ lineHeight: box.lineHeight['48'] }}>
           {onboardingGoalLabel(value)}
         </T>
         <PressScale
@@ -323,7 +346,7 @@ export function OnboardingMath() {
           </Defs>
           <Circle cx={77.5} cy={77.5} r={74.5} fill="none" stroke="url(#onboard-ring)" strokeWidth={6} />
         </Svg>
-        <T size={28} color={c.purple[0]} ls={0}>
+        <T size={box.fontSize['28']} color={c.purple[0]} ls={0}>
           100%
         </T>
       </View>
@@ -362,21 +385,21 @@ class GoalGesture {
 const styles = StyleSheet.create({
   name: {
     marginTop: 30,
-    marginHorizontal: 20,
+    marginHorizontal: box.spacing['20'],
     height: 53,
-    borderRadius: 28,
+    borderRadius: box.radius['28'],
     borderWidth: 1,
     borderColor: c.muted,
     backgroundColor: c.white,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingLeft: 18,
+    paddingLeft: box.spacing['18'],
   },
   nameFocused: { borderColor: c.fieldFocusLine, backgroundColor: c.fieldFocus },
   input: {
     flex: 1,
     height: 51,
-    fontSize: 14,
+    fontSize: box.fontSize['14'],
     fontFamily: rounded,
     color: c.ink,
     padding: 0,
@@ -386,22 +409,22 @@ const styles = StyleSheet.create({
   },
   option: {
     height: 74,
-    borderRadius: 24,
+    borderRadius: box.radius['24'],
     backgroundColor: c.surface,
     paddingLeft: 26,
-    paddingRight: 28,
+    paddingRight: box.spacing['28'],
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 12,
+    gap: box.spacing['12'],
   },
-  optionTime: { paddingLeft: 28 },
+  optionTime: { paddingLeft: box.spacing['28'] },
   goalMarker: {
     position: 'absolute',
     top: 342,
     alignSelf: 'center',
     paddingVertical: 9,
-    paddingHorizontal: 12,
-    borderRadius: 10,
+    paddingHorizontal: box.spacing['12'],
+    borderRadius: box.radius['10'],
     backgroundColor: c.white,
     boxShadow: c.circleShadow,
   },
@@ -425,17 +448,23 @@ const styles = StyleSheet.create({
     backgroundColor: c.blue,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 18,
+    paddingHorizontal: box.spacing['18'],
     boxShadow: c.rangeFillShadow,
   },
-  rangeHandle: { width: 4, height: 22, borderRadius: 2, backgroundColor: c.white, marginLeft: 'auto' },
+  rangeHandle: {
+    width: box.size['4'],
+    height: 22,
+    borderRadius: box.radius['2'],
+    backgroundColor: c.white,
+    marginLeft: 'auto',
+  },
   caps: { position: 'absolute', top: 475, left: 32, right: 32, flexDirection: 'row', justifyContent: 'space-between' },
   adjust: {
     position: 'absolute',
     top: 522,
     left: 78,
     right: 78,
-    height: 48,
+    height: box.size['48'],
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',

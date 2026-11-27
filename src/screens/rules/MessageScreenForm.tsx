@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { SheetScrollView as ScrollView } from '@/components/SheetModal';
 import { useRef, useState, type ComponentRef } from 'react';
 import { Image } from 'expo-image';
@@ -128,10 +129,16 @@ export function MessageScreenForm({
               {fields.map(field => (
                 <View key={field.key} style={StyleSheet.absoluteFill} pointerEvents="box-none">
                   <T
-                    size={20}
+                    size={box.fontSize['20']}
                     color={c.messageLabel}
                     ls={0}
-                    style={{ position: 'absolute', top: field.y, left: 20, right: 20, lineHeight: 24 }}
+                    style={{
+                      position: 'absolute',
+                      top: field.y,
+                      left: 20,
+                      right: 20,
+                      lineHeight: box.lineHeight['24'],
+                    }}
                   >
                     {field.title}
                   </T>
@@ -170,7 +177,7 @@ export function MessageScreenForm({
                         accessibilityRole="button"
                         accessibilityLabel={`Очистить: ${field.title}`}
                         onPress={() => setDraft(x => ({ ...x, [field.key]: '' }))}
-                        style={{ width: 18, height: 22, justifyContent: 'center' }}
+                        style={{ width: box.size['18'], height: 22, justifyContent: 'center' }}
                       >
                         <Icon name="session-clear" width={18} height={18} color={c.inputPlaceholder} />
                       </PressScale>
@@ -188,7 +195,7 @@ export function MessageScreenForm({
                   accessibilityLabel="Подсказки своего экрана"
                   accessibilityState={{ expanded: tips }}
                   onPress={toggleTips}
-                  style={{ height: tips ? 20 : 60, flexDirection: 'row', alignItems: 'center', gap: 6 }}
+                  style={{ height: tips ? 20 : 60, flexDirection: 'row', alignItems: 'center', gap: box.spacing['6'] }}
                 >
                   <Icon
                     name="chevron-down-section"
@@ -197,35 +204,45 @@ export function MessageScreenForm({
                     color={c.tipsInk}
                     style={{ transform: [{ rotate: tips ? '180deg' : '0deg' }] }}
                   />
-                  <T size={16} weight={600} color={c.tipsInk} ls={0}>
+                  <T size={box.fontSize['16']} weight={box.fontWeight['semibold']} color={c.tipsInk} ls={0}>
                     Подсказки
                   </T>
                 </PressScale>
                 {tips && (
                   <>
-                    <T size={14} weight={400} ls={0} style={{ marginTop: 12, lineHeight: 17 }}>
+                    <T
+                      size={box.fontSize['14']}
+                      weight={box.fontWeight['regular']}
+                      ls={0}
+                      style={{ marginTop: box.spacing['12'], lineHeight: 17 }}
+                    >
                       {'В текст сообщения можно включить\nследующие переменные:'}
                     </T>
-                    <T size={14} weight={400} ls={0} style={{ marginTop: 16, lineHeight: 17 }}>
+                    <T
+                      size={box.fontSize['14']}
+                      weight={box.fontWeight['regular']}
+                      ls={0}
+                      style={{ marginTop: box.spacing['16'], lineHeight: 17 }}
+                    >
                       •{' '}
-                      <T size={14} ls={0}>
+                      <T size={box.fontSize['14']} ls={0}>
                         {'{shielded_activity_name}'}
                       </T>
                       {' — название приложения или сайта\n• '}
-                      <T size={14} ls={0}>
+                      <T size={box.fontSize['14']} ls={0}>
                         {'{first_name}'}
                       </T>
                       {' — ваше имя\n• '}
-                      <T size={14} ls={0}>
+                      <T size={box.fontSize['14']} ls={0}>
                         {'{total_screen_time}'}
                       </T>
                       {' — суммарное время за экраном за текущий день\n• '}
-                      <T size={14} ls={0}>
+                      <T size={box.fontSize['14']} ls={0}>
                         {'{total_shielded_activity_opens_count}'}
                       </T>
                       {' — число открытий заблокированного приложения или сайта за текущий день.'}
                     </T>
-                    <T size={14} ls={0} style={{ marginTop: 16, lineHeight: 17 }}>
+                    <T size={box.fontSize['14']} ls={0} style={{ marginTop: box.spacing['16'], lineHeight: 17 }}>
                       {'Предложить другие переменные:\nsupport@example.com.'}
                     </T>
                   </>
@@ -242,8 +259,8 @@ const styles = StyleSheet.create({
   round: {
     position: 'absolute',
     top: 45,
-    width: 44,
-    height: 44,
+    width: box.size['44'],
+    height: box.size['44'],
     borderRadius: 22,
     alignItems: 'center',
     justifyContent: 'center',
@@ -254,19 +271,19 @@ const styles = StyleSheet.create({
     right: 20,
     borderWidth: 1,
     borderColor: c.inputBorder,
-    borderRadius: 28,
-    paddingHorizontal: 18,
+    borderRadius: box.radius['28'],
+    paddingHorizontal: box.spacing['18'],
     flexDirection: 'row',
-    gap: 8,
+    gap: box.spacing['8'],
   },
   tips: {
     position: 'absolute',
     left: 20,
     right: 20,
     top: 484,
-    borderRadius: 20,
+    borderRadius: box.radius['20'],
     backgroundColor: c.tipsFill,
-    paddingHorizontal: 16,
+    paddingHorizontal: box.spacing['16'],
     paddingVertical: 0,
   },
 });

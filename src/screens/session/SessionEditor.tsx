@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { RuleEditorScrollCap } from '@/components/RuleEditorPieces';
 import { RuleEditorScrollView, RuleEditorScrollAnchor } from '@/components/RuleEditorScroll';
 import { SheetScrollView as ScrollView, SheetTransition, SheetGrabber } from '@/components/SheetModal';
@@ -129,13 +130,20 @@ export function SessionEditor() {
                   accessibilityLabel="Изменить название сессии"
                   style={styles.title}
                 >
-                  <T size={28} ls={-0.4} numberOfLines={1} style={{ flexShrink: 1 }}>
+                  <T size={box.fontSize['28']} ls={-0.4} numberOfLines={1} style={{ flexShrink: 1 }}>
                     {draft.title}
                   </T>
                   <Icon name="pencil" width={18} height={18} color={c.disabled} />
                 </PressScale>
               )}
-              <T size={14} weight={400} center color={c.secondary} ls={0} style={{ marginTop: 9.8 }}>
+              <T
+                size={box.fontSize['14']}
+                weight={box.fontWeight['regular']}
+                center
+                color={c.secondary}
+                ls={0}
+                style={{ marginTop: 9.8 }}
+              >
                 {draft.strict && !draft.scheduled
                   ? `Блокировать ${durationLabel(draft.minutes)}. Строгий режим включён.`
                   : draft.scheduled
@@ -147,7 +155,7 @@ export function SessionEditor() {
             </View>
             <View style={styles.suggestionHeading}>
               <Icon name="chevron-down-section" width={8} height={6} color={c.section} />
-              <T size={20} color={c.section} ls={0}>
+              <T size={box.fontSize['20']} color={c.section} ls={0}>
                 {draft.scheduled ? 'Подборки' : 'Рекомендации'}
               </T>
             </View>
@@ -204,7 +212,7 @@ export function SessionEditor() {
                       <View style={styles.suggestionCopy}>
                         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5 }}>
                           <Icon name="lock-fill" width={10} height={12} color={colors.white} />
-                          <T size={12} weight={400} color={colors.white} ls={0}>
+                          <T size={box.fontSize['12']} weight={box.fontWeight['regular']} color={colors.white} ls={0}>
                             {draft.scheduled ? item.time : durationLabel(item.minutes)}
                           </T>
                         </View>
@@ -312,7 +320,7 @@ export function SessionEditor() {
                 bottom: 112,
                 height: 112,
                 borderRadius: 29,
-                paddingHorizontal: 20,
+                paddingHorizontal: box.spacing['20'],
                 paddingTop: 19,
                 backgroundColor: remainingTheme.tip,
               }}
@@ -322,8 +330,8 @@ export function SessionEditor() {
                   position: 'absolute',
                   left: 88,
                   bottom: -10,
-                  width: 24,
-                  height: 24,
+                  width: box.size['24'],
+                  height: box.size['24'],
                   borderRadius: 3,
                   backgroundColor: remainingTheme.tip,
                   transform: [{ rotate: '45deg' }],
@@ -342,7 +350,7 @@ export function SessionEditor() {
                   top: 20,
                   width: 46,
                   height: 26,
-                  borderRadius: 20,
+                  borderRadius: box.radius['20'],
                   backgroundColor: colors.white,
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -350,7 +358,13 @@ export function SessionEditor() {
               >
                 <Icon name="chevron-right" width={20} height={16} color={colors.black} />
               </PressScale>
-              <T size={15} weight={400} color={colors.white} ls={0} style={{ marginTop: 16, lineHeight: 19 }}>
+              <T
+                size={15}
+                weight={box.fontWeight['regular']}
+                color={colors.white}
+                ls={0}
+                style={{ marginTop: box.spacing['16'], lineHeight: 19 }}
+              >
                 Сохраните правило как шаблон. Меняйте его на вкладке «Правила».
               </T>
             </View>
@@ -413,19 +427,19 @@ const styles = StyleSheet.create({
     zIndex: 1,
     top: 12,
     alignSelf: 'center',
-    width: 60,
+    width: box.size['60'],
     height: 5,
-    borderRadius: 4,
+    borderRadius: box.radius['4'],
     backgroundColor: c.handle,
   },
   header: { height: 216, paddingTop: 66, backgroundColor: colors.white, alignItems: 'center' },
-  iconButton: { width: 55, height: 56, alignItems: 'center', justifyContent: 'center' },
-  title: { maxWidth: '85%', marginTop: 14.667, flexDirection: 'row', alignItems: 'center', gap: 6 },
+  iconButton: { width: 55, height: box.size['56'], alignItems: 'center', justifyContent: 'center' },
+  title: { maxWidth: '85%', marginTop: 14.667, flexDirection: 'row', alignItems: 'center', gap: box.spacing['6'] },
   titleInput: {
     height: 34,
     marginTop: 14.667,
     fontFamily: rounded,
-    fontSize: 28,
+    fontSize: box.fontSize['28'],
     fontWeight: '700',
     textAlign: 'center',
     color: c.ink,
@@ -436,15 +450,15 @@ const styles = StyleSheet.create({
     marginHorizontal: 22,
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 12,
+    gap: box.spacing['12'],
     height: 26,
   },
-  suggestions: { paddingHorizontal: 20, paddingTop: 6, gap: 8 },
-  suggestion: { width: 160, height: 80, borderRadius: c.suggestionRadius, overflow: 'hidden' },
-  suggestionCopy: { paddingLeft: 8, paddingTop: 21 },
-  rows: { marginTop: 20, paddingHorizontal: 20, gap: 14 },
-  footer: { paddingHorizontal: 20, paddingTop: ruleEditorSpacing.footerTop, backgroundColor: c.surface },
-  strict: { height: 30, marginLeft: 5, flexDirection: 'row', gap: 8, alignItems: 'center' },
-  actions: { flexDirection: 'row', gap: 8, marginTop: 25 },
+  suggestions: { paddingHorizontal: box.spacing['20'], paddingTop: box.spacing['6'], gap: box.spacing['8'] },
+  suggestion: { width: 160, height: box.size['80'], borderRadius: c.suggestionRadius, overflow: 'hidden' },
+  suggestionCopy: { paddingLeft: box.spacing['8'], paddingTop: 21 },
+  rows: { marginTop: box.spacing['20'], paddingHorizontal: box.spacing['20'], gap: box.spacing['14'] },
+  footer: { paddingHorizontal: box.spacing['20'], paddingTop: ruleEditorSpacing.footerTop, backgroundColor: c.surface },
+  strict: { height: 30, marginLeft: 5, flexDirection: 'row', gap: box.spacing['8'], alignItems: 'center' },
+  actions: { flexDirection: 'row', gap: box.spacing['8'], marginTop: 25 },
   normalBand: { height: 86 },
 });

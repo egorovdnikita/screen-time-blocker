@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { lockApps } from '@/data/lockRule';
 import { DarkButtonSurface } from './DarkButtonSurface';
 import { Image } from 'expo-image';
@@ -52,7 +53,7 @@ export function SessionApps({
       style={[
         styles.apps,
         bare && { width: 45, height: 21, backgroundColor: p.whiteFade },
-        large && { width: 100 - missing * 28, height: 44, backgroundColor: p.whiteFade },
+        large && { width: 100 - missing * 28, height: box.size['44'], backgroundColor: p.whiteFade },
         setup && { width: 54 - missing * 15.12, height: 26, backgroundColor: p.whiteFade },
         style,
       ]}
@@ -76,7 +77,7 @@ export function SessionApps({
                   height: large ? 37.5 : 22.1,
                   borderRadius: large ? 9 : 5,
                 }
-              : { width: 16, height: 16, borderRadius: 4, marginLeft: i ? -4 : 0 }
+              : { width: box.size['16'], height: box.size['16'], borderRadius: box.radius['4'], marginLeft: i ? -4 : 0 }
           }
         />
       ))}
@@ -118,7 +119,7 @@ export function EditorRow({
         accessibilityLabel={title}
         accessibilityState={{ expanded: !!expanded }}
         onPress={onPress}
-        style={[styles.row, { minHeight: headerHeight }, emphasized && { paddingTop: 8 }]}
+        style={[styles.row, { minHeight: headerHeight }, emphasized && { paddingTop: box.spacing['8'] }]}
       >
         <Icon
           name="chevron-down-section"
@@ -146,7 +147,7 @@ export function EditorRow({
         </T>
         <View style={{ marginLeft: 'auto' }}>
           {typeof value === 'string' ? (
-            <T size={14} weight={400} color={tone.value} ls={0}>
+            <T size={box.fontSize['14']} weight={box.fontWeight['regular']} color={tone.value} ls={0}>
               {value}
             </T>
           ) : (
@@ -200,15 +201,21 @@ const styles = StyleSheet.create({
   apps: {
     width: 51,
     height: 27,
-    borderRadius: 16,
+    borderRadius: box.radius['16'],
     backgroundColor: c.badge,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
   },
   card: { backgroundColor: colors.white, borderRadius: c.rowRadius, boxShadow: c.rowShadow, overflow: 'hidden' },
-  row: { minHeight: 59, paddingHorizontal: 17, flexDirection: 'row', alignItems: 'center', gap: 10 },
-  action: { flex: 1, height: 60, borderRadius: 32, backgroundColor: colors.white, justifyContent: 'center' },
+  row: { minHeight: 59, paddingHorizontal: 17, flexDirection: 'row', alignItems: 'center', gap: box.spacing['10'] },
+  action: {
+    flex: 1,
+    height: box.size['60'],
+    borderRadius: box.radius['32'],
+    backgroundColor: colors.white,
+    justifyContent: 'center',
+  },
   primary: { backgroundColor: c.dark },
 });
 
@@ -231,7 +238,7 @@ export function SessionNotice({
           borderRadius: tone === 'soft' ? 18 : 16,
           backgroundColor: tone === 'soft' ? softNoticeTheme.surface : colors.goalGreen,
           boxShadow: tone === 'soft' ? softNoticeTheme.shadow : undefined,
-          paddingHorizontal: 16,
+          paddingHorizontal: box.spacing['16'],
           flexDirection: 'row',
           gap: tone === 'soft' ? 15 : 10,
           alignItems: 'center',
@@ -243,7 +250,7 @@ export function SessionNotice({
           height={tone === 'soft' ? 23 : 18}
           color={colors.white}
         />
-        <T size={tone === 'soft' ? 14.25 : 14} color={colors.white} style={{ lineHeight: 20 }}>
+        <T size={tone === 'soft' ? 14.25 : 14} color={colors.white} style={{ lineHeight: box.lineHeight['20'] }}>
           {message}
         </T>
       </View>

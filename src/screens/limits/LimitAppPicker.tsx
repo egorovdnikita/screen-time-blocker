@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { SheetScrollView as ScrollView, SheetGrabber, SheetModal } from '@/components/SheetModal';
 import { BlurView } from 'expo-blur';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -69,10 +70,10 @@ export function LimitAppPicker({
                 <Icon name="group-check" width={24} height={26} color={colors.white} />
               </PressScale>
               <View style={styles.summary}>
-                <T size={14} weight={600} color={l.blue} ls={0}>
+                <T size={box.fontSize['14']} weight={box.fontWeight['semibold']} color={l.blue} ls={0}>
                   Будет закрыто:
                 </T>
-                <T size={14} weight={400} color={l.blue} ls={0}>
+                <T size={box.fontSize['14']} weight={box.fontWeight['regular']} color={l.blue} ls={0}>
                   {selected.length || !selectedCategories.length
                     ? `${selected.length} ${selected.length === 1 ? 'приложение' : selected.length > 1 && selected.length < 5 ? 'приложения' : 'приложений'}`
                     : ''}
@@ -134,7 +135,7 @@ const styles = StyleSheet.create({
   handle: {
     position: 'absolute',
     top: 12,
-    width: 64,
+    width: box.size['64'],
     height: 5,
     alignSelf: 'center',
     borderRadius: 5,
@@ -143,8 +144,8 @@ const styles = StyleSheet.create({
   round: {
     position: 'absolute',
     top: 45,
-    width: 44,
-    height: 44,
+    width: box.size['44'],
+    height: box.size['44'],
     borderRadius: 22,
     justifyContent: 'center',
     alignItems: 'center',
@@ -155,10 +156,10 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     height: 49,
-    paddingHorizontal: 20,
+    paddingHorizontal: box.spacing['20'],
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 4,
+    gap: box.spacing['4'],
     backgroundColor: l.summary,
   },
   list: {
@@ -176,12 +177,12 @@ const styles = StyleSheet.create({
     left: 28,
     right: 28,
     bottom: 61,
-    height: 48,
+    height: box.size['48'],
     borderRadius: c.searchRadius,
     backgroundColor: c.searchFill,
-    paddingHorizontal: 18,
+    paddingHorizontal: box.spacing['18'],
     flexDirection: 'row',
-    gap: 8,
+    gap: box.spacing['8'],
     alignItems: 'center',
     boxShadow: c.searchShadow,
     overflow: 'hidden',
@@ -190,7 +191,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     zIndex: 1,
     flex: 1,
-    height: 48,
+    height: box.size['48'],
     fontSize: 17,
     color: c.ink,
     padding: 0,

@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { useEffect, useState } from 'react';
 import { router } from 'expo-router';
 import { ScrollView, View } from 'react-native';
@@ -43,10 +44,20 @@ export function RemainingScreen({ id }: { id?: number }) {
     return (
       <ScrollView
         style={{ flex: 1, backgroundColor: c.surface }}
-        contentContainerStyle={{ paddingTop: insets.top + 30, paddingHorizontal: 20, paddingBottom: 40 }}
+        contentContainerStyle={{
+          paddingTop: insets.top + 30,
+          paddingHorizontal: box.spacing['20'],
+          paddingBottom: box.spacing['40'],
+        }}
       >
-        <T size={28}>Перенесённые экраны</T>
-        <T size={14} weight={400} color={c.value} ls={0} style={{ marginTop: 12, marginBottom: 20 }}>
+        <T size={box.fontSize['28']}>Перенесённые экраны</T>
+        <T
+          size={box.fontSize['14']}
+          weight={box.fontWeight['regular']}
+          color={c.value}
+          ls={0}
+          style={{ marginTop: box.spacing['12'], marginBottom: box.spacing['20'] }}
+        >
           22 последних состояния. Системные функции и проверка фото — демо макетов. Вернуться можно жестом «назад» или
           кнопкой браузера.
         </T>
@@ -56,7 +67,12 @@ export function RemainingScreen({ id }: { id?: number }) {
             accessibilityRole="button"
             accessibilityLabel={`Экран ${String(number).padStart(3, '0')}`}
             onPress={() => router.push(`/remaining?id=${number}`)}
-            style={{ padding: 16, borderRadius: 20, backgroundColor: colors.white, marginBottom: 8 }}
+            style={{
+              padding: box.spacing['16'],
+              borderRadius: box.radius['20'],
+              backgroundColor: colors.white,
+              marginBottom: box.spacing['8'],
+            }}
           >
             <T size={15}>
               {String(number).padStart(3, '0')} · {title}

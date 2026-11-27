@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { SheetModal, SheetGrabber } from './SheetModal';
 import { BlurView } from 'expo-blur';
 import { router } from 'expo-router';
@@ -111,7 +112,13 @@ export function BlockingMenu({ visible, onClose }: { visible: boolean; onClose: 
                     <T size={18} ls={-0.2} color={c.ink}>
                       {item.title}
                     </T>
-                    <T size={13.5} weight={400} ls={-0.1} color={c.menuHint} style={{ marginTop: 1 }}>
+                    <T
+                      size={13.5}
+                      weight={box.fontWeight['regular']}
+                      ls={-0.1}
+                      color={c.menuHint}
+                      style={{ marginTop: 1 }}
+                    >
                       {item.hint}
                     </T>
                   </View>
@@ -133,13 +140,20 @@ const styles = StyleSheet.create({
     height: 498,
     borderRadius: c.sheetRadius,
     overflow: 'hidden',
-    paddingHorizontal: 18,
+    paddingHorizontal: box.spacing['18'],
     borderWidth: 1,
     borderColor: colors.white,
   },
-  handle: { alignSelf: 'center', width: 60, height: 5, borderRadius: 4, backgroundColor: c.handle, marginTop: 11 },
+  handle: {
+    alignSelf: 'center',
+    width: box.size['60'],
+    height: 5,
+    borderRadius: box.radius['4'],
+    backgroundColor: c.handle,
+    marginTop: 11,
+  },
   title: { marginTop: 26, lineHeight: 31, marginBottom: 23 },
-  row: { height: 75, flexDirection: 'row', alignItems: 'center', gap: 12 },
+  row: { height: 75, flexDirection: 'row', alignItems: 'center', gap: box.spacing['12'] },
   separator: { borderTopWidth: 1, borderStyle: 'dashed', borderColor: c.line },
   icon: { width: 42, height: 42, borderRadius: 21, alignItems: 'center', justifyContent: 'center' },
 });

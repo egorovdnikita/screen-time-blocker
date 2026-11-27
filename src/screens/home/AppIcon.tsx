@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { Image } from 'expo-image';
 import { View } from 'react-native';
 import { Icon } from '@/components/Icon';
@@ -23,7 +24,7 @@ export function AppIcon({ icon, size = 28 }: { icon: AppIconKind; size?: number 
           style={{
             width: size,
             height: size,
-            borderRadius: 8,
+            borderRadius: box.radius['8'],
             backgroundColor: colors.otherBg,
             alignItems: 'center',
             justifyContent: 'center',

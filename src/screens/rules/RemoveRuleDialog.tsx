@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { GlassDialog } from '@/components/GlassDialog';
 import { useAppState } from '@/state/app';
 import { colors, refreshAlertTheme as a } from '@/theme/tokens';
@@ -50,11 +51,11 @@ export function RemoveRuleDialog({
     >
       <T
         size={14.25}
-        weight={400}
+        weight={box.fontWeight['regular']}
         color={a.ink}
         ls={0}
         numberOfLines={2}
-        style={{ position: 'absolute', left: 29, right: 29, top: 47, lineHeight: 20 }}
+        style={{ position: 'absolute', left: 29, right: 29, top: 47, lineHeight: box.lineHeight['20'] }}
       >
         {strict
           ? 'Правило нельзя удалить. Отключите\nего в экстренном режиме.'

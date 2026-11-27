@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { ScrollView, StyleSheet, View } from 'react-native';
@@ -42,7 +43,13 @@ export function Welcome({ onStart, bleed = 0 }: { onStart: () => void; bleed?: n
                 <T size={26} color={c.white} ls={0} style={{ lineHeight: 31 }}>
                   {title}
                 </T>
-                <T size={14} weight={400} color={c.white} ls={0} style={{ lineHeight: 18 }}>
+                <T
+                  size={box.fontSize['14']}
+                  weight={box.fontWeight['regular']}
+                  color={c.white}
+                  ls={0}
+                  style={{ lineHeight: box.lineHeight['18'] }}
+                >
                   {label}
                 </T>
               </View>
@@ -55,14 +62,21 @@ export function Welcome({ onStart, bleed = 0 }: { onStart: () => void; bleed?: n
             height={22}
             style={{ position: 'absolute', top: 225, right: 35 }}
           />
-          <View style={{ marginTop: 224, marginHorizontal: 44 }}>
-            <T size={18} color={c.white} center ls={0} style={{ lineHeight: 24 }}>
+          <View style={{ marginTop: 224, marginHorizontal: box.spacing['44'] }}>
+            <T size={18} color={c.white} center ls={0} style={{ lineHeight: box.lineHeight['24'] }}>
               {'Спасибо, что помогли\nмне оторваться от телефона'}
             </T>
-            <View style={{ marginTop: 8 }}>
+            <View style={{ marginTop: box.spacing['8'] }}>
               <Rating welcome />
             </View>
-            <T size={13} weight={400} color={c.quoteName} center ls={0} style={{ marginTop: 7, lineHeight: 16 }}>
+            <T
+              size={13}
+              weight={box.fontWeight['regular']}
+              color={c.quoteName}
+              center
+              ls={0}
+              style={{ marginTop: 7, lineHeight: box.lineHeight['16'] }}
+            >
               Маша
             </T>
           </View>
@@ -77,7 +91,13 @@ export function Welcome({ onStart, bleed = 0 }: { onStart: () => void; bleed?: n
         <T size={21} color={c.before} ls={0} style={{ lineHeight: 26 }}>
           Раньше
         </T>
-        <T size={19} weight={400} color={c.cardInk} ls={0} style={{ lineHeight: 24, marginTop: 11 }}>
+        <T
+          size={19}
+          weight={box.fontWeight['regular']}
+          color={c.cardInk}
+          ls={0}
+          style={{ lineHeight: box.lineHeight['24'], marginTop: 11 }}
+        >
           8 ч 54 мин
         </T>
       </View>
@@ -85,7 +105,13 @@ export function Welcome({ onStart, bleed = 0 }: { onStart: () => void; bleed?: n
         <T size={21} color={c.after} ls={0} style={{ lineHeight: 26 }}>
           Сейчас
         </T>
-        <T size={19} weight={400} color={c.cardInk} ls={0} style={{ lineHeight: 24, marginTop: 17 }}>
+        <T
+          size={19}
+          weight={box.fontWeight['regular']}
+          color={c.cardInk}
+          ls={0}
+          style={{ lineHeight: box.lineHeight['24'], marginTop: 17 }}
+        >
           1 ч 10 мин
         </T>
       </View>
@@ -100,7 +126,7 @@ export function Welcome({ onStart, bleed = 0 }: { onStart: () => void; bleed?: n
         style={{ position: 'absolute', left: -bleed, right: -bleed, top: 539, bottom: 0, backgroundColor: c.white }}
       />
       <View style={styles.bottom}>
-        <T size={17} center ls={0} style={{ marginTop: 6, lineHeight: 20 }}>
+        <T size={17} center ls={0} style={{ marginTop: box.spacing['6'], lineHeight: box.lineHeight['20'] }}>
           Добро пожаловать в screen-time-blocker
         </T>
         <T size={27} center ls={0} style={{ marginTop: 17, lineHeight: 33 }}>
@@ -109,19 +135,31 @@ export function Welcome({ onStart, bleed = 0 }: { onStart: () => void; bleed?: n
         {/* Документов условий и политики нет, ссылки не нажимаются — в реальном режиме строка скрыта (аудит 2026-11-21). */}
         {!live && (
           <T
-            size={12}
-            weight={400}
+            size={box.fontSize['12']}
+            weight={box.fontWeight['regular']}
             color={c.muted}
             center
             ls={0}
-            style={{ marginTop: 14, marginHorizontal: 32, lineHeight: 15 }}
+            style={{ marginTop: box.spacing['14'], marginHorizontal: box.spacing['32'], lineHeight: 15 }}
           >
             Продолжая, вы соглашаетесь с{' '}
-            <T size={12} weight={400} color={c.muted} ls={0} style={{ textDecorationLine: 'underline' }}>
+            <T
+              size={box.fontSize['12']}
+              weight={box.fontWeight['regular']}
+              color={c.muted}
+              ls={0}
+              style={{ textDecorationLine: 'underline' }}
+            >
               Условиями использования
             </T>{' '}
             и{' '}
-            <T size={12} weight={400} color={c.muted} ls={0} style={{ textDecorationLine: 'underline' }}>
+            <T
+              size={box.fontSize['12']}
+              weight={box.fontWeight['regular']}
+              color={c.muted}
+              ls={0}
+              style={{ textDecorationLine: 'underline' }}
+            >
               Политикой конфиденциальности
             </T>{' '}
             screen-time-blocker.
@@ -155,7 +193,7 @@ export function SocialProof({ onBack, onNext }: { onBack: () => void; onNext: ()
         horizontal
         showsHorizontalScrollIndicator={false}
         style={{ position: 'absolute', left: 0, right: 0, top: 424, height: 208 }}
-        contentContainerStyle={{ paddingHorizontal: 20, paddingTop: 16, gap: 11 }}
+        contentContainerStyle={{ paddingHorizontal: box.spacing['20'], paddingTop: box.spacing['16'], gap: 11 }}
       >
         {[
           {
@@ -175,19 +213,25 @@ export function SocialProof({ onBack, onNext }: { onBack: () => void; onNext: ()
             <T size={15} color={c.reviewInk} ls={0} style={{ lineHeight: 19 }}>
               {card.title}
             </T>
-            <T size={14.25} weight={400} color={c.reviewInk} ls={0} style={{ lineHeight: 18, marginTop: 3 }}>
+            <T
+              size={14.25}
+              weight={box.fontWeight['regular']}
+              color={c.reviewInk}
+              ls={0}
+              style={{ lineHeight: box.lineHeight['18'], marginTop: 3 }}
+            >
               {card.copy}
             </T>
             <View style={styles.author}>
               <View style={styles.avatar}>
-                <T size={12} color={c.avatarInk} ls={0}>
+                <T size={box.fontSize['12']} color={c.avatarInk} ls={0}>
                   {card.initials}
                 </T>
               </View>
-              <T size={12} color={c.reviewInk} ls={0}>
+              <T size={box.fontSize['12']} color={c.reviewInk} ls={0}>
                 {card.name}
               </T>
-              <T size={12} color={c.reviewInk} ls={0}>
+              <T size={box.fontSize['12']} color={c.reviewInk} ls={0}>
                 🇺🇸
               </T>
               <View style={{ flexDirection: 'row', gap: 1 }}>
@@ -206,26 +250,33 @@ export function SocialProof({ onBack, onNext }: { onBack: () => void; onNext: ()
   );
 }
 const styles = StyleSheet.create({
-  stats: { position: 'absolute', top: 140, left: 25, right: 25, flexDirection: 'row', gap: 24 },
+  stats: { position: 'absolute', top: 140, left: 25, right: 25, flexDirection: 'row', gap: box.spacing['24'] },
   bottom: { position: 'absolute', left: 0, right: 0, bottom: 0, height: 335 },
   account: {
     position: 'absolute',
     left: 20,
     right: 20,
     bottom: 39,
-    height: 56,
+    height: box.size['56'],
     borderRadius: 30,
     backgroundColor: c.white,
     boxShadow: c.secondaryShadow,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  review: { width: 265, height: 168, borderRadius: 24, backgroundColor: c.white, padding: 16, boxShadow: c.cardShadow },
+  review: {
+    width: 265,
+    height: 168,
+    borderRadius: box.radius['24'],
+    backgroundColor: c.white,
+    padding: box.spacing['16'],
+    boxShadow: c.cardShadow,
+  },
   author: { position: 'absolute', left: 16, bottom: 16, flexDirection: 'row', alignItems: 'center', gap: 5 },
   avatar: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
+    width: box.size['24'],
+    height: box.size['24'],
+    borderRadius: box.radius['12'],
     backgroundColor: c.avatar,
     justifyContent: 'center',
     alignItems: 'center',

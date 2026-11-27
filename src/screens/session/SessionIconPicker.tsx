@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { SheetScrollView as ScrollView, SheetGrabber, SheetModal } from '@/components/SheetModal';
 import { Image } from 'expo-image';
 import { useState } from 'react';
@@ -83,7 +84,7 @@ export function SessionIconPicker({
               <ScrollView
                 keyboardShouldPersistTaps="handled"
                 showsVerticalScrollIndicator={false}
-                style={{ marginTop: 18 }}
+                style={{ marginTop: box.spacing['18'] }}
                 contentContainerStyle={styles.grid}
               >
                 {results.map(item => (
@@ -99,7 +100,13 @@ export function SessionIconPicker({
                   </PressScale>
                 ))}
                 {!results.length && (
-                  <T size={14} weight={400} color={c.placeholder} center style={{ flex: 1, marginTop: 20 }}>
+                  <T
+                    size={box.fontSize['14']}
+                    weight={box.fontWeight['regular']}
+                    color={c.placeholder}
+                    center
+                    style={{ flex: 1, marginTop: box.spacing['20'] }}
+                  >
                     Ничего не найдено
                   </T>
                 )}
@@ -114,8 +121,8 @@ export function SessionIconPicker({
 const styles = StyleSheet.create({
   sheet: {
     flex: 1,
-    marginHorizontal: 8,
-    marginBottom: 8,
+    marginHorizontal: box.spacing['8'],
+    marginBottom: box.spacing['8'],
     backgroundColor: c.surface,
     borderTopLeftRadius: c.sheetTopRadius,
     borderTopRightRadius: c.sheetTopRadius,
@@ -127,37 +134,44 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 11,
     alignSelf: 'center',
-    width: 60,
+    width: box.size['60'],
     height: 5,
-    borderRadius: 4,
+    borderRadius: box.radius['4'],
     backgroundColor: c.handle,
   },
   search: {
     marginTop: 73,
-    marginHorizontal: 18,
-    height: 52,
+    marginHorizontal: box.spacing['18'],
+    height: box.size['52'],
     borderRadius: c.searchRadius,
     borderWidth: 1,
     borderColor: c.searchBorder,
     flexDirection: 'row',
     alignItems: 'center',
     paddingLeft: 19,
-    paddingRight: 12,
+    paddingRight: box.spacing['12'],
     gap: 7,
   },
   input: {
     flex: 1,
     height: 50,
     padding: 0,
-    fontSize: 14,
+    fontSize: box.fontSize['14'],
     fontWeight: '400',
     color: colors.black,
     outlineWidth: 0,
     outlineStyle: 'solid',
     outlineColor: c.focusOutline,
   },
-  clear: { width: 24, height: 40, alignItems: 'center', justifyContent: 'center' },
-  grid: { paddingLeft: 19, paddingRight: 20, paddingBottom: 12, flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
+  clear: { width: box.size['24'], height: box.size['40'], alignItems: 'center', justifyContent: 'center' },
+  grid: {
+    paddingLeft: 19,
+    paddingRight: box.spacing['20'],
+    paddingBottom: box.spacing['12'],
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: box.spacing['8'],
+  },
   tile: {
     height: 61.333,
     borderRadius: c.tileRadius,

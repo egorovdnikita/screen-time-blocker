@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { SheetScrollView as ScrollView } from '@/components/SheetModal';
 import { useRef, useState, type ComponentRef } from 'react';
 import { Image } from 'expo-image';
@@ -56,8 +57,8 @@ export function AppScreenSearch({ onClose, onChoose }: { onClose: () => void; on
           </View>
           <ScrollView
             keyboardShouldPersistTaps="handled"
-            style={{ flex: 1, marginTop: 177, marginHorizontal: 20, marginBottom: 24 }}
-            contentContainerStyle={{ borderRadius: 20, overflow: 'hidden' }}
+            style={{ flex: 1, marginTop: 177, marginHorizontal: box.spacing['20'], marginBottom: box.spacing['24'] }}
+            contentContainerStyle={{ borderRadius: box.radius['20'], overflow: 'hidden' }}
             showsVerticalScrollIndicator={false}
           >
             {searchScreenApps(query).map((item, index, all) => (
@@ -71,8 +72,12 @@ export function AppScreenSearch({ onClose, onChoose }: { onClose: () => void; on
                 }}
                 style={[styles.row, { borderBottomWidth: index < all.length - 1 ? 1 : 0 }]}
               >
-                <Image source={item.image} contentFit="contain" style={{ width: 24, height: 24 }} />
-                <T size={14.25} weight={400} variant="display" ls={0} style={{ flex: 1 }}>
+                <Image
+                  source={item.image}
+                  contentFit="contain"
+                  style={{ width: box.size['24'], height: box.size['24'] }}
+                />
+                <T size={14.25} weight={box.fontWeight['regular']} variant="display" ls={0} style={{ flex: 1 }}>
                   {item.title}
                 </T>
                 <Icon name="plus" width={14} height={14} color={c.caption} />
@@ -90,21 +95,21 @@ const styles = StyleSheet.create({
     left: 20,
     right: 20,
     top: 101,
-    height: 52,
+    height: box.size['52'],
     borderWidth: 1,
     borderColor: c.field,
-    borderRadius: 28,
+    borderRadius: box.radius['28'],
     paddingHorizontal: 19,
-    gap: 12,
+    gap: box.spacing['12'],
     flexDirection: 'row',
     alignItems: 'center',
   },
   row: {
     height: 56.667,
-    paddingHorizontal: 16,
+    paddingHorizontal: box.spacing['16'],
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 12,
+    gap: box.spacing['12'],
     backgroundColor: colors.white,
     borderBottomColor: c.line,
   },

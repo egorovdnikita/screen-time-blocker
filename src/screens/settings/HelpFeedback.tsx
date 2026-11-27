@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { EmergencyMode } from './EmergencyMode';
 import { SheetScrollView as ScrollView } from '@/components/SheetModal';
 import { useState } from 'react';
@@ -27,7 +28,7 @@ export function HelpFeedback({ onClose }: { onClose: () => void }) {
   return (
     <SettingsStack onClose={onClose} surface={c.surface} radius={44}>
       <T
-        size={20}
+        size={box.fontSize['20']}
         color={c.ink}
         center
         ls={0}
@@ -39,9 +40,9 @@ export function HelpFeedback({ onClose }: { onClose: () => void }) {
         accessibilityLabel="Содержание справки"
         showsVerticalScrollIndicator={false}
         style={{ position: 'absolute', top: 90, left: 0, right: 0, bottom: 0 }}
-        contentContainerStyle={{ paddingTop: 10, paddingBottom: live ? 40 : 128 }}
+        contentContainerStyle={{ paddingTop: box.spacing['10'], paddingBottom: live ? 40 : 128 }}
       >
-        <T size={20} color={c.section} ls={0} style={{ marginLeft: 20, lineHeight: 26 }}>
+        <T size={box.fontSize['20']} color={c.section} ls={0} style={{ marginLeft: box.spacing['20'], lineHeight: 26 }}>
           Найдите в справке
         </T>
         <View style={styles.topics}>
@@ -57,20 +58,29 @@ export function HelpFeedback({ onClose }: { onClose: () => void }) {
                 key={title}
                 style={styles.topic}
               >
-                <Image source={images[index]} contentFit="contain" style={{ width: 24, height: 24 }} />
-                <T size={14.25} weight={400} variant="text" color={c.ink} ls={0}>
+                <Image
+                  source={images[index]}
+                  contentFit="contain"
+                  style={{ width: box.size['24'], height: box.size['24'] }}
+                />
+                <T size={14.25} weight={box.fontWeight['regular']} variant="text" color={c.ink} ls={0}>
                   {title}
                 </T>
                 <Icon
                   name="activity-row-chevron"
                   width={13}
                   height={20}
-                  style={{ marginLeft: 'auto', marginRight: 2 }}
+                  style={{ marginLeft: 'auto', marginRight: box.spacing['2'] }}
                 />
               </PressScale>
             ))}
         </View>
-        <T size={20} color={c.section} ls={0} style={{ marginTop: 35.667, marginLeft: 20, lineHeight: 26 }}>
+        <T
+          size={box.fontSize['20']}
+          color={c.section}
+          ls={0}
+          style={{ marginTop: 35.667, marginLeft: box.spacing['20'], lineHeight: 26 }}
+        >
           Дополнительно
         </T>
         <View style={styles.further}>
@@ -94,10 +104,14 @@ export function HelpFeedback({ onClose }: { onClose: () => void }) {
             </View>
             <T
               size={11.5}
-              weight={600}
+              weight={box.fontWeight['semibold']}
               color={c.helpNote}
               ls={0}
-              style={{ marginTop: 8, marginHorizontal: 20, lineHeight: 14 }}
+              style={{
+                marginTop: box.spacing['8'],
+                marginHorizontal: box.spacing['20'],
+                lineHeight: box.lineHeight['14'],
+              }}
             >
               Перед тем как написать нам, загляните в статьи. Там уже есть ответы на большинство вопросов!
             </T>
@@ -131,7 +145,7 @@ function HelpRow({
         height: description ? 84 : 52.667,
         paddingTop: description ? 4 : 0,
         paddingLeft: 15,
-        paddingRight: 16,
+        paddingRight: box.spacing['16'],
         flexDirection: 'row',
         alignItems: 'center',
         gap: 11,
@@ -141,11 +155,25 @@ function HelpRow({
     >
       <Icon name={icon} width={22} height={23} color={c.rowIcon} />
       <View style={{ flex: 1 }}>
-        <T size={14.25} weight={400} variant="text" color={c.ink} ls={0} style={{ lineHeight: 20 }}>
+        <T
+          size={14.25}
+          weight={box.fontWeight['regular']}
+          variant="text"
+          color={c.ink}
+          ls={0}
+          style={{ lineHeight: box.lineHeight['20'] }}
+        >
           {title}
         </T>
         {description && (
-          <T size={13} weight={400} variant="text" color={c.helpNote} ls={0} style={{ lineHeight: 17, marginTop: 2 }}>
+          <T
+            size={13}
+            weight={box.fontWeight['regular']}
+            variant="text"
+            color={c.helpNote}
+            ls={0}
+            style={{ lineHeight: 17, marginTop: box.spacing['2'] }}
+          >
             {description}
           </T>
         )}
@@ -155,23 +183,29 @@ function HelpRow({
   );
 }
 const styles = StyleSheet.create({
-  topics: { marginTop: 11.333, marginHorizontal: 20, gap: 8 },
+  topics: { marginTop: 11.333, marginHorizontal: box.spacing['20'], gap: box.spacing['8'] },
   topic: {
-    height: 56,
-    borderRadius: 20,
+    height: box.size['56'],
+    borderRadius: box.radius['20'],
     backgroundColor: colors.white,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingLeft: 14,
-    paddingRight: 14,
-    gap: 10,
+    paddingLeft: box.spacing['14'],
+    paddingRight: box.spacing['14'],
+    gap: box.spacing['10'],
   },
-  further: { marginTop: 7, marginHorizontal: 20, borderRadius: 20, backgroundColor: colors.white, overflow: 'hidden' },
+  further: {
+    marginTop: 7,
+    marginHorizontal: box.spacing['20'],
+    borderRadius: box.radius['20'],
+    backgroundColor: colors.white,
+    overflow: 'hidden',
+  },
   contact: {
     marginTop: 32.667,
-    marginHorizontal: 20,
-    height: 52,
-    borderRadius: 20,
+    marginHorizontal: box.spacing['20'],
+    height: box.size['52'],
+    borderRadius: box.radius['20'],
     backgroundColor: colors.white,
     overflow: 'hidden',
   },

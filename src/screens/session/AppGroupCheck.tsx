@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { StyleSheet, View } from 'react-native';
 import { Icon } from '@/components/Icon';
 import { PressScale } from '@/components/motion';
@@ -52,6 +53,13 @@ export function CheckMark({
   );
 }
 const styles = StyleSheet.create({
-  touch: { width: 24, height: 32, alignItems: 'center', justifyContent: 'center' },
-  check: { width: 24, height: 24, borderRadius: 12, borderWidth: 2, alignItems: 'center', justifyContent: 'center' },
+  touch: { width: box.size['24'], height: box.size['32'], alignItems: 'center', justifyContent: 'center' },
+  check: {
+    width: box.size['24'],
+    height: box.size['24'],
+    borderRadius: box.radius['12'],
+    borderWidth: 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });

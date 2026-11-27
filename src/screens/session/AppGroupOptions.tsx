@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { SheetScrollView as ScrollView, SheetGrabber, SheetModal } from '@/components/SheetModal';
 import { useRef, useState, type ComponentRef } from 'react';
 import {
@@ -76,7 +77,7 @@ export function AppGroupOptions({ group, onChange, onClose }: Props) {
               ref={scroll}
               keyboardShouldPersistTaps="handled"
               showsVerticalScrollIndicator={false}
-              contentContainerStyle={{ minHeight: 527, paddingBottom: 32 }}
+              contentContainerStyle={{ minHeight: 527, paddingBottom: box.spacing['32'] }}
             >
               <SectionLabel title="Разное" />
               <View style={styles.options}>
@@ -91,11 +92,17 @@ export function AppGroupOptions({ group, onChange, onClose }: Props) {
                   >
                     <CheckMark checked={group[option.key]} />
                     <View>
-                      <T size={14} weight={400} ls={0}>
+                      <T size={box.fontSize['14']} weight={box.fontWeight['regular']} ls={0}>
                         {option.title}
                       </T>
                       {'subtitle' in option && (
-                        <T size={13} weight={400} color={c.secondary} ls={0} style={{ marginTop: 2 }}>
+                        <T
+                          size={13}
+                          weight={box.fontWeight['regular']}
+                          color={c.secondary}
+                          ls={0}
+                          style={{ marginTop: box.spacing['2'] }}
+                        >
                           {option.subtitle}
                         </T>
                       )}
@@ -103,10 +110,10 @@ export function AppGroupOptions({ group, onChange, onClose }: Props) {
                   </PressScale>
                 ))}
               </View>
-              <View style={{ marginTop: 28 }}>
+              <View style={{ marginTop: box.spacing['28'] }}>
                 <SectionLabel title="Сайты" />
               </View>
-              <T size={11} weight={400} color={c.note} ls={-0.1} style={styles.note}>
+              <T size={11} weight={box.fontWeight['regular']} color={c.note} ls={-0.1} style={styles.note}>
                 Блокировать выбранные сайты во всех браузерах. ↗
               </T>
               <View style={styles.entryRow}>
@@ -145,7 +152,7 @@ export function AppGroupOptions({ group, onChange, onClose }: Props) {
                     {entry ? (
                       <Icon name="session-clear" width={12} height={12} color={c.placeholder} />
                     ) : (
-                      <T size={18} weight={700} color={c.placeholder} ls={0}>
+                      <T size={18} weight={box.fontWeight['bold']} color={c.placeholder} ls={0}>
                         ✎
                       </T>
                     )}
@@ -159,7 +166,7 @@ export function AppGroupOptions({ group, onChange, onClose }: Props) {
                   onPress={add}
                   style={[styles.add, (!host || duplicate) && { backgroundColor: c.addDisabled }]}
                 >
-                  <T size={26} weight={400} color={colors.white} ls={0}>
+                  <T size={26} weight={box.fontWeight['regular']} color={colors.white} ls={0}>
                     ＋
                   </T>
                 </PressScale>
@@ -167,16 +174,16 @@ export function AppGroupOptions({ group, onChange, onClose }: Props) {
               {!!error && (
                 <T
                   accessibilityLiveRegion="polite"
-                  size={12}
-                  weight={400}
+                  size={box.fontSize['12']}
+                  weight={box.fontWeight['regular']}
                   color={c.error}
                   ls={0}
-                  style={{ marginTop: 8, marginHorizontal: 19 }}
+                  style={{ marginTop: box.spacing['8'], marginHorizontal: 19 }}
                 >
                   {error}
                 </T>
               )}
-              <View style={{ marginTop: 18, marginHorizontal: 19, gap: 8 }}>
+              <View style={{ marginTop: box.spacing['18'], marginHorizontal: 19, gap: box.spacing['8'] }}>
                 {group.websites.map(site => (
                   <PressScale
                     key={site.host}
@@ -200,7 +207,13 @@ export function AppGroupOptions({ group, onChange, onClose }: Props) {
                       color={colors.black}
                       style={{ transform: [{ translateX: -1 }, { translateY: -2 }] }}
                     />
-                    <T size={14} weight={400} ls={0} numberOfLines={1} style={{ flexShrink: 1 }}>
+                    <T
+                      size={box.fontSize['14']}
+                      weight={box.fontWeight['regular']}
+                      ls={0}
+                      numberOfLines={1}
+                      style={{ flexShrink: 1 }}
+                    >
                       {site.host}
                     </T>
                   </PressScale>
@@ -226,8 +239,8 @@ function SectionLabel({ title }: { title: string }) {
 const styles = StyleSheet.create({
   sheet: {
     flex: 1,
-    marginHorizontal: 8,
-    marginBottom: 8,
+    marginHorizontal: box.spacing['8'],
+    marginBottom: box.spacing['8'],
     backgroundColor: c.optionsSurface,
     borderTopLeftRadius: c.optionsTopRadius,
     borderTopRightRadius: c.optionsTopRadius,
@@ -239,57 +252,63 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 11,
     alignSelf: 'center',
-    width: 60,
+    width: box.size['60'],
     height: 5,
-    borderRadius: 4,
+    borderRadius: box.radius['4'],
     backgroundColor: c.handle,
   },
-  title: { marginTop: 43, height: 24, marginBottom: 30, lineHeight: 24 },
-  section: { marginLeft: 18, height: 23, flexDirection: 'row', alignItems: 'center', gap: 7 },
+  title: { marginTop: 43, height: box.size['24'], marginBottom: 30, lineHeight: box.lineHeight['24'] },
+  section: { marginLeft: box.spacing['18'], height: 23, flexDirection: 'row', alignItems: 'center', gap: 7 },
   options: {
-    marginTop: 10,
+    marginTop: box.spacing['10'],
     marginHorizontal: 19,
     height: 174,
     backgroundColor: colors.white,
     borderRadius: c.extraRadius,
     overflow: 'hidden',
   },
-  option: { flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 15 },
+  option: { flexDirection: 'row', alignItems: 'center', gap: box.spacing['12'], paddingHorizontal: 15 },
   divider: { borderBottomWidth: 1, borderColor: c.optionDivider },
-  note: { marginTop: 16, height: 14, lineHeight: 14, marginLeft: 19, marginRight: 12 },
+  note: {
+    marginTop: box.spacing['16'],
+    height: box.size['14'],
+    lineHeight: box.lineHeight['14'],
+    marginLeft: 19,
+    marginRight: box.spacing['12'],
+  },
   entryRow: {
     marginTop: 11,
     marginLeft: 19,
-    marginRight: 18,
-    height: 52,
+    marginRight: box.spacing['18'],
+    height: box.size['52'],
     flexDirection: 'row',
     gap: 9,
     alignItems: 'center',
   },
   entry: {
     flex: 1,
-    height: 52,
+    height: box.size['52'],
     borderWidth: 1,
     borderColor: c.inputBorder,
     borderRadius: c.inputRadius,
     flexDirection: 'row',
     alignItems: 'center',
     paddingLeft: 19,
-    paddingRight: 14,
+    paddingRight: box.spacing['14'],
   },
   input: {
     flex: 1,
     minWidth: 0,
     height: 50,
     padding: 0,
-    fontSize: 14,
+    fontSize: box.fontSize['14'],
     fontWeight: '400',
     color: colors.black,
     outlineWidth: 0,
     outlineStyle: 'solid',
     outlineColor: c.focusOutline,
   },
-  clear: { width: 20, height: 40, alignItems: 'center', justifyContent: 'center' },
+  clear: { width: box.size['20'], height: box.size['40'], alignItems: 'center', justifyContent: 'center' },
   add: {
     position: 'relative',
     top: -2,
@@ -301,12 +320,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   saved: {
-    height: 52,
+    height: box.size['52'],
     borderRadius: c.websiteRadius,
     backgroundColor: colors.white,
-    paddingHorizontal: 14,
+    paddingHorizontal: box.spacing['14'],
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+    gap: box.spacing['8'],
   },
 });

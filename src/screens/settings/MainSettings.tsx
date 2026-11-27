@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { NotificationSettings } from './NotificationSettings';
 import { LanguageMenu } from './LanguageMenu';
 import { useAppState } from '@/state/app';
@@ -48,9 +49,15 @@ export function MainSettings({
     >
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingTop: 44, paddingBottom: 68.667 }}
+        contentContainerStyle={{ paddingTop: box.spacing['44'], paddingBottom: 68.667 }}
       >
-        <T size={20} color={c.ink} center ls={0} style={{ marginHorizontal: 20, lineHeight: 26 }}>
+        <T
+          size={box.fontSize['20']}
+          color={c.ink}
+          center
+          ls={0}
+          style={{ marginHorizontal: box.spacing['20'], lineHeight: 26 }}
+        >
           Настройки
         </T>
         <View style={styles.account}>
@@ -61,13 +68,19 @@ export function MainSettings({
           </View>
           <View>
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}>
-              <T size={24} color={c.ink} ls={0} style={{ lineHeight: 27 }}>
+              <T size={box.fontSize['24']} color={c.ink} ls={0} style={{ lineHeight: 27 }}>
                 {app.profileName}
               </T>
               <Icon name="pencil" width={15} height={15} color={c.caption} />
             </View>
             {!app.live && (
-              <T size={12} weight={600} color={c.caption} ls={0.15} style={{ lineHeight: 16 }}>
+              <T
+                size={box.fontSize['12']}
+                weight={box.fontWeight['semibold']}
+                color={c.caption}
+                ls={0.15}
+                style={{ lineHeight: box.lineHeight['16'] }}
+              >
                 Аккаунт screen-time-blocker
               </T>
             )}
@@ -78,7 +91,12 @@ export function MainSettings({
             <T size={13} color={c.section} ls={0} style={{ position: 'absolute', left: 20, top: 18 }}>
               Текущий план
             </T>
-            <T size={20} color={c.planName} ls={0.1} style={{ position: 'absolute', left: 20, top: 39 }}>
+            <T
+              size={box.fontSize['20']}
+              color={c.planName}
+              ls={0.1}
+              style={{ position: 'absolute', left: 20, top: 39 }}
+            >
               Годовой план
             </T>
             <View
@@ -86,9 +104,9 @@ export function MainSettings({
                 position: 'absolute',
                 left: 20,
                 top: 68,
-                width: 16,
-                height: 16,
-                borderRadius: 8,
+                width: box.size['16'],
+                height: box.size['16'],
+                borderRadius: box.radius['8'],
                 backgroundColor: c.money,
                 justifyContent: 'center',
                 alignItems: 'center',
@@ -98,11 +116,17 @@ export function MainSettings({
                 ₽
               </T>
             </View>
-            <T size={13} weight={500} color={c.planNote} ls={0} style={{ position: 'absolute', left: 42, top: 70 }}>
+            <T
+              size={13}
+              weight={box.fontWeight['medium']}
+              color={c.planNote}
+              ls={0}
+              style={{ position: 'absolute', left: 42, top: 70 }}
+            >
               Пробный период активен
             </T>
             <View accessibilityState={{ disabled: true }} style={styles.manage}>
-              <T size={14} color={c.ink} ls={0}>
+              <T size={box.fontSize['14']} color={c.ink} ls={0}>
                 Управлять
               </T>
             </View>
@@ -121,16 +145,21 @@ export function MainSettings({
             color={colors.white}
             style={{ position: 'absolute', left: 18, top: 24 }}
           />
-          <T size={16} color={colors.white} ls={0} style={{ position: 'absolute', left: 52, top: 14, lineHeight: 21 }}>
+          <T
+            size={box.fontSize['16']}
+            color={colors.white}
+            ls={0}
+            style={{ position: 'absolute', left: 52, top: 14, lineHeight: 21 }}
+          >
             Помощь и отзывы
           </T>
           <T
             size={13}
-            weight={400}
+            weight={box.fontWeight['regular']}
             variant="text"
             color={colors.white}
             ls={0}
-            style={{ position: 'absolute', left: 52, top: 34, lineHeight: 18 }}
+            style={{ position: 'absolute', left: 52, top: 34, lineHeight: box.lineHeight['18'] }}
           >
             Вопросы и обратная связь
           </T>
@@ -142,7 +171,12 @@ export function MainSettings({
             style={{ position: 'absolute', right: 16, top: 26 }}
           />
         </PressScale>
-        <T size={20} color={c.section} ls={0} style={{ marginLeft: 20, marginTop: 30.999, lineHeight: 26 }}>
+        <T
+          size={box.fontSize['20']}
+          color={c.section}
+          ls={0}
+          style={{ marginLeft: box.spacing['20'], marginTop: 30.999, lineHeight: 26 }}
+        >
           Основные
         </T>
         <View style={styles.rows}>
@@ -167,24 +201,35 @@ export function MainSettings({
                 width={23}
                 height={24}
                 color={c.rowIcon}
-                style={{ marginLeft: 15, marginRight: 10 }}
+                style={{ marginLeft: 15, marginRight: box.spacing['10'] }}
               />
-              <T size={14.25} weight={400} variant="text" color={c.ink} ls={0}>
+              <T size={14.25} weight={box.fontWeight['regular']} variant="text" color={c.ink} ls={0}>
                 {row.title}
               </T>
               {row.title === 'Язык' ? (
                 <>
-                  <T size={19} weight={400} ls={0} style={{ marginLeft: 'auto', marginRight: 21 }}>
+                  <T
+                    size={19}
+                    weight={box.fontWeight['regular']}
+                    ls={0}
+                    style={{ marginLeft: 'auto', marginRight: 21 }}
+                  >
                     🇷🇺
                   </T>
-                  <Icon name="updown" width={13} height={17} color={c.rowIcon} style={{ marginRight: 18 }} />
+                  <Icon
+                    name="updown"
+                    width={13}
+                    height={17}
+                    color={c.rowIcon}
+                    style={{ marginRight: box.spacing['18'] }}
+                  />
                 </>
               ) : (
                 <Icon
                   name="activity-row-chevron"
                   width={13}
                   height={20}
-                  style={{ marginLeft: 'auto', marginRight: 16 }}
+                  style={{ marginLeft: 'auto', marginRight: box.spacing['16'] }}
                 />
               )}
             </PressScale>
@@ -197,11 +242,22 @@ export function MainSettings({
           onPress={() => setChild('data')}
           style={styles.data}
         >
-          <Icon name="archive" width={23} height={24} color={c.rowIcon} style={{ marginLeft: 15, marginRight: 10 }} />
-          <T size={14.25} weight={400} variant="text" color={c.ink} ls={0}>
+          <Icon
+            name="archive"
+            width={23}
+            height={24}
+            color={c.rowIcon}
+            style={{ marginLeft: 15, marginRight: box.spacing['10'] }}
+          />
+          <T size={14.25} weight={box.fontWeight['regular']} variant="text" color={c.ink} ls={0}>
             Данные на устройстве
           </T>
-          <Icon name="activity-row-chevron" width={13} height={20} style={{ marginLeft: 'auto', marginRight: 16 }} />
+          <Icon
+            name="activity-row-chevron"
+            width={13}
+            height={20}
+            style={{ marginLeft: 'auto', marginRight: box.spacing['16'] }}
+          />
         </PressScale>
       </ScrollView>
       {child === 'time' && <ScreenTimeSettings nested onClose={() => setChild(null)} />}
@@ -215,10 +271,17 @@ export function MainSettings({
   );
 }
 const styles = StyleSheet.create({
-  account: { marginHorizontal: 20, marginTop: 50, height: 53, flexDirection: 'row', alignItems: 'center', gap: 8 },
+  account: {
+    marginHorizontal: box.spacing['20'],
+    marginTop: 50,
+    height: 53,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: box.spacing['8'],
+  },
   avatar: {
-    width: 52,
-    height: 52,
+    width: box.size['52'],
+    height: box.size['52'],
     borderRadius: 26,
     backgroundColor: colors.white,
     boxShadow: c.avatarShadow,
@@ -226,8 +289,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   plan: {
-    marginHorizontal: 20,
-    marginTop: 18,
+    marginHorizontal: box.spacing['20'],
+    marginTop: box.spacing['18'],
     height: 104.333,
     borderRadius: 25,
     backgroundColor: colors.white,
@@ -237,21 +300,33 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 20,
     top: 37,
-    height: 36,
-    borderRadius: 20,
-    paddingHorizontal: 16,
+    height: box.size['36'],
+    borderRadius: box.radius['20'],
+    paddingHorizontal: box.spacing['16'],
     backgroundColor: colors.white,
     boxShadow: c.manageShadow,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  help: { marginHorizontal: 20, height: 66.667, borderRadius: 20, backgroundColor: c.help, boxShadow: c.helpShadow },
-  rows: { marginHorizontal: 20, marginTop: 11, borderRadius: 20, overflow: 'hidden', backgroundColor: colors.white },
+  help: {
+    marginHorizontal: box.spacing['20'],
+    height: 66.667,
+    borderRadius: box.radius['20'],
+    backgroundColor: c.help,
+    boxShadow: c.helpShadow,
+  },
+  rows: {
+    marginHorizontal: box.spacing['20'],
+    marginTop: 11,
+    borderRadius: box.radius['20'],
+    overflow: 'hidden',
+    backgroundColor: colors.white,
+  },
   data: {
-    marginHorizontal: 20,
+    marginHorizontal: box.spacing['20'],
     marginTop: 23.667,
     height: 53.333,
-    borderRadius: 20,
+    borderRadius: box.radius['20'],
     backgroundColor: colors.white,
     flexDirection: 'row',
     alignItems: 'center',

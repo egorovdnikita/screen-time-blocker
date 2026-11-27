@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { SheetScrollView as ScrollView, SheetGrabber, SheetModal } from '@/components/SheetModal';
 import { useState } from 'react';
 import { Image } from 'expo-image';
@@ -16,7 +17,7 @@ import { SavedTemplateCard } from './SavedTemplateCard';
 type Filter = 'all' | 'session' | 'limit' | 'routine';
 const tabs = [
   { id: 'all', title: 'Все', width: 71 },
-  { id: 'session', title: 'Сессии', width: 96 },
+  { id: 'session', title: 'Сессии', width: box.size['96'] },
   { id: 'limit', title: 'Лимиты', width: 75 },
   { id: 'routine', title: 'Рутины', width: 94 },
 ] as const;
@@ -57,20 +58,20 @@ export function TemplateGallery({
             style={{
               flex: 1,
               marginTop: Math.max(59, insets.top),
-              borderRadius: 44,
+              borderRadius: box.radius['44'],
               backgroundColor: c.surface,
               overflow: 'hidden',
             }}
           >
             <SheetGrabber style={styles.handle} />
-            <View style={{ height: 130.333, paddingTop: 44 }}>
-              <T size={20} center ls={0} style={{ lineHeight: 25 }}>
+            <View style={{ height: 130.333, paddingTop: box.spacing['44'] }}>
+              <T size={box.fontSize['20']} center ls={0} style={{ lineHeight: 25 }}>
                 Галерея
               </T>
               <ScrollView
                 horizontal
                 showsHorizontalScrollIndicator={false}
-                contentContainerStyle={{ paddingHorizontal: 20, gap: 5 }}
+                contentContainerStyle={{ paddingHorizontal: box.spacing['20'], gap: 5 }}
                 style={{ marginTop: 20.333 }}
                 accessibilityLabel="Типы шаблонов"
               >
@@ -109,7 +110,7 @@ export function TemplateGallery({
                 <View style={{ marginTop: 26.334 }}>
                   <View style={styles.sectionHeader}>
                     <Image source={art.galleryFolder} style={styles.sectionIcon} />
-                    <T size={20} color={c.section} ls={0}>
+                    <T size={box.fontSize['20']} color={c.section} ls={0}>
                       Личные
                     </T>
                     <PressScale
@@ -129,7 +130,7 @@ export function TemplateGallery({
                     horizontal
                     showsHorizontalScrollIndicator={false}
                     contentContainerStyle={styles.row}
-                    style={{ marginTop: 10 }}
+                    style={{ marginTop: box.spacing['10'] }}
                   >
                     {personal.map(template => (
                       <SavedTemplateCard
@@ -177,7 +178,7 @@ export function TemplateGallery({
                 <View key={section.title} style={{ marginTop: !hasPersonal && index === 0 ? 26.334 : 28.667 }}>
                   <View style={styles.sectionHeader}>
                     <Image source={section.image} style={styles.sectionIcon} />
-                    <T size={20} color={c.section} ls={0}>
+                    <T size={box.fontSize['20']} color={c.section} ls={0}>
                       {section.title}
                     </T>
                   </View>
@@ -185,7 +186,7 @@ export function TemplateGallery({
                     horizontal
                     showsHorizontalScrollIndicator={false}
                     contentContainerStyle={styles.row}
-                    style={{ marginTop: 8 }}
+                    style={{ marginTop: box.spacing['8'] }}
                   >
                     {section.cards.map(card => (
                       <View key={card.id} style={styles.card}>
@@ -202,17 +203,22 @@ export function TemplateGallery({
                             height={14}
                             color={colors.white}
                           />
-                          <T size={11.75} weight={500} color={colors.white} ls={0}>
+                          <T size={11.75} weight={box.fontWeight['medium']} color={colors.white} ls={0}>
                             {card.badge}
                           </T>
                         </View>
                         <View pointerEvents="none" style={styles.copy}>
-                          <T size={16} color={colors.white} ls={0} style={{ lineHeight: 20 }}>
+                          <T
+                            size={box.fontSize['16']}
+                            color={colors.white}
+                            ls={0}
+                            style={{ lineHeight: box.lineHeight['20'] }}
+                          >
                             {card.title}
                           </T>
                           <T
                             size={11.75}
-                            weight={400}
+                            weight={box.fontWeight['regular']}
                             color={colors.white}
                             ls={0}
                             style={{ marginTop: 1, lineHeight: 15 }}
@@ -239,7 +245,7 @@ export function TemplateGallery({
               {filter === 'all' && (
                 <View style={[styles.sectionHeader, { marginTop: 28.667 }]}>
                   <Image source={art.galleryPresent} style={styles.sectionIcon} />
-                  <T size={20} color={c.section} ls={0}>
+                  <T size={box.fontSize['20']} color={c.section} ls={0}>
                     Быть внимательнее
                   </T>
                 </View>
@@ -264,28 +270,34 @@ const styles = StyleSheet.create({
   },
   tab: {
     height: 41.333,
-    borderRadius: 24,
+    borderRadius: box.radius['24'],
     borderWidth: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     gap: 5,
   },
-  sectionHeader: { marginHorizontal: 20, height: 28, flexDirection: 'row', alignItems: 'center', gap: 5 },
-  sectionIcon: { width: 24, height: 24 },
-  row: { paddingHorizontal: 20, gap: 8 },
-  card: { width: 170, height: 220, borderRadius: 24, overflow: 'hidden' },
+  sectionHeader: {
+    marginHorizontal: box.spacing['20'],
+    height: box.size['28'],
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
+  },
+  sectionIcon: { width: box.size['24'], height: box.size['24'] },
+  row: { paddingHorizontal: box.spacing['20'], gap: box.spacing['8'] },
+  card: { width: 170, height: 220, borderRadius: box.radius['24'], overflow: 'hidden' },
   badge: {
     position: 'absolute',
     left: 12,
     top: 12,
     height: 22,
     paddingHorizontal: 7,
-    borderRadius: 14,
+    borderRadius: box.radius['14'],
     backgroundColor: c.glass,
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 4,
+    gap: box.spacing['4'],
     borderWidth: 0.667,
     borderColor: c.glassRim,
   },
@@ -295,24 +307,24 @@ const styles = StyleSheet.create({
     left: 12,
     right: 12,
     bottom: 12,
-    height: 32,
-    borderRadius: 20,
+    height: box.size['32'],
+    borderRadius: box.radius['20'],
     backgroundColor: c.glass,
     borderWidth: 0.667,
     borderColor: c.glassRim,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 4,
+    gap: box.spacing['4'],
   },
   new: {
     marginLeft: 'auto',
     height: 22,
-    borderRadius: 14,
+    borderRadius: box.radius['14'],
     paddingHorizontal: 11,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 4,
+    gap: box.spacing['4'],
   },
 });

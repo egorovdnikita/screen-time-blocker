@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { useGlobalSearchParams } from 'expo-router';
 import { BlurView } from 'expo-blur';
 import type { BottomTabBarProps } from 'expo-router/js-tabs';
@@ -132,14 +133,14 @@ export function TabBar({ state, emitter, navigateToTab, insets }: BottomTabBarPr
                         position: 'absolute',
                         left: 4.5,
                         top: 10,
-                        width: 12,
-                        height: 12,
-                        borderRadius: 2,
+                        width: box.size['12'],
+                        height: box.size['12'],
+                        borderRadius: box.radius['2'],
                         backgroundColor: colors.tabInk,
                         justifyContent: 'center',
                       }}
                     >
-                      <T size={9} color={colors.white} ls={0} center style={{ lineHeight: 12 }}>
+                      <T size={9} color={colors.white} ls={0} center style={{ lineHeight: box.lineHeight['12'] }}>
                         {activeCount > 99 ? '99+' : activeCount}
                       </T>
                     </View>
@@ -193,7 +194,7 @@ const styles = StyleSheet.create({
     width: PILL_W,
     height: PILL_H,
     alignItems: 'center',
-    paddingTop: 8,
+    paddingTop: box.spacing['8'],
   },
-  iconBox: { height: 24, justifyContent: 'flex-end', marginBottom: 3 },
+  iconBox: { height: box.size['24'], justifyContent: 'flex-end', marginBottom: 3 },
 });

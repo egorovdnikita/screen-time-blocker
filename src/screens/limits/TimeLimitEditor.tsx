@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { RuleEditorScrollView, RuleEditorScrollAnchor } from '@/components/RuleEditorScroll';
 import { SheetTransition, SheetGrabber } from '@/components/SheetModal';
 import { useDarkStatusBar } from '@/components/useStatusBar';
@@ -82,13 +83,13 @@ function TimeLimitEditorBody() {
   const badge = selectedCount ? (
     <View style={styles.badge}>
       <Icon name="apps-grid" width={14} height={14} color={c.ink} />
-      <T size={14} weight={600} color={sessionTheme.ruleValue} ls={0}>
+      <T size={box.fontSize['14']} weight={box.fontWeight['semibold']} color={sessionTheme.ruleValue} ls={0}>
         {selectedCount}
       </T>
     </View>
   ) : (
     <View style={styles.warning}>
-      <T size={12} color={c.warning} ls={0}>
+      <T size={box.fontSize['12']} color={c.warning} ls={0}>
         ● Выбрать
       </T>
     </View>
@@ -140,11 +141,11 @@ function TimeLimitEditorBody() {
           <>
             <View style={[styles.recommendation, { marginTop: 23 }]}>
               <Icon name="chevron-down-section" width={10} height={8} color={c.hint} />
-              <T size={20} color={c.hint} ls={0}>
+              <T size={box.fontSize['20']} color={c.hint} ls={0}>
                 Рекомендации
               </T>
             </View>
-            <View style={{ marginTop: 4 }}>
+            <View style={{ marginTop: box.spacing['4'] }}>
               <RuleSuggestions
                 items={[
                   {
@@ -169,10 +170,10 @@ function TimeLimitEditorBody() {
               />
             </View>
           </>
-          <RuleEditorScrollAnchor style={{ paddingHorizontal: 20 }}>
+          <RuleEditorScrollAnchor style={{ paddingHorizontal: box.spacing['20'] }}>
             {
               <>
-                <View style={{ marginTop: 20 }}>
+                <View style={{ marginTop: box.spacing['20'] }}>
                   <EditorRow title="Блокировать" value={badge} onPress={() => setModal('apps')} />
                 </View>
                 {after ? (
@@ -190,7 +191,7 @@ function TimeLimitEditorBody() {
                         color={c.hint}
                         style={{ transform: [{ rotate: '180deg' }] }}
                       />
-                      <T size={20} ls={0}>
+                      <T size={box.fontSize['20']} ls={0}>
                         После
                       </T>
                     </PressScale>
@@ -201,31 +202,38 @@ function TimeLimitEditorBody() {
                         onPress={() => setModal('duration')}
                         style={styles.detailRow}
                       >
-                        <T size={14} weight={400} ls={0}>
+                        <T size={box.fontSize['14']} weight={box.fontWeight['regular']} ls={0}>
                           Проведено времени
                         </T>
-                        <T size={14} color={c.value} ls={0} style={{ marginLeft: 'auto' }}>
+                        <T size={box.fontSize['14']} color={c.value} ls={0} style={{ marginLeft: 'auto' }}>
                           {durationLabel(draft.minutes)}　›
                         </T>
                       </PressScale>
                       <View accessibilityState={{ disabled: true }} style={styles.detailRow}>
-                        <T size={14} weight={400} ls={0}>
+                        <T size={box.fontSize['14']} weight={box.fontWeight['regular']} ls={0}>
                           Для чего
                         </T>
-                        <T size={14} color={c.value} ls={0} style={{ marginLeft: 'auto' }}>
+                        <T size={box.fontSize['14']} color={c.value} ls={0} style={{ marginLeft: 'auto' }}>
                           Выбранные{app.live ? '' : '　⌃'}
                         </T>
                       </View>
                     </View>
                     <View style={[styles.detailRow, styles.until]} accessibilityState={{ disabled: true }}>
-                      <T size={14} weight={400} ls={0}>
+                      <T size={box.fontSize['14']} weight={box.fontWeight['regular']} ls={0}>
                         Заблокировать до
                       </T>
-                      <T size={14} color={c.value} ls={0} style={{ marginLeft: 'auto' }}>
+                      <T size={box.fontSize['14']} color={c.value} ls={0} style={{ marginLeft: 'auto' }}>
                         Завтра{app.live ? '' : '　⌃'}
                       </T>
                     </View>
-                    <T size={12} weight={400} color={c.hint} center ls={0} style={styles.afterNote}>
+                    <T
+                      size={box.fontSize['12']}
+                      weight={box.fontWeight['regular']}
+                      color={c.hint}
+                      center
+                      ls={0}
+                      style={styles.afterNote}
+                    >
                       Когда лимит будет достигнут, приложения останутся заблокированными до следующего дня.
                     </T>
                   </View>
@@ -249,7 +257,7 @@ function TimeLimitEditorBody() {
                     color={c.hint}
                     style={{ transform: [{ rotate: '180deg' }] }}
                   />
-                  <T size={20} ls={0}>
+                  <T size={box.fontSize['20']} ls={0}>
                     Активно
                   </T>
                 </PressScale>
@@ -257,7 +265,7 @@ function TimeLimitEditorBody() {
                   value={draft.days}
                   onChange={days => patch({ days })}
                   labelPrefix="День лимита"
-                  style={{ marginTop: 12 }}
+                  style={{ marginTop: box.spacing['12'] }}
                 />
               </View>
             ) : (
@@ -295,7 +303,7 @@ function TimeLimitEditorBody() {
                     color={c.hint}
                     style={{ transform: [{ rotate: '180deg' }] }}
                   />
-                  <T size={20} ls={0}>
+                  <T size={box.fontSize['20']} ls={0}>
                     Уведомления
                   </T>
                 </PressScale>
@@ -404,10 +412,10 @@ function NotifyRow({
   const name = label.replace('\n', ' ');
   return (
     <View style={styles.notifyRow}>
-      <T size={14} weight={400} ls={0} style={{ flex: 1 }}>
+      <T size={box.fontSize['14']} weight={box.fontWeight['regular']} ls={0} style={{ flex: 1 }}>
         {label}
       </T>
-      <T size={15} weight={600} color={c.value} ls={0} style={{ marginRight: 13 }}>
+      <T size={15} weight={box.fontWeight['semibold']} color={c.value} ls={0} style={{ marginRight: 13 }}>
         {value ? `${value} мин` : 'Нет'}
       </T>
       <View style={styles.stepper}>
@@ -419,7 +427,7 @@ function NotifyRow({
           onPress={() => onChange(Math.max(0, value - 10))}
           style={styles.step}
         >
-          <T size={23} weight={400} color={value ? c.ink : c.stepOff} ls={0}>
+          <T size={23} weight={box.fontWeight['regular']} color={value ? c.ink : c.stepOff} ls={0}>
             −
           </T>
         </PressScale>
@@ -432,7 +440,7 @@ function NotifyRow({
           onPress={() => onChange(Math.min(max, value + 10))}
           style={styles.step}
         >
-          <T size={23} weight={400} color={value >= max ? c.dayOff : c.ink} ls={0}>
+          <T size={23} weight={box.fontWeight['regular']} color={value >= max ? c.dayOff : c.ink} ls={0}>
             ＋
           </T>
         </PressScale>
@@ -441,31 +449,48 @@ function NotifyRow({
   );
 }
 const styles = StyleSheet.create({
-  sheet: { flex: 1, borderRadius: 40, overflow: 'hidden', backgroundColor: c.surface },
+  sheet: { flex: 1, borderRadius: box.radius['40'], overflow: 'hidden', backgroundColor: c.surface },
   handle: {
     position: 'absolute',
     zIndex: 2,
     top: 12,
-    width: 64,
+    width: box.size['64'],
     height: 5,
-    borderRadius: 4,
+    borderRadius: box.radius['4'],
     alignSelf: 'center',
     backgroundColor: c.handle,
   },
-  recommendation: { marginHorizontal: 20, height: 26, flexDirection: 'row', gap: 7, alignItems: 'center' },
+  recommendation: {
+    marginHorizontal: box.spacing['20'],
+    height: 26,
+    flexDirection: 'row',
+    gap: 7,
+    alignItems: 'center',
+  },
   badge: {
     flexDirection: 'row',
-    gap: 4,
+    gap: box.spacing['4'],
     alignItems: 'center',
     backgroundColor: c.badge,
-    borderRadius: 18,
+    borderRadius: box.radius['18'],
     paddingVertical: 5,
-    paddingHorizontal: 10,
+    paddingHorizontal: box.spacing['10'],
   },
-  warning: { backgroundColor: c.warningFill, paddingVertical: 3, paddingHorizontal: 8, borderRadius: 18 },
-  after: { marginTop: 14, height: 272, borderRadius: c.panelRadius, backgroundColor: colors.white, padding: 16 },
-  panelTitle: { height: 27, flexDirection: 'row', alignItems: 'center', gap: 10 },
-  afterGrid: { marginTop: 14, backgroundColor: c.grid, borderRadius: c.gridRadius, overflow: 'hidden' },
+  warning: {
+    backgroundColor: c.warningFill,
+    paddingVertical: 3,
+    paddingHorizontal: box.spacing['8'],
+    borderRadius: box.radius['18'],
+  },
+  after: {
+    marginTop: box.spacing['14'],
+    height: 272,
+    borderRadius: c.panelRadius,
+    backgroundColor: colors.white,
+    padding: box.spacing['16'],
+  },
+  panelTitle: { height: 27, flexDirection: 'row', alignItems: 'center', gap: box.spacing['10'] },
+  afterGrid: { marginTop: box.spacing['14'], backgroundColor: c.grid, borderRadius: c.gridRadius, overflow: 'hidden' },
   detailRow: {
     height: 51,
     paddingHorizontal: 15,
@@ -474,25 +499,50 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: c.line,
   },
-  until: { marginTop: 12, borderRadius: c.gridRadius, backgroundColor: c.grid },
-  afterNote: { marginTop: 12, lineHeight: 15 },
-  daysPanel: { marginTop: 13, height: 109, padding: 16, borderRadius: c.panelRadius, backgroundColor: colors.white },
-  days: { marginTop: 12, flexDirection: 'row', justifyContent: 'space-between' },
-  day: { width: 39, height: 39, borderRadius: 20, borderWidth: 1, alignItems: 'center', justifyContent: 'center' },
-  emptyExtra: { marginTop: 14, height: 57, borderRadius: c.panelRadius, backgroundColor: colors.white },
-  notify: { marginTop: 21, height: 210, padding: 16, borderRadius: c.panelRadius, backgroundColor: colors.white },
-  notifyGrid: { marginTop: 13, backgroundColor: c.grid, borderRadius: 0, overflow: 'hidden' },
+  until: { marginTop: box.spacing['12'], borderRadius: c.gridRadius, backgroundColor: c.grid },
+  afterNote: { marginTop: box.spacing['12'], lineHeight: 15 },
+  daysPanel: {
+    marginTop: 13,
+    height: 109,
+    padding: box.spacing['16'],
+    borderRadius: c.panelRadius,
+    backgroundColor: colors.white,
+  },
+  days: { marginTop: box.spacing['12'], flexDirection: 'row', justifyContent: 'space-between' },
+  day: {
+    width: 39,
+    height: 39,
+    borderRadius: box.radius['20'],
+    borderWidth: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  emptyExtra: { marginTop: box.spacing['14'], height: 57, borderRadius: c.panelRadius, backgroundColor: colors.white },
+  notify: {
+    marginTop: 21,
+    height: 210,
+    padding: box.spacing['16'],
+    borderRadius: c.panelRadius,
+    backgroundColor: colors.white,
+  },
+  notifyGrid: { marginTop: 13, backgroundColor: c.grid, borderRadius: box.radius['0'], overflow: 'hidden' },
   notifyRow: {
     height: 65,
-    paddingHorizontal: 16,
+    paddingHorizontal: box.spacing['16'],
     flexDirection: 'row',
     alignItems: 'center',
     borderBottomWidth: 1,
     borderBottomColor: c.line,
   },
-  stepper: { width: 94, height: 32, borderRadius: c.stepperRadius, backgroundColor: c.stepper, flexDirection: 'row' },
-  step: { width: 47, height: 32, justifyContent: 'center', alignItems: 'center' },
+  stepper: {
+    width: 94,
+    height: box.size['32'],
+    borderRadius: c.stepperRadius,
+    backgroundColor: c.stepper,
+    flexDirection: 'row',
+  },
+  step: { width: 47, height: box.size['32'], justifyContent: 'center', alignItems: 'center' },
   stepperLine: { position: 'absolute', left: 47, top: 4, bottom: 4, width: 1, backgroundColor: c.stepperLine },
-  footer: { paddingHorizontal: 20, paddingTop: ruleEditorSpacing.footerTop, backgroundColor: c.surface },
-  actions: { marginTop: 26, flexDirection: 'row', gap: 8 },
+  footer: { paddingHorizontal: box.spacing['20'], paddingTop: ruleEditorSpacing.footerTop, backgroundColor: c.surface },
+  actions: { marginTop: 26, flexDirection: 'row', gap: box.spacing['8'] },
 });

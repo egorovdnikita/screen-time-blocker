@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { useSheetGestureBlocker } from './SheetModal';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useEffect, useRef, useState, type ComponentRef } from 'react';
@@ -216,7 +217,7 @@ export function WheelColumn({
             <Pressable accessible={false} onPress={() => select(i)} style={styles.value}>
               <T
                 size={i === index ? selectedSize : otherSize}
-                weight={400}
+                weight={box.fontWeight['regular']}
                 color={i === index ? p.wheelInk : muted}
                 ls={0}
                 center
@@ -244,7 +245,14 @@ export function WheelColumn({
   );
 }
 const styles = StyleSheet.create({
-  highlight: { position: 'absolute', left: -6, right: -6, height: 32, borderRadius: 18, backgroundColor: p.wheelPill },
+  highlight: {
+    position: 'absolute',
+    left: -6,
+    right: -6,
+    height: box.size['32'],
+    borderRadius: box.radius['18'],
+    backgroundColor: p.wheelPill,
+  },
   value: { flex: 1, alignItems: 'center', justifyContent: 'center' },
   fade: { position: 'absolute', left: 0, right: 0 },
 });

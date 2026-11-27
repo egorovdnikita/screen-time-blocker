@@ -1,3 +1,5 @@
+import { box } from '@/theme/box-ui.generated';
+import { localMaterials, homeSkyTheme, colors, radii, shadows } from '@/theme/tokens';
 import { ScreenTimeSettings } from '../settings/ScreenTimeSettings';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -17,7 +19,6 @@ import { art } from '@/data/art';
 import type { Day } from '@/data/home';
 import { devMenu, useAppState } from '@/state/app';
 import { T, TRACK_SMALL } from '@/theme/typography';
-import { homeSkyTheme, colors, radii, shadows } from '@/theme/tokens';
 
 import { MostUsed } from './MostUsed';
 import { InsightSheet, LoadingScene, MostUsedMenu, NewStart, PeriodMenu, type Anchor } from './Overlays';
@@ -103,7 +104,7 @@ export function HomeScreen() {
         />
 
         <View style={[styles.header, { marginTop: top + 10 }]}>
-          <T size={12} weight={600} ls={0} color={colors.wordmark}>
+          <T size={box.fontSize['12']} weight={box.fontWeight['semibold']} ls={0} color={colors.wordmark}>
             screen-time-blocker
           </T>
           <View style={styles.periodWrap} pointerEvents="box-none">
@@ -318,7 +319,7 @@ function ScreenTimePage({ day, width }: { day: Day; width: number }) {
       {day.goal.enabled !== false && (
         <Glass radius={radii.pill} style={styles.goal}>
           <LinearGradient
-            colors={[colors.goalGreen, colors.goalGreen, 'rgba(0, 195, 80, 0)']}
+            colors={[colors.goalGreen, colors.goalGreen, localMaterials.goalFade]}
             locations={[0, 0.55, 1]}
             start={{ x: 0, y: 0.5 }}
             end={{ x: 1, y: 0.5 }}
@@ -461,7 +462,13 @@ function Stat({
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: colors.bg },
   sky: { position: 'absolute', left: 0, top: 0 },
-  header: { height: 44, flexDirection: 'row', alignItems: 'center', paddingLeft: 20, paddingRight: 20 },
+  header: {
+    height: box.size['44'],
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingLeft: box.spacing['20'],
+    paddingRight: box.spacing['20'],
+  },
   periodWrap: {
     position: 'absolute',
     left: 0,
@@ -471,17 +478,28 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  period: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 8, paddingVertical: 10 },
+  period: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: box.spacing['8'],
+    paddingVertical: box.spacing['10'],
+  },
   headerButtons: { marginLeft: 'auto', flexDirection: 'row', gap: 6.7 },
   num: { marginTop: -2, lineHeight: 89, height: 89, maxWidth: 360 },
-  goal: { height: 35, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 20 },
+  goal: {
+    height: 35,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: box.spacing['20'],
+  },
   goalFill: { position: 'absolute', left: 0, top: 0, bottom: 0, width: 30 },
   qWord: { marginTop: 1, lineHeight: 70, height: 70, maxWidth: 380 },
   qTiles: { flexDirection: 'row', marginTop: 0 },
   qTile: {
-    width: 28,
-    height: 28,
-    borderRadius: 8,
+    width: box.size['28'],
+    height: box.size['28'],
+    borderRadius: box.radius['8'],
     overflow: 'hidden',
     backgroundColor: colors.qTile,
     boxShadow: `inset 0px 0px 0px 1px ${colors.qTileRim}`,
@@ -490,14 +508,19 @@ const styles = StyleSheet.create({
   dots: { flexDirection: 'row', gap: 3.67, alignSelf: 'center', marginTop: 20.6 },
   dot: { width: 6.167, height: 6.167, borderRadius: 3.1, overflow: 'hidden' },
   card: {
-    marginHorizontal: 20,
+    marginHorizontal: box.spacing['20'],
     height: CARD_H,
     borderRadius: radii.card,
     backgroundColor: colors.card,
     boxShadow: shadows.card,
   },
-  loading: { flex: 1, justifyContent: 'center', paddingBottom: 6 },
-  stats: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, marginTop: 28 },
+  loading: { flex: 1, justifyContent: 'center', paddingBottom: box.spacing['6'] },
+  stats: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: box.spacing['16'],
+    marginTop: box.spacing['28'],
+  },
   stat: { flex: 1, alignItems: 'center' },
   statValue: { flexDirection: 'row', alignItems: 'center', marginTop: 1.5 },
   sep: { width: 1.5, height: 16.5, borderRadius: 1, backgroundColor: colors.separator, marginTop: 23.6 },

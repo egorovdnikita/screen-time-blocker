@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { SheetScrollView as ScrollView, SheetModal, SheetGrabber } from '@/components/SheetModal';
 import { useAppState } from '@/state/app';
 import { MaterialBlur } from '@/components/MaterialBlur';
@@ -99,7 +100,7 @@ export function ReflectionSheet({
                   Я был в
                 </T>
                 <View style={styles.app}>
-                  <View style={{ width: 20, height: 20, overflow: 'hidden' }}>
+                  <View style={{ width: box.size['20'], height: box.size['20'], overflow: 'hidden' }}>
                     <AppIcon icon={app.icon} size={20} />
                   </View>
                   <T size={22} color={colors.black} ls={-0.3} numberOfLines={1}>
@@ -130,7 +131,7 @@ export function ReflectionSheet({
               />
             </View>
             <View style={styles.switchRow}>
-              <T size={14} weight={400} variant="display" ls={0}>
+              <T size={box.fontSize['14']} weight={box.fontWeight['regular']} variant="display" ls={0}>
                 Всегда для приложения
               </T>
               <View style={{ marginLeft: 'auto' }}>
@@ -180,7 +181,14 @@ export function ReflectionSheet({
                   showsVerticalScrollIndicator={false}
                   contentContainerStyle={{ height: menu === 'activity' ? Math.max(553, nextTop + 10) : 258.667 }}
                 >
-                  <T size={13.5} weight={400} variant="display" color={c.header} ls={0} style={styles.menuHeader}>
+                  <T
+                    size={13.5}
+                    weight={box.fontWeight['regular']}
+                    variant="display"
+                    color={c.header}
+                    ls={0}
+                    style={styles.menuHeader}
+                  >
                     {menu === 'activity' ? 'Изменить занятия: Главная →\n… → Занятия' : `Время в ${app.name} — это…`}
                   </T>
                   {menu === 'activity'
@@ -196,13 +204,19 @@ export function ReflectionSheet({
                           style={[styles.menuRow, { top: a.top, alignItems: 'flex-start', minHeight: 42 }]}
                         >
                           {a.image ? (
-                            <Image source={a.image} style={{ width: 22, height: 24 }} />
+                            <Image source={a.image} style={{ width: 22, height: box.size['24'] }} />
                           ) : (
-                            <T size={20} ls={0}>
+                            <T size={box.fontSize['20']} ls={0}>
                               🧘
                             </T>
                           )}
-                          <T size={17} weight={400} variant="display" ls={0} style={{ paddingTop: 2, lineHeight: 20 }}>
+                          <T
+                            size={17}
+                            weight={box.fontWeight['regular']}
+                            variant="display"
+                            ls={0}
+                            style={{ paddingTop: box.spacing['2'], lineHeight: box.lineHeight['20'] }}
+                          >
                             {'menu' in a ? a.menu : a.title}
                           </T>
                         </PressScale>
@@ -228,8 +242,8 @@ export function ReflectionSheet({
                               style={{ position: 'absolute', left: -34, top: 13 }}
                             />
                           )}
-                          <Image source={m.menuImage} style={{ width: 24, height: 25 }} />
-                          <T size={17} weight={400} variant="display" ls={0}>
+                          <Image source={m.menuImage} style={{ width: box.size['24'], height: 25 }} />
+                          <T size={17} weight={box.fontWeight['regular']} variant="display" ls={0}>
                             {m.title}
                           </T>
                         </PressScale>
@@ -261,9 +275,9 @@ function Selection({
       accessibilityRole="button"
       accessibilityLabel={label}
       onPress={onPress}
-      style={[styles.line, { gap: 4 }]}
+      style={[styles.line, { gap: box.spacing['4'] }]}
     >
-      {image ? <Image source={image} style={{ width: 22, height: 24 }} /> : <T size={22}>{emoji}</T>}
+      {image ? <Image source={image} style={{ width: 22, height: box.size['24'] }} /> : <T size={22}>{emoji}</T>}
       <T size={26} color={colors.black} ls={-0.3} numberOfLines={1} adjustsFontSizeToFit style={{ flexShrink: 1 }}>
         {title}
       </T>
@@ -290,8 +304,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   round: {
-    width: 44,
-    height: 44,
+    width: box.size['44'],
+    height: box.size['44'],
     borderRadius: 22,
     backgroundColor: c.close,
     boxShadow: c.roundShadow,
@@ -307,7 +321,7 @@ const styles = StyleSheet.create({
     height: 34,
     paddingHorizontal: 7,
     backgroundColor: colors.white,
-    borderRadius: 20,
+    borderRadius: box.radius['20'],
     maxWidth: '55%',
   },
   switchRow: {
@@ -315,11 +329,11 @@ const styles = StyleSheet.create({
     top: 269.333,
     left: 20,
     right: 20,
-    height: 60,
-    borderRadius: 28,
+    height: box.size['60'],
+    borderRadius: box.radius['28'],
     backgroundColor: colors.white,
-    paddingHorizontal: 16,
-    gap: 8,
+    paddingHorizontal: box.spacing['16'],
+    gap: box.spacing['8'],
     flexDirection: 'row',
     alignItems: 'center',
   },
@@ -329,10 +343,10 @@ const styles = StyleSheet.create({
     left: 20,
     right: 20,
     height: 59,
-    borderRadius: 32,
+    borderRadius: box.radius['32'],
     backgroundColor: c.exclude,
     boxShadow: 'inset 0 0 0 1px white',
-    gap: 4,
+    gap: box.spacing['4'],
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
@@ -346,6 +360,6 @@ const styles = StyleSheet.create({
     boxShadow: c.menuShadow,
     overflow: 'hidden',
   },
-  menuHeader: { position: 'absolute', left: 28, right: 10, top: 11, lineHeight: 18 },
+  menuHeader: { position: 'absolute', left: 28, right: 10, top: 11, lineHeight: box.lineHeight['18'] },
   menuRow: { position: 'absolute', left: 64, right: 10, flexDirection: 'row', alignItems: 'center', gap: 5 },
 });

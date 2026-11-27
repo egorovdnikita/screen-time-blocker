@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { SheetScrollView as ScrollView, SheetGrabber, SheetModal } from '@/components/SheetModal';
 import { BlurView } from 'expo-blur';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -49,14 +50,14 @@ export function StrictSettingsSheet({
               <SheetGrabber style={styles.handle} />
               <View style={styles.title}>
                 <Icon name="session-shield" width={22} height={24} />
-                <T size={20} ls={0}>
+                <T size={box.fontSize['20']} ls={0}>
                   Строгий режим
                 </T>
               </View>
               <ScrollView
                 showsVerticalScrollIndicator={false}
                 style={{ marginTop: 97 }}
-                contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 120 }}
+                contentContainerStyle={{ paddingHorizontal: box.spacing['20'], paddingBottom: 120 }}
               >
                 <View style={[styles.card, { height: session ? 194 : draft.strictDays === 1 ? 315 : 292 }]}>
                   <View style={styles.section}>
@@ -67,7 +68,7 @@ export function StrictSettingsSheet({
                       color={c.handle}
                       style={{ transform: [{ rotate: '180deg' }] }}
                     />
-                    <T size={20} ls={0}>
+                    <T size={box.fontSize['20']} ls={0}>
                       Активность…
                     </T>
                   </View>
@@ -101,8 +102,8 @@ export function StrictSettingsSheet({
                       </PressScale>
                     ))}
                     {session && !app.live && (
-                      <View style={[styles.tab, { width: 80 }]} accessibilityState={{ disabled: true }}>
-                        <T size={14} color={c.secondary} ls={0}>
+                      <View style={[styles.tab, { width: box.size['80'] }]} accessibilityState={{ disabled: true }}>
+                        <T size={box.fontSize['14']} color={c.secondary} ls={0}>
                           Всегда
                         </T>
                       </View>
@@ -153,11 +154,11 @@ export function StrictSettingsSheet({
                           onPress={() => setDraft(d => ({ ...d, strictDays: d.strictDays - 1 }))}
                           style={[styles.countButton, draft.strictDays <= 1 && { opacity: 0.4 }]}
                         >
-                          <T size={25} weight={500} ls={0}>
+                          <T size={25} weight={box.fontWeight['medium']} ls={0}>
                             −
                           </T>
                         </PressScale>
-                        <T size={36} ls={0}>
+                        <T size={box.fontSize['36']} ls={0}>
                           {strictDaysLabel(draft.strictDays)}
                         </T>
                         <PressScale
@@ -172,7 +173,7 @@ export function StrictSettingsSheet({
                           <Icon name="plus" width={15} height={15} color={colors.black} />
                         </PressScale>
                       </View>
-                      <T size={11} weight={400} color={c.note} center ls={0} style={styles.note}>
+                      <T size={11} weight={box.fontWeight['regular']} color={c.note} center ls={0} style={styles.note}>
                         При необходимости срок можно продлить.
                       </T>
                     </>
@@ -180,10 +181,10 @@ export function StrictSettingsSheet({
                 </View>
                 <View style={styles.prevent}>
                   <Icon name="chevron-down-section" width={10} height={8} color={c.handle} />
-                  <T size={14} weight={600} color={c.secondary} ls={0}>
+                  <T size={box.fontSize['14']} weight={box.fontWeight['semibold']} color={c.secondary} ls={0}>
                     Запретить…
                   </T>
-                  <T size={14} weight={400} ls={0} style={{ marginLeft: 'auto' }}>
+                  <T size={box.fontSize['14']} weight={box.fontWeight['regular']} ls={0} style={{ marginLeft: 'auto' }}>
                     3
                   </T>
                 </View>
@@ -202,7 +203,7 @@ export function StrictSettingsSheet({
                   style={StyleSheet.absoluteFill}
                 />
                 <Icon name="shield-check-white" width={17} height={19} color={colors.white} />
-                <T size={16} color={colors.white} ls={0}>
+                <T size={box.fontSize['16']} color={colors.white} ls={0}>
                   Включить строгий режим
                 </T>
               </PressScale>
@@ -233,10 +234,17 @@ export function StrictConfirmation({ onCancel, onContinue }: { onCancel: () => v
           <View style={[styles.alert, { top: height * 0.515 - 96 }]} accessibilityViewIsModal accessibilityRole="alert">
             <BlurView intensity={16} tint="light" style={StyleSheet.absoluteFill} />
             <LinearGradient colors={c.alertGradient} style={StyleSheet.absoluteFill} />
-            <T size={17} weight={600} ls={0} variant="display" style={styles.alertTitle}>
+            <T size={17} weight={box.fontWeight['semibold']} ls={0} variant="display" style={styles.alertTitle}>
               ✋ Включить строгий режим?
             </T>
-            <T size={15} weight={400} color={c.alertCopy} ls={0} variant="display" style={styles.alertCopy}>
+            <T
+              size={15}
+              weight={box.fontWeight['regular']}
+              color={c.alertCopy}
+              ls={0}
+              variant="display"
+              style={styles.alertCopy}
+            >
               Нельзя менять правило и удалять приложения с iPhone/iPad, пока включён строгий режим.
             </T>
             <View style={styles.alertActions}>
@@ -245,7 +253,7 @@ export function StrictConfirmation({ onCancel, onContinue }: { onCancel: () => v
                 onPress={() => close()}
                 style={[styles.alertButton, { backgroundColor: c.alertCancel }]}
               >
-                <T size={17} weight={400} variant="display" ls={0}>
+                <T size={17} weight={box.fontWeight['regular']} variant="display" ls={0}>
                   Отмена
                 </T>
               </PressScale>
@@ -254,7 +262,7 @@ export function StrictConfirmation({ onCancel, onContinue }: { onCancel: () => v
                 onPress={() => close(onContinue)}
                 style={[styles.alertButton, { backgroundColor: c.alertPrimary }]}
               >
-                <T size={17} weight={500} variant="display" color={colors.white} ls={0}>
+                <T size={17} weight={box.fontWeight['medium']} variant="display" color={colors.white} ls={0}>
                   Продолжить
                 </T>
               </PressScale>
@@ -278,7 +286,7 @@ const styles = StyleSheet.create({
   handle: {
     position: 'absolute',
     top: 11,
-    width: 60,
+    width: box.size['60'],
     height: 5,
     alignSelf: 'center',
     backgroundColor: c.handle,
@@ -295,10 +303,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   card: { backgroundColor: colors.white, borderRadius: c.cardRadius, overflow: 'hidden' },
-  section: { position: 'absolute', left: 16, top: 15, flexDirection: 'row', alignItems: 'center', gap: 8 },
-  tabs: { position: 'absolute', top: 52, left: 15, flexDirection: 'row', gap: 4 },
+  section: {
+    position: 'absolute',
+    left: 16,
+    top: 15,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: box.spacing['8'],
+  },
+  tabs: { position: 'absolute', top: 52, left: 15, flexDirection: 'row', gap: box.spacing['4'] },
   tab: {
-    height: 40,
+    height: box.size['40'],
     borderRadius: c.tabRadius,
     borderWidth: 1,
     borderColor: c.border,
@@ -327,14 +342,14 @@ const styles = StyleSheet.create({
   },
   note: { position: 'absolute', bottom: 24, left: 0, right: 0 },
   prevent: {
-    marginTop: 12,
-    height: 60,
+    marginTop: box.spacing['12'],
+    height: box.size['60'],
     borderRadius: c.cardRadius,
     backgroundColor: colors.white,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 16,
-    gap: 8,
+    paddingHorizontal: box.spacing['16'],
+    gap: box.spacing['8'],
   },
   fade: { position: 'absolute', left: 0, right: 0, bottom: 0, height: 117 },
   activate: {
@@ -342,7 +357,7 @@ const styles = StyleSheet.create({
     left: 20,
     right: 20,
     height: 57,
-    borderRadius: 32,
+    borderRadius: box.radius['32'],
     overflow: 'hidden',
     flexDirection: 'row',
     alignItems: 'center',
@@ -359,7 +374,15 @@ const styles = StyleSheet.create({
     boxShadow: c.alertShadow,
   },
   alertTitle: { position: 'absolute', top: 21, left: 30, right: 20, lineHeight: 22 },
-  alertCopy: { position: 'absolute', top: 49, left: 30, right: 30, lineHeight: 20 },
-  alertActions: { position: 'absolute', left: 16, right: 16, bottom: 16, height: 48, flexDirection: 'row', gap: 8 },
+  alertCopy: { position: 'absolute', top: 49, left: 30, right: 30, lineHeight: box.lineHeight['20'] },
+  alertActions: {
+    position: 'absolute',
+    left: 16,
+    right: 16,
+    bottom: 16,
+    height: box.size['48'],
+    flexDirection: 'row',
+    gap: box.spacing['8'],
+  },
   alertButton: { flex: 1, borderRadius: 26, justifyContent: 'center', alignItems: 'center' },
 });

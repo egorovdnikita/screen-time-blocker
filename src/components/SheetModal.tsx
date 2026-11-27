@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { colors } from '@/theme/tokens';
 import {
   createContext,
@@ -482,7 +483,7 @@ export function SheetGrabber({ style }: { style: StyleProp<ViewStyle> }) {
         left: 0,
         right: 0,
         top: 0,
-        height: 40,
+        height: box.size['40'],
         zIndex: 30,
         ...(Platform.OS === 'web' ? { touchAction: 'none' } : {}),
       }}

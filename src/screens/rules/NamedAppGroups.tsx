@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { SheetScrollView as ScrollView, SheetModal, SheetGrabber } from '@/components/SheetModal';
 import { useEffect, useRef, useState, type ReactNode, type ComponentRef } from 'react';
 import { Image } from 'expo-image';
@@ -59,7 +60,7 @@ export function NamedAppGroups({ onClose, onSelect, renderEditor }: Props) {
                 </View>
               </View>
               <T
-                size={20}
+                size={box.fontSize['20']}
                 center
                 color={c.title}
                 ls={0}
@@ -69,11 +70,11 @@ export function NamedAppGroups({ onClose, onSelect, renderEditor }: Props) {
               </T>
               <T
                 size={11.75}
-                weight={500}
+                weight={box.fontWeight['medium']}
                 center
                 color={c.caption}
                 ls={0}
-                style={{ position: 'absolute', top: 457, left: 20, right: 20, lineHeight: 14 }}
+                style={{ position: 'absolute', top: 457, left: 20, right: 20, lineHeight: box.lineHeight['14'] }}
               >
                 {'Нажмите «Добавить», чтобы собрать приложения\nи сайты в список блокировки.'}
               </T>
@@ -82,7 +83,7 @@ export function NamedAppGroups({ onClose, onSelect, renderEditor }: Props) {
             <ScrollView
               accessibilityLabel="Сохранённые группы"
               style={{ position: 'absolute', top: 101.333, left: 20, right: 20, bottom: 112 }}
-              contentContainerStyle={{ gap: 8 }}
+              contentContainerStyle={{ gap: box.spacing['8'] }}
               showsVerticalScrollIndicator={false}
             >
               {app.namedGroups.map(item => (
@@ -118,7 +119,7 @@ export function NamedAppGroups({ onClose, onSelect, renderEditor }: Props) {
           {notice && (
             <View accessibilityRole="alert" style={styles.notice}>
               <Icon name="reflection-confirm" width={17} height={20} color={colors.white} />
-              <T size={14} color={colors.white} ls={0} style={{ flex: 1, lineHeight: 18.333 }}>
+              <T size={box.fontSize['14']} color={colors.white} ls={0} style={{ flex: 1, lineHeight: 18.333 }}>
                 {'Группа добавлена! Теперь её можно\nиспользовать в правилах блокировки.'}
               </T>
             </View>
@@ -191,7 +192,12 @@ function RenameGroup({
           <View pointerEvents="none" style={{ height: 291.333 }} />
           <View
             accessibilityViewIsModal
-            style={{ flex: 1, marginHorizontal: 8, borderRadius: c.formRadius, backgroundColor: c.surface }}
+            style={{
+              flex: 1,
+              marginHorizontal: box.spacing['8'],
+              borderRadius: c.formRadius,
+              backgroundColor: c.surface,
+            }}
           >
             <SheetGrabber
               style={{
@@ -224,7 +230,14 @@ function RenameGroup({
                 onSubmitEditing={() => {
                   if (valid) close(() => onSave(title.trim()));
                 }}
-                style={{ flex: 1, height: 52, padding: 0, fontSize: 14, color: colors.black, outlineWidth: 0 }}
+                style={{
+                  flex: 1,
+                  height: box.size['52'],
+                  padding: 0,
+                  fontSize: box.fontSize['14'],
+                  color: colors.black,
+                  outlineWidth: 0,
+                }}
               />
               <Icon name="pencil" width={16} height={18} style={{ opacity: 0.22 }} />
             </View>
@@ -237,7 +250,7 @@ function RenameGroup({
               style={[styles.save, !valid && { opacity: 0.4 }]}
             >
               <DarkButtonSurface />
-              <T size={16} color={colors.white} ls={0}>
+              <T size={box.fontSize['16']} color={colors.white} ls={0}>
                 Сохранить
               </T>
             </PressScale>
@@ -249,20 +262,20 @@ function RenameGroup({
 }
 const styles = StyleSheet.create({
   row: {
-    height: 60,
-    borderRadius: 20,
+    height: box.size['60'],
+    borderRadius: box.radius['20'],
     backgroundColor: colors.white,
-    paddingHorizontal: 16,
+    paddingHorizontal: box.spacing['16'],
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 12,
+    gap: box.spacing['12'],
   },
   add: {
     position: 'absolute',
     left: 20,
     right: 20,
-    height: 60,
-    borderRadius: 32,
+    height: box.size['60'],
+    borderRadius: box.radius['32'],
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
@@ -278,7 +291,7 @@ const styles = StyleSheet.create({
     borderColor: c.field,
     borderRadius: 30,
     paddingHorizontal: 19,
-    gap: 12,
+    gap: box.spacing['12'],
     flexDirection: 'row',
     alignItems: 'center',
   },
@@ -288,7 +301,7 @@ const styles = StyleSheet.create({
     right: 20,
     top: 191.333,
     height: 57,
-    borderRadius: 32,
+    borderRadius: box.radius['32'],
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -303,7 +316,7 @@ const styles = StyleSheet.create({
     boxShadow: c.toastShadow,
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 16,
-    paddingHorizontal: 18,
+    gap: box.spacing['16'],
+    paddingHorizontal: box.spacing['18'],
   },
 });

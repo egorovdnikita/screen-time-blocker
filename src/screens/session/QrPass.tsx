@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { floatingSheetTop } from '@/components/sheetLayout';
 import { SheetScrollView } from '@/components/SheetModal';
@@ -32,7 +33,7 @@ export function QrPass({ onClose }: { onClose: () => void }) {
     <PlainSettingsSheet title="Ваш QR-пропуск" top={top} inset={8} bottom={8} onClose={onClose}>
       <SheetScrollView
         style={{ flex: 1, marginTop: 100, marginBottom: 108 }}
-        contentContainerStyle={{ flexGrow: 1, minHeight: 390, paddingHorizontal: 20 }}
+        contentContainerStyle={{ flexGrow: 1, minHeight: 390, paddingHorizontal: box.spacing['20'] }}
       >
         <View
           style={{
@@ -56,7 +57,7 @@ export function QrPass({ onClose }: { onClose: () => void }) {
               backgroundColor: c.dark,
             }}
           >
-            <T size={14.5} color={colors.white} ls={0} style={{ lineHeight: 20 }}>
+            <T size={14.5} color={colors.white} ls={0} style={{ lineHeight: box.lineHeight['20'] }}>
               Сканируйте код
             </T>
           </View>
@@ -69,7 +70,7 @@ export function QrPass({ onClose }: { onClose: () => void }) {
             <T size={11} center ls={0}>
               ⚡ Сессия
             </T>
-            <T size={10} weight={400} variant="display" center ls={0}>
+            <T size={box.fontSize['10']} weight={box.fontWeight['regular']} variant="display" center ls={0}>
               защищает ваше время
             </T>
           </View>
@@ -80,8 +81,8 @@ export function QrPass({ onClose }: { onClose: () => void }) {
             style={{ position: 'absolute', top: 248, alignSelf: 'center' }}
           />
         </View>
-        <View style={{ flex: 1, minHeight: 28 }} />
-        <T size={11} center color={c.value} ls={0} style={{ lineHeight: 14 }}>
+        <View style={{ flex: 1, minHeight: box.size['28'] }} />
+        <T size={11} center color={c.value} ls={0} style={{ lineHeight: box.lineHeight['14'] }}>
           {'Сохраните QR-код для печати или показа на экране.\nСканируйте его для входа в приложения.'}
         </T>
       </SheetScrollView>
@@ -96,13 +97,13 @@ export function QrPass({ onClose }: { onClose: () => void }) {
           right: 20,
           bottom: 37,
           height: 57,
-          borderRadius: 32,
+          borderRadius: box.radius['32'],
           backgroundColor: c.dark,
           alignItems: 'center',
           justifyContent: 'center',
         }}
       >
-        <T size={16} color={colors.white}>
+        <T size={box.fontSize['16']} color={colors.white}>
           Экспортировать
         </T>
       </PressScale>

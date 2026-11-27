@@ -1,3 +1,4 @@
+import { box } from '@/theme/box-ui.generated';
 import { SheetScrollView as ScrollView } from '@/components/SheetModal';
 import { useRef, useState, type ComponentRef } from 'react';
 import { StyleSheet, View } from 'react-native';
@@ -48,7 +49,7 @@ export function DailyGoal({
             >
               <Icon name="reflection-close" width={18} height={18} />
             </PressScale>
-            <T size={20} color={c.title} ls={0}>
+            <T size={box.fontSize['20']} color={c.title} ls={0}>
               Дневная цель
             </T>
             <PressScale
@@ -93,10 +94,17 @@ export function DailyGoal({
                 }}
                 style={[styles.row, i < 6 && { borderBottomWidth: 1, borderBottomColor: g.separator }]}
               >
-                <T size={14} weight={400} variant="text" color={c.title} ls={0}>
+                <T size={box.fontSize['14']} weight={box.fontWeight['regular']} variant="text" color={c.title} ls={0}>
                   {title}
                 </T>
-                <T size={14} weight={600} variant="text" color={g.value} ls={0} style={{ marginLeft: 'auto' }}>
+                <T
+                  size={box.fontSize['14']}
+                  weight={box.fontWeight['semibold']}
+                  variant="text"
+                  color={g.value}
+                  ls={0}
+                  style={{ marginLeft: 'auto' }}
+                >
                   {goalTimeLabel(days[i])}
                 </T>
                 <Icon
@@ -117,7 +125,7 @@ export function DailyGoal({
           {open === null ? (
             <T
               size={11.5}
-              weight={600}
+              weight={box.fontWeight['semibold']}
               color={c.note}
               ls={0}
               style={{ position: 'absolute', top: 497, left: 20, right: 20, lineHeight: 15 }}
@@ -154,7 +162,13 @@ export function DailyGoal({
                     fade={g.wheelFade}
                   />
                 </View>
-                <T size={17} weight={400} variant="text" ls={0} style={{ position: 'absolute', left: 124, top: 88 }}>
+                <T
+                  size={17}
+                  weight={box.fontWeight['regular']}
+                  variant="text"
+                  ls={0}
+                  style={{ position: 'absolute', left: 124, top: 88 }}
+                >
                   {hour === 1 || hour === 21
                     ? 'час'
                     : hour % 10 >= 2 && hour % 10 <= 4 && (hour < 10 || hour > 20)
@@ -177,7 +191,13 @@ export function DailyGoal({
                     fade={g.wheelFade}
                   />
                 </View>
-                <T size={17} weight={400} variant="text" ls={0} style={{ position: 'absolute', left: 211, top: 88 }}>
+                <T
+                  size={17}
+                  weight={box.fontWeight['regular']}
+                  variant="text"
+                  ls={0}
+                  style={{ position: 'absolute', left: 211, top: 88 }}
+                >
                   мин
                 </T>
               </View>
@@ -205,29 +225,43 @@ const styles = StyleSheet.create({
     left: 20,
     right: 20,
     top: 44.333,
-    height: 44,
+    height: box.size['44'],
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
   round: {
-    width: 44,
-    height: 44,
+    width: box.size['44'],
+    height: box.size['44'],
     borderRadius: 22,
     backgroundColor: g.round,
     boxShadow: c.buttonShadow,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  days: { position: 'absolute', left: 20, right: 20, top: 121.333, borderRadius: 24, backgroundColor: colors.white },
-  row: { height: 50.667, paddingLeft: 16, paddingRight: 43, flexDirection: 'row', alignItems: 'center', gap: 10 },
+  days: {
+    position: 'absolute',
+    left: 20,
+    right: 20,
+    top: 121.333,
+    borderRadius: box.radius['24'],
+    backgroundColor: colors.white,
+  },
+  row: {
+    height: 50.667,
+    paddingLeft: box.spacing['16'],
+    paddingRight: 43,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: box.spacing['10'],
+  },
   wheel: { position: 'absolute', left: 20, right: 20, height: 246, backgroundColor: colors.white },
   off: {
     position: 'absolute',
     left: 20,
     right: 20,
-    height: 60,
-    borderRadius: 32,
+    height: box.size['60'],
+    borderRadius: box.radius['32'],
     backgroundColor: g.off,
     boxShadow: c.buttonShadow,
     flexDirection: 'row',
