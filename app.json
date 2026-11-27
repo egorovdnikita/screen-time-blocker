@@ -58,6 +58,18 @@
     "backgroundColor": "#f4f6f8",
     "experiments": {
       "typedRoutes": true
+    },
+    "owner": "egorov_d_nikita",
+    "extra": {
+      "eas": {
+        "projectId": "b939e29d-7990-4b6e-869e-0b9af11259b9"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/b939e29d-7990-4b6e-869e-0b9af11259b9"
     }
   }
 }
